@@ -1,0 +1,5 @@
+- reorder game control buttons to: left, right, rotate, down
+- change touch controls
+  - react on touch down
+  - to rotate move up by 50 or so
+  - to soft drop move down by 120

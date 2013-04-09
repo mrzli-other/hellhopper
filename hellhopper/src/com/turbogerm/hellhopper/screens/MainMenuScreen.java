@@ -36,13 +36,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public final class MainMenuScreen extends ScreenBase {
     
     private final Texture mBackgroundTexture;
     
-    public MainMenuScreen(SuchyBlocks game) {
+    public MainMenuScreen(HellHopper game) {
         super(game);
         
         mGuiStage.addListener(getStageInputListener());
@@ -57,7 +57,7 @@ public final class MainMenuScreen extends ScreenBase {
         final float buttonHeight = 80.0f; 
         final float buttonPadding = 80.0f;
         
-        final float buttonX = (SuchyBlocks.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
+        final float buttonX = (HellHopper.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
         final float firstButtonY = 520.0f;
         final float buttonVerticalStride = buttonHeight + buttonPadding;
         
@@ -98,7 +98,7 @@ public final class MainMenuScreen extends ScreenBase {
     @Override
     public void renderImpl(float delta) {
         mBatch.begin();
-        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
+        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         mBatch.end();
     }
     
@@ -128,7 +128,7 @@ public final class MainMenuScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(SuchyBlocks.PLAY_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.PLAY_SCREEN_NAME);
                 }
             }
         };
@@ -145,7 +145,7 @@ public final class MainMenuScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(SuchyBlocks.HIGH_SCORE_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.HIGH_SCORE_SCREEN_NAME);
                 }
             }
         };
@@ -162,7 +162,7 @@ public final class MainMenuScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(SuchyBlocks.INFO_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.INFO_SCREEN_NAME);
                 }
             }
         };

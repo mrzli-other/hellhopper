@@ -50,11 +50,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.turbogerm.hellhopper.GameData;
 import com.turbogerm.hellhopper.Resources;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public abstract class ScreenBase implements Screen {
     
-    protected final SuchyBlocks mGame;
+    protected final HellHopper mGame;
     protected final Resources mResources;
     protected final AssetManager mAssetManager;
     protected final Skin mGuiSkin;
@@ -65,7 +65,7 @@ public abstract class ScreenBase implements Screen {
     
     protected Color mClearColor;
     
-    public ScreenBase(SuchyBlocks game) {
+    public ScreenBase(HellHopper game) {
         mGame = game;
         mResources = mGame.getResources();
         mAssetManager = mResources.getAssetManager();
@@ -74,9 +74,9 @@ public abstract class ScreenBase implements Screen {
         
         mBatch = new SpriteBatch();
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
-                SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
+                HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         
-        mGuiStage = new Stage(SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT, false);
+        mGuiStage = new Stage(HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT, false);
     }
     
     protected String getName() {

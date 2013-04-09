@@ -35,9 +35,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.turbogerm.hellhopper.GameArea;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.splashsquares.SplashSquaresReader;
 import com.turbogerm.hellhopper.tetrominos.Tetromino;
 
@@ -53,7 +53,7 @@ public final class SplashScreen extends ScreenBase {
     private final int[][] mBlocksSplashSquares;
     private final Vector2 mBlocksSplashSquaresPosition;
     
-    public SplashScreen(SuchyBlocks game) {
+    public SplashScreen(HellHopper game) {
         super(game);
         
         mGuiStage.addListener(getStageInputListener());
@@ -63,7 +63,7 @@ public final class SplashScreen extends ScreenBase {
         Texture splashTexture = mAssetManager.get(ResourceNames.GUI_BLACK_TEXTURE);
         
         Image blackImage = new Image(splashTexture);
-        blackImage.setBounds(0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
+        blackImage.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         // blackImage.setColor(1.0f, 1.0f, 1.0f, 0.0f);
         // SequenceAction action = Actions.sequence(
         // Actions.fadeIn(1.5f), Actions.delay(1.5f), Actions.fadeOut(1.5f), getCompletedAction());
@@ -88,7 +88,7 @@ public final class SplashScreen extends ScreenBase {
     @Override
     public void renderImpl(float delta) {
         mBatch.begin();
-        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
+        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         renderSplashSquares(mSuchySplashSquaresPosition, mSuchySplashSquares);
         renderSplashSquares(mBlocksSplashSquaresPosition, mBlocksSplashSquares);
         mBatch.end();
@@ -137,7 +137,7 @@ public final class SplashScreen extends ScreenBase {
             
             @Override
             public boolean act(float delta) {
-                mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                 return true;
             }
         };
@@ -149,7 +149,7 @@ public final class SplashScreen extends ScreenBase {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Keys.ENTER || keycode == Keys.SPACE || keycode == Keys.ESCAPE) {
-                    mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                     return true;
                 }
                 
@@ -159,7 +159,7 @@ public final class SplashScreen extends ScreenBase {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (button == Buttons.LEFT || button == Buttons.RIGHT) {
-                    mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                     return true;
                 }
                 

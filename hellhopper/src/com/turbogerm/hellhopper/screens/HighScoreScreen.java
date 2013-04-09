@@ -40,7 +40,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HighScoreData;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public final class HighScoreScreen extends ScreenBase {
     
@@ -49,14 +49,14 @@ public final class HighScoreScreen extends ScreenBase {
     private static final float HIGH_SCORE_INDEX_WIDTH = 30.0f;
     private static final float HIGH_SCORE_NAME_WIDTH = 240.0f;
     private static final float HIGH_SCORE_VALUE_WIDTH =
-            SuchyBlocks.VIEWPORT_WIDTH - HIGH_SCORE_INDEX_WIDTH - HIGH_SCORE_NAME_WIDTH - 4.0f * HIGH_SCORE_PADDING;
+            HellHopper.VIEWPORT_WIDTH - HIGH_SCORE_INDEX_WIDTH - HIGH_SCORE_NAME_WIDTH - 4.0f * HIGH_SCORE_PADDING;
     private static final float HIGH_SCORE_INDEX_X = HIGH_SCORE_PADDING;
     private static final float HIGH_SCORE_NAME_X =
             HIGH_SCORE_INDEX_X + HIGH_SCORE_INDEX_WIDTH + HIGH_SCORE_PADDING;
     private static final float HIGH_SCORE_VALUE_X =
             HIGH_SCORE_NAME_X + HIGH_SCORE_NAME_WIDTH + HIGH_SCORE_PADDING;
     
-    public HighScoreScreen(SuchyBlocks game) {
+    public HighScoreScreen(HellHopper game) {
         super(game);
         
         mClearColor = Color.DARK_GRAY;
@@ -75,7 +75,7 @@ public final class HighScoreScreen extends ScreenBase {
         
         Array<HighScoreData> highScores = mGameData.getHighScoresData().getHighScores();
         for (int i = 0; i < highScores.size; i++) {
-            float highScoreY = SuchyBlocks.VIEWPORT_HEIGHT - (i + 1) * HIGH_SCORE_HEIGHT;
+            float highScoreY = HellHopper.VIEWPORT_HEIGHT - (i + 1) * HIGH_SCORE_HEIGHT;
             HighScoreData highScore = highScores.get(i);
             
             Label highScoreIndexLabel = new Label(String.valueOf(i + 1) + ".", mGuiSkin);
@@ -99,7 +99,7 @@ public final class HighScoreScreen extends ScreenBase {
         
         final float buttonWidth = 360.0f; 
         final float buttonHeight = 80.0f; 
-        final float buttonX = (SuchyBlocks.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
+        final float buttonX = (HellHopper.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
         final float buttonY = 10.0f;
         
         TextureRegion backUpTextureRegion = new TextureRegion(
@@ -121,7 +121,7 @@ public final class HighScoreScreen extends ScreenBase {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
-                    screen.mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    screen.mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                     return true;
                 }
                 
@@ -141,7 +141,7 @@ public final class HighScoreScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                 }
             }
         };

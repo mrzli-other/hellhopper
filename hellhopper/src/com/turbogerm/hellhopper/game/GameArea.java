@@ -21,7 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper;
+package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -31,6 +31,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.tetrominos.Tetromino;
 import com.turbogerm.hellhopper.tetrominos.TetrominoRotationsReader;
 import com.turbogerm.hellhopper.util.IntPair;

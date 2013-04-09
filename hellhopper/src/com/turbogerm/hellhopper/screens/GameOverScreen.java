@@ -38,7 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public final class GameOverScreen extends ScreenBase {
     
@@ -48,7 +48,7 @@ public final class GameOverScreen extends ScreenBase {
     private final Label mPlacementLabel;
     private final TextField mNameTextField;
     
-    public GameOverScreen(SuchyBlocks game) {
+    public GameOverScreen(HellHopper game) {
         super(game);
         
         mGuiStage.addListener(getStageInputListener(this));
@@ -60,7 +60,7 @@ public final class GameOverScreen extends ScreenBase {
         final float gameOverLabelHeight = 135.0f;
         
         mGameOverLabel = new Label("", mGuiSkin);
-        mGameOverLabel.setBounds(0.0f, gameOverLabelY, SuchyBlocks.VIEWPORT_WIDTH, gameOverLabelHeight);
+        mGameOverLabel.setBounds(0.0f, gameOverLabelY, HellHopper.VIEWPORT_WIDTH, gameOverLabelHeight);
         mGameOverLabel.setStyle(labelStyle);
         mGameOverLabel.setAlignment(Align.center);
         mGuiStage.addActor(mGameOverLabel);
@@ -69,7 +69,7 @@ public final class GameOverScreen extends ScreenBase {
         final float placementLabelHeight = 90.0f;
         
         mPlacementLabel = new Label("", mGuiSkin);
-        mPlacementLabel.setBounds(0.0f, placementLabelY, SuchyBlocks.VIEWPORT_WIDTH, placementLabelHeight);
+        mPlacementLabel.setBounds(0.0f, placementLabelY, HellHopper.VIEWPORT_WIDTH, placementLabelHeight);
         mPlacementLabel.setStyle(labelStyle);
         mPlacementLabel.setAlignment(Align.center);
         mGuiStage.addActor(mPlacementLabel);
@@ -80,7 +80,7 @@ public final class GameOverScreen extends ScreenBase {
         final float nameTextFieldY = placementLabelY - placementLabelHeight;
         final float nameTextFieldWidth = 360.0f;
         final float nameTextFieldHeight = 50.0f;
-        final float nameTextFieldX = (SuchyBlocks.VIEWPORT_WIDTH - nameTextFieldWidth) / 2.0f;
+        final float nameTextFieldX = (HellHopper.VIEWPORT_WIDTH - nameTextFieldWidth) / 2.0f;
         
         mNameTextField = new TextField("Enter Name", mGuiSkin);
         mNameTextField.setBounds(nameTextFieldX, nameTextFieldY, nameTextFieldWidth, nameTextFieldHeight);
@@ -90,7 +90,7 @@ public final class GameOverScreen extends ScreenBase {
         
         final float buttonWidth = 360.0f;
         final float buttonHeight = 80.0f;
-        final float buttonX = (SuchyBlocks.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
+        final float buttonX = (HellHopper.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
         final float buttonY = buttonX;
         
         TextureRegion continueUpTextureRegion = new TextureRegion(
@@ -130,7 +130,7 @@ public final class GameOverScreen extends ScreenBase {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
-                    loseGameScreen.mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    loseGameScreen.mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                     return true;
                 }
                 
@@ -151,7 +151,7 @@ public final class GameOverScreen extends ScreenBase {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
                     mGameData.getHighScoresData().insertHighScore(mNameTextField.getText(), mGameData.getScore());
-                    mGame.setScreen(SuchyBlocks.HIGH_SCORE_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.HIGH_SCORE_SCREEN_NAME);
                 }
             }
         };

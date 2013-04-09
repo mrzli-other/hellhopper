@@ -39,11 +39,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public final class InfoScreen extends ScreenBase {
     
-    public InfoScreen(SuchyBlocks game) {
+    public InfoScreen(HellHopper game) {
         super(game);
         
         mClearColor = Color.DARK_GRAY;
@@ -68,10 +68,10 @@ public final class InfoScreen extends ScreenBase {
         final float controlImage2X = controlTextLabelWidth + controlImageSize + 3.0f * controlPadding;
         final float controlImage3X = controlTextLabelWidth + 2.0f * controlImageSize + 4.0f * controlPadding;
         
-        float currentControlY = SuchyBlocks.VIEWPORT_HEIGHT - titleLabelHeight;
+        float currentControlY = HellHopper.VIEWPORT_HEIGHT - titleLabelHeight;
         
         Label controlsTitleLabel = new Label("Controls", mGuiSkin);
-        controlsTitleLabel.setBounds(0.0f, currentControlY, SuchyBlocks.VIEWPORT_WIDTH, titleLabelHeight);
+        controlsTitleLabel.setBounds(0.0f, currentControlY, HellHopper.VIEWPORT_WIDTH, titleLabelHeight);
         controlsTitleLabel.setStyle(titleLabelStyle);
         controlsTitleLabel.setAlignment(Align.center);
         mGuiStage.addActor(controlsTitleLabel);
@@ -173,14 +173,14 @@ public final class InfoScreen extends ScreenBase {
         Label dragDescriptionLabel = new Label(
                 "* Touch/mouse dragging must be done on game area \n(where the blocks fall)\n" +
                         "Pause can be toggled by pressing P.", mGuiSkin);
-        dragDescriptionLabel.setBounds(controlPadding, currentControlY, SuchyBlocks.VIEWPORT_WIDTH, titleLabelHeight);
+        dragDescriptionLabel.setBounds(controlPadding, currentControlY, HellHopper.VIEWPORT_WIDTH, titleLabelHeight);
         dragDescriptionLabel.setAlignment(Align.left);
         mGuiStage.addActor(dragDescriptionLabel);
         
         currentControlY -= titleLabelHeight + 2.0f * controlPadding;
         
         Label creditsTitleLabel = new Label("Credits", mGuiSkin);
-        creditsTitleLabel.setBounds(0.0f, currentControlY, SuchyBlocks.VIEWPORT_WIDTH, titleLabelHeight);
+        creditsTitleLabel.setBounds(0.0f, currentControlY, HellHopper.VIEWPORT_WIDTH, titleLabelHeight);
         creditsTitleLabel.setStyle(titleLabelStyle);
         creditsTitleLabel.setAlignment(Align.center);
         mGuiStage.addActor(creditsTitleLabel);
@@ -190,13 +190,13 @@ public final class InfoScreen extends ScreenBase {
         Label creditsTextLabel = new Label(
                 "Dedicated to: Marija Suchy :)\n" +
                         "Created by: Goran Mrzljak (goran.mrzljak@gmail.com)", mGuiSkin);
-        creditsTextLabel.setBounds(controlPadding, currentControlY, SuchyBlocks.VIEWPORT_WIDTH, titleLabelHeight);
+        creditsTextLabel.setBounds(controlPadding, currentControlY, HellHopper.VIEWPORT_WIDTH, titleLabelHeight);
         creditsTextLabel.setAlignment(Align.left);
         mGuiStage.addActor(creditsTextLabel);
         
         final float buttonWidth = 360.0f;
         final float buttonHeight = 80.0f;
-        final float buttonX = (SuchyBlocks.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
+        final float buttonX = (HellHopper.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
         final float buttonY = 10.0f;
         
         TextureRegion backUpTextureRegion = new TextureRegion(
@@ -218,7 +218,7 @@ public final class InfoScreen extends ScreenBase {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
-                    screen.mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    screen.mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                     return true;
                 }
                 
@@ -238,7 +238,7 @@ public final class InfoScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(SuchyBlocks.MAIN_MENU_SCREEN_NAME);
+                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
                 }
             }
         };

@@ -12,9 +12,9 @@ import com.turbogerm.hellhopper.screens.MainMenuScreen;
 import com.turbogerm.hellhopper.screens.PlayScreen;
 import com.turbogerm.hellhopper.screens.SplashScreen;
     
-public class SuchyBlocks extends Game {
+public class HellHopper extends Game {
     
-    public static final String LOG = SuchyBlocks.class.getSimpleName();
+    public static final String LOG = HellHopper.class.getSimpleName();
     
     public static final String SPLASH_SCREEN_NAME = "Splash";
     public static final String MAIN_MENU_SCREEN_NAME = "MainMenu";

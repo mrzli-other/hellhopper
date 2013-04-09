@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.turbogerm.hellhopper.SuchyBlocks;
+import com.turbogerm.hellhopper.HellHopper;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -13,9 +13,9 @@ public class MainActivity extends AndroidApplication {
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = true;
-        cfg.useAccelerometer = false;
+        cfg.useAccelerometer = true;
         cfg.useCompass = false;
         
-        initialize(new SuchyBlocks(), cfg);
+        initialize(new HellHopper(), cfg);
     }
 }

@@ -34,7 +34,6 @@ public final class Resources {
     
     private AssetManager mAssetManager;
     private Skin mGuiSkin;
-    // private ObjectMap<String, BitmapFont> mFonts;
     
     public Resources() {
         mAssetManager = new AssetManager();
@@ -46,8 +45,6 @@ public final class Resources {
         
         mAssetManager.load(ResourceNames.GUI_BLACK_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_BACKGROUND_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_GAME_AREA_BORDER_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_GAME_AREA_BACKGROUND_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_UP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_DOWN_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_HIGH_SCORE_UP_TEXTURE, Texture.class, textureParameter);
@@ -58,62 +55,19 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_UP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_LEFT_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_LEFT_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_RIGHT_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_RIGHT_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DOWN_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DOWN_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_ROTATE_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_ROTATE_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_KEYBOARD_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_KEYBOARD_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_KEYBOARD_LEFT_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_KEYBOARD_RIGHT_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DRAG_UP_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DRAG_DOWN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DRAG_LEFT_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GUI_DRAG_RIGHT_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_PAUSE_UP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_PAUSE_DOWN_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_PLAY_UP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_PLAY_DOWN_TEXTURE, Texture.class, textureParameter);
         
-        mAssetManager.load(ResourceNames.SQUARES_CYAN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_PURPLE_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_ORANGE_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_BLUE_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_RED_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_GREEN_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_YELLOW_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_EMPTY_1_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.SQUARES_EMPTY_2_TEXTURE, Texture.class, textureParameter);
-        
         mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
-        
-        // mFonts = new ObjectMap<String, BitmapFont>();
-        // final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-        // FreeTypeFontGenerator generator = new
-        // FreeTypeFontGenerator(Gdx.files.internal(ResourceNames.ARIAL_BOLD_FONT));
-        // mFonts.put("default", generator.generateFont(14, characters, false));
-        // mFonts.put("small", generator.generateFont(12, characters, false));
-        // mFonts.put("medium", generator.generateFont(18, characters, false));
-        // mFonts.put("large", generator.generateFont(24, characters, false));
-        // mFonts.put("xl", generator.generateFont(32, characters, false));
-        // mFonts.put("xxl", generator.generateFont(40, characters, false));
-        // mFonts.put("xxxl", generator.generateFont(48, characters, false));
-        // generator.dispose();
     }
     
     public Skin getGuiSkin() {
         return mGuiSkin;
     }
-    
-    // public BitmapFont getFont(String name) {
-    // return mFonts.get(name);
-    // }
     
     public AssetManager getAssetManager() {
         return mAssetManager;

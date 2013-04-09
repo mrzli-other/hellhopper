@@ -84,20 +84,20 @@ public final class InfoScreen extends ScreenBase {
         leftTextLabel.setAlignment(Align.left);
         mGuiStage.addActor(leftTextLabel);
         
-        Texture leftButtonTexture = mAssetManager.get(ResourceNames.GUI_LEFT_UP_TEXTURE);
-        Image leftButtonImageImage = new Image(leftButtonTexture);
-        leftButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(leftButtonImageImage);
-        
-        Texture keyboardLeftTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_LEFT_TEXTURE);
-        Image keyboardLeftImage = new Image(keyboardLeftTexture);
-        keyboardLeftImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(keyboardLeftImage);
-        
-        Texture dragLeftTexture = mAssetManager.get(ResourceNames.GUI_DRAG_LEFT_TEXTURE);
-        Image dragLeftImage = new Image(dragLeftTexture);
-        dragLeftImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(dragLeftImage);
+        // Texture leftButtonTexture = mAssetManager.get(ResourceNames.GUI_LEFT_UP_TEXTURE);
+        // Image leftButtonImageImage = new Image(leftButtonTexture);
+        // leftButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(leftButtonImageImage);
+        //
+        // Texture keyboardLeftTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_LEFT_TEXTURE);
+        // Image keyboardLeftImage = new Image(keyboardLeftTexture);
+        // keyboardLeftImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(keyboardLeftImage);
+        //
+        // Texture dragLeftTexture = mAssetManager.get(ResourceNames.GUI_DRAG_LEFT_TEXTURE);
+        // Image dragLeftImage = new Image(dragLeftTexture);
+        // dragLeftImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(dragLeftImage);
         
         currentControlY -= textControlVerticalStride;
         
@@ -107,20 +107,20 @@ public final class InfoScreen extends ScreenBase {
         rightTextLabel.setAlignment(Align.left);
         mGuiStage.addActor(rightTextLabel);
         
-        Texture rightButtonTexture = mAssetManager.get(ResourceNames.GUI_RIGHT_UP_TEXTURE);
-        Image rightButtonImageImage = new Image(rightButtonTexture);
-        rightButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(rightButtonImageImage);
-        
-        Texture keyboardRightTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_RIGHT_TEXTURE);
-        Image keyboardRightImage = new Image(keyboardRightTexture);
-        keyboardRightImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(keyboardRightImage);
-        
-        Texture dragRightTexture = mAssetManager.get(ResourceNames.GUI_DRAG_RIGHT_TEXTURE);
-        Image dragRightImage = new Image(dragRightTexture);
-        dragRightImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(dragRightImage);
+        // Texture rightButtonTexture = mAssetManager.get(ResourceNames.GUI_RIGHT_UP_TEXTURE);
+        // Image rightButtonImageImage = new Image(rightButtonTexture);
+        // rightButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(rightButtonImageImage);
+        //
+        // Texture keyboardRightTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_RIGHT_TEXTURE);
+        // Image keyboardRightImage = new Image(keyboardRightTexture);
+        // keyboardRightImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(keyboardRightImage);
+        //
+        // Texture dragRightTexture = mAssetManager.get(ResourceNames.GUI_DRAG_RIGHT_TEXTURE);
+        // Image dragRightImage = new Image(dragRightTexture);
+        // dragRightImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(dragRightImage);
         
         currentControlY -= textControlVerticalStride;
         
@@ -130,20 +130,20 @@ public final class InfoScreen extends ScreenBase {
         rotateTextLabel.setAlignment(Align.left);
         mGuiStage.addActor(rotateTextLabel);
         
-        Texture rotateButtonTexture = mAssetManager.get(ResourceNames.GUI_ROTATE_UP_TEXTURE);
-        Image rotateButtonImageImage = new Image(rotateButtonTexture);
-        rotateButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(rotateButtonImageImage);
-        
-        Texture keyboardRotateTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_UP_TEXTURE);
-        Image keyboardRotateImage = new Image(keyboardRotateTexture);
-        keyboardRotateImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(keyboardRotateImage);
-        
-        Texture dragRotateTexture = mAssetManager.get(ResourceNames.GUI_DRAG_UP_TEXTURE);
-        Image dragRotateImage = new Image(dragRotateTexture);
-        dragRotateImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(dragRotateImage);
+        // Texture rotateButtonTexture = mAssetManager.get(ResourceNames.GUI_ROTATE_UP_TEXTURE);
+        // Image rotateButtonImageImage = new Image(rotateButtonTexture);
+        // rotateButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(rotateButtonImageImage);
+        //
+        // Texture keyboardRotateTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_UP_TEXTURE);
+        // Image keyboardRotateImage = new Image(keyboardRotateTexture);
+        // keyboardRotateImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(keyboardRotateImage);
+        //
+        // Texture dragRotateTexture = mAssetManager.get(ResourceNames.GUI_DRAG_UP_TEXTURE);
+        // Image dragRotateImage = new Image(dragRotateTexture);
+        // dragRotateImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(dragRotateImage);
         
         currentControlY -= textControlVerticalStride;
         
@@ -153,20 +153,20 @@ public final class InfoScreen extends ScreenBase {
         dropTextLabel.setAlignment(Align.left);
         mGuiStage.addActor(dropTextLabel);
         
-        Texture dropButtonTexture = mAssetManager.get(ResourceNames.GUI_DOWN_UP_TEXTURE);
-        Image dropButtonImageImage = new Image(dropButtonTexture);
-        dropButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(dropButtonImageImage);
-        
-        Texture keyboardDropTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_DOWN_TEXTURE);
-        Image keyboardDropImage = new Image(keyboardDropTexture);
-        keyboardDropImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(keyboardDropImage);
-        
-        Texture dragDropTexture = mAssetManager.get(ResourceNames.GUI_DRAG_DOWN_TEXTURE);
-        Image dragDropImage = new Image(dragDropTexture);
-        dragDropImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
-        mGuiStage.addActor(dragDropImage);
+        // Texture dropButtonTexture = mAssetManager.get(ResourceNames.GUI_DOWN_UP_TEXTURE);
+        // Image dropButtonImageImage = new Image(dropButtonTexture);
+        // dropButtonImageImage.setBounds(controlImage1X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(dropButtonImageImage);
+        //
+        // Texture keyboardDropTexture = mAssetManager.get(ResourceNames.GUI_KEYBOARD_DOWN_TEXTURE);
+        // Image keyboardDropImage = new Image(keyboardDropTexture);
+        // keyboardDropImage.setBounds(controlImage2X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(keyboardDropImage);
+        //
+        // Texture dragDropTexture = mAssetManager.get(ResourceNames.GUI_DRAG_DOWN_TEXTURE);
+        // Image dragDropImage = new Image(dragDropTexture);
+        // dragDropImage.setBounds(controlImage3X, currentControlY, controlImageSize, controlImageSize);
+        // mGuiStage.addActor(dragDropImage);
         
         currentControlY -= 3.0f * smallTextHeight + controlPadding;
         

@@ -23,10 +23,10 @@
  */
 package com.turbogerm.hellhopper.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -55,16 +55,18 @@ public final class PlayScreen extends ScreenBase {
     public PlayScreen(HellHopper game) {
         super(game);
         
+        mClearColor = Color.ORANGE;
+        
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager, mBatch, new Vector2());
+        mGameArea = new GameArea(mAssetManager, mBatch);
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.get("xl-font", BitmapFont.class);
+        labelStyle.font = mGuiSkin.get("xxl-font", BitmapFont.class);
         
         final float scoreLabelWidth = 60.0f;
-        final float scoreLabelHeight = 24.0f;
+        final float scoreLabelHeight = 42.0f;
         final float scoreLabelX = HellHopper.VIEWPORT_WIDTH - scoreLabelWidth;
         final float scoreLabelY = HellHopper.VIEWPORT_HEIGHT - scoreLabelHeight;
         
@@ -104,7 +106,7 @@ public final class PlayScreen extends ScreenBase {
         //mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
         
         if (!mIsPaused) {
-            //mGameArea.render();
+            mGameArea.render();
         }
         
         

@@ -45,4 +45,12 @@ public final class ResourceNames {
     public static final String GUI_PLAY_DOWN_TEXTURE = GUI_DIR + "playdown.png";
     
     public static final String DATA_DIR = "data/";
+    
+    public static final String GAME_DIR = "game/";
+    public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";
+    public static final String GAME_PAD_TEXTURE = GAME_DIR + "pad.png";
+    
+    public static final String SHADERS_DIR = "shaders/";
+    public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";
+    public static final String DISTANCE_FIELD_FS = SHADERS_DIR + "distancefield.frag";
 }

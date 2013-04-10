@@ -29,11 +29,14 @@ import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.turbogerm.hellhopper.graphics.DistanceFieldShader;
 
 public final class Resources {
     
     private AssetManager mAssetManager;
     private Skin mGuiSkin;
+    
+    private DistanceFieldShader mDistanceFieldShader;
     
     public Resources() {
         mAssetManager = new AssetManager();
@@ -60,6 +63,9 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_PLAY_UP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_PLAY_DOWN_TEXTURE, Texture.class, textureParameter);
         
+        mAssetManager.load(ResourceNames.GAME_CHARACTER_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.GAME_PAD_TEXTURE, Texture.class, textureParameter);
+        
         mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
@@ -76,5 +82,9 @@ public final class Resources {
     public void dispose() {
         mGuiSkin.dispose();
         mAssetManager.dispose();
+    }
+    
+    public DistanceFieldShader getDistanceFieldShader() {
+        return mDistanceFieldShader;
     }
 }

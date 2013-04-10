@@ -23,6 +23,7 @@
  */
 package com.turbogerm.hellhopper.screens;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -55,7 +56,7 @@ public final class PlayScreen extends ScreenBase {
     public PlayScreen(HellHopper game) {
         super(game);
         
-        mClearColor = Color.ORANGE;
+        mClearColor = Color.DARK_GRAY;
         
         mGuiStage.addListener(getStageInputListener());
         
@@ -63,7 +64,8 @@ public final class PlayScreen extends ScreenBase {
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.get("xxl-font", BitmapFont.class);
+        labelStyle.font = mGuiSkin.get("xxxl-font", BitmapFont.class);
+        //labelStyle.font.
         
         final float scoreLabelWidth = 60.0f;
         final float scoreLabelHeight = 42.0f;
@@ -99,15 +101,16 @@ public final class PlayScreen extends ScreenBase {
             mGameArea.update(delta);
         }
         
-        mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
+        //mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
+        mScoreLabel.setText("00000000");
         
         mBatch.begin();
         
         //mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
         
-        if (!mIsPaused) {
+        //if (!mIsPaused) {
             mGameArea.render();
-        }
+        //}
         
         
         mBatch.end();
@@ -173,6 +176,16 @@ public final class PlayScreen extends ScreenBase {
     
     private InputListener getStageInputListener() {
         return new InputListener() {
+            
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
+                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
+                    return true;
+                }
+                
+                return false;
+            }
         };
     }
     

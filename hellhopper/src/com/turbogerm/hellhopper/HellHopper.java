@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Logger;
+import com.turbogerm.hellhopper.init.InitData;
 import com.turbogerm.hellhopper.screens.GameOverScreen;
 import com.turbogerm.hellhopper.screens.HighScoreScreen;
 import com.turbogerm.hellhopper.screens.InfoScreen;
@@ -31,6 +32,11 @@ public class HellHopper extends Game {
     
     private Resources mResources;
     private GameData mGameData;
+    private InitData mInitData;
+    
+    public HellHopper(InitData initData) {
+        mInitData = initData;
+    }
     
     @Override
     public void create() {
@@ -71,6 +77,10 @@ public class HellHopper extends Game {
     
     public GameData getGameData() {
         return mGameData;
+    }
+    
+    public InitData getInitData() {
+        return mInitData;
     }
     
     private void initializeResourcesAndGameData() {

@@ -51,10 +51,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.turbogerm.hellhopper.GameData;
 import com.turbogerm.hellhopper.Resources;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.init.InitData;
 
 public abstract class ScreenBase implements Screen {
     
     protected final HellHopper mGame;
+    protected final InitData mInitData;
     protected final Resources mResources;
     protected final AssetManager mAssetManager;
     protected final Skin mGuiSkin;
@@ -67,6 +69,7 @@ public abstract class ScreenBase implements Screen {
     
     public ScreenBase(HellHopper game) {
         mGame = game;
+        mInitData = mGame.getInitData();
         mResources = mGame.getResources();
         mAssetManager = mResources.getAssetManager();
         mGuiSkin = mResources.getGuiSkin();

@@ -60,7 +60,7 @@ public final class PlayScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager, mBatch);
+        mGameArea = new GameArea(mAssetManager, mBatch, mInitData);
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
@@ -101,8 +101,7 @@ public final class PlayScreen extends ScreenBase {
             mGameArea.update(delta);
         }
         
-        //mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
-        mScoreLabel.setText("00000000");
+        mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         
         mBatch.begin();
         
@@ -186,6 +185,14 @@ public final class PlayScreen extends ScreenBase {
                 
                 return false;
             }
+            
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                
+                return false;
+            }
+            
+            
         };
     }
     

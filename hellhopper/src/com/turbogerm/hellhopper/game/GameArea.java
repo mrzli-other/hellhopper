@@ -48,7 +48,7 @@ public final class GameArea {
     private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
-    private static final float JUMP_SPEED = 840.0f;
+    private static final float JUMP_SPEED = 850.0f;
     private static final float GRAVITY = 1400.0f;
     private static final float DEFAULT_HORIZONTAL_SPEED = 400.0f;
     private static final float ACCELEROMETER_SPEED_MULTIPLIER = 150.0f;
@@ -57,7 +57,9 @@ public final class GameArea {
     private static final float POSITION_SCROLL_LINE_HEIGHT = GAME_AREA_HEIGHT - 60.0f;
     private static final float POSITION_SCROLL_LINE_X = GAME_AREA_WIDTH - POSITION_SCROLL_LINE_WIDTH - 5.0f;
     private static final float POSITION_SCROLL_LINE_Y = 10.0f;
-    private static final float MIN_POSITION_SCROLL_BOX_SIZE = 10.0f;
+    private static final float MIN_POSITION_SCROLL_BOX_SIZE = 5.0f;
+    
+    private static final float END_REACHED_COUTDOWN_DURATION = 3.0f; 
     
     private static final int VISIBLE_PAD_POSITIONS_INITIAL_CAPACITY = 50;
     
@@ -69,6 +71,7 @@ public final class GameArea {
     private Texture mPadTexture;
     private Texture mPositionScrollLineTexture;
     private Texture mPositionScrollBoxTexture;
+    private Texture mEndLineTexture;
     
     private GameAreaPath mGameAreaPath;
     
@@ -85,6 +88,9 @@ public final class GameArea {
     private final Vector2[] mTempVecs;
     
     private boolean mIsGameOver;
+    private boolean mIsEndReached;
+    private float mEndReachedCountdown;
+    private float mEndJumpSpeed;
     
     public GameArea(AssetManager assetManager, SpriteBatch batch, InitData initData) {
         
@@ -96,6 +102,7 @@ public final class GameArea {
         mPadTexture = mAssetManager.get(ResourceNames.GAME_PAD_TEXTURE);
         mPositionScrollLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE);
         mPositionScrollBoxTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE);
+        mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
         mCharacterPosition = new Vector2();
         mCharacterSpeed = new Vector2();
@@ -119,6 +126,9 @@ public final class GameArea {
     
     public void reset() {
         mIsGameOver = false;
+        mIsEndReached = false;
+        mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
+        mEndJumpSpeed = JUMP_SPEED;
         mGameAreaPath = GameAreaGenerator.generateGameAreaPads();
         mScore = 0;
         mAreaPosition = 0.0f;
@@ -147,35 +157,44 @@ public final class GameArea {
         mCharacterSpeed.y -= GRAVITY * delta;
         mCharacterSpeed.y = Math.max(mCharacterSpeed.y, -JUMP_SPEED);
         
-        boolean isCollision = isCollisionWithPad(delta);
-        if (mCharacterPosition.y <= 0.0f) {
-            mCharacterPosition.y = 0.0f;
-            mCharacterSpeed.y = JUMP_SPEED;
-        } else if (mCharacterPosition.y < mAreaPosition && !isCollision) {
-            mIsGameOver = true;
-            return;
+        float totalGamePathHeight = mGameAreaPath.getTotalHeight();
+        if (mIsEndReached) {
+            if (mEndReachedCountdown <= 0.0f) {
+                mIsGameOver = true;
+                return;
+            }
+            boolean isCollision;
+            if (mCharacterPosition.y <= totalGamePathHeight) {
+                isCollision = true;
+                mEndJumpSpeed /= 1.4f;
+            } else {
+                isCollision = false;
+            }
+            updatePositions(delta, isCollision, mEndJumpSpeed);
+            mCharacterPosition.y = Math.max(mCharacterPosition.y, totalGamePathHeight);
+            mEndReachedCountdown -= delta;
+        } else {
+            boolean isCollision = isCollisionWithPad(delta);
+            if (mCharacterPosition.y <= 0.0f) {
+                mCharacterPosition.y = 0.0f;
+                mCharacterSpeed.y = JUMP_SPEED;
+            } else if (mCharacterPosition.y < mAreaPosition && !isCollision) {
+                mIsGameOver = true;
+                return;
+            }
+            
+            updatePositions(delta, isCollision, JUMP_SPEED);
+            
+            if (mCharacterPosition.y > totalGamePathHeight) {
+                mIsEndReached = true;
+                mScore = Math.max(mScore, (int) totalGamePathHeight);
+            } else {
+                mScore = Math.max(mScore, (int) mCharacterPosition.y);
+            }
         }
-        
-        mCharacterPosition.x += mCharacterSpeed.x * delta;
-        mCharacterPosition.y += mCharacterSpeed.y * delta;
-        if (isCollision) {
-            mCharacterSpeed.y = JUMP_SPEED;
-        }
-        
-        mCharacterPosition.x = GameMathUtils.getPositiveModulus(
-                mCharacterPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) -
-                CHARACTER_CENTER_X_OFFSET;
-        
-        mAreaPosition = Math.max(mAreaPosition, mCharacterPosition.y -
-                GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
-        mScore = Math.max(mScore, (int) mCharacterPosition.y);
     }
     
     public void render() {
-        mBatch.draw(mCharacterTexture,
-                mCharacterPosition.x, mCharacterPosition.y - mAreaPosition,
-                CHARACTER_WIDTH, CHARACTER_HEIGHT);
-        
         for (Vector2 padPosition : mVisiblePadPositions) {
             mBatch.draw(mPadTexture,
                     padPosition.x, padPosition.y - mAreaPosition,
@@ -183,6 +202,12 @@ public final class GameArea {
         }
         
         float totalGamePathHeight = mGameAreaPath.getTotalHeight();
+        mBatch.draw(mEndLineTexture, 0.0f, totalGamePathHeight - 4.0f - mAreaPosition, GAME_AREA_WIDTH, 4.0f);
+        
+        mBatch.draw(mCharacterTexture,
+                mCharacterPosition.x, mCharacterPosition.y - mAreaPosition,
+                CHARACTER_WIDTH, CHARACTER_HEIGHT);
+        
         float effectivePositionScrollLineHeight = (totalGamePathHeight / (totalGamePathHeight + GAME_AREA_HEIGHT)) *
                 POSITION_SCROLL_LINE_HEIGHT;
         mBatch.draw(mPositionScrollLineTexture,
@@ -190,7 +215,8 @@ public final class GameArea {
                 POSITION_SCROLL_LINE_WIDTH, effectivePositionScrollLineHeight);
         
         float positionScrollBoxY = mAreaPosition / totalGamePathHeight * effectivePositionScrollLineHeight;
-        float positionScrollBoxHeight = GAME_AREA_HEIGHT / totalGamePathHeight * effectivePositionScrollLineHeight;
+        float positionScrollBoxHeight = Math.max(
+                GAME_AREA_HEIGHT / totalGamePathHeight * effectivePositionScrollLineHeight, MIN_POSITION_SCROLL_BOX_SIZE);
         mBatch.draw(mPositionScrollBoxTexture,
                 POSITION_SCROLL_LINE_X, positionScrollBoxY,
                 POSITION_SCROLL_LINE_WIDTH, positionScrollBoxHeight);
@@ -243,6 +269,21 @@ public final class GameArea {
         }
         
         return false;
+    }
+    
+    private void updatePositions(float delta, boolean isCollision, float jumpSpeed) {
+        mCharacterPosition.x += mCharacterSpeed.x * delta;
+        mCharacterPosition.y += mCharacterSpeed.y * delta;
+        if (isCollision) {
+            mCharacterSpeed.y = jumpSpeed;
+        }
+        
+        mCharacterPosition.x = GameMathUtils.getPositiveModulus(
+                mCharacterPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) -
+                CHARACTER_CENTER_X_OFFSET;
+        
+        mAreaPosition = Math.max(mAreaPosition, mCharacterPosition.y -
+                GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
     }
     
     public int getScore() {

@@ -2,11 +2,8 @@
   - xml file
   - <gameareasegment steprange="<int>" difficulty="<int>">{1}
     - <pad stepx="<int>" stepy="<int>">{1..n}
-      - <property name="<name>" value="<value>">{0..n}
-
-- implement global position display on the right side
-  - it should be a thin white semi transparent line, maybe with black edges
-  - it should have a little more opaque scrolling square
+      - <properties>
+        - <property name="<name>" value="<value>">{0..n}
   
 - implement end line
   - if player gets above, he wins, character rests

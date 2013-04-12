@@ -25,19 +25,19 @@ package com.turbogerm.hellhopper.game;
 
 public final class PadData {
     
-    private final int mOffsetX;
-    private final int mOffsetY;
+    private final int mStepX;
+    private final int mStepY;
     
-    public PadData(int offsetX, int offsetY) {
-        mOffsetX = offsetX;
-        mOffsetY = offsetY;
+    public PadData(int stepX, int stepY) {
+        mStepX = stepX;
+        mStepY = stepY;
     }
     
-    public int getOffsetX() {
-        return mOffsetX;
+    public int getStepX() {
+        return mStepX;
     }
     
-    public int getOffsetY() {
-        return mOffsetY;
+    public int getStepY() {
+        return mStepY;
     }
 }

@@ -1,5 +1,25 @@
-- reorder game control buttons to: left, right, rotate, down
-- change touch controls
-  - react on touch down
-  - to rotate move up by 50 or so
-  - to soft drop move down by 120
+- implement game area segment reader:
+  - xml file
+  - <gameareasegment steprange="<int>" difficulty="<int>">{1}
+    - <pad stepx="<int>" stepy="<int>">{1..n}
+      - <property name="<name>" value="<value>">{0..n}
+
+- implement global position display on the right side
+  - it should be a thin white semi transparent line, maybe with black edges
+  - it should have a little more opaque scrolling square
+  
+- implement end line
+  - if player gets above, he wins, character rests
+  
+- background color should change:
+  - orange-red
+  - orange
+  - yellow
+  - brown
+  - green
+      
+- implement different pad types: 
+  - pads moving horizontaly
+    - speed, movement range
+  - pads moving vertically
+    - speed, movement range

@@ -65,7 +65,6 @@ public final class PlayScreen extends ScreenBase {
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         labelStyle.font = mGuiSkin.get("xxxl-font", BitmapFont.class);
-        //labelStyle.font.
         
         final float scoreLabelWidth = 60.0f;
         final float scoreLabelHeight = 42.0f;

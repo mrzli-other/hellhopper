@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.Array;
 
 public final class HighScoresData {
     
-    private static final String PREFERENCES_NAME = "SuchyBlocks_HighScores";
+    private static final String PREFERENCES_NAME = "HellHopper_HighScores";
     
     private static final int HIGH_SCORES_CAPACITY = 24;
     private static final int NUM_HIGH_SCORES = 20;

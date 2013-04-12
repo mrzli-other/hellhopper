@@ -44,24 +44,40 @@ public final class GameAreaGenerator {
     private static final int MAX_STEP_Y_DISTANCE = 5;
     private static final int MAX_STEP_X = (int) (HellHopper.VIEWPORT_WIDTH / STEP_X) - PAD_SIZE_X_STEPS;
     
-    public static GameAreaPads generateGameAreaPads() {
-        PadCollectionData padCollection = generatePadCollection(50, 50);
-        Array<Vector2> padPositions = getPadPositions(padCollection, 0);
+    private static final int PAD_COLLECTIONS_INITIAL_CAPACITY = 20;
+    
+    public static GameAreaPath generateGameAreaPads() {
         
-        return new GameAreaPads(padPositions);
+        Array<PadCollectionData> padCollections = new Array<PadCollectionData>(true, PAD_COLLECTIONS_INITIAL_CAPACITY);
+        padCollections.add(generatePadCollection(100, 100));
+        padCollections.add(generatePadCollection(100, 50));
+        padCollections.add(generatePadCollection(100, 20));
+        
+        int totalNumPads = 0;
+        for (PadCollectionData padCollection : padCollections) {
+            totalNumPads += padCollection.getPadDataList().size;
+        }
+        
+        Array<Vector2> padPositions = new Array<Vector2>(true, totalNumPads);
+        int startStep = 0;
+        for (PadCollectionData padCollection : padCollections) {
+            addPadPositions(padPositions, padCollection, startStep);
+            startStep += padCollection.getStepRange();
+        }
+        
+        float totalHeight = startStep * STEP_Y; 
+        
+        return new GameAreaPath(totalHeight, padPositions);
     }
     
-    private static Array<Vector2> getPadPositions(PadCollectionData padCollection, int startStep) {
+    private static void addPadPositions(Array<Vector2> padPositions, PadCollectionData padCollection, int startStep) {
         Array<PadData> padDataList = padCollection.getPadDataList();
-        Array<Vector2> padPositions = new Array<Vector2>(true, padDataList.size);
         for (PadData padData : padDataList) {
-            float x = padData.getOffsetX() * STEP_X;
-            float y = (padData.getOffsetY() + startStep) * STEP_Y;
+            float x = padData.getStepX() * STEP_X;
+            float y = (padData.getStepY() + startStep) * STEP_Y;
             Vector2 padPosition = new Vector2(x, y);
             padPositions.add(padPosition);
         }
-        
-        return padPositions;
     }
     
     private static PadCollectionData generatePadCollection(int stepRange, int numPads) {
@@ -75,13 +91,15 @@ public final class GameAreaGenerator {
             updateFreePositions(freePositions, position);
         }
         
+        correctPadList(stepRange, padDataList);
+        
         padDataList.sort(new Comparator<PadData>() {
             
             @Override
             public int compare(PadData p1, PadData p2) {
-                if (p1.getOffsetY() < p2.getOffsetY()) {
+                if (p1.getStepY() < p2.getStepY()) {
                     return -1;
-                } else if (p1.getOffsetY() > p2.getOffsetY()) {
+                } else if (p1.getStepY() > p2.getStepY()) {
                     return 1;
                 } else {
                     return 0;
@@ -92,9 +110,9 @@ public final class GameAreaGenerator {
         return new PadCollectionData(stepRange, padDataList);
     }
     
-    private static Array<StepFreePositions> getInitialFreePositions(int stepRange) {
-        Array<StepFreePositions> freePositions = new Array<StepFreePositions>(true, stepRange);
-        for (int i = 0; i < stepRange; i++) {
+    private static Array<StepFreePositions> getInitialFreePositions(int stepYRange) {
+        Array<StepFreePositions> freePositions = new Array<StepFreePositions>(true, stepYRange);
+        for (int i = 0; i < stepYRange; i++) {
             StepFreePositions stepFreePositions = getInitialFreePositionsForStep(i);
             freePositions.add(stepFreePositions);
         }
@@ -148,6 +166,76 @@ public final class GameAreaGenerator {
             }
         }
     }
+    
+    private static void correctPadList(int stepRange, Array<PadData> padDataList) {
+        int firstMissingRequredStep = getFirstMissingRequiredStep(stepRange, padDataList);
+        while (firstMissingRequredStep != -1) {
+            
+            int stepX = MathUtils.random(MAX_STEP_X - 1);
+            PadData padData = new PadData(stepX, firstMissingRequredStep);
+            padDataList.add(padData);
+            
+            firstMissingRequredStep = getFirstMissingRequiredStep(stepRange, padDataList);
+        }
+    }
+    
+    private static int getFirstMissingRequiredStep(int stepRange, Array<PadData> padDataList) {
+        Array<Integer> stepsWithPads = getStepsWithPads(padDataList);
+        
+        // step 0 must always be filled
+        if (stepsWithPads.size == 0 || stepsWithPads.get(0) != 0) {
+            return 0;
+        }
+        
+        for (int i = 1; i < stepsWithPads.size; i++) {
+            if (stepsWithPads.get(i) - stepsWithPads.get(i - 1) > MAX_STEP_Y_DISTANCE) {
+                return stepsWithPads.get(i - 1) + MAX_STEP_Y_DISTANCE;
+            }
+        }
+        
+        if (stepRange - stepsWithPads.peek() > MAX_STEP_Y_DISTANCE) {
+            return stepsWithPads.peek() + MAX_STEP_Y_DISTANCE;
+        }
+        
+        return -1;
+    }
+    
+    private static Array<Integer> getStepsWithPads(Array<PadData> padDataList) {
+        Array<Integer> steps = new Array<Integer>(true, padDataList.size);
+        for (PadData padData : padDataList) {
+            int step = padData.getStepY();
+            if (!steps.contains(step, false)) {
+                steps.add(step);
+            }
+        }
+        
+        steps.sort();
+        
+        return steps;
+    }
+    
+    // private static Array<PadData> getPadsInStepsWithMultiplePads(Array<PadData> padDataList) {
+    // Array<Integer> getStepsWithMultiplePads(Array<PadData> padDataList)
+    // }
+    //
+    // private static Array<Integer> getStepsWithMultiplePads(Array<PadData> padDataList) {
+    // Array<Integer> steps = new Array<Integer>(true, padDataList.size);
+    // Array<Integer> stepsWithSinglePad = new Array<Integer>(true, padDataList.size);
+    // for (PadData padData : padDataList) {
+    // int step = padData.getOffsetY();
+    // if (!steps.contains(step, false)) {
+    // if (stepsWithSinglePad.contains(step, false)) {
+    // steps.add(step);
+    // } else {
+    // stepsWithSinglePad.add(step);
+    // }
+    // }
+    // }
+    //
+    // steps.sort();
+    //
+    // return steps;
+    // }
     
     private static class StepFreePositions {
         public int step;

@@ -49,9 +49,10 @@ public final class GameAreaGenerator {
     public static GameAreaPath generateGameAreaPads() {
         
         Array<PadCollectionData> padCollections = new Array<PadCollectionData>(true, PAD_COLLECTIONS_INITIAL_CAPACITY);
+        padCollections.add(generatePadCollection(50, 100));
         padCollections.add(generatePadCollection(100, 100));
-        padCollections.add(generatePadCollection(100, 50));
-        padCollections.add(generatePadCollection(100, 20));
+        //padCollections.add(generatePadCollection(150, 100));
+        //padCollections.add(generatePadCollection(200, 100));
         
         int totalNumPads = 0;
         for (PadCollectionData padCollection : padCollections) {

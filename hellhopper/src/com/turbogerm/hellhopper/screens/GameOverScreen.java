@@ -118,8 +118,10 @@ public final class GameOverScreen extends ScreenBase {
         if (scorePlace >= 0) {
             String placementText = String.format("You place %d.\non high score list.", scorePlace + 1);
             mPlacementLabel.setText(placementText);
+            mNameTextField.setVisible(true);
         } else {
             mPlacementLabel.setText("");
+            mNameTextField.setVisible(false);
         }
     }
     

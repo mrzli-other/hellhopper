@@ -30,7 +30,8 @@ import com.turbogerm.hellhopper.util.HslColor;
 
 public final class BackgroundColorInterpolator {
     
-    private static final int NUM_COLORS = 2;
+    private static final int NUM_COLORS = 5;
+    private static final float LIGHT_MULTIPLIER = 0.4f;
     
     private final HslColor mHsl1;
     private final HslColor mHsl2;
@@ -49,8 +50,16 @@ public final class BackgroundColorInterpolator {
         
         mColorPositions = new float[NUM_COLORS];
         mColors = new Color[NUM_COLORS];
-        setColor(0, 0.0f, Color.RED);
-        setColor(1, 1.0f, Color.GREEN);
+        setColor(0, 0.0f, new Color(1.0f, 0.0f, 0.0f, 1.0f));
+        setColor(1, 1.0f, new Color(1.0f, 0.5f, 0.0f, 1.0f));
+        setColor(2, 2.0f, new Color(1.0f, 1.0f, 0.0f, 1.0f));
+        setColor(3, 3.0f, new Color(0.72f, 0.45f, 0.2f, 1.0f));
+        setColor(4, 4.0f, new Color(0.0f, 1.0f, 0.0f, 1.0f));
+        
+        for (int i = 0; i < NUM_COLORS; i++) {
+            mColors[i].mul(LIGHT_MULTIPLIER);
+            mColors[i].a = 1.0f;
+        }
     }
     
     public void setTotalHeight(float totalHeight) {
@@ -66,14 +75,16 @@ public final class BackgroundColorInterpolator {
             mResult.set(mColors[NUM_COLORS - 1]);
         } else {
             int stopIndex = 0;
-            while (colorPosition < mColorPositions[stopIndex]) {
+            while (colorPosition >= mColorPositions[stopIndex]) {
                 stopIndex++;
             }
             
-            float t = (colorPosition - mColorPositions[stopIndex]) /
-                    (mColorPositions[stopIndex + 1] - mColorPositions[stopIndex]);
-            interpolateColor(mColors[stopIndex], mColors[stopIndex + 1], t);
+            float t = (colorPosition - mColorPositions[stopIndex - 1]) /
+                    (mColorPositions[stopIndex] - mColorPositions[stopIndex - 1]);
+            
+            interpolateColor(mColors[stopIndex - 1], mColors[stopIndex], t);
         }
+        
         
         return mResult;
     }
@@ -153,10 +164,8 @@ public final class BackgroundColorInterpolator {
     }
     
     private static float interpolateHue(float h1, float h2, float t) {
-        float minH = Math.min(h1, h2);
-        float maxH = Math.max(h1, h2);
-        float h = minH + t * (maxH - minH);
-        if (maxH - minH > 0.5f) {
+        float h = h1 + t * (h2 - h1);
+        if (Math.abs(h2 - h1) > 0.5f) {
             h = (h + 0.5f) % 1.0f;
         }
         

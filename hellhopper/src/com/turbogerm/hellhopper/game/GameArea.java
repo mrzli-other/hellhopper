@@ -26,6 +26,7 @@ package com.turbogerm.hellhopper.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
@@ -36,7 +37,7 @@ import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.init.InitData;
 import com.turbogerm.hellhopper.init.PlatformType;
-import com.turbogerm.hellhopper.util.GameMathUtils;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class GameArea {
     
@@ -92,6 +93,9 @@ public final class GameArea {
     private float mEndReachedCountdown;
     private float mEndJumpSpeed;
     
+    private final BackgroundColorInterpolator mBackgroundColorInterpolator;
+    private final Color mBackgroundColor;
+    
     public GameArea(AssetManager assetManager, SpriteBatch batch, InitData initData) {
         
         mAssetManager = assetManager;
@@ -121,6 +125,9 @@ public final class GameArea {
             mTempVecs[i] = new Vector2();
         }
         
+        mBackgroundColorInterpolator = new BackgroundColorInterpolator();
+        mBackgroundColor = new Color();
+        
         reset();
     }
     
@@ -136,6 +143,8 @@ public final class GameArea {
         mCharacterSpeed.set(0.0f, JUMP_SPEED);
         mMinPadAreaStartIndex = 0;
         updateVisiblePadPositions();
+        mBackgroundColorInterpolator.setTotalHeight(mGameAreaPath.getTotalHeight());
+        mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
@@ -192,6 +201,8 @@ public final class GameArea {
                 mScore = Math.max(mScore, (int) mCharacterPosition.y);
             }
         }
+        
+        mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mAreaPosition));
     }
     
     public void render() {
@@ -278,7 +289,7 @@ public final class GameArea {
             mCharacterSpeed.y = jumpSpeed;
         }
         
-        mCharacterPosition.x = GameMathUtils.getPositiveModulus(
+        mCharacterPosition.x = GameUtils.getPositiveModulus(
                 mCharacterPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) -
                 CHARACTER_CENTER_X_OFFSET;
         
@@ -290,11 +301,11 @@ public final class GameArea {
         return mScore;
     }
     
+    public Color getBackgroundColor() {
+        return mBackgroundColor;
+    }
+    
     public boolean isGameOver() {
         return mIsGameOver;
     }
-    
-//    private static VerticalPosition {
-//        
-//    }
 }

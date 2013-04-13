@@ -5,9 +5,6 @@
       - <properties>
         - <property name="<name>" value="<value>">{0..n}
   
-- implement end line
-  - if player gets above, he wins, character rests
-  
 - background color should change:
   - orange-red
   - orange
@@ -20,3 +17,9 @@
     - speed, movement range
   - pads moving vertically
     - speed, movement range
+  - pads moving in circle
+  
+- boosts:
+  - jump boost in form of geothermal vent or whatever on
+    - should activate on collision with pad when collided in area where that boost is
+  

@@ -23,8 +23,9 @@
  */
 package com.turbogerm.hellhopper.util;
 
-public final class GameMathUtils {
+public final class GameUtils {
     
+    /* Math */
     public static float getPositiveModulus(float value, float mod) {
         return ((value % mod) + mod) % mod;
     }

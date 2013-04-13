@@ -23,8 +23,10 @@
  */
 package com.turbogerm.hellhopper.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -89,6 +91,14 @@ public final class PlayScreen extends ScreenBase {
     }
     
     @Override
+    public void render(float delta) {
+        renderImpl(delta);
+        
+        mGuiStage.act(delta);
+        mGuiStage.draw();
+    }
+    
+    @Override
     public void renderImpl(float delta) {
         
         if (mGameArea.isGameOver()) {
@@ -99,6 +109,10 @@ public final class PlayScreen extends ScreenBase {
         if (!mIsPaused) {
             mGameArea.update(delta);
         }
+        
+        mClearColor = mGameArea.getBackgroundColor();  
+        Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         

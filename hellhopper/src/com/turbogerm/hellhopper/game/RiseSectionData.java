@@ -23,21 +23,23 @@
  */
 package com.turbogerm.hellhopper.game;
 
-public final class PadData {
+import com.badlogic.gdx.utils.Array;
+
+public final class RiseSectionData {
     
-    private final int mStepX;
-    private final int mStepY;
+    private final int mStepRange;
+    private final Array<PlatformData> mPlatformDataList;
     
-    public PadData(int stepX, int stepY) {
-        mStepX = stepX;
-        mStepY = stepY;
+    public RiseSectionData(int stepRange, Array<PlatformData> platformDataList) {
+        mStepRange = stepRange;
+        mPlatformDataList = platformDataList;
     }
     
-    public int getStepX() {
-        return mStepX;
+    public int getStepRange() {
+        return mStepRange;
     }
     
-    public int getStepY() {
-        return mStepY;
+    public Array<PlatformData> getPlatformDataList() {
+        return mPlatformDataList;
     }
 }

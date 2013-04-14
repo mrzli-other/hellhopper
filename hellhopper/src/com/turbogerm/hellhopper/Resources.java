@@ -64,7 +64,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_PLAY_DOWN_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.GAME_CHARACTER_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.GAME_PAD_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.GAME_PLATFORM_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GAME_END_LINE_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameter);

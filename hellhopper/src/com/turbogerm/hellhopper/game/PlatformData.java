@@ -21,9 +21,23 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.init;
+package com.turbogerm.hellhopper.game;
 
-public enum PlatformType {
-    Desktop,
-    Android
+public final class PlatformData {
+    
+    private final int mStep;
+    private final int mOffset;
+    
+    public PlatformData(int step, int offset) {
+        mStep = step;
+        mOffset = offset;
+    }
+    
+    public int getStep() {
+        return mStep;
+    }
+    
+    public int getOffset() {
+        return mOffset;
+    }
 }

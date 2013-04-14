@@ -23,15 +23,7 @@
  */
 package com.turbogerm.hellhopper.init;
 
-public final class InitData {
-    
-    private final SystemPlatformType mPlatformType;
-    
-    public InitData(SystemPlatformType platformType) {
-        mPlatformType = platformType;
-    }
-    
-    public SystemPlatformType getSystemPlatformType() {
-        return mPlatformType;
-    }
+public enum SystemPlatformType {
+    Desktop,
+    Android
 }

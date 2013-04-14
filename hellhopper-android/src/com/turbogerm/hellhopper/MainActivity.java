@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.init.InitData;
-import com.turbogerm.hellhopper.init.PlatformType;
+import com.turbogerm.hellhopper.init.SystemPlatformType;
 
 public class MainActivity extends AndroidApplication {
     @Override
@@ -18,7 +18,7 @@ public class MainActivity extends AndroidApplication {
         cfg.useAccelerometer = true;
         cfg.useCompass = false;
         
-        InitData initData = new InitData(PlatformType.Android);
+        InitData initData = new InitData(SystemPlatformType.Android);
         
         initialize(new HellHopper(initData), cfg);
     }

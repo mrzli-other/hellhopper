@@ -26,21 +26,21 @@ package com.turbogerm.hellhopper.game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public final class GameAreaPath {
+public final class Rise {
     
-    private final float mTotalHeight;
-    private final Array<Vector2> mPadPositions;
+    private final float mHeight;
+    private final Array<Vector2> mPlatformPositions;
     
-    public GameAreaPath(float totalHeight, Array<Vector2> padPositions) {
-        mTotalHeight = totalHeight;
-        mPadPositions = padPositions;
+    public Rise(float height, Array<Vector2> platformPositions) {
+        mHeight = height;
+        mPlatformPositions = platformPositions;
     }
     
-    public float getTotalHeight() {
-        return mTotalHeight;
+    public float getHeight() {
+        return mHeight;
     }
     
-    public Array<Vector2> getPadPositions() {
-        return mPadPositions;
+    public Array<Vector2> getPlatformPositions() {
+        return mPlatformPositions;
     }
 }

@@ -40,7 +40,7 @@ public final class BackgroundColorInterpolator {
     private float[] mColorPositions;
     private Color[] mColors;
     
-    private float mGameAreaTotalHeight;
+    private float mRiseHeight;
     
     public BackgroundColorInterpolator() {
         mHsl1 = new HslColor();
@@ -62,12 +62,12 @@ public final class BackgroundColorInterpolator {
         }
     }
     
-    public void setTotalHeight(float totalHeight) {
-        mGameAreaTotalHeight = totalHeight;
+    public void setRiseHeight(float riseHeight) {
+        mRiseHeight = riseHeight;
     }
     
     public Color getBackgroundColor(float currentHeight) {
-        float colorPosition = currentHeight / mGameAreaTotalHeight * mColorPositions[NUM_COLORS - 1];
+        float colorPosition = currentHeight / mRiseHeight * mColorPositions[NUM_COLORS - 1];
         
         if (colorPosition < mColorPositions[0]) {
             mResult.set(mColors[0]);
@@ -84,7 +84,6 @@ public final class BackgroundColorInterpolator {
             
             interpolateColor(mColors[stopIndex - 1], mColors[stopIndex], t);
         }
-        
         
         return mResult;
     }

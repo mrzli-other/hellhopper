@@ -23,23 +23,6 @@
  */
 package com.turbogerm.hellhopper.game;
 
-import com.badlogic.gdx.utils.Array;
-
-public final class PadCollectionData {
+public final class RiseSectionDataReader {
     
-    private final int mStepRange;
-    private final Array<PadData> mPadDataList;
-    
-    public PadCollectionData(int stepRange, Array<PadData> padDataList) {
-        mStepRange = stepRange;
-        mPadDataList = padDataList;
-    }
-    
-    public int getStepRange() {
-        return mStepRange;
-    }
-    
-    public Array<PadData> getPadDataList() {
-        return mPadDataList;
-    }
 }

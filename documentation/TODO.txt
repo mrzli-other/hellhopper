@@ -4,13 +4,7 @@
     - <pad stepx="<int>" stepy="<int>">{1..n}
       - <properties>
         - <property name="<name>" value="<value>">{0..n}
-  
-- background color should change:
-  - orange-red
-  - orange
-  - yellow
-  - brown
-  - green
+ 
       
 - implement different pad types: 
   - pads moving horizontaly

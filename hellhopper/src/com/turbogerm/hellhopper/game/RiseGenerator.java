@@ -25,10 +25,12 @@ package com.turbogerm.hellhopper.game;
 
 import java.util.Comparator;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.ResourceNames;
 
 public final class RiseGenerator {
     
@@ -68,8 +70,11 @@ public final class RiseGenerator {
     
     public static Rise generate() {
         Array<RiseSectionData> riseSections = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
-        riseSections.add(generateRiseSection(50, 100));
-        riseSections.add(generateRiseSection(100, 100));
+        //riseSections.add(generateRiseSection(50, 100));
+        //riseSections.add(generateRiseSection(100, 100));
+        
+        RiseSectionData testRiseSection = RiseSectionDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTIONS_TEST));
+        riseSections.add(testRiseSection);
         
         int totalNumPlatforms = 0;
         for (RiseSectionData riseSection : riseSections) {
@@ -93,7 +98,7 @@ public final class RiseGenerator {
         Array<StepPossiblePlaformPositions> positions = getInitialAllStepPositionsPositions(stepRange);
         for (int i = 0; i < numPads; i++) {
             PlaformPosition position = getRandomPosition(positions);
-            PlatformData padData = new PlatformData(position.step, position.offset);
+            PlatformData padData = new PlatformData(position.step, position.offset, null);
             platformDataList.add(padData);
             updatePossiblePlatformPositions(positions, position);
         }
@@ -101,7 +106,7 @@ public final class RiseGenerator {
         correctPlatformList(stepRange, platformDataList);
         
         platformDataList.sort(PLATFORM_DATA_COMPARATOR);
-        return new RiseSectionData(stepRange, platformDataList);
+        return new RiseSectionData(stepRange, 0, platformDataList);
     }
     
     private static Array<StepPossiblePlaformPositions> getInitialAllStepPositionsPositions(int stepRange) {
@@ -167,7 +172,7 @@ public final class RiseGenerator {
         int step = getFirstEmptyRequiredStep(stepRange, platformDataList);
         while (step != -1) {
             int offset = MathUtils.random(MAX_PLATFORM_OFFSET - 1);
-            PlatformData platformData = new PlatformData(step, offset);
+            PlatformData platformData = new PlatformData(step, offset, null);
             platformDataList.add(platformData);
             
             step = getFirstEmptyRequiredStep(stepRange, platformDataList);

@@ -23,6 +23,73 @@
  */
 package com.turbogerm.hellhopper.game;
 
+import java.io.IOException;
+
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
+import com.turbogerm.hellhopper.util.Logger;
+
 public final class RiseSectionDataReader {
     
+    public static RiseSectionData read(FileHandle fileHandle) {
+        
+        XmlReader reader = new XmlReader();
+        
+        Element riseSectionNode = null;
+        try {
+            riseSectionNode = reader.parse(fileHandle);
+        } catch (IOException e) {
+            Logger.error(e.getMessage());
+            return null;
+        }
+        
+        String stepRangeAttribute = riseSectionNode.getAttribute("steprange");
+        int stepRange = Integer.parseInt(stepRangeAttribute);
+        String difficultyAttribute = riseSectionNode.getAttribute("difficulty");
+        int difficulty = Integer.parseInt(difficultyAttribute);
+        
+        Element platformsNode = riseSectionNode.getChildByName("platforms");
+        int numPlatforms = platformsNode.getChildCount();
+        Array<PlatformData> platformDataList = new Array<PlatformData>(true, numPlatforms);
+        for (int i = 0; i < numPlatforms; i++) {
+            Element platformNode = platformsNode.getChild(i);
+            PlatformData platformData = getPlatformData(platformNode);
+            platformDataList.add(platformData);
+        }
+        
+        return new RiseSectionData(stepRange, difficulty, platformDataList);
+    }
+    
+    private static PlatformData getPlatformData(Element platformNode) {
+        String stepAttribute = platformNode.getAttribute("step");
+        int step = Integer.parseInt(stepAttribute);
+        String offsetAttribute = platformNode.getAttribute("offset");
+        int offset = Integer.parseInt(offsetAttribute);
+        
+        Element propertiesNode = platformNode.getChildByName("properties");
+        ObjectMap<String, String> properties = getProperties(propertiesNode);
+        
+        return new PlatformData(step, offset, properties);
+    }
+    
+    private static ObjectMap<String, String> getProperties(Element propertiesNode) {
+        
+        if (propertiesNode == null) {
+            return null;
+        }
+        
+        int numProperties = propertiesNode.getChildCount();
+        ObjectMap<String, String> properties = new ObjectMap<String, String>(numProperties);
+        for (int i = 0; i < numProperties; i++) {
+            Element propertyNode = propertiesNode.getChild(i);
+            String name = propertyNode.getAttribute("name");
+            String value = propertyNode.getAttribute("value");
+            properties.put(name, value);
+        }
+        
+        return properties;
+    }
 }

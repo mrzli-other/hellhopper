@@ -45,6 +45,8 @@ public final class ResourceNames {
     public static final String GUI_PLAY_DOWN_TEXTURE = GUI_DIR + "playdown.png";
     
     public static final String DATA_DIR = "data/";
+    public static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
+    public static final String RISE_SECTIONS_TEST = RISE_SECTIONS_DIR + "test.xml";
     
     public static final String GAME_DIR = "game/";
     public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";
@@ -52,6 +54,7 @@ public final class ResourceNames {
     public static final String GAME_END_LINE_TEXTURE = GAME_DIR + "endline.png";
     public static final String GAME_POSITION_SCROLL_LINE_TEXTURE = GAME_DIR + "positionscrollline.png";
     public static final String GAME_POSITION_SCROLL_BOX_TEXTURE = GAME_DIR + "positionscrollbox.png";
+    public static final String GAME_POSITION_SCROLL_END_LINE_TEXTURE = GAME_DIR + "positionscrollendline.png";
     
     public static final String SHADERS_DIR = "shaders/";
     public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";

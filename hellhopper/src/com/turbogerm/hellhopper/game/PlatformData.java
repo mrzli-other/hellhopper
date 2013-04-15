@@ -23,14 +23,18 @@
  */
 package com.turbogerm.hellhopper.game;
 
+import com.badlogic.gdx.utils.ObjectMap;
+
 public final class PlatformData {
     
     private final int mStep;
     private final int mOffset;
+    private final ObjectMap<String, String> mProperties;
     
-    public PlatformData(int step, int offset) {
+    public PlatformData(int step, int offset, ObjectMap<String, String> properties) {
         mStep = step;
         mOffset = offset;
+        mProperties = properties;
     }
     
     public int getStep() {

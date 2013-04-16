@@ -29,23 +29,23 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.init.InitData;
 import com.turbogerm.hellhopper.init.SystemPlatformType;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class GameArea {
     
-    private static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH;
-    private static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT;
+    public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH;
+    public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT;
     
-    private static final float CHARACTER_WIDTH = 40.0f;
-    private static final float CHARACTER_HEIGHT = 60.0f;
+    public static final float CHARACTER_WIDTH = 40.0f;
+    public static final float CHARACTER_HEIGHT = 60.0f;
     private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
@@ -62,14 +62,13 @@ public final class GameArea {
     
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
-    private static final int VISIBLE_PLATFORM_POSITIONS_INITIAL_CAPACITY = 50;
+    private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
     
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
     private final InitData mInitData;
     
     private final Texture mCharacterTexture;
-    private final Texture mPlatformTexture;
     private final Texture mPositionScrollLineTexture;
     private final Texture mPositionScrollBoxTexture;
     private final Texture mPositionScrollEndLineTexture;
@@ -85,10 +84,11 @@ public final class GameArea {
     private final Vector2 mCharacterSpeed;
     
     private int mMinVisiblePlatformIndex;
-    private final Array<Vector2> mVisiblePlatformPositions;
+    private final Array<PlatformBase> mVisiblePlatforms;
     
-    private final Rectangle[] mTempRects;
-    private final Vector2[] mTempVecs;
+    private final Rectangle mCharacterCollisionRect;
+    private final Vector2 mCharacterCollisionLineStart;
+    private final Vector2 mCharacterCollisionLineEnd;
     
     private boolean mIsGameOver;
     private boolean mIsEndReached;
@@ -105,7 +105,6 @@ public final class GameArea {
         mInitData = initData;
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
-        mPlatformTexture = mAssetManager.get(ResourceNames.GAME_PLATFORM_TEXTURE);
         mPositionScrollLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE);
         mPositionScrollBoxTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE);
         mPositionScrollEndLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE);
@@ -114,19 +113,11 @@ public final class GameArea {
         mCharacterPosition = new Vector2();
         mCharacterSpeed = new Vector2();
         
-        mVisiblePlatformPositions = new Array<Vector2>(false, VISIBLE_PLATFORM_POSITIONS_INITIAL_CAPACITY);
+        mVisiblePlatforms = new Array<PlatformBase>(false, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         
-        final int numTempRects = 2;
-        mTempRects = new Rectangle[numTempRects];
-        for (int i = 0; i < numTempRects; i++) {
-            mTempRects[i] = new Rectangle();
-        }
-        
-        final int numTempVecs = 4;
-        mTempVecs = new Vector2[numTempVecs];
-        for (int i = 0; i < numTempVecs; i++) {
-            mTempVecs[i] = new Vector2();
-        }
+        mCharacterCollisionRect = new Rectangle();
+        mCharacterCollisionLineStart = new Vector2();
+        mCharacterCollisionLineEnd = new Vector2();
         
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -139,7 +130,7 @@ public final class GameArea {
         mIsEndReached = false;
         mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
         mEndJumpSpeed = JUMP_SPEED;
-        mRise = RiseGenerator.generate();
+        mRise = RiseGenerator.generate(mAssetManager);
         mRiseHeight = mRise.getHeight();
         mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mScore = 0;
@@ -147,13 +138,13 @@ public final class GameArea {
         mCharacterPosition.set(GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
         mCharacterSpeed.set(0.0f, JUMP_SPEED);
         mMinVisiblePlatformIndex = 0;
-        updateVisiblePlatformPositions();
+        updateVisiblePlatforms();
         mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
         
-        updateVisiblePlatformPositions();
+        updateVisiblePlatforms();
         
         if (mInitData.getSystemPlatformType() == SystemPlatformType.Desktop) {
             if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
@@ -209,10 +200,8 @@ public final class GameArea {
     }
     
     public void render() {
-        for (Vector2 padPosition : mVisiblePlatformPositions) {
-            mBatch.draw(mPlatformTexture,
-                    padPosition.x, padPosition.y - mVisibleAreaPosition,
-                    RiseGenerator.PLATFORM_WIDTH, RiseGenerator.PLATFORM_HEIGHT);
+        for (PlatformBase platform : mVisiblePlatforms) {
+            platform.render(mBatch, mVisibleAreaPosition);
         }
         
         mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - 4.0f - mVisibleAreaPosition, GAME_AREA_WIDTH, 4.0f);
@@ -243,18 +232,19 @@ public final class GameArea {
                 POSITION_SCROLL_LINE_WIDTH, positionScrollEndLineHeight);
     }
     
-    private void updateVisiblePlatformPositions() {
-        mVisiblePlatformPositions.clear();
+    private void updateVisiblePlatforms() {
+        mVisiblePlatforms.clear();
         
-        Array<Vector2> padPositions = mRise.getPlatformPositions();
-        for (int i = mMinVisiblePlatformIndex; i < padPositions.size; i++) {
-            Vector2 padPosition = padPositions.get(i);
-            if (padPosition.y + RiseGenerator.PLATFORM_HEIGHT < mVisibleAreaPosition) {
-                mMinVisiblePlatformIndex = i + 1;
-            } else if (padPosition.y <= mVisibleAreaPosition + GAME_AREA_HEIGHT) {
-                mVisiblePlatformPositions.add(padPosition);
-            } else {
-                break;
+        boolean isFirstVisible = true;
+        Array<PlatformBase> platforms = mRise.getPlatforms();
+        for (int i = mMinVisiblePlatformIndex; i < platforms.size; i++) {
+            PlatformBase platform = platforms.get(i);
+            if (platform.isVisible(mVisibleAreaPosition)) {
+                if (isFirstVisible) {
+                    mMinVisiblePlatformIndex = i;
+                    isFirstVisible = false;
+                }
+                mVisiblePlatforms.add(platform);
             }
         }
     }
@@ -271,21 +261,14 @@ public final class GameArea {
         float minY = Math.min(mCharacterPosition.y, newY);
         float maxX = Math.max(mCharacterPosition.x, newX);
         float maxY = Math.max(mCharacterPosition.y, newY);
-        mTempRects[0].set(minX, minY, maxX - minX, maxY - minY);
-        mTempVecs[0].set(mCharacterPosition);
-        mTempVecs[1].set(newX, newY);
+        mCharacterCollisionRect.set(minX, minY, maxX - minX, maxY - minY);
+        mCharacterCollisionLineStart.set(mCharacterPosition);
+        mCharacterCollisionLineEnd.set(newX, newY);
         
-        for (Vector2 padPosition : mVisiblePlatformPositions) {
-            mTempRects[1].set(padPosition.x - CHARACTER_WIDTH, padPosition.y,
-                    RiseGenerator.PLATFORM_WIDTH + CHARACTER_WIDTH, RiseGenerator.PLATFORM_HEIGHT);
-            if (Intersector.intersectRectangles(mTempRects[0], mTempRects[1])) {
-                mTempVecs[2].set(padPosition.x - CHARACTER_WIDTH,
-                        padPosition.y + RiseGenerator.PLATFORM_HEIGHT);
-                mTempVecs[3].set(padPosition.x + RiseGenerator.PLATFORM_WIDTH,
-                        padPosition.y + RiseGenerator.PLATFORM_HEIGHT);
-                if (Intersector.intersectSegments(mTempVecs[0], mTempVecs[1], mTempVecs[2], mTempVecs[3], null)) {
-                    return true;
-                }
+        for (PlatformBase platform : mVisiblePlatforms) {
+            if (platform.isCollision(
+                    mCharacterCollisionRect, mCharacterCollisionLineStart, mCharacterCollisionLineEnd)) {
+                return true;
             }
         }
         

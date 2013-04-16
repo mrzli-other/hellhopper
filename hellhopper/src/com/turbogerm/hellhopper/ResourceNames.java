@@ -46,15 +46,20 @@ public final class ResourceNames {
     
     public static final String DATA_DIR = "data/";
     public static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
-    public static final String RISE_SECTIONS_TEST = RISE_SECTIONS_DIR + "test.xml";
+    public static final String RISE_SECTION_TEST = RISE_SECTIONS_DIR + "test.xml";
     
     public static final String GAME_DIR = "game/";
     public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";
-    public static final String GAME_PLATFORM_TEXTURE = GAME_DIR + "platform.png";
     public static final String GAME_END_LINE_TEXTURE = GAME_DIR + "endline.png";
     public static final String GAME_POSITION_SCROLL_LINE_TEXTURE = GAME_DIR + "positionscrollline.png";
     public static final String GAME_POSITION_SCROLL_BOX_TEXTURE = GAME_DIR + "positionscrollbox.png";
     public static final String GAME_POSITION_SCROLL_END_LINE_TEXTURE = GAME_DIR + "positionscrollendline.png";
+    
+    public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
+    public static final String PLATFORM_NORMAL_TEXTURE = PLATFORMS_DIR + "normalplatform.png";
+    public static final String PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "horizontalmovementplatform.png";
+    public static final String PLATFORM_VERTICAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "verticalmovementplatform.png";
+    public static final String PLATFORM_CIRCULAR_MOVEMENT_TEXTURE = PLATFORMS_DIR + "circularmovementplatform.png";
     
     public static final String SHADERS_DIR = "shaders/";
     public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";

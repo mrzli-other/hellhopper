@@ -26,28 +26,14 @@ package com.turbogerm.hellhopper.game;
 import java.util.Comparator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
 public final class RiseGenerator {
-    
-    // 'step' is vertical offset, 'offset' is horizontal offset in position grid
-    
-    private static final float STEP_HEIGHT = 40.0f;
-    private static final float OFFSET_WIDTH = 10.0f;
-    
-    private static final int PLATFORM_WIDTH_OFFSETS = 8;
-    private static final float PLATFORM_HEIGHT_STEPS = 0.5f;
-    
-    public static final float PLATFORM_WIDTH = OFFSET_WIDTH * PLATFORM_WIDTH_OFFSETS;
-    public static final float PLATFORM_HEIGHT = STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
-    
-    private static final int MAX_PLATFORM_DISTANCE_STEPS = 5;
-    private static final int MAX_PLATFORM_OFFSET = (int) (HellHopper.VIEWPORT_WIDTH / OFFSET_WIDTH) -
-            PLATFORM_WIDTH_OFFSETS;
     
     private static final int RISE_SECTIONS_INITIAL_CAPACITY = 20;
     
@@ -68,12 +54,12 @@ public final class RiseGenerator {
         };
     }
     
-    public static Rise generate() {
+    public static Rise generate(AssetManager assetManager) {
         Array<RiseSectionData> riseSections = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
         //riseSections.add(generateRiseSection(50, 100));
         //riseSections.add(generateRiseSection(100, 100));
         
-        RiseSectionData testRiseSection = RiseSectionDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTIONS_TEST));
+        RiseSectionData testRiseSection = RiseSectionDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTION_TEST));
         riseSections.add(testRiseSection);
         
         int totalNumPlatforms = 0;
@@ -81,16 +67,16 @@ public final class RiseGenerator {
             totalNumPlatforms += riseSection.getPlatformDataList().size;
         }
         
-        Array<Vector2> platformPositions = new Array<Vector2>(true, totalNumPlatforms);
+        Array<PlatformBase> platforms = new Array<PlatformBase>(true, totalNumPlatforms);
         int startStep = 0;
         for (RiseSectionData riseSection : riseSections) {
-            addPlatformPositions(platformPositions, riseSection, startStep);
+            addPlatforms(platforms, riseSection, startStep, assetManager);
             startStep += riseSection.getStepRange();
         }
         
-        float riseHeight = startStep * STEP_HEIGHT;
+        float riseHeight = startStep * PlatformData.STEP_HEIGHT;
         
-        return new Rise(riseHeight, platformPositions);
+        return new Rise(riseHeight, platforms);
     }
     
     private static RiseSectionData generateRiseSection(int stepRange, int numPads) {
@@ -98,7 +84,7 @@ public final class RiseGenerator {
         Array<StepPossiblePlaformPositions> positions = getInitialAllStepPositionsPositions(stepRange);
         for (int i = 0; i < numPads; i++) {
             PlaformPosition position = getRandomPosition(positions);
-            PlatformData padData = new PlatformData(position.step, position.offset, null);
+            PlatformData padData = new PlatformData(PlatformData.NORMAL, position.step, position.offset, null);
             platformDataList.add(padData);
             updatePossiblePlatformPositions(positions, position);
         }
@@ -120,8 +106,8 @@ public final class RiseGenerator {
     }
     
     private static StepPossiblePlaformPositions getInitialStepPositions(int step) {
-        Array<Integer> positions = new Array<Integer>(true, MAX_PLATFORM_OFFSET + 1);
-        for (int i = 0; i <= MAX_PLATFORM_OFFSET; i++) {
+        Array<Integer> positions = new Array<Integer>(true, PlatformData.MAX_PLATFORM_OFFSET + 1);
+        for (int i = 0; i <= PlatformData.MAX_PLATFORM_OFFSET; i++) {
             positions.add(i);
         }
         
@@ -159,8 +145,8 @@ public final class RiseGenerator {
             PlaformPosition takenPosition) {
         for (StepPossiblePlaformPositions stepPositions : allStepPositions) {
             if (stepPositions.step == takenPosition.step) {
-                int firstInvalidatedOffset = takenPosition.offset - PLATFORM_WIDTH_OFFSETS + 1;
-                int numInvalidatedOffsets = PLATFORM_WIDTH_OFFSETS * 2 - 1;
+                int firstInvalidatedOffset = takenPosition.offset - PlatformData.PLATFORM_WIDTH_OFFSETS + 1;
+                int numInvalidatedOffsets = PlatformData.PLATFORM_WIDTH_OFFSETS * 2 - 1;
                 for (int i = 0; i < numInvalidatedOffsets; i++) {
                     stepPositions.removeOffsetValue(firstInvalidatedOffset + i);
                 }
@@ -171,8 +157,8 @@ public final class RiseGenerator {
     private static void correctPlatformList(int stepRange, Array<PlatformData> platformDataList) {
         int step = getFirstEmptyRequiredStep(stepRange, platformDataList);
         while (step != -1) {
-            int offset = MathUtils.random(MAX_PLATFORM_OFFSET - 1);
-            PlatformData platformData = new PlatformData(step, offset, null);
+            int offset = MathUtils.random(PlatformData.MAX_PLATFORM_OFFSET - 1);
+            PlatformData platformData = new PlatformData(PlatformData.NORMAL, step, offset, null);
             platformDataList.add(platformData);
             
             step = getFirstEmptyRequiredStep(stepRange, platformDataList);
@@ -188,13 +174,13 @@ public final class RiseGenerator {
         }
         
         for (int i = 1; i < stepsWithPlatforms.size; i++) {
-            if (stepsWithPlatforms.get(i) - stepsWithPlatforms.get(i - 1) > MAX_PLATFORM_DISTANCE_STEPS) {
-                return stepsWithPlatforms.get(i - 1) + MAX_PLATFORM_DISTANCE_STEPS;
+            if (stepsWithPlatforms.get(i) - stepsWithPlatforms.get(i - 1) > PlatformData.MAX_PLATFORM_DISTANCE_STEPS) {
+                return stepsWithPlatforms.get(i - 1) + PlatformData.MAX_PLATFORM_DISTANCE_STEPS;
             }
         }
         
-        if (stepRange - stepsWithPlatforms.peek() > MAX_PLATFORM_DISTANCE_STEPS) {
-            return stepsWithPlatforms.peek() + MAX_PLATFORM_DISTANCE_STEPS;
+        if (stepRange - stepsWithPlatforms.peek() > PlatformData.MAX_PLATFORM_DISTANCE_STEPS) {
+            return stepsWithPlatforms.peek() + PlatformData.MAX_PLATFORM_DISTANCE_STEPS;
         }
         
         return -1;
@@ -237,13 +223,12 @@ public final class RiseGenerator {
     // return steps;
     // }
     
-    private static void addPlatformPositions(Array<Vector2> padPositions, RiseSectionData riseSection, int startStep) {
+    private static void addPlatforms(Array<PlatformBase> platforms, RiseSectionData riseSection, int startStep,
+            AssetManager assetManager) {
         Array<PlatformData> platformDataList = riseSection.getPlatformDataList();
         for (PlatformData platformData : platformDataList) {
-            float x = platformData.getOffset() * OFFSET_WIDTH;
-            float y = (platformData.getStep() + startStep) * STEP_HEIGHT;
-            Vector2 padPosition = new Vector2(x, y);
-            padPositions.add(padPosition);
+            PlatformBase platform = PlatformFactory.create(platformData, startStep, assetManager);
+            platforms.add(platform);
         }
     }
     

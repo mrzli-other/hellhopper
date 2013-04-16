@@ -21,26 +21,16 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.game.platforms;
 
-import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.game.PlatformData;
 
-public final class Rise {
+final class HorizontalMovementPlatform extends PlatformBase {
     
-    private final float mHeight;
-    private final Array<PlatformBase> mPlatforms;
-    
-    public Rise(float height, Array<PlatformBase> platforms) {
-        mHeight = height;
-        mPlatforms = platforms;
-    }
-    
-    public float getHeight() {
-        return mHeight;
-    }
-    
-    public Array<PlatformBase> getPlatforms() {
-        return mPlatforms;
+    public HorizontalMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
+        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE,
+                assetManager);
     }
 }

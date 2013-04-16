@@ -68,11 +68,12 @@ public final class RiseSectionDataReader {
         int step = Integer.parseInt(stepAttribute);
         String offsetAttribute = platformNode.getAttribute("offset");
         int offset = Integer.parseInt(offsetAttribute);
+        String type = platformNode.getAttribute("type");
         
         Element propertiesNode = platformNode.getChildByName("properties");
         ObjectMap<String, String> properties = getProperties(propertiesNode);
         
-        return new PlatformData(step, offset, properties);
+        return new PlatformData(type, step, offset, properties);
     }
     
     private static ObjectMap<String, String> getProperties(Element propertiesNode) {

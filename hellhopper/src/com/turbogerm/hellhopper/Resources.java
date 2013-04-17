@@ -73,6 +73,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.PLATFORM_VERTICAL_MOVEMENT_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.PLATFORM_CIRCULAR_MOVEMENT_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.finishLoading();
         

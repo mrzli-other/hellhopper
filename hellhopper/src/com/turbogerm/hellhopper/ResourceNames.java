@@ -60,6 +60,7 @@ public final class ResourceNames {
     public static final String PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "horizontalmovementplatform.png";
     public static final String PLATFORM_VERTICAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "verticalmovementplatform.png";
     public static final String PLATFORM_CIRCULAR_MOVEMENT_TEXTURE = PLATFORMS_DIR + "circularmovementplatform.png";
+    public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
     public static final String SHADERS_DIR = "shaders/";
     public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";

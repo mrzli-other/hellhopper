@@ -89,6 +89,7 @@ public final class GameArea {
     private final Rectangle mCharacterCollisionRect;
     private final Vector2 mCharacterCollisionLineStart;
     private final Vector2 mCharacterCollisionLineEnd;
+    private final Vector2 mCollisionPoint;
     
     private boolean mIsGameOver;
     private boolean mIsEndReached;
@@ -118,6 +119,7 @@ public final class GameArea {
         mCharacterCollisionRect = new Rectangle();
         mCharacterCollisionLineStart = new Vector2();
         mCharacterCollisionLineEnd = new Vector2();
+        mCollisionPoint = new Vector2();
         
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -271,7 +273,9 @@ public final class GameArea {
         
         for (PlatformBase platform : mVisiblePlatforms) {
             if (platform.isCollision(
-                    mCharacterCollisionRect, mCharacterCollisionLineStart, mCharacterCollisionLineEnd)) {
+                    mCharacterCollisionRect, mCharacterCollisionLineStart, mCharacterCollisionLineEnd,
+                    mCollisionPoint)) {
+                mCharacterPosition.set(mCollisionPoint);
                 return true;
             }
         }
@@ -280,10 +284,11 @@ public final class GameArea {
     }
     
     private void updatePositions(float delta, boolean isCollision, float jumpSpeed) {
-        mCharacterPosition.x += mCharacterSpeed.x * delta;
-        mCharacterPosition.y += mCharacterSpeed.y * delta;
         if (isCollision) {
             mCharacterSpeed.y = jumpSpeed;
+        } else {
+            mCharacterPosition.x += mCharacterSpeed.x * delta;
+            mCharacterPosition.y += mCharacterSpeed.y * delta;
         }
         
         mCharacterPosition.x = GameUtils.getPositiveModulus(

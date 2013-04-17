@@ -38,6 +38,7 @@ import com.turbogerm.hellhopper.HellHopper;
 public final class SplashScreen extends ScreenBase {
     
     private final Texture mBackgroundTexture;
+    private final Image mBlackImage;
     
     public SplashScreen(HellHopper game) {
         super(game);
@@ -47,14 +48,22 @@ public final class SplashScreen extends ScreenBase {
         mBackgroundTexture = mAssetManager.get(ResourceNames.GUI_BACKGROUND_TEXTURE);
         
         Texture splashTexture = mAssetManager.get(ResourceNames.GUI_BLACK_TEXTURE);
+        mBlackImage = new Image(splashTexture);
+        mBlackImage.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        mBlackImage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         
-        Image blackImage = new Image(splashTexture);
-        blackImage.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
-        blackImage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        mGuiStage.addActor(mBlackImage);
+    }
+    
+    @Override
+    public void show() {
+        super.show();
+        
+        mBlackImage.clearActions();
         SequenceAction action = Actions.sequence(
                 Actions.fadeOut(2.5f), Actions.delay(2.5f), Actions.fadeIn(1.5f), getCompletedAction());
-        blackImage.addAction(action);
-        mGuiStage.addActor(blackImage);
+        mBlackImage.addAction(action);
     }
     
     @Override

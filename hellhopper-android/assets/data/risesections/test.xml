@@ -1,5 +1,6 @@
-<risesection steprange="50" difficulty="0">
+<risesection steprange="55" difficulty="0">
   <platforms>
+  
     <platform step="0" offset="10" type="normal">
       <properties>
         <property name="something" value="10" />
@@ -14,7 +15,6 @@
     <platform step="30" offset="10" type="normal" />
     <platform step="35" offset="5" type="normal" />
     <platform step="40" offset="10" type="normal" />
-    <platform step="45" offset="10" type="normal" />
     <platform step="45" offset="10" type="normal" />
     
     <platform step="10" offset="30" type="verticalmovement">
@@ -37,5 +37,9 @@
         <property name="speed" value="50" />
       </properties>
     </platform>
+    
+    <platform step="1" offset="30" type="crumble" />
+    <platform step="50" offset="10" type="crumble" />
   </platforms>
+  
 </risesection>

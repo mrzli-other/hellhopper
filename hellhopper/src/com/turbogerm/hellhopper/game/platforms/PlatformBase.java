@@ -34,7 +34,7 @@ import com.turbogerm.hellhopper.game.PlatformData;
 
 public abstract class PlatformBase {
     
-    private final Texture mTexture;
+    protected final Texture mTexture;
     protected final Vector2 mInitialPosition;
     
     private static final Rectangle mPlatformCollisionRect;
@@ -73,7 +73,8 @@ public abstract class PlatformBase {
     
     public boolean isCollision(Rectangle characterCollisionRect,
             Vector2 characterCollisionLineStart,
-            Vector2 characterCollisionLineEnd) {
+            Vector2 characterCollisionLineEnd,
+            Vector2 collisionPoint) {
         
         Vector2 position = getPosition();
         mPlatformCollisionRect.set(position.x - GameArea.CHARACTER_WIDTH, position.y,
@@ -86,7 +87,7 @@ public abstract class PlatformBase {
             if (Intersector.intersectSegments(
                     characterCollisionLineStart, characterCollisionLineEnd,
                     mPlatformCollisionLineStart, mPlatformCollisionLineEnd,
-                    null)) {
+                    collisionPoint)) {
                 return true;
             }
         }

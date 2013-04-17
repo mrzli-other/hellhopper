@@ -146,6 +146,10 @@ public final class GameArea {
         
         updateVisiblePlatforms();
         
+        for (PlatformBase platform : mVisiblePlatforms) {
+            platform.update(delta);
+        }
+        
         if (mInitData.getSystemPlatformType() == SystemPlatformType.Desktop) {
             if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
                 mCharacterSpeed.x = -DEFAULT_HORIZONTAL_SPEED;

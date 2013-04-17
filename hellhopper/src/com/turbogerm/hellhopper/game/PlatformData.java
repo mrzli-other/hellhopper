@@ -34,6 +34,10 @@ public final class PlatformData {
     public static final String VERTICAL_MOVEMENT = "verticalmovement";
     public static final String CIRCULAR_MOVEMENT = "circularmovement";
     
+    public static final String MOVEMENT_RANGE_PROPERTY = "range";
+    public static final String CIRCULAR_MOVEMENT_RADIUS_PROPERTY = "radius";
+    public static final String MOVEMENT_SPEED_PROPERTY = "speed";
+    
     // 'step' is vertical offset, 'offset' is horizontal offset in position grid
     
     public static final float STEP_HEIGHT = 40.0f;
@@ -59,8 +63,6 @@ public final class PlatformData {
         mStep = step;
         mOffset = offset;
         mProperties = properties;
-        
-        
     }
     
     public String getPlatformType() {
@@ -73,6 +75,10 @@ public final class PlatformData {
     
     public int getOffset() {
         return mOffset;
+    }
+    
+    public String getProperty(String name) {
+        return mProperties.get(name);
     }
     
     public Vector2 getPlatformPositions(int startStep) {

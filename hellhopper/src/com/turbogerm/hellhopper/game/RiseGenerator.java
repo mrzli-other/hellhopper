@@ -79,6 +79,10 @@ public final class RiseGenerator {
         return new Rise(riseHeight, platforms);
     }
     
+    public static void sort(Array<PlatformData> platformDataList) {
+        platformDataList.sort(PLATFORM_DATA_COMPARATOR);
+    }
+    
     private static RiseSectionData generateRiseSection(int stepRange, int numPads) {
         Array<PlatformData> platformDataList = new Array<PlatformData>(numPads);
         Array<StepPossiblePlaformPositions> positions = getInitialAllStepPositionsPositions(stepRange);
@@ -90,8 +94,8 @@ public final class RiseGenerator {
         }
         
         correctPlatformList(stepRange, platformDataList);
+        sort(platformDataList);
         
-        platformDataList.sort(PLATFORM_DATA_COMPARATOR);
         return new RiseSectionData(stepRange, 0, platformDataList);
     }
     

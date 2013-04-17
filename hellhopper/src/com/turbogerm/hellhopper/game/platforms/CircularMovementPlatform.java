@@ -24,13 +24,54 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 final class CircularMovementPlatform extends PlatformBase {
+    
+    private static final Vector2 PLATFORM_CENTER_OFFSET;
+    
+    private final float mRadius;
+    private final float mSpeed;
+    private final Vector2 mPosition;
+    
+    private final float mAngleSpeed;
+    private float mAngle;
+    private final Vector2 mRotationCenter;
+    
+    static {
+        PLATFORM_CENTER_OFFSET = new Vector2(PlatformData.PLATFORM_WIDTH / 2.0f, PlatformData.PLATFORM_HEIGHT / 2.0f);
+    }
     
     public CircularMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
         super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_CIRCULAR_MOVEMENT_TEXTURE,
                 assetManager);
+        
+        mRadius = Float.parseFloat(platformData.getProperty(PlatformData.CIRCULAR_MOVEMENT_RADIUS_PROPERTY));
+        mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
+        mPosition = new Vector2(mInitialPosition);
+        mAngleSpeed = mSpeed / mRadius * MathUtils.radDeg;
+        mAngle = 0.0f;
+        mRotationCenter = new Vector2(
+                mInitialPosition.x + PLATFORM_CENTER_OFFSET.x + mRadius,
+                mInitialPosition.y + PLATFORM_CENTER_OFFSET.y);
+    }
+    
+    @Override
+    public void update(float delta) {
+        float travelledAngle = mAngleSpeed * delta;
+        mAngle += travelledAngle;
+        mAngle = GameUtils.getPositiveModulus(mAngle, 360.0f);
+        
+        mPosition.x = mRotationCenter.x + MathUtils.cosDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.x;
+        mPosition.y = mRotationCenter.y + MathUtils.sinDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.y;
+    }
+    
+    @Override
+    public Vector2 getPosition() {
+        return mPosition;
     }
 }

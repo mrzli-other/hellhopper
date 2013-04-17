@@ -5,14 +5,37 @@
         <property name="something" value="10" />
       </properties>
     </platform>
+    
     <platform step="5" offset="10" type="normal" />
     <platform step="10" offset="10" type="normal" />
     <platform step="15" offset="10" type="normal" />
     <platform step="20" offset="10" type="normal" />
     <platform step="25" offset="10" type="normal" />
     <platform step="30" offset="10" type="normal" />
-    <platform step="35" offset="10" type="normal" />
+    <platform step="35" offset="5" type="normal" />
     <platform step="40" offset="10" type="normal" />
     <platform step="45" offset="10" type="normal" />
+    <platform step="45" offset="10" type="normal" />
+    
+    <platform step="10" offset="30" type="verticalmovement">
+      <properties>
+        <property name="range" value="200" />
+        <property name="speed" value="50" />
+      </properties>
+    </platform>
+    
+    <platform step="22" offset="10" type="horizontalmovement">
+      <properties>
+        <property name="range" value="200" />
+        <property name="speed" value="50" />
+      </properties>
+    </platform>
+    
+    <platform step="35" offset="15" type="circularmovement">
+      <properties>
+        <property name="radius" value="100" />
+        <property name="speed" value="50" />
+      </properties>
+    </platform>
   </platforms>
 </risesection>

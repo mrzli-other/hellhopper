@@ -59,6 +59,7 @@ public final class RiseSectionDataReader {
             PlatformData platformData = getPlatformData(platformNode);
             platformDataList.add(platformData);
         }
+        RiseGenerator.sort(platformDataList);
         
         return new RiseSectionData(stepRange, difficulty, platformDataList);
     }

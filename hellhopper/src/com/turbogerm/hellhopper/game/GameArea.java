@@ -57,12 +57,6 @@ public final class GameArea {
     private static final float DEFAULT_HORIZONTAL_SPEED = 400.0f;
     private static final float ACCELEROMETER_SPEED_MULTIPLIER = 150.0f;
     
-    private static final float POSITION_SCROLL_LINE_WIDTH = 5.0f;
-    private static final float POSITION_SCROLL_LINE_HEIGHT = GAME_AREA_HEIGHT - 60.0f;
-    private static final float POSITION_SCROLL_LINE_X = GAME_AREA_WIDTH - POSITION_SCROLL_LINE_WIDTH - 5.0f;
-    private static final float POSITION_SCROLL_LINE_Y = 10.0f;
-    private static final float MIN_POSITION_SCROLL_BOX_SIZE = 5.0f;
-    
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
@@ -71,10 +65,9 @@ public final class GameArea {
     private final SpriteBatch mBatch;
     
     private final Texture mCharacterTexture;
-    private final Texture mPositionScrollLineTexture;
-    private final Texture mPositionScrollBoxTexture;
-    private final Texture mPositionScrollEndLineTexture;
     private final Texture mEndLineTexture;
+    
+    private final RisePositionScroll mRisePositionScroll;
     
     private Rise mRise;
     private float mRiseHeight;
@@ -103,10 +96,9 @@ public final class GameArea {
         mBatch = batch;
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
-        mPositionScrollLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE);
-        mPositionScrollBoxTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE);
-        mPositionScrollEndLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
+        
+        mRisePositionScroll = new RisePositionScroll(mAssetManager);
         
         mCharPosition = new Vector2();
         mCharSpeed = new Vector2();
@@ -136,6 +128,8 @@ public final class GameArea {
         mDeltaAccumulator = 0.0f;
         
         mMinVisiblePlatformIndex = 0;
+        
+        mRisePositionScroll.setRiseHeight(mRiseHeight);
         
         mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
@@ -203,26 +197,7 @@ public final class GameArea {
                 mCharPosition.x, mCharPosition.y - mVisibleAreaPosition,
                 CHARACTER_WIDTH, CHARACTER_HEIGHT);
         
-        float effectivePositionScrollLineHeight = (mRiseHeight / (mRiseHeight + GAME_AREA_HEIGHT)) *
-                POSITION_SCROLL_LINE_HEIGHT;
-        mBatch.draw(mPositionScrollLineTexture,
-                POSITION_SCROLL_LINE_X, POSITION_SCROLL_LINE_Y,
-                POSITION_SCROLL_LINE_WIDTH, effectivePositionScrollLineHeight);
-        
-        float positionScrollBoxY = POSITION_SCROLL_LINE_Y +
-                mVisibleAreaPosition / mRiseHeight * effectivePositionScrollLineHeight;
-        float positionScrollBoxHeight = Math.max(
-                GAME_AREA_HEIGHT / mRiseHeight * effectivePositionScrollLineHeight, MIN_POSITION_SCROLL_BOX_SIZE);
-        mBatch.draw(mPositionScrollBoxTexture,
-                POSITION_SCROLL_LINE_X, positionScrollBoxY,
-                POSITION_SCROLL_LINE_WIDTH, positionScrollBoxHeight);
-        
-        float positionScrollEndLineHeight = 4.0f;
-        float positionScrollEndLineY = POSITION_SCROLL_LINE_Y + effectivePositionScrollLineHeight -
-                positionScrollEndLineHeight;
-        mBatch.draw(mPositionScrollEndLineTexture,
-                POSITION_SCROLL_LINE_X, positionScrollEndLineY,
-                POSITION_SCROLL_LINE_WIDTH, positionScrollEndLineHeight);
+        mRisePositionScroll.render(mBatch, mVisibleAreaPosition);
     }
     
     private void updateStep(float jumpSpeed, float horizontalSpeed, float delta) {

@@ -23,9 +23,6 @@
  */
 package com.turbogerm.hellhopper.util;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 public final class GameUtils {
     
     /* Math */
@@ -35,14 +32,5 @@ public final class GameUtils {
     
     public static int getPositiveModulus(int value, int mod) {
         return ((value % mod) + mod) % mod;
-    }
-    
-    /* Geometry */
-    public static void setBoundingRectangle(Vector2 v1, Vector2 v2, Rectangle boundingRect) {
-        float minX = Math.min(v1.x, v2.x);
-        float minY = Math.min(v1.y, v2.y);
-        float maxX = Math.max(v1.x, v2.x);
-        float maxY = Math.max(v1.y, v2.y);
-        boundingRect.set(minX, minY, maxX - minX, maxY - minY);
     }
 }

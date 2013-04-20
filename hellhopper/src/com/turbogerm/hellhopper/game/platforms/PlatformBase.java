@@ -27,25 +27,15 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
     protected final Texture mTexture;
     protected final Vector2 mInitialPosition;
-    
-    private static final Rectangle mPlatformCollisionRect;
-    private static final Vector2 mPlatformCollisionLineStart;
-    private static final Vector2 mPlatformCollisionLineEnd;
-    
-    static {
-        mPlatformCollisionRect = new Rectangle();
-        mPlatformCollisionLineStart = new Vector2();
-        mPlatformCollisionLineEnd = new Vector2();
-    }
     
     public PlatformBase(Vector2 initialPosition, String texturePath, AssetManager assetManager) {
         mTexture = assetManager.get(texturePath);
@@ -67,38 +57,22 @@ public abstract class PlatformBase {
                 position.y <= visibleAreaPositions + GameArea.GAME_AREA_HEIGHT;
     }
     
-    public boolean isCollision(
-            Rectangle characterCollisionRect,
-            Vector2 characterCollisionLineStart,
-            Vector2 characterCollisionLineEnd,
-            Vector2 collisionPoint) {
+    public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {
         
         Vector2 position = getPosition();
-        setCharacterToPlatformCollisionVariables(position);
+        Vector2 p1 = Pools.obtainVector();
+        Vector2 p2 = Pools.obtainVector();
         
-        return isCollisionInternal(characterCollisionRect, characterCollisionLineStart, characterCollisionLineEnd,
-                collisionPoint);
-    }
-    
-    private static void setCharacterToPlatformCollisionVariables(Vector2 platformPosition) {
-        mPlatformCollisionRect.set(platformPosition.x - GameArea.CHARACTER_WIDTH, platformPosition.y,
-                PlatformData.PLATFORM_WIDTH + GameArea.CHARACTER_WIDTH, PlatformData.PLATFORM_HEIGHT);
-        float platformCollisionY = platformPosition.y + PlatformData.PLATFORM_HEIGHT;
-        mPlatformCollisionLineStart.set(platformPosition.x - GameArea.CHARACTER_WIDTH, platformCollisionY);
-        mPlatformCollisionLineEnd.set(platformPosition.x + PlatformData.PLATFORM_WIDTH, platformCollisionY);
-    }
-    
-    protected static boolean isCollisionInternal(
-            Rectangle characterCollisionRect,
-            Vector2 characterCollisionLineStart,
-            Vector2 characterCollisionLineEnd,
-            Vector2 collisionPoint) {
+        float pY = position.y + PlatformData.PLATFORM_HEIGHT;
+        p1.set(position.x - GameArea.CHARACTER_WIDTH, pY);
+        p2.set(position.x + PlatformData.PLATFORM_WIDTH, pY);
         
-        return Intersector.intersectRectangles(characterCollisionRect, mPlatformCollisionRect) &&
-                Intersector.intersectSegments(
-                        characterCollisionLineStart, characterCollisionLineEnd,
-                        mPlatformCollisionLineStart, mPlatformCollisionLineEnd,
-                        collisionPoint);
+        boolean isIntersection = Intersector.intersectSegments(c1, c2, p1, p2, intersection);
+        
+        Pools.freeVector(p1);
+        Pools.freeVector(p2);
+        
+        return isIntersection;
     }
     
     public Vector2 getPosition() {

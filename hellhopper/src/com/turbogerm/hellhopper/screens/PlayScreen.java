@@ -62,7 +62,7 @@ public final class PlayScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager, mBatch, mInitData);
+        mGameArea = new GameArea(mAssetManager, mBatch);
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
@@ -204,8 +204,6 @@ public final class PlayScreen extends ScreenBase {
                 
                 return false;
             }
-            
-            
         };
     }
     

@@ -23,21 +23,20 @@
  */
 package com.turbogerm.hellhopper.game;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-import com.turbogerm.hellhopper.init.InitData;
-import com.turbogerm.hellhopper.init.SystemPlatformType;
 import com.turbogerm.hellhopper.util.GameUtils;
+import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
     
@@ -48,6 +47,10 @@ public final class GameArea {
     public static final float CHARACTER_HEIGHT = 60.0f;
     private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
+    
+    private static final float MAX_DELTA = 0.1f;
+    private static final float UPDATE_RATE = 60.0f;
+    private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
     private static final float JUMP_SPEED = 850.0f;
     private static final float GRAVITY = 1400.0f;
@@ -66,7 +69,6 @@ public final class GameArea {
     
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
-    private final InitData mInitData;
     
     private final Texture mCharacterTexture;
     private final Texture mPositionScrollLineTexture;
@@ -80,30 +82,25 @@ public final class GameArea {
     private int mScore;
     
     private float mVisibleAreaPosition;
-    private final Vector2 mCharacterPosition;
-    private final Vector2 mCharacterSpeed;
+    private final Vector2 mCharPosition;
+    private final Vector2 mCharSpeed;
+    
+    private float mDeltaAccumulator;
     
     private int mMinVisiblePlatformIndex;
     private final Array<PlatformBase> mVisiblePlatforms;
     
-    private final Rectangle mCharacterCollisionRect; // this is a rectangle that bounds character path in one step
-    private final Vector2 mCharacterCollisionLineStart;
-    private final Vector2 mCharacterCollisionLineEnd;
-    private final Vector2 mCollisionPoint;
-    
     private boolean mIsGameOver;
     private boolean mIsEndReached;
     private float mEndReachedCountdown;
-    private float mEndJumpSpeed;
     
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
-    public GameArea(AssetManager assetManager, SpriteBatch batch, InitData initData) {
+    public GameArea(AssetManager assetManager, SpriteBatch batch) {
         
         mAssetManager = assetManager;
         mBatch = batch;
-        mInitData = initData;
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mPositionScrollLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE);
@@ -111,15 +108,10 @@ public final class GameArea {
         mPositionScrollEndLineTexture = mAssetManager.get(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
-        mCharacterPosition = new Vector2();
-        mCharacterSpeed = new Vector2();
+        mCharPosition = new Vector2();
+        mCharSpeed = new Vector2();
         
         mVisiblePlatforms = new Array<PlatformBase>(false, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
-        
-        mCharacterCollisionRect = new Rectangle();
-        mCharacterCollisionLineStart = new Vector2();
-        mCharacterCollisionLineEnd = new Vector2();
-        mCollisionPoint = new Vector2();
         
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -131,91 +123,84 @@ public final class GameArea {
         mIsGameOver = false;
         mIsEndReached = false;
         mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
-        mEndJumpSpeed = JUMP_SPEED;
+        
         mRise = RiseGenerator.generate(mAssetManager);
         mRiseHeight = mRise.getHeight();
-        mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
+        
         mScore = 0;
+        
         mVisibleAreaPosition = 0.0f;
-        mCharacterPosition.set(GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
-        mCharacterSpeed.set(0.0f, JUMP_SPEED);
+        mCharPosition.set(GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
+        mCharSpeed.set(0.0f, JUMP_SPEED);
+        
+        mDeltaAccumulator = 0.0f;
+        
         mMinVisiblePlatformIndex = 0;
-        updateVisiblePlatformsList();
+        
+        mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
         
-        updateVisiblePlatformsList();
-        
-        
-        
-        for (PlatformBase platform : mVisiblePlatforms) {
-            platform.update(delta);
+        if (delta > MAX_DELTA) {
+            delta = MAX_DELTA;
         }
         
-        if (mInitData.getSystemPlatformType() == SystemPlatformType.Desktop) {
-            if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
-                mCharacterSpeed.x = -DEFAULT_HORIZONTAL_SPEED;
-            } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
-                mCharacterSpeed.x = DEFAULT_HORIZONTAL_SPEED;
-            } else {
-                mCharacterSpeed.x = 0.0f;
-            }
-        } else if (mInitData.getSystemPlatformType() == SystemPlatformType.Android) {
-            mCharacterSpeed.x = -Gdx.input.getAccelerometerX() * ACCELEROMETER_SPEED_MULTIPLIER;
-        }
-        
-        mCharacterSpeed.y -= GRAVITY * delta;
-        mCharacterSpeed.y = Math.max(mCharacterSpeed.y, -JUMP_SPEED);
+        float horizontalSpeed = getHorizontalSpeed();
         
         if (mIsEndReached) {
             if (mEndReachedCountdown <= 0.0f) {
                 mIsGameOver = true;
                 return;
+            } else if (mCharPosition.y <= mRiseHeight) {
+                mCharPosition.y = mRiseHeight + 0.001f;
+                mCharSpeed.y = Math.abs(mCharSpeed.y / 1.5f);
+                mCharSpeed.y = Math.max(mCharSpeed.y - 30.0f, 0.0f);
             }
-            boolean isCollision;
-            if (mCharacterPosition.y <= mRiseHeight) {
-                isCollision = true;
-                mEndJumpSpeed /= 1.4f;
-            } else {
-                isCollision = false;
-            }
-            updatePositions(delta, isCollision, mEndJumpSpeed);
-            mCharacterPosition.y = Math.max(mCharacterPosition.y, mRiseHeight);
+            
             mEndReachedCountdown -= delta;
         } else {
-            boolean isCollision = isCollisionWithPlatform(delta);
-            if (mCharacterPosition.y <= 0.0f) {
-                mCharacterPosition.y = 0.0f;
-                mCharacterSpeed.y = JUMP_SPEED;
-            } else if (mCharacterPosition.y < mVisibleAreaPosition && !isCollision) {
+            if (mCharPosition.y <= 0.0f) {
+                mCharPosition.y = 0.0f;
+                mCharSpeed.y = JUMP_SPEED;
+            } else if (mCharPosition.y < mVisibleAreaPosition) {
                 mIsGameOver = true;
                 return;
             }
-            
-            updatePositions(delta, isCollision, JUMP_SPEED);
-            
-            if (mCharacterPosition.y > mRiseHeight) {
-                mIsEndReached = true;
-                mScore = Math.max(mScore, (int) mRiseHeight);
-            } else {
-                mScore = Math.max(mScore, (int) mCharacterPosition.y);
-            }
+        }
+        
+        mDeltaAccumulator += delta;
+        while (mDeltaAccumulator >= UPDATE_STEP) {
+            updateStep(JUMP_SPEED, horizontalSpeed, UPDATE_STEP);
+            mDeltaAccumulator -= UPDATE_STEP;
+        }
+        
+        updateStep(JUMP_SPEED, horizontalSpeed, mDeltaAccumulator);
+        mDeltaAccumulator = 0.0f;
+        
+        if (mCharPosition.y > mRiseHeight) {
+            mIsEndReached = true;
+            mScore = Math.max(mScore, (int) mRiseHeight);
+        } else {
+            mScore = Math.max(mScore, (int) mCharPosition.y);
         }
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
     }
     
     public void render() {
+        
         for (PlatformBase platform : mVisiblePlatforms) {
             platform.render(mBatch, mVisibleAreaPosition);
         }
         
-        mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - 4.0f - mVisibleAreaPosition, GAME_AREA_WIDTH, 4.0f);
+        final float endLineHeight = 4.0f;
+        mBatch.draw(mEndLineTexture, 0.0f,
+                mRiseHeight - endLineHeight - mVisibleAreaPosition, GAME_AREA_WIDTH, endLineHeight);
         
         mBatch.draw(mCharacterTexture,
-                mCharacterPosition.x, mCharacterPosition.y - mVisibleAreaPosition,
+                mCharPosition.x, mCharPosition.y - mVisibleAreaPosition,
                 CHARACTER_WIDTH, CHARACTER_HEIGHT);
         
         float effectivePositionScrollLineHeight = (mRiseHeight / (mRiseHeight + GAME_AREA_HEIGHT)) *
@@ -224,8 +209,8 @@ public final class GameArea {
                 POSITION_SCROLL_LINE_X, POSITION_SCROLL_LINE_Y,
                 POSITION_SCROLL_LINE_WIDTH, effectivePositionScrollLineHeight);
         
-        float positionScrollBoxY = POSITION_SCROLL_LINE_Y + mVisibleAreaPosition / mRiseHeight *
-                effectivePositionScrollLineHeight;
+        float positionScrollBoxY = POSITION_SCROLL_LINE_Y +
+                mVisibleAreaPosition / mRiseHeight * effectivePositionScrollLineHeight;
         float positionScrollBoxHeight = Math.max(
                 GAME_AREA_HEIGHT / mRiseHeight * effectivePositionScrollLineHeight, MIN_POSITION_SCROLL_BOX_SIZE);
         mBatch.draw(mPositionScrollBoxTexture,
@@ -240,62 +225,91 @@ public final class GameArea {
                 POSITION_SCROLL_LINE_WIDTH, positionScrollEndLineHeight);
     }
     
-    private void updateVisiblePlatformsList() {
-        mVisiblePlatforms.clear();
+    private void updateStep(float jumpSpeed, float horizontalSpeed, float delta) {
         
-        boolean isFirstVisible = true;
-        Array<PlatformBase> platforms = mRise.getPlatforms();
-        for (int i = mMinVisiblePlatformIndex; i < platforms.size; i++) {
-            PlatformBase platform = platforms.get(i);
-            if (platform.isVisible(mVisibleAreaPosition)) {
-                if (isFirstVisible) {
-                    mMinVisiblePlatformIndex = i;
-                    isFirstVisible = false;
-                }
-                mVisiblePlatforms.add(platform);
+        mMinVisiblePlatformIndex = updateVisiblePlatformsList(
+                mVisiblePlatforms, mRise.getPlatforms(),
+                mVisibleAreaPosition, mMinVisiblePlatformIndex);
+        
+        for (PlatformBase platform : mVisiblePlatforms) {
+            platform.update(delta);
+        }
+        
+        Vector2 cpNext = Pools.obtainVector();
+        cpNext.set(mCharPosition.x + mCharSpeed.x * delta, mCharPosition.y + mCharSpeed.y * delta);
+        Vector2 intersection = Pools.obtainVector();
+        
+        if (isCollisionWithPlatform(mVisiblePlatforms, mCharPosition, cpNext, intersection)) {
+            mCharPosition.set(intersection);
+            mCharSpeed.set(horizontalSpeed, jumpSpeed);
+        } else {
+            mCharPosition.set(cpNext);
+            float speedY = Math.max(mCharSpeed.y - GRAVITY * delta, -JUMP_SPEED);
+            mCharSpeed.set(horizontalSpeed, speedY);
+        }
+        
+        Pools.freeVector(cpNext);
+        Pools.freeVector(intersection);
+        
+        mCharPosition.x = GameUtils.getPositiveModulus(
+                mCharPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) - CHARACTER_CENTER_X_OFFSET;
+        
+        mVisibleAreaPosition = Math.max(
+                mVisibleAreaPosition, mCharPosition.y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
+    }
+    
+    private float getHorizontalSpeed() {
+        if (Gdx.app.getType() == ApplicationType.Desktop) {
+            if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+                return -DEFAULT_HORIZONTAL_SPEED;
+            } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
+                return DEFAULT_HORIZONTAL_SPEED;
+            } else {
+                return 0.0f;
             }
+        } else if (Gdx.app.getType() == ApplicationType.Android) {
+            return -Gdx.input.getAccelerometerX() * ACCELEROMETER_SPEED_MULTIPLIER;
+        } else {
+            return 0.0f;
         }
     }
     
-    private boolean isCollisionWithPlatform(float delta) {
-        if (mCharacterSpeed.y >= 0) {
+    private static int updateVisiblePlatformsList(
+            Array<PlatformBase> visiblePlatforms, Array<PlatformBase> allPlatforms,
+            float visibleAreaPosition, int minVisiblePlatformIndex) {
+        visiblePlatforms.clear();
+        
+        boolean isFirstVisible = true;
+        for (int i = minVisiblePlatformIndex; i < allPlatforms.size; i++) {
+            PlatformBase platform = allPlatforms.get(i);
+            if (platform.isVisible(visibleAreaPosition)) {
+                if (isFirstVisible) {
+                    minVisiblePlatformIndex = i;
+                    isFirstVisible = false;
+                }
+                visiblePlatforms.add(platform);
+            }
+        }
+        
+        return minVisiblePlatformIndex;
+    }
+    
+    private static boolean isCollisionWithPlatform(
+            Array<PlatformBase> platforms,
+            Vector2 c1, Vector2 c2, Vector2 intersection) {
+        
+        // only check for collision when character is falling
+        if (c2.y >= c1.y) {
             return false;
         }
         
-        float newX = mCharacterPosition.x + mCharacterSpeed.x * delta;
-        float newY = mCharacterPosition.y + mCharacterSpeed.y * delta;
-        mCharacterCollisionLineStart.set(mCharacterPosition);
-        mCharacterCollisionLineEnd.set(newX, newY);
-        
-        GameUtils.setBoundingRectangle(mCharacterCollisionLineStart, mCharacterCollisionLineEnd,
-                mCharacterCollisionRect);
-        
-        for (PlatformBase platform : mVisiblePlatforms) {
-            if (platform.isCollision(
-                    mCharacterCollisionRect, mCharacterCollisionLineStart, mCharacterCollisionLineEnd,
-                    mCollisionPoint)) {
-                mCharacterPosition.set(mCollisionPoint);
+        for (PlatformBase platform : platforms) {
+            if (platform.isCollision(c1, c2, intersection)) {
                 return true;
             }
         }
         
         return false;
-    }
-    
-    private void updatePositions(float delta, boolean isCollision, float jumpSpeed) {
-        if (isCollision) {
-            mCharacterSpeed.y = jumpSpeed;
-        } else {
-            mCharacterPosition.x += mCharacterSpeed.x * delta;
-            mCharacterPosition.y += mCharacterSpeed.y * delta;
-        }
-        
-        mCharacterPosition.x = GameUtils.getPositiveModulus(
-                mCharacterPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) -
-                CHARACTER_CENTER_X_OFFSET;
-        
-        mVisibleAreaPosition = Math.max(mVisibleAreaPosition, mCharacterPosition.y -
-                GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
     }
     
     public int getScore() {

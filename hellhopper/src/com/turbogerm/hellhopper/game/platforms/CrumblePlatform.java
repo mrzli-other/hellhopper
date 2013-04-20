@@ -25,7 +25,6 @@ package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.PlatformData;
@@ -65,12 +64,10 @@ public final class CrumblePlatform extends PlatformBase {
     }
     
     @Override
-    public boolean isCollision(Rectangle characterCollisionRect, Vector2 characterCollisionLineStart,
-            Vector2 characterCollisionLineEnd, Vector2 collisionPoint) {
+    public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {
         
         if (!mIsCrumbling) {
-            boolean isCollision = super.isCollision(characterCollisionRect, characterCollisionLineStart,
-                    characterCollisionLineEnd, collisionPoint);
+            boolean isCollision = super.isCollision(c1, c2, intersection);
             if (isCollision) {
                 mIsCrumbling = true;
             }

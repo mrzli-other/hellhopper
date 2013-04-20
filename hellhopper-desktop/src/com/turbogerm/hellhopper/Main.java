@@ -4,7 +4,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.init.InitData;
-import com.turbogerm.hellhopper.init.SystemPlatformType;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +14,7 @@ public class Main {
         cfg.width = 450;
         cfg.resizable = false;
         
-        InitData initData = new InitData(SystemPlatformType.Desktop);
+        InitData initData = new InitData();
         
         new LwjglApplication(new HellHopper(initData), cfg);
     }

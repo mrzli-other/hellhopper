@@ -21,16 +21,21 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.game;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.game.PlatformData;
+import com.badlogic.gdx.math.Vector2;
 
-final class NormalPlatform extends PlatformBase {
+public final class PlatformToCharCollisionData {
     
-    public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_NORMAL_TEXTURE,
-                assetManager, false);
+    public boolean isCollision;
+    public final Vector2 collisionPoint;
+    public boolean isEnabled;
+    
+    public PlatformToCharCollisionData() {
+        collisionPoint = new Vector2();
+    }
+    
+    public void reset() {
+        isCollision = false;
     }
 }

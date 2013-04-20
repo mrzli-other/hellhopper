@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 public final class CrumblePlatform extends PlatformBase {
     
@@ -37,14 +38,15 @@ public final class CrumblePlatform extends PlatformBase {
     private float mCrumblingCountdown;
     
     public CrumblePlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_CRUMBLE_TEXTURE, assetManager);
+        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_CRUMBLE_TEXTURE,
+                assetManager, false);
         
         mIsCrumbling = false;
         mCrumblingCountdown = CRUMBLING_COUNTDOWN_DURATION;
     }
     
     @Override
-    public void update(float delta) {
+    public void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
         if (mCrumblingCountdown <= 0.0f) {
             return;
         }

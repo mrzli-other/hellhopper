@@ -77,6 +77,7 @@ public final class GameArea {
     private float mVisibleAreaPosition;
     private final Vector2 mCharPosition;
     private final Vector2 mCharSpeed;
+    private final PlatformToCharCollisionData mPlatformToCharCollisionData;
     
     private float mDeltaAccumulator;
     
@@ -102,6 +103,7 @@ public final class GameArea {
         
         mCharPosition = new Vector2();
         mCharSpeed = new Vector2();
+        mPlatformToCharCollisionData = new PlatformToCharCollisionData();
         
         mVisiblePlatforms = new Array<PlatformBase>(false, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         
@@ -206,25 +208,28 @@ public final class GameArea {
                 mVisiblePlatforms, mRise.getPlatforms(),
                 mVisibleAreaPosition, mMinVisiblePlatformIndex);
         
-        for (PlatformBase platform : mVisiblePlatforms) {
-            platform.update(delta);
-        }
+        updatePlatforms(delta);
         
-        Vector2 cpNext = Pools.obtainVector();
-        cpNext.set(mCharPosition.x + mCharSpeed.x * delta, mCharPosition.y + mCharSpeed.y * delta);
-        Vector2 intersection = Pools.obtainVector();
-        
-        if (isCollisionWithPlatform(mVisiblePlatforms, mCharPosition, cpNext, intersection)) {
-            mCharPosition.set(intersection);
-            mCharSpeed.set(horizontalSpeed, jumpSpeed);
+        if (!mPlatformToCharCollisionData.isCollision) {
+            Vector2 cpNext = Pools.obtainVector();
+            cpNext.set(mCharPosition.x + mCharSpeed.x * delta, mCharPosition.y + mCharSpeed.y * delta);
+            Vector2 intersection = Pools.obtainVector();
+            
+            if (isCollisionWithPlatform(mVisiblePlatforms, mCharPosition, cpNext, intersection)) {
+                mCharPosition.set(intersection);
+                mCharSpeed.set(horizontalSpeed, jumpSpeed);
+            } else {
+                mCharPosition.set(cpNext);
+                float speedY = Math.max(mCharSpeed.y - GRAVITY * delta, -JUMP_SPEED);
+                mCharSpeed.set(horizontalSpeed, speedY);
+            }
+            
+            Pools.freeVector(cpNext);
+            Pools.freeVector(intersection);
         } else {
-            mCharPosition.set(cpNext);
-            float speedY = Math.max(mCharSpeed.y - GRAVITY * delta, -JUMP_SPEED);
-            mCharSpeed.set(horizontalSpeed, speedY);
+            mCharPosition.y = mPlatformToCharCollisionData.collisionPoint.y;
+            mCharSpeed.set(horizontalSpeed, jumpSpeed);
         }
-        
-        Pools.freeVector(cpNext);
-        Pools.freeVector(intersection);
         
         mCharPosition.x = GameUtils.getPositiveModulus(
                 mCharPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) - CHARACTER_CENTER_X_OFFSET;
@@ -269,11 +274,30 @@ public final class GameArea {
         return minVisiblePlatformIndex;
     }
     
+    private void updatePlatforms(float delta) {
+        Vector2 c1 = Pools.obtainVector();
+        Vector2 c2 = Pools.obtainVector();
+        mPlatformToCharCollisionData.reset();
+        
+        c1.set(mCharPosition.x - PlatformData.PLATFORM_WIDTH, mCharPosition.y);
+        c2.set(mCharPosition.x + CHARACTER_WIDTH, mCharPosition.y);
+        
+     // only check for collision when character is going down
+        mPlatformToCharCollisionData.isEnabled = mCharSpeed.y < 0.0f;
+        
+        for (PlatformBase platform : mVisiblePlatforms) {
+            platform.update(delta, c1, c2, mPlatformToCharCollisionData);
+        }
+        
+        Pools.freeVector(c1);
+        Pools.freeVector(c2);
+    }
+    
     private static boolean isCollisionWithPlatform(
             Array<PlatformBase> platforms,
             Vector2 c1, Vector2 c2, Vector2 intersection) {
         
-        // only check for collision when character is falling
+        // only check for collision when character is going down
         if (c2.y >= c1.y) {
             return false;
         }

@@ -28,6 +28,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class VerticalMovementPlatform extends PlatformBase {
     
@@ -36,32 +37,33 @@ final class VerticalMovementPlatform extends PlatformBase {
     private final Vector2 mPosition;
     private final float mBottomLimit;
     private final float mTopLimit;
-    private boolean mIsRightMovement;
+    private boolean mIsUpMovement;
     
     public VerticalMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
         super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_VERTICAL_MOVEMENT_TEXTURE,
-                assetManager);
+                assetManager, true);
         
         mRange = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_RANGE_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
         mPosition = new Vector2(mInitialPosition);
         mBottomLimit = mInitialPosition.y;
         mTopLimit = mInitialPosition.y + mRange;
-        mIsRightMovement = true;
+        mIsUpMovement = true;
     }
     
     @Override
-    public void update(float delta) {
+    public void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+        
         float travelled = mSpeed * delta;
-        if (!mIsRightMovement) {
+        if (!mIsUpMovement) {
             travelled = -travelled;
         }
         
         mPosition.y += travelled;
         if (mPosition.y <= mBottomLimit){
-            mIsRightMovement = true;
+            mIsUpMovement = true;
         } else if (mPosition.y >= mTopLimit) {
-            mIsRightMovement = false;
+            mIsUpMovement = false;
         }
         
         mPosition.y = MathUtils.clamp(mPosition.y, mBottomLimit, mTopLimit);

@@ -30,19 +30,50 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
     protected final Texture mTexture;
     protected final Vector2 mInitialPosition;
+    private final boolean mHasVerticalMovement;
     
-    public PlatformBase(Vector2 initialPosition, String texturePath, AssetManager assetManager) {
+    public PlatformBase(Vector2 initialPosition, String texturePath, AssetManager assetManager,
+            boolean hasVerticalMovement) {
         mTexture = assetManager.get(texturePath);
         mInitialPosition = initialPosition;
+        mHasVerticalMovement = hasVerticalMovement;
     }
     
-    public void update(float delta) {
+    public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+        // if platform can move up, additional platform to char collision must be checked
+        if (mHasVerticalMovement && collisionData.isEnabled) {
+            Vector2 position = getPosition();
+            Vector2 p1 = Pools.obtainVector();
+            p1.set(position.x, position.y + PlatformData.PLATFORM_HEIGHT);
+            
+            updateImpl(delta, c1, c2, collisionData);
+            
+            position = getPosition();
+            Vector2 p2 = Pools.obtainVector();
+            p2.set(position.x, position.y + PlatformData.PLATFORM_HEIGHT);
+            
+            // only check for collision when platform is going up, and character is going down
+            if (p2.y > p1.y) {
+                collisionData.isCollision = Intersector.intersectSegments(
+                        c1, c2, p1, p2, collisionData.collisionPoint);
+                collisionData.collisionPoint.y = p2.y;
+            }
+            
+            Pools.freeVector(p1);
+            Pools.freeVector(p2);
+        } else {
+            updateImpl(delta, c1, c2, collisionData);
+        }
+    }
+    
+    protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
     }
     
     public void render(SpriteBatch batch, float visibleAreaPositions) {

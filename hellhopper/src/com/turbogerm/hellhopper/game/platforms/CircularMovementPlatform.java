@@ -28,6 +28,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 final class CircularMovementPlatform extends PlatformBase {
@@ -48,7 +49,7 @@ final class CircularMovementPlatform extends PlatformBase {
     
     public CircularMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
         super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_CIRCULAR_MOVEMENT_TEXTURE,
-                assetManager);
+                assetManager, true);
         
         mRadius = Float.parseFloat(platformData.getProperty(PlatformData.CIRCULAR_MOVEMENT_RADIUS_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
@@ -61,7 +62,7 @@ final class CircularMovementPlatform extends PlatformBase {
     }
     
     @Override
-    public void update(float delta) {
+    public void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
         float travelledAngle = mAngleSpeed * delta;
         mAngle += travelledAngle;
         mAngle = GameUtils.getPositiveModulus(mAngle, 360.0f);

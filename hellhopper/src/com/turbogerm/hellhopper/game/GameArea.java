@@ -86,7 +86,7 @@ public final class GameArea {
     private int mMinVisiblePlatformIndex;
     private final Array<PlatformBase> mVisiblePlatforms;
     
-    private final Rectangle mCharacterCollisionRect;
+    private final Rectangle mCharacterCollisionRect; // this is a rectangle that bounds character path in one step
     private final Vector2 mCharacterCollisionLineStart;
     private final Vector2 mCharacterCollisionLineEnd;
     private final Vector2 mCollisionPoint;
@@ -140,13 +140,15 @@ public final class GameArea {
         mCharacterPosition.set(GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
         mCharacterSpeed.set(0.0f, JUMP_SPEED);
         mMinVisiblePlatformIndex = 0;
-        updateVisiblePlatforms();
+        updateVisiblePlatformsList();
         mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
         
-        updateVisiblePlatforms();
+        updateVisiblePlatformsList();
+        
+        
         
         for (PlatformBase platform : mVisiblePlatforms) {
             platform.update(delta);
@@ -238,7 +240,7 @@ public final class GameArea {
                 POSITION_SCROLL_LINE_WIDTH, positionScrollEndLineHeight);
     }
     
-    private void updateVisiblePlatforms() {
+    private void updateVisiblePlatformsList() {
         mVisiblePlatforms.clear();
         
         boolean isFirstVisible = true;
@@ -262,14 +264,11 @@ public final class GameArea {
         
         float newX = mCharacterPosition.x + mCharacterSpeed.x * delta;
         float newY = mCharacterPosition.y + mCharacterSpeed.y * delta;
-        
-        float minX = Math.min(mCharacterPosition.x, newX);
-        float minY = Math.min(mCharacterPosition.y, newY);
-        float maxX = Math.max(mCharacterPosition.x, newX);
-        float maxY = Math.max(mCharacterPosition.y, newY);
-        mCharacterCollisionRect.set(minX, minY, maxX - minX, maxY - minY);
         mCharacterCollisionLineStart.set(mCharacterPosition);
         mCharacterCollisionLineEnd.set(newX, newY);
+        
+        GameUtils.setBoundingRectangle(mCharacterCollisionLineStart, mCharacterCollisionLineEnd,
+                mCharacterCollisionRect);
         
         for (PlatformBase platform : mVisiblePlatforms) {
             if (platform.isCollision(

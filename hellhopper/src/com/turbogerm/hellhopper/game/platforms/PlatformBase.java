@@ -61,37 +61,47 @@ public abstract class PlatformBase {
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
     }
     
-    public Vector2 getPosition() {
-        return mInitialPosition;
-    }
-    
     public boolean isVisible(float visibleAreaPositions) {
         Vector2 position = getPosition();
         return position.y + PlatformData.PLATFORM_HEIGHT >= visibleAreaPositions &&
                 position.y <= visibleAreaPositions + GameArea.GAME_AREA_HEIGHT;
     }
     
-    public boolean isCollision(Rectangle characterCollisionRect,
+    public boolean isCollision(
+            Rectangle characterCollisionRect,
             Vector2 characterCollisionLineStart,
             Vector2 characterCollisionLineEnd,
             Vector2 collisionPoint) {
         
         Vector2 position = getPosition();
-        mPlatformCollisionRect.set(position.x - GameArea.CHARACTER_WIDTH, position.y,
-                PlatformData.PLATFORM_WIDTH + GameArea.CHARACTER_WIDTH, PlatformData.PLATFORM_HEIGHT);
-        if (Intersector.intersectRectangles(characterCollisionRect, mPlatformCollisionRect)) {
-            mPlatformCollisionLineStart.set(position.x - GameArea.CHARACTER_WIDTH,
-                    position.y + PlatformData.PLATFORM_HEIGHT);
-            mPlatformCollisionLineEnd.set(position.x + PlatformData.PLATFORM_WIDTH,
-                    position.y + PlatformData.PLATFORM_HEIGHT);
-            if (Intersector.intersectSegments(
-                    characterCollisionLineStart, characterCollisionLineEnd,
-                    mPlatformCollisionLineStart, mPlatformCollisionLineEnd,
-                    collisionPoint)) {
-                return true;
-            }
-        }
+        setCharacterToPlatformCollisionVariables(position);
         
-        return false;
+        return isCollisionInternal(characterCollisionRect, characterCollisionLineStart, characterCollisionLineEnd,
+                collisionPoint);
+    }
+    
+    private static void setCharacterToPlatformCollisionVariables(Vector2 platformPosition) {
+        mPlatformCollisionRect.set(platformPosition.x - GameArea.CHARACTER_WIDTH, platformPosition.y,
+                PlatformData.PLATFORM_WIDTH + GameArea.CHARACTER_WIDTH, PlatformData.PLATFORM_HEIGHT);
+        float platformCollisionY = platformPosition.y + PlatformData.PLATFORM_HEIGHT;
+        mPlatformCollisionLineStart.set(platformPosition.x - GameArea.CHARACTER_WIDTH, platformCollisionY);
+        mPlatformCollisionLineEnd.set(platformPosition.x + PlatformData.PLATFORM_WIDTH, platformCollisionY);
+    }
+    
+    protected static boolean isCollisionInternal(
+            Rectangle characterCollisionRect,
+            Vector2 characterCollisionLineStart,
+            Vector2 characterCollisionLineEnd,
+            Vector2 collisionPoint) {
+        
+        return Intersector.intersectRectangles(characterCollisionRect, mPlatformCollisionRect) &&
+                Intersector.intersectSegments(
+                        characterCollisionLineStart, characterCollisionLineEnd,
+                        mPlatformCollisionLineStart, mPlatformCollisionLineEnd,
+                        collisionPoint);
+    }
+    
+    public Vector2 getPosition() {
+        return mInitialPosition;
     }
 }

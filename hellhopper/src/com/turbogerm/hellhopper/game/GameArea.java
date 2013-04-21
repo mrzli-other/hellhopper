@@ -67,8 +67,6 @@ public final class GameArea {
     private final Texture mCharacterTexture;
     private final Texture mEndLineTexture;
     
-    private final RisePositionScroll mRisePositionScroll;
-    
     private Rise mRise;
     private float mRiseHeight;
     
@@ -91,15 +89,13 @@ public final class GameArea {
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
-    public GameArea(AssetManager assetManager, SpriteBatch batch) {
+    public GameArea(AssetManager assetManager) {
         
         mAssetManager = assetManager;
-        mBatch = batch;
+        mBatch = new SpriteBatch();
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
-        
-        mRisePositionScroll = new RisePositionScroll(mAssetManager);
         
         mCharPosition = new Vector2();
         mCharSpeed = new Vector2();
@@ -130,8 +126,6 @@ public final class GameArea {
         mDeltaAccumulator = 0.0f;
         
         mMinVisiblePlatformIndex = 0;
-        
-        mRisePositionScroll.setRiseHeight(mRiseHeight);
         
         mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
@@ -187,26 +181,27 @@ public final class GameArea {
     
     public void render() {
         
+        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition,
+                HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        
+        mBatch.begin();
+        
         for (PlatformBase platform : mVisiblePlatforms) {
-            platform.render(mBatch, mVisibleAreaPosition);
+            platform.render(mBatch);
         }
         
         final float endLineHeight = 4.0f;
         mBatch.draw(mEndLineTexture, 0.0f,
-                mRiseHeight - endLineHeight - mVisibleAreaPosition, GAME_AREA_WIDTH, endLineHeight);
+                mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
         
-        mBatch.draw(mCharacterTexture,
-                mCharPosition.x, mCharPosition.y - mVisibleAreaPosition,
-                CHARACTER_WIDTH, CHARACTER_HEIGHT);
+        mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
         
-        mRisePositionScroll.render(mBatch, mVisibleAreaPosition);
+        mBatch.end();
     }
     
     private void updateStep(float jumpSpeed, float horizontalSpeed, float delta) {
         
-        mMinVisiblePlatformIndex = updateVisiblePlatformsList(
-                mVisiblePlatforms, mRise.getPlatforms(),
-                mVisibleAreaPosition, mMinVisiblePlatformIndex);
+        updateVisiblePlatformsList();
         
         updatePlatforms(delta);
         
@@ -254,24 +249,21 @@ public final class GameArea {
         }
     }
     
-    private static int updateVisiblePlatformsList(
-            Array<PlatformBase> visiblePlatforms, Array<PlatformBase> allPlatforms,
-            float visibleAreaPosition, int minVisiblePlatformIndex) {
-        visiblePlatforms.clear();
+    private void updateVisiblePlatformsList() {
+        mVisiblePlatforms.clear();
+        Array<PlatformBase> allPlatforms = mRise.getPlatforms();
         
         boolean isFirstVisible = true;
-        for (int i = minVisiblePlatformIndex; i < allPlatforms.size; i++) {
+        for (int i = mMinVisiblePlatformIndex; i < allPlatforms.size; i++) {
             PlatformBase platform = allPlatforms.get(i);
-            if (platform.isVisible(visibleAreaPosition)) {
+            if (platform.isVisible(mVisibleAreaPosition)) {
                 if (isFirstVisible) {
-                    minVisiblePlatformIndex = i;
+                    mMinVisiblePlatformIndex = i;
                     isFirstVisible = false;
                 }
-                visiblePlatforms.add(platform);
+                mVisiblePlatforms.add(platform);
             }
         }
-        
-        return minVisiblePlatformIndex;
     }
     
     private void updatePlatforms(float delta) {
@@ -282,7 +274,7 @@ public final class GameArea {
         c1.set(mCharPosition.x - PlatformData.PLATFORM_WIDTH, mCharPosition.y);
         c2.set(mCharPosition.x + CHARACTER_WIDTH, mCharPosition.y);
         
-     // only check for collision when character is going down
+        // only check for collision when character is going down
         mPlatformToCharCollisionData.isEnabled = mCharSpeed.y < 0.0f;
         
         for (PlatformBase platform : mVisiblePlatforms) {
@@ -321,5 +313,13 @@ public final class GameArea {
     
     public boolean isGameOver() {
         return mIsGameOver;
+    }
+    
+    public float getRiseHeight() {
+        return mRiseHeight;
+    }
+    
+    public float getVisibleAreaPosition() {
+        return mVisibleAreaPosition;
     }
 }

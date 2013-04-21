@@ -57,12 +57,12 @@ public final class CrumblePlatform extends PlatformBase {
     }
     
     @Override
-    public void render(SpriteBatch batch, float visibleAreaPositions) {
+    public void render(SpriteBatch batch) {
         if (mCrumblingCountdown <= 0.0f) {
             return;
         }
         
-        super.render(batch, visibleAreaPositions);
+        super.render(batch);
     }
     
     @Override

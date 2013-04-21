@@ -61,16 +61,18 @@ public final class HighScoresData {
         return -1;
     }
     
-    public void insertHighScore(String name, int score) {
+    public boolean insertHighScore(String name, int score) {
         int scorePlace = getPlaceForScore(score);
         if (scorePlace < 0) {
-            return;
+            return false;
         }
         
         HighScoreData highScore = new HighScoreData(name, score, 0l);
         mHighScores.insert(scorePlace, highScore);
         mHighScores.truncate(NUM_HIGH_SCORES);
         save();
+        
+        return true;
     }
     
     private void loadHighScores() {

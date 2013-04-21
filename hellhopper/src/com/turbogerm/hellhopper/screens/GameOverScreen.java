@@ -152,8 +152,14 @@ public final class GameOverScreen extends ScreenBase {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (actor.hit(x, y, true) != null) {
-                    mGameData.getHighScoresData().insertHighScore(mNameTextField.getText(), mGameData.getScore());
-                    mGame.setScreen(HellHopper.HIGH_SCORE_SCREEN_NAME);
+                    boolean isHighScore = mGameData.getHighScoresData().insertHighScore(
+                            mNameTextField.getText(), mGameData.getScore());
+                    
+                    if (isHighScore) {
+                        mGame.setScreen(HellHopper.HIGH_SCORE_SCREEN_NAME);
+                    } else {
+                        mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
+                    }
                 }
             }
         };

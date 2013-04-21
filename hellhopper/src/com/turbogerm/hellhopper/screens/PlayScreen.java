@@ -43,6 +43,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.game.RisePositionScroll;
 
 public final class PlayScreen extends ScreenBase {
     
@@ -55,6 +56,8 @@ public final class PlayScreen extends ScreenBase {
     private ImageButtonStyle mPauseButtonStyle;
     private boolean mIsPaused;
     
+    private final RisePositionScroll mRisePositionScroll;
+    
     public PlayScreen(HellHopper game) {
         super(game);
         
@@ -62,7 +65,7 @@ public final class PlayScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager, mBatch);
+        mGameArea = new GameArea(mAssetManager);
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
@@ -81,6 +84,8 @@ public final class PlayScreen extends ScreenBase {
         
         createPlayPauseButton();
         mGuiStage.addActor(mPlayPauseButton);
+        
+        mRisePositionScroll = new RisePositionScroll(mAssetManager);
     }
     
     @Override
@@ -110,21 +115,23 @@ public final class PlayScreen extends ScreenBase {
             mGameArea.update(delta);
         }
         
-        mClearColor = mGameArea.getBackgroundColor();  
+        mClearColor = mGameArea.getBackgroundColor();
         Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         
+        // mBatch.begin();
+        // mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
+        // mBatch.end();
+        
+        // if (!mIsPaused) {
+        mGameArea.render();
+        // }
+        
         mBatch.begin();
-        
-        //mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
-        
-        //if (!mIsPaused) {
-            mGameArea.render();
-        //}
-        
-        
+        mRisePositionScroll.setRiseHeight(mGameArea.getRiseHeight());
+        mRisePositionScroll.render(mBatch, mGameArea.getVisibleAreaPosition());
         mBatch.end();
     }
     

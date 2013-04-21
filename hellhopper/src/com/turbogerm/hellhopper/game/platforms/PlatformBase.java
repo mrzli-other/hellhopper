@@ -76,10 +76,9 @@ public abstract class PlatformBase {
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
     }
     
-    public void render(SpriteBatch batch, float visibleAreaPositions) {
+    public void render(SpriteBatch batch) {
         Vector2 position = getPosition();
-        batch.draw(mTexture, position.x, position.y - visibleAreaPositions,
-                PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
+        batch.draw(mTexture, position.x, position.y, PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
     }
     
     public boolean isVisible(float visibleAreaPositions) {

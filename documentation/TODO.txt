@@ -1,17 +1,8 @@
-- implement game area segment reader:
-  - xml file
-  - <gameareasegment steprange="<int>" difficulty="<int>">{1}
-    - <pad stepx="<int>" stepy="<int>">{1..n}
-      - <properties>
-        - <property name="<name>" value="<value>">{0..n}
- 
-      
-- implement different pad types: 
-  - pads moving horizontaly
-    - speed, movement range
-  - pads moving vertically
-    - speed, movement range
-  - pads moving in circle
+- implement alpha for crumble platform
+  - this will probably be simplest if i convert all platforms textures to sprites
+- change adding to visible/active platform list
+  - use wider area, so that vertical moving platforms don't become inactive when the move from 
+    the visible screen and so that moving platforms become active before user can see them
   
 - platform additions:
   - jump boost in form of geothermal vent or whatever on

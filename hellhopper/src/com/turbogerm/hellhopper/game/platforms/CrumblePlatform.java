@@ -62,7 +62,12 @@ public final class CrumblePlatform extends PlatformBase {
             return;
         }
         
-        super.render(batch);
+        if (mIsCrumbling) {
+            float alpha = mCrumblingCountdown / CRUMBLING_COUNTDOWN_DURATION;
+            mSprite.draw(batch, alpha);
+        } else {
+            mSprite.draw(batch);
+        }
     }
     
     @Override

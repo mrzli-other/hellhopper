@@ -25,6 +25,7 @@ package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -35,14 +36,20 @@ import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
-    protected final Texture mTexture;
+    protected final Sprite mSprite;
     protected final Vector2 mInitialPosition;
     private final boolean mHasVerticalMovement;
     
     public PlatformBase(Vector2 initialPosition, String texturePath, AssetManager assetManager,
             boolean hasVerticalMovement) {
-        mTexture = assetManager.get(texturePath);
+        
         mInitialPosition = initialPosition;
+        
+        Texture texture = assetManager.get(texturePath);
+        mSprite = new Sprite(texture);
+        mSprite.setBounds(initialPosition.x, initialPosition.y,
+                PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
+        
         mHasVerticalMovement = hasVerticalMovement;
     }
     
@@ -71,14 +78,16 @@ public abstract class PlatformBase {
         } else {
             updateImpl(delta, c1, c2, collisionData);
         }
+        
+        Vector2 position = getPosition();
+        mSprite.setPosition(position.x, position.y);
     }
     
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
     }
     
     public void render(SpriteBatch batch) {
-        Vector2 position = getPosition();
-        batch.draw(mTexture, position.x, position.y, PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
+        mSprite.draw(batch);
     }
     
     public boolean isVisible(float visibleAreaPositions) {

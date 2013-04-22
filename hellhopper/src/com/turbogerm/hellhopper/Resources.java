@@ -42,9 +42,9 @@ public final class Resources {
         mAssetManager = new AssetManager();
         
         TextureParameter textureParameter = new TextureParameter();
-        textureParameter.minFilter = TextureFilter.Linear;
-        textureParameter.magFilter = TextureFilter.Linear;
-        textureParameter.genMipMaps = true;
+        textureParameter.minFilter = TextureFilter.Nearest;
+        textureParameter.magFilter = TextureFilter.Nearest;
+        textureParameter.genMipMaps = false;
         
         mAssetManager.load(ResourceNames.GUI_BLACK_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GUI_BACKGROUND_TEXTURE, Texture.class, textureParameter);

@@ -61,7 +61,7 @@ public final class PlayScreen extends ScreenBase {
     public PlayScreen(HellHopper game) {
         super(game);
         
-        mClearColor = Color.DARK_GRAY;
+        mClearColor = Color.BLACK;
         
         mGuiStage.addListener(getStageInputListener());
         

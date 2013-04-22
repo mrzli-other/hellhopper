@@ -1,3 +1,8 @@
+- fix edge artefacts on platform sprites:
+  - this is currently fixed by changing texture filtering to nearest instead of linear;
+    this is ok, but if it needs to be changed another solution for artefacts will need to be found
+  - some posts regarding this issue: http://www.java-gaming.org/topics/bleeding/26823/msg/237162/view.html#msg237162
+
 - implement alpha for crumble platform
   - this will probably be simplest if i convert all platforms textures to sprites
 - change adding to visible/active platform list

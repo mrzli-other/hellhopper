@@ -29,6 +29,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -68,6 +69,8 @@ public final class GameArea {
     private final Texture mCharacterTexture;
     private final Texture mEndLineTexture;
     
+    private final ParticleEffect mEffect;
+    
     private Rise mRise;
     private float mRiseHeight;
     
@@ -97,6 +100,10 @@ public final class GameArea {
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
+        
+        mEffect = new ParticleEffect();
+        mEffect.load(Gdx.files.internal("particles/test.p"), Gdx.files.internal("particles"));
+        mEffect.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         
         mCharPosition = new Vector2();
         mCharSpeed = new Vector2();
@@ -188,7 +195,7 @@ public final class GameArea {
         }
     }
     
-    public void render() {
+    public void render(float delta) {
         
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition,
                 HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
@@ -202,6 +209,8 @@ public final class GameArea {
         final float endLineHeight = 4.0f;
         mBatch.draw(mEndLineTexture, 0.0f,
                 mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
+        
+        mEffect.draw(mBatch, delta);
         
         mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
         

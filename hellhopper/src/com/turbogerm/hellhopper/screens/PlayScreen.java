@@ -126,7 +126,7 @@ public final class PlayScreen extends ScreenBase {
         // mBatch.end();
         
         // if (!mIsPaused) {
-        mGameArea.render();
+        mGameArea.render(delta);
         // }
         
         mBatch.begin();

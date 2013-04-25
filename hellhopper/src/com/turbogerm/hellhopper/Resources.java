@@ -70,11 +70,19 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameter);
         
-        mAssetManager.load(ResourceNames.PLATFORM_NORMAL_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.PLATFORM_VERTICAL_MOVEMENT_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.PLATFORM_CIRCULAR_MOVEMENT_TEXTURE, Texture.class, textureParameter);
+        for (int i = 0; i < ResourceNames.PLATFORM_NORMAL_TEXTURE_COUNT; i++) {
+            mAssetManager.load(ResourceNames.getPlatformNormalTexture(i), Texture.class, textureParameter);
+        }
+        
         mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameter);
+        
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_TOP_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_BOTTOM_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_LEFT_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_RIGHT_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE, Texture.class, textureParameter);
+        
+        mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.finishLoading();
         

@@ -29,6 +29,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -155,8 +156,10 @@ public final class GameArea {
                 mCharPosition.y = 0.0f;
                 mCharSpeed.y = JUMP_SPEED;
             } else if (mCharPosition.y < mVisibleAreaPosition) {
-                mIsGameOver = true;
-                return;
+                // TODO: only for testing; remove next line and uncomment following
+                mCharSpeed.y = JUMP_SPEED;
+                //mIsGameOver = true;
+                //return;
             }
         }
         
@@ -177,6 +180,12 @@ public final class GameArea {
         }
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
+        
+        // TODO: remove, this is test code
+        if (mTestObject != null) {
+            mTestObject.translate(0.0f, -50.0f * delta);
+            mTestObject.rotate(120.0f * delta);
+        }
     }
     
     public void render() {
@@ -195,6 +204,11 @@ public final class GameArea {
                 mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
         
         mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+        
+        // TODO: remove, this is test code
+        if (mTestObject != null) {
+            mTestObject.draw(mBatch);
+        }
         
         mBatch.end();
     }
@@ -231,6 +245,16 @@ public final class GameArea {
         
         mVisibleAreaPosition = Math.max(
                 mVisibleAreaPosition, mCharPosition.y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
+    }
+    
+    // TODO: remove, this is test code
+    private Sprite mTestObject;
+    
+    public void createObject(float x, float y) {
+        Texture texture = mAssetManager.get(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE);
+        mTestObject = new Sprite(texture);
+        mTestObject.setBounds(x, y + mVisibleAreaPosition, 64, 64);
+        mTestObject.setOrigin(32.0f, 32.0f);
     }
     
     private float getHorizontalSpeed() {

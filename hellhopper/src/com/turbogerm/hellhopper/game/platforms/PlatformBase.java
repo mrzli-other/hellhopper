@@ -47,7 +47,7 @@ public abstract class PlatformBase {
         
         Texture texture = assetManager.get(texturePath);
         mSprite = new Sprite(texture);
-        mSprite.setBounds(initialPosition.x, initialPosition.y,
+        mSprite.setBounds(mInitialPosition.x, mInitialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
         
         mHasVerticalMovement = hasVerticalMovement;
@@ -78,15 +78,14 @@ public abstract class PlatformBase {
         } else {
             updateImpl(delta, c1, c2, collisionData);
         }
-        
-        Vector2 position = getPosition();
-        mSprite.setPosition(position.x, position.y);
     }
     
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
     }
     
     public void render(SpriteBatch batch) {
+        Vector2 position = getPosition();
+        mSprite.setPosition(position.x, position.y);
         mSprite.draw(batch);
     }
     

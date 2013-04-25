@@ -24,6 +24,9 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
@@ -34,6 +37,13 @@ import com.turbogerm.hellhopper.util.GameUtils;
 final class CircularMovementPlatform extends PlatformBase {
     
     private static final Vector2 PLATFORM_CENTER_OFFSET;
+    
+    private static final float ENGINE_WIDTH = 16.0f;
+    private static final float ENGINE_HEIGHT = 16.0f;
+    private static final float ENGINE_X_OFFSET = (PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH) / 2.0f;
+    private static final float ENGINE_Y_OFFSET = 0.0f;
+    
+    private final Sprite mEngineSprite;
     
     private final float mRadius;
     private final float mSpeed;
@@ -48,8 +58,14 @@ final class CircularMovementPlatform extends PlatformBase {
     }
     
     public CircularMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_CIRCULAR_MOVEMENT_TEXTURE,
+        super(platformData.getPlatformPositions(startStep), ResourceNames.getRandomPlatformNormalTexture(),
                 assetManager, true);
+        
+        Texture engineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE);
+        mEngineSprite = new Sprite(engineTexture);
+        mEngineSprite.setBounds(
+                mInitialPosition.x + ENGINE_X_OFFSET, mInitialPosition.y + ENGINE_Y_OFFSET,
+                ENGINE_WIDTH, ENGINE_HEIGHT);
         
         mRadius = Float.parseFloat(platformData.getProperty(PlatformData.CIRCULAR_MOVEMENT_RADIUS_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
@@ -69,6 +85,14 @@ final class CircularMovementPlatform extends PlatformBase {
         
         mPosition.x = mRotationCenter.x + MathUtils.cosDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.x;
         mPosition.y = mRotationCenter.y + MathUtils.sinDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.y;
+    }
+    
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        
+        mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
+        mEngineSprite.draw(batch);
     }
     
     @Override

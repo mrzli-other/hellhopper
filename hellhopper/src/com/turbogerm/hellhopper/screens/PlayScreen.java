@@ -211,6 +211,13 @@ public final class PlayScreen extends ScreenBase {
                 
                 return false;
             }
+            
+            // TODO: remove, only for testing
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                mGameArea.createObject(x, y);
+                return true;
+            }
         };
     }
     

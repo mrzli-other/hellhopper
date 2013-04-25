@@ -23,6 +23,8 @@
  */
 package com.turbogerm.hellhopper;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public final class ResourceNames {
     
     public static final String GUI_DIR = "gui/";
@@ -57,13 +59,29 @@ public final class ResourceNames {
     public static final String GAME_POSITION_SCROLL_END_LINE_TEXTURE = GAME_DIR + "positionscrollendline.png";
     
     public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
-    public static final String PLATFORM_NORMAL_TEXTURE = PLATFORMS_DIR + "normalplatform.png";
-    public static final String PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "horizontalmovementplatform.png";
-    public static final String PLATFORM_VERTICAL_MOVEMENT_TEXTURE = PLATFORMS_DIR + "verticalmovementplatform.png";
-    public static final String PLATFORM_CIRCULAR_MOVEMENT_TEXTURE = PLATFORMS_DIR + "circularmovementplatform.png";
+    private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
+    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 4;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
+    
+    public static final String PLATFORM_ENGINE_TOP_TEXTURE = PLATFORMS_DIR + "enginetop.png";
+    public static final String PLATFORM_ENGINE_BOTTOM_TEXTURE = PLATFORMS_DIR + "enginebottom.png";
+    public static final String PLATFORM_ENGINE_LEFT_TEXTURE = PLATFORMS_DIR + "engineleft.png";
+    public static final String PLATFORM_ENGINE_RIGHT_TEXTURE = PLATFORMS_DIR + "engineright.png";
+    public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE = PLATFORMS_DIR + "enginecircular.png";
+    
+    public static final String OBJECTS_DIR = GAME_DIR + "objects/";
+    public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";
     
     public static final String SHADERS_DIR = "shaders/";
     public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";
     public static final String DISTANCE_FIELD_FS = SHADERS_DIR + "distancefield.frag";
+    
+    public static String getPlatformNormalTexture(int i) {
+        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);
+    }
+    
+    public static String getRandomPlatformNormalTexture() {
+        int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
+        return getPlatformNormalTexture(index);
+    }
 }

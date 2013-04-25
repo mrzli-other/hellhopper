@@ -30,7 +30,7 @@ import com.turbogerm.hellhopper.game.PlatformData;
 final class NormalPlatform extends PlatformBase {
     
     public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_NORMAL_TEXTURE,
+        super(platformData.getPlatformPositions(startStep), ResourceNames.getRandomPlatformNormalTexture(),
                 assetManager, false);
     }
 }

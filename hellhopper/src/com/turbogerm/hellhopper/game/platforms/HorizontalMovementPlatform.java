@@ -24,6 +24,9 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
@@ -31,6 +34,16 @@ import com.turbogerm.hellhopper.game.PlatformData;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class HorizontalMovementPlatform extends PlatformBase {
+    
+    private static final float ENGINE_WIDTH = 8.0f;
+    private static final float ENGINE_HEIGHT = 16.0f;
+    private static final float LEFT_ENGINE_X_OFFSET = 0.0f;
+    private static final float LEFT_ENGINE_Y_OFFSET = (PlatformData.PLATFORM_HEIGHT - ENGINE_HEIGHT) / 2.0f;
+    private static final float RIGHT_ENGINE_X_OFFSET = PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH;
+    private static final float RIGHT_ENGINE_Y_OFFSET = LEFT_ENGINE_Y_OFFSET;
+    
+    private final Sprite mLeftEngineSprite;
+    private final Sprite mRightEngineSprite;
     
     private final float mRange;
     private final float mSpeed;
@@ -40,8 +53,20 @@ final class HorizontalMovementPlatform extends PlatformBase {
     private boolean mIsRightMovement;
     
     public HorizontalMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_HORIZONTAL_MOVEMENT_TEXTURE,
+        super(platformData.getPlatformPositions(startStep), ResourceNames.getRandomPlatformNormalTexture(),
                 assetManager, false);
+        
+        Texture leftEngineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_LEFT_TEXTURE);
+        mLeftEngineSprite = new Sprite(leftEngineTexture);
+        mLeftEngineSprite.setBounds(
+                mInitialPosition.x + LEFT_ENGINE_X_OFFSET, mInitialPosition.y + LEFT_ENGINE_Y_OFFSET,
+                ENGINE_WIDTH, ENGINE_HEIGHT);
+        
+        Texture rightEngineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_RIGHT_TEXTURE);
+        mRightEngineSprite = new Sprite(rightEngineTexture);
+        mRightEngineSprite.setBounds(
+                mInitialPosition.x + RIGHT_ENGINE_X_OFFSET, mInitialPosition.y + RIGHT_ENGINE_Y_OFFSET,
+                ENGINE_WIDTH, ENGINE_HEIGHT);
         
         mRange = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_RANGE_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
@@ -66,6 +91,18 @@ final class HorizontalMovementPlatform extends PlatformBase {
         }
         
         mPosition.x = MathUtils.clamp(mPosition.x, mLeftLimit, mRightLimit);
+        
+    }
+    
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        
+        mLeftEngineSprite.setPosition(mPosition.x + LEFT_ENGINE_X_OFFSET, mPosition.y + LEFT_ENGINE_Y_OFFSET);
+        mLeftEngineSprite.draw(batch);
+        
+        mRightEngineSprite.setPosition(mPosition.x + RIGHT_ENGINE_X_OFFSET, mPosition.y + RIGHT_ENGINE_Y_OFFSET);
+        mRightEngineSprite.draw(batch);
     }
     
     @Override

@@ -24,6 +24,9 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
@@ -31,6 +34,16 @@ import com.turbogerm.hellhopper.game.PlatformData;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class VerticalMovementPlatform extends PlatformBase {
+    
+    private static final float ENGINE_WIDTH = 16.0f;
+    private static final float ENGINE_HEIGHT = 8.0f;
+    private static final float BOTTOM_ENGINE_X_OFFSET = (PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH) / 2.0f;
+    private static final float BOTTOM_ENGINE_Y_OFFSET = 0.0f;
+    private static final float TOP_ENGINE_X_OFFSET = BOTTOM_ENGINE_X_OFFSET;
+    private static final float TOP_ENGINE_Y_OFFSET = PlatformData.PLATFORM_HEIGHT - ENGINE_HEIGHT;
+    
+    private final Sprite mBottomEngineSprite;
+    private final Sprite mTopEngineSprite;
     
     private final float mRange;
     private final float mSpeed;
@@ -40,8 +53,20 @@ final class VerticalMovementPlatform extends PlatformBase {
     private boolean mIsUpMovement;
     
     public VerticalMovementPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.PLATFORM_VERTICAL_MOVEMENT_TEXTURE,
+        super(platformData.getPlatformPositions(startStep), ResourceNames.getRandomPlatformNormalTexture(),
                 assetManager, true);
+        
+        Texture bottomEngineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_BOTTOM_TEXTURE);
+        mBottomEngineSprite = new Sprite(bottomEngineTexture);
+        mBottomEngineSprite.setBounds(
+                mInitialPosition.x + BOTTOM_ENGINE_X_OFFSET, mInitialPosition.y + BOTTOM_ENGINE_Y_OFFSET,
+                ENGINE_WIDTH, ENGINE_HEIGHT);
+        
+        Texture topEngineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_TOP_TEXTURE);
+        mTopEngineSprite = new Sprite(topEngineTexture);
+        mTopEngineSprite.setBounds(
+                mInitialPosition.x + TOP_ENGINE_X_OFFSET, mInitialPosition.y + TOP_ENGINE_Y_OFFSET,
+                ENGINE_WIDTH, ENGINE_HEIGHT);
         
         mRange = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_RANGE_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
@@ -67,6 +92,17 @@ final class VerticalMovementPlatform extends PlatformBase {
         }
         
         mPosition.y = MathUtils.clamp(mPosition.y, mBottomLimit, mTopLimit);
+    }
+    
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        
+        mBottomEngineSprite.setPosition(mPosition.x + BOTTOM_ENGINE_X_OFFSET, mPosition.y + BOTTOM_ENGINE_Y_OFFSET);
+        mBottomEngineSprite.draw(batch);
+        
+        mTopEngineSprite.setPosition(mPosition.x + TOP_ENGINE_X_OFFSET, mPosition.y + TOP_ENGINE_Y_OFFSET);
+        mTopEngineSprite.draw(batch);
     }
     
     @Override

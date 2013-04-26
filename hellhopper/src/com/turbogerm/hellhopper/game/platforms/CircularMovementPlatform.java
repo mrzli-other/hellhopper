@@ -25,6 +25,7 @@ package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,6 +45,7 @@ final class CircularMovementPlatform extends PlatformBase {
     private static final float ENGINE_Y_OFFSET = 0.0f;
     
     private final Sprite mEngineSprite;
+    private final ParticleEffect mEngineEffect;
     
     private final float mRadius;
     private final float mSpeed;
@@ -67,6 +69,8 @@ final class CircularMovementPlatform extends PlatformBase {
                 mInitialPosition.x + ENGINE_X_OFFSET, mInitialPosition.y + ENGINE_Y_OFFSET,
                 ENGINE_WIDTH, ENGINE_HEIGHT);
         
+        mEngineEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_ENGINE));
+        
         mRadius = Float.parseFloat(platformData.getProperty(PlatformData.CIRCULAR_MOVEMENT_RADIUS_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
         mPosition = new Vector2(mInitialPosition);
@@ -88,11 +92,15 @@ final class CircularMovementPlatform extends PlatformBase {
     }
     
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
+    public void render(SpriteBatch batch, float delta) {
+        super.render(batch, delta);
         
         mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
         mEngineSprite.draw(batch);
+        
+        mEngineEffect.setPosition(
+                mEngineSprite.getX() + ENGINE_WIDTH / 2.0f, mEngineSprite.getY() + ENGINE_HEIGHT / 2.0f);
+        mEngineEffect.draw(batch, delta);
     }
     
     @Override

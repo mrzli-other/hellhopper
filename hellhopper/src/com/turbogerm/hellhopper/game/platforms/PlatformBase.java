@@ -83,7 +83,7 @@ public abstract class PlatformBase {
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
     }
     
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         mSprite.setPosition(position.x, position.y);
         mSprite.draw(batch);

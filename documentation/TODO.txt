@@ -6,6 +6,14 @@
 - change adding to visible/active platform list
   - use wider area, so that vertical moving platforms don't become inactive when the move from 
     the visible screen and so that moving platforms become active before user can see them
+    
+- platform movement:
+  - add particles for engine
+  - if necessary change and/or animate engine sprite
+  
+- background:
+  - add bottom hell image with lava rivers and volcano in perspective
+    - maybe also animate colors
   
 - platform additions:
   - jump boost in form of geothermal vent or whatever on

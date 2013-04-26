@@ -26,20 +26,21 @@ package com.turbogerm.hellhopper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.turbogerm.hellhopper.graphics.DistanceFieldShader;
+import com.turbogerm.hellhopper.util.ParticleEffectLoader;
 
 public final class Resources {
     
-    private AssetManager mAssetManager;
-    private Skin mGuiSkin;
-    
-    private DistanceFieldShader mDistanceFieldShader;
+    private final AssetManager mAssetManager;
+    private final Skin mGuiSkin;
     
     public Resources() {
         mAssetManager = new AssetManager();
+        mAssetManager.setLoader(ParticleEffect.class, new ParticleEffectLoader(new InternalFileHandleResolver()));
         
         TextureParameter textureParameter = new TextureParameter();
         textureParameter.minFilter = TextureFilter.Nearest;
@@ -84,6 +85,8 @@ public final class Resources {
         
         mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE, ParticleEffect.class, null);
+        
         mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
@@ -100,9 +103,5 @@ public final class Resources {
     public void dispose() {
         mGuiSkin.dispose();
         mAssetManager.dispose();
-    }
-    
-    public DistanceFieldShader getDistanceFieldShader() {
-        return mDistanceFieldShader;
     }
 }

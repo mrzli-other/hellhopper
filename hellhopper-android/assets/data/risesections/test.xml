@@ -47,6 +47,13 @@
         <property name="speed" value="50" />
       </properties>
     </platform>
+    
+    <platform step="7" offset="15" type="circularmovement">
+      <properties>
+        <property name="radius" value="100" />
+        <property name="speed" value="50" />
+      </properties>
+    </platform>
   </platforms>
   
 </risesection>

@@ -203,14 +203,14 @@ public final class GameArea {
         mBatch.begin();
         
         for (PlatformBase platform : mVisiblePlatforms) {
-            platform.render(mBatch);
+            platform.render(mBatch, delta);
         }
         
         final float endLineHeight = 4.0f;
         mBatch.draw(mEndLineTexture, 0.0f,
                 mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
         
-        mEffect.draw(mBatch, delta);
+        //mEffect.draw(mBatch, delta);
         
         mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
         

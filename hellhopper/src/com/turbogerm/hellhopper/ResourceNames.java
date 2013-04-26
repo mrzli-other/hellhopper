@@ -76,6 +76,9 @@ public final class ResourceNames {
     public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";
     public static final String DISTANCE_FIELD_FS = SHADERS_DIR + "distancefield.frag";
     
+    public static final String PARTICLES_DIR = "particles/";
+    public static final String PARTICLE_ENGINE = PARTICLES_DIR + "engine.p";
+    
     public static String getPlatformNormalTexture(int i) {
         return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);
     }

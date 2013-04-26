@@ -25,6 +25,7 @@ package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,6 +45,7 @@ final class HorizontalMovementPlatform extends PlatformBase {
     
     private final Sprite mLeftEngineSprite;
     private final Sprite mRightEngineSprite;
+    private final ParticleEffect mEngineEffect;
     
     private final float mRange;
     private final float mSpeed;
@@ -68,6 +70,8 @@ final class HorizontalMovementPlatform extends PlatformBase {
                 mInitialPosition.x + RIGHT_ENGINE_X_OFFSET, mInitialPosition.y + RIGHT_ENGINE_Y_OFFSET,
                 ENGINE_WIDTH, ENGINE_HEIGHT);
         
+        mEngineEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_ENGINE));
+        
         mRange = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_RANGE_PROPERTY));
         mSpeed = Float.parseFloat(platformData.getProperty(PlatformData.MOVEMENT_SPEED_PROPERTY));
         mPosition = new Vector2(mInitialPosition);
@@ -91,18 +95,22 @@ final class HorizontalMovementPlatform extends PlatformBase {
         }
         
         mPosition.x = MathUtils.clamp(mPosition.x, mLeftLimit, mRightLimit);
-        
     }
     
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
+    public void render(SpriteBatch batch, float delta) {
+        super.render(batch, delta);
         
         mLeftEngineSprite.setPosition(mPosition.x + LEFT_ENGINE_X_OFFSET, mPosition.y + LEFT_ENGINE_Y_OFFSET);
         mLeftEngineSprite.draw(batch);
         
         mRightEngineSprite.setPosition(mPosition.x + RIGHT_ENGINE_X_OFFSET, mPosition.y + RIGHT_ENGINE_Y_OFFSET);
         mRightEngineSprite.draw(batch);
+        
+        Sprite activeEngineSprite = mIsRightMovement ? mLeftEngineSprite : mRightEngineSprite;
+        mEngineEffect.setPosition(
+                activeEngineSprite.getX() + ENGINE_WIDTH / 2.0f, activeEngineSprite.getY() + ENGINE_HEIGHT / 2.0f);
+        mEngineEffect.draw(batch, delta);
     }
     
     @Override

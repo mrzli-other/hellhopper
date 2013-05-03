@@ -1,8 +1,6 @@
-- use different in game units, like 40px equals 1m
-
-- change adding to visible/active platform list
-  - use wider area, so that vertical moving platforms don't become inactive when the move from 
-    the visible screen and so that moving platforms become active before user can see them
+- change platform architecture
+  - don't use inheritance, use some kind of composition and add properties to platform
+  - properties: horz, vert or circ movable, flame, jump boost, crumble etc.
     
 - platform movement:
   - add particles for engine
@@ -23,3 +21,13 @@
     - entire platform going up and down (turning on and for), perhaps more time off than on
       - maybe even with a small timer that says when change occurs, or maybe some animation
         prior to turning on
+        
+- maybe:
+  - use different in game units, like 40px equals 1m
+  - use separate camera for gui and game
+    - try making gui camera same as physical resolution
+    - add class for selecting fonts - for example you want font that is 5% screen height,
+      then take height, multiply by 0.05 and return font that is closest to that size
+      
+- add spacing in font images for suchy blocks and hell hopper games to see if this prevents
+  antialiasing artefacts in fonts

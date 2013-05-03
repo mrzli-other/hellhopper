@@ -1,7 +1,4 @@
-- fix edge artefacts on platform sprites:
-  - this is currently fixed by changing texture filtering to nearest instead of linear;
-    this is ok, but if it needs to be changed another solution for artefacts will need to be found
-  - some posts regarding this issue: http://www.java-gaming.org/topics/bleeding/26823/msg/237162/view.html#msg237162
+- use different in game units, like 40px equals 1m
 
 - change adding to visible/active platform list
   - use wider area, so that vertical moving platforms don't become inactive when the move from 
@@ -14,6 +11,9 @@
 - background:
   - add bottom hell image with lava rivers and volcano in perspective
     - maybe also animate colors
+
+- make portal with flame square for character
+  - when he jumps move screen with eased in/out interpolation to the new location
   
 - platform additions:
   - jump boost in form of geothermal vent or whatever on

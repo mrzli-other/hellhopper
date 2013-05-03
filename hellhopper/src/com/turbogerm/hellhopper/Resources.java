@@ -30,6 +30,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.turbogerm.hellhopper.util.ParticleEffectLoader;
 
@@ -83,9 +84,12 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_RIGHT_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE, Texture.class, textureParameter);
         
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS, TextureAtlas.class, null);
+        
         mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE, ParticleEffect.class, null);
+        mAssetManager.load(ResourceNames.PARTICLE_PLATFORM_FLAME, ParticleEffect.class, null);
         
         mAssetManager.finishLoading();
         

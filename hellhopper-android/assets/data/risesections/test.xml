@@ -54,6 +54,9 @@
         <property name="speed" value="50" />
       </properties>
     </platform>
+    
+    <platform step="12" offset="27" type="flame" />
+    
   </platforms>
   
 </risesection>

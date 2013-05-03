@@ -60,7 +60,7 @@ public final class ResourceNames {
     
     public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
-    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 4;
+    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
     public static final String PLATFORM_ENGINE_TOP_TEXTURE = PLATFORMS_DIR + "enginetop.png";
@@ -69,15 +69,14 @@ public final class ResourceNames {
     public static final String PLATFORM_ENGINE_RIGHT_TEXTURE = PLATFORMS_DIR + "engineright.png";
     public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE = PLATFORMS_DIR + "enginecircular.png";
     
+    public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS = PLATFORMS_DIR + "enginecircular.atlas";
+    
     public static final String OBJECTS_DIR = GAME_DIR + "objects/";
     public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";
     
-    public static final String SHADERS_DIR = "shaders/";
-    public static final String DISTANCE_FIELD_VS = SHADERS_DIR + "distancefield.vert";
-    public static final String DISTANCE_FIELD_FS = SHADERS_DIR + "distancefield.frag";
-    
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE = PARTICLES_DIR + "engine.p";
+    public static final String PARTICLE_PLATFORM_FLAME = PARTICLES_DIR + "platformflame.p";
     
     public static String getPlatformNormalTexture(int i) {
         return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);

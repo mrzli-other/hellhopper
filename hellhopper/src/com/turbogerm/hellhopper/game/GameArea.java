@@ -61,6 +61,8 @@ public final class GameArea {
     
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
+    private static final float ACTIVE_PLATFORMS_AREA_PADDING = 200.0f;
+    
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
     
     private final AssetManager mAssetManager;
@@ -289,7 +291,7 @@ public final class GameArea {
         boolean isFirstVisible = true;
         for (int i = mMinVisiblePlatformIndex; i < allPlatforms.size; i++) {
             PlatformBase platform = allPlatforms.get(i);
-            if (platform.isVisible(mVisibleAreaPosition)) {
+            if (platform.isActive(mVisibleAreaPosition, ACTIVE_PLATFORMS_AREA_PADDING)) {
                 if (isFirstVisible) {
                     mMinVisiblePlatformIndex = i;
                     isFirstVisible = false;

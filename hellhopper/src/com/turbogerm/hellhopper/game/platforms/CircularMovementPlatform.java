@@ -44,7 +44,13 @@ final class CircularMovementPlatform extends PlatformBase {
     private static final float ENGINE_X_OFFSET = (PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH) / 2.0f;
     private static final float ENGINE_Y_OFFSET = 0.0f;
     
+    // public static final String ENGINE_ATLAS_IMAGE_NAME = "enginecircular";
+    // public static final float ENGINE_FRAME_DURATION = 0.05f;
+    
     private final Sprite mEngineSprite;
+    // private final Animation mEngineAnimation;
+    // private float mEngineAnimationTime;
+    
     private final ParticleEffect mEngineEffect;
     
     private final float mRadius;
@@ -69,6 +75,11 @@ final class CircularMovementPlatform extends PlatformBase {
                 mInitialPosition.x + ENGINE_X_OFFSET, mInitialPosition.y + ENGINE_Y_OFFSET,
                 ENGINE_WIDTH, ENGINE_HEIGHT);
         
+        // TextureAtlas engineAtlas = assetManager.get(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS);
+        // Array<AtlasRegion> engineAtlasRegions = engineAtlas.findRegions(ENGINE_ATLAS_IMAGE_NAME);
+        // mEngineAnimation = new Animation(ENGINE_FRAME_DURATION, engineAtlasRegions, Animation.LOOP_PINGPONG);
+        // mEngineAnimationTime = 0.0f;
+        
         mEngineEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_ENGINE));
         
         mRadius = Float.parseFloat(platformData.getProperty(PlatformData.CIRCULAR_MOVEMENT_RADIUS_PROPERTY));
@@ -89,6 +100,8 @@ final class CircularMovementPlatform extends PlatformBase {
         
         mPosition.x = mRotationCenter.x + MathUtils.cosDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.x;
         mPosition.y = mRotationCenter.y + MathUtils.sinDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.y;
+        
+        // mEngineAnimationTime += delta;
     }
     
     @Override
@@ -97,6 +110,10 @@ final class CircularMovementPlatform extends PlatformBase {
         
         mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
         mEngineSprite.draw(batch);
+        
+        // TextureRegion engineAnimationFrame = mEngineAnimation.getKeyFrame(mEngineAnimationTime);
+        // batch.draw(engineAnimationFrame, mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET,
+        // ENGINE_WIDTH, ENGINE_HEIGHT);
         
         mEngineEffect.setPosition(
                 mEngineSprite.getX() + ENGINE_WIDTH / 2.0f, mEngineSprite.getY() + ENGINE_HEIGHT / 2.0f);

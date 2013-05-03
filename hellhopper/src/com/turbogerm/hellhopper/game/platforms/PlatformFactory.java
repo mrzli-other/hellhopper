@@ -42,6 +42,8 @@ public final class PlatformFactory {
             return new CircularMovementPlatform(platformData, startStep, assetManager);
         } else if (PlatformData.CRUMBLE.equals(platformType)) {
             return new CrumblePlatform(platformData, startStep, assetManager);
+        } else if (PlatformData.FLAME.equals(platformType)) {
+            return new FlamePlatform(platformData, startStep, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid platform type: %s", platformType);
             return null;

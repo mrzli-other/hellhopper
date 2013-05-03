@@ -34,6 +34,7 @@ public final class PlatformData {
     public static final String VERTICAL_MOVEMENT = "verticalmovement";
     public static final String CIRCULAR_MOVEMENT = "circularmovement";
     public static final String CRUMBLE = "crumble";
+    public static final String FLAME = "flame";
     
     public static final String MOVEMENT_RANGE_PROPERTY = "range";
     public static final String CIRCULAR_MOVEMENT_RADIUS_PROPERTY = "radius";

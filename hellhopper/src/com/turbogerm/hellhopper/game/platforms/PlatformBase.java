@@ -89,10 +89,11 @@ public abstract class PlatformBase {
         mSprite.draw(batch);
     }
     
-    public boolean isVisible(float visibleAreaPositions) {
+    public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
         Vector2 position = getPosition();
-        return position.y + PlatformData.PLATFORM_HEIGHT >= visibleAreaPositions &&
-                position.y <= visibleAreaPositions + GameArea.GAME_AREA_HEIGHT;
+        float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
+        float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
+        return position.y >= activeRangeLower && position.y <= activeRangeUpper;
     }
     
     public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {

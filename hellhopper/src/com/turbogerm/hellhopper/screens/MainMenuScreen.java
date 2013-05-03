@@ -26,7 +26,6 @@ package com.turbogerm.hellhopper.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,7 +49,7 @@ public final class MainMenuScreen extends ScreenBase {
         mBackgroundTexture = mAssetManager.get(ResourceNames.GUI_BACKGROUND_TEXTURE);
         
         TextButtonStyle menuTextButtonStyle = new TextButtonStyle(mGuiSkin.get(TextButtonStyle.class));
-        menuTextButtonStyle.font = mGuiSkin.get("xxxl-font", BitmapFont.class); //mResources.getFont("xxxl");
+        menuTextButtonStyle.font = mGuiSkin.getFont("xxxl-font");
         
         // menu buttons
         final float buttonWidth = 360.0f; 

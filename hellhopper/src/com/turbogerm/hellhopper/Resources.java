@@ -94,6 +94,7 @@ public final class Resources {
         mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
+        //mGuiSkin.getFont(name)
     }
     
     public Skin getGuiSkin() {

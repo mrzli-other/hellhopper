@@ -26,7 +26,6 @@ package com.turbogerm.hellhopper.screens;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -71,7 +70,7 @@ public final class HighScoreScreen extends ScreenBase {
         mGuiStage.clear();
         
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.get("large-font", BitmapFont.class); // mResources.getFont("medium");
+        labelStyle.font = mGuiSkin.getFont("large-font");
         
         Array<HighScoreData> highScores = mGameData.getHighScoresData().getHighScores();
         for (int i = 0; i < highScores.size; i++) {

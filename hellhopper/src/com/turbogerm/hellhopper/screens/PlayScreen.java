@@ -28,7 +28,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -69,7 +68,7 @@ public final class PlayScreen extends ScreenBase {
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.get("xxxl-font", BitmapFont.class);
+        labelStyle.font = mGuiSkin.getFont("xxxl-font");
         
         final float scoreLabelWidth = 60.0f;
         final float scoreLabelHeight = 42.0f;

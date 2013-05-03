@@ -25,7 +25,6 @@ package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -54,7 +53,7 @@ public final class GameOverScreen extends ScreenBase {
         mGuiStage.addListener(getStageInputListener(this));
         
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.get("xxxl-font", BitmapFont.class); // mResources.getFont("xxxl");
+        labelStyle.font = mGuiSkin.getFont("xxxl-font");
         
         final float gameOverLabelY = 600.0f;
         final float gameOverLabelHeight = 135.0f;

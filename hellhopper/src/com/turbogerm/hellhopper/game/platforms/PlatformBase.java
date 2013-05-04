@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
@@ -43,10 +44,9 @@ public abstract class PlatformBase {
     private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
     
-    public PlatformBase(PlatformData platformData, Vector2 initialPosition, String texturePath,
-            AssetManager assetManager) {
+    public PlatformBase(PlatformData platformData, Vector2 initialPosition, AssetManager assetManager) {
         
-        Texture texture = assetManager.get(texturePath);
+        Texture texture = assetManager.get(getTexturePath(platformData));
         mSprite = new Sprite(texture);
         mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
@@ -95,13 +95,6 @@ public abstract class PlatformBase {
         mPlatformMovement.renderEngine(batch, delta);
     }
     
-    public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
-        Vector2 position = getPosition();
-        float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
-        float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
-        return position.y >= activeRangeLower && position.y <= activeRangeUpper;
-    }
-    
     public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {
         
         Vector2 position = getPosition();
@@ -120,7 +113,23 @@ public abstract class PlatformBase {
         return isIntersection;
     }
     
+    public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
+        Vector2 position = getPosition();
+        float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
+        float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
+        return position.y >= activeRangeLower && position.y <= activeRangeUpper;
+    }
+    
     public Vector2 getPosition() {
         return mPlatformMovement.getPosition();
+    }
+    
+    private static String getTexturePath(PlatformData platformData) {
+        String platformType = platformData.getPlatformType();
+        if (PlatformData.CRUMBLE.equals(platformType)) {
+            return ResourceNames.PLATFORM_CRUMBLE_TEXTURE;
+        } else {
+            return ResourceNames.getRandomPlatformNormalTexture();
+        }
     }
 }

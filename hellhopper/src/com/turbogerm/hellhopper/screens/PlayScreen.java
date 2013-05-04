@@ -55,6 +55,10 @@ public final class PlayScreen extends ScreenBase {
     private ImageButtonStyle mPauseButtonStyle;
     private boolean mIsPaused;
     
+    // TODO: remove, only for testing
+    private final Label mFpsLabel;
+    long startTime = 0l;
+    
     private final RisePositionScroll mRisePositionScroll;
     
     public PlayScreen(HellHopper game) {
@@ -83,6 +87,15 @@ public final class PlayScreen extends ScreenBase {
         
         createPlayPauseButton();
         mGuiStage.addActor(mPlayPauseButton);
+        
+        // TODO: remove, only for testing
+        LabelStyle fpsLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
+        fpsLabelStyle.font = mGuiSkin.getFont("medium-font");
+        mFpsLabel = new Label("", mGuiSkin);
+        mFpsLabel.setBounds(0.0f, 0.0f, 20.0f, 20.0f);
+        mFpsLabel.setStyle(fpsLabelStyle);
+        mFpsLabel.setAlignment(Align.left);
+        mGuiStage.addActor(mFpsLabel);
         
         mRisePositionScroll = new RisePositionScroll(mAssetManager);
     }
@@ -132,6 +145,12 @@ public final class PlayScreen extends ScreenBase {
         mRisePositionScroll.setRiseHeight(mGameArea.getRiseHeight());
         mRisePositionScroll.render(mBatch, mGameArea.getVisibleAreaPosition());
         mBatch.end();
+        
+        // TODO: remove, only for testing
+        if (System.currentTimeMillis() - startTime > 1000) {
+            mFpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+            startTime = System.currentTimeMillis();
+        }
     }
     
     @Override

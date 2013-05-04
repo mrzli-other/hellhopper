@@ -1,6 +1,6 @@
 - change platform architecture
   - don't use inheritance, use some kind of composition and add properties to platform
-  - properties: horz, vert or circ movable, flame, jump boost, crumble etc.
+  - properties: flame, jump boost, crumble etc.
   
 - background:
   - add bottom hell image with lava rivers and volcano in perspective

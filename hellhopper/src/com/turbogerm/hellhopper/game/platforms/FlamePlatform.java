@@ -39,8 +39,7 @@ final class FlamePlatform extends PlatformBase {
     private final ParticleEffect mFlameEffect;
     
     public FlamePlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
-                .getRandomPlatformNormalTexture(), assetManager);
+        super(platformData, platformData.getPlatformPositions(startStep), assetManager);
         
         mFlameEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_PLATFORM_FLAME));
     }

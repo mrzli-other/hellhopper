@@ -24,13 +24,11 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 
 final class NormalPlatform extends PlatformBase {
     
     public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
-                .getRandomPlatformNormalTexture(), assetManager);
+        super(platformData, platformData.getPlatformPositions(startStep), assetManager);
     }
 }

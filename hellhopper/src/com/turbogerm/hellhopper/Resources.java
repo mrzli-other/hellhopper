@@ -76,6 +76,10 @@ public final class Resources {
             mAssetManager.load(ResourceNames.getPlatformNormalTexture(i), Texture.class, textureParameter);
         }
         
+        for (int i = 0; i < ResourceNames.PLATFORM_FLAME_TEXTURE_COUNT; i++) {
+            mAssetManager.load(ResourceNames.getPlatformFlameTexture(i), Texture.class, textureParameter);
+        }
+        
         mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_TOP_TEXTURE, Texture.class, textureParameter);

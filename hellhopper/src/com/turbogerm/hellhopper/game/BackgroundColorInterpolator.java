@@ -31,7 +31,7 @@ import com.turbogerm.hellhopper.util.HslColor;
 public final class BackgroundColorInterpolator {
     
     private static final int NUM_COLORS = 5;
-    private static final float LIGHT_MULTIPLIER = 0.4f;
+    private static final float LIGHT_MULTIPLIER = 0.6f;
     
     private final HslColor mHsl1;
     private final HslColor mHsl2;

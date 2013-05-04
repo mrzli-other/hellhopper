@@ -33,8 +33,8 @@ import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class FlamePlatform extends PlatformBase {
     
-    private static final float FLAME_X_OFFSET = 0.0f;
-    private static final float FLAME_Y_OFFSET = PlatformData.PLATFORM_HEIGHT;
+    private static final float FLAME_X_OFFSET = 0.2f;
+    private static final float FLAME_Y_OFFSET = PlatformData.PLATFORM_HEIGHT + 0.15f;
     
     private final ParticleEffect mFlameEffect;
     

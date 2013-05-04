@@ -61,6 +61,8 @@ public final class ResourceNames {
     public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
     public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
+    private static final String PLATFORM_FLAME_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "flameplatform%02d.png";
+    public static final int PLATFORM_FLAME_TEXTURE_COUNT = 5;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
     public static final String PLATFORM_ENGINE_TOP_TEXTURE = PLATFORMS_DIR + "enginetop.png";
@@ -85,5 +87,14 @@ public final class ResourceNames {
     public static String getRandomPlatformNormalTexture() {
         int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
         return getPlatformNormalTexture(index);
+    }
+    
+    public static String getPlatformFlameTexture(int i) {
+        return String.format(ResourceNames.PLATFORM_FLAME_TEXTURE_NAME_FORMAT, i);
+    }
+    
+    public static String getRandomPlatformFlameTexture() {
+        int index = MathUtils.random(PLATFORM_FLAME_TEXTURE_COUNT - 1);
+        return getPlatformFlameTexture(index);
     }
 }

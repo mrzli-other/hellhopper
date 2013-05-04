@@ -50,7 +50,7 @@ public final class GameArea {
     
     public static final float CHARACTER_WIDTH = 1.0f;
     public static final float CHARACTER_HEIGHT = 1.5f;
-    private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f * PIXEL_TO_METER;
+    private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
     private static final float MAX_DELTA = 0.1f;

@@ -33,6 +33,7 @@ public final class CircularPlatformMovement extends PlatformMovementBase {
     
     private final float mRadius;
     private final float mSpeed;
+    private final boolean mIsCcw;
     
     private final float mAngleSpeed;
     private float mAngle;
@@ -44,17 +45,32 @@ public final class CircularPlatformMovement extends PlatformMovementBase {
         
         mRadius = Float.parseFloat(movementData.getProperty(PlatformMovementData.RADIUS_PROPERTY));
         mSpeed = Float.parseFloat(movementData.getProperty(PlatformMovementData.SPEED_PROPERTY));
+        mIsCcw = PlatformMovementData.DIRECTION_CCW_PROPERTY_VALUE.equals(
+                movementData.getProperty(PlatformMovementData.DIRECTION_PROPERTY));
+        
         mAngleSpeed = mSpeed / mRadius * MathUtils.radDeg;
         mAngle = 0.0f;
         mRotationCenter = new Vector2(
                 initialPosition.x + PLATFORM_CENTER_OFFSET.x + mRadius,
                 initialPosition.y + PLATFORM_CENTER_OFFSET.y);
+        
+        float initialDegrees = Float
+                .parseFloat(movementData.getProperty(PlatformMovementData.INITIAL_DEGREES_PROPERTY));
+        changePosition(initialDegrees);
     }
     
     @Override
     public void updatePosition(float delta) {
         float travelledAngle = mAngleSpeed * delta;
-        mAngle += travelledAngle;
+        if (!mIsCcw) {
+            travelledAngle = -travelledAngle;
+        }
+        
+        changePosition(travelledAngle);
+    }
+    
+    private void changePosition(float change) {
+        mAngle += change;
         mAngle = GameUtils.getPositiveModulus(mAngle, 360.0f);
         
         mPosition.x = mRotationCenter.x + MathUtils.cosDeg(mAngle) * mRadius - PLATFORM_CENTER_OFFSET.x;

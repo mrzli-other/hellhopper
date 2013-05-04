@@ -17,6 +17,7 @@
         <properties>
           <property name="range" value="5" />
           <property name="speed" value="1.25" />
+          <property name="initialoffset" value="3" />
         </properties>
       </movement>
     </platform>
@@ -26,6 +27,7 @@
         <properties>
           <property name="range" value="5" />
           <property name="speed" value="1.25" />
+          <property name="initialoffset" value="2" />
         </properties>
       </movement>
     </platform>
@@ -35,6 +37,8 @@
         <properties>
           <property name="radius" value="2.5" />
           <property name="speed" value="1.25" />
+          <property name="direction" value="ccw" />
+          <property name="initialdegrees" value="180" />
         </properties>
       </movement>
     </platform>
@@ -47,6 +51,8 @@
         <properties>
           <property name="radius" value="2.5" />
           <property name="speed" value="1.25" />
+          <property name="direction" value="cw" />
+          <property name="initialdegrees" value="15" />
         </properties>
       </movement>
     </platform>
@@ -55,7 +61,9 @@
       <movement type="circular">
         <properties>
           <property name="radius" value="2.5" />
-          <property name="speed" value="1.25" />
+          <property name="speed" value="0.25" />
+          <property name="direction" value="cw" />
+          <property name="initialdegrees" value="90" />
         </properties>
       </movement>
     </platform>

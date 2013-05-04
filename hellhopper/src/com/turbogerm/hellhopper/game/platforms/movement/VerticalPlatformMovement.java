@@ -46,6 +46,9 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
         mBottomLimit = initialPosition.y;
         mTopLimit = initialPosition.y + mRange;
         mIsUpMovement = true;
+        
+        float initialOffset = Float.parseFloat(movementData.getProperty(PlatformMovementData.INITIAL_OFFSET_PROPERTY));
+        changePosition(initialOffset);
     }
     
     @Override
@@ -55,7 +58,11 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
             travelled = -travelled;
         }
         
-        mPosition.y += travelled;
+        changePosition(travelled);
+    }
+    
+    private void changePosition(float change) {
+        mPosition.y += change;
         if (mPosition.y <= mBottomLimit){
             mIsUpMovement = true;
         } else if (mPosition.y >= mTopLimit) {

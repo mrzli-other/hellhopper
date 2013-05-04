@@ -43,26 +43,31 @@ public final class GameArea {
     private static final float METER_TO_PIXEL = 40.0f;
     private static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
     
-    public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH;
-    public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT;
+    private static final float EPSILON = 1e-5f;
     
-    public static final float CHARACTER_WIDTH = 40.0f;
-    public static final float CHARACTER_HEIGHT = 60.0f;
-    private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
+    private static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * PIXEL_TO_METER;
+    public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * PIXEL_TO_METER;
+    
+    public static final float CHARACTER_WIDTH = 1.0f;
+    public static final float CHARACTER_HEIGHT = 1.5f;
+    private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f * PIXEL_TO_METER;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
     private static final float MAX_DELTA = 0.1f;
     private static final float UPDATE_RATE = 60.0f;
     private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
-    private static final float JUMP_SPEED = 850.0f;
-    private static final float GRAVITY = 1400.0f;
-    private static final float DEFAULT_HORIZONTAL_SPEED = 400.0f;
-    private static final float ACCELEROMETER_SPEED_MULTIPLIER = 150.0f;
+    private static final float JUMP_SPEED = 21.25f;
+    private static final float GRAVITY = 35.0f;
+    private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
+    private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
     
+    private static final float END_LINE_HEIGHT = 0.1f;
+    private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
+    private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
-    private static final float ACTIVE_PLATFORMS_AREA_PADDING = 200.0f;
+    private static final float ACTIVE_PLATFORMS_AREA_PADDING = 5.0f;
     
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
     
@@ -149,9 +154,9 @@ public final class GameArea {
                 mIsGameOver = true;
                 return;
             } else if (mCharPosition.y <= mRiseHeight) {
-                mCharPosition.y = mRiseHeight + 0.001f;
-                mCharSpeed.y = Math.abs(mCharSpeed.y / 1.5f);
-                mCharSpeed.y = Math.max(mCharSpeed.y - 30.0f, 0.0f);
+                mCharPosition.y = mRiseHeight + EPSILON;
+                mCharSpeed.y = Math.abs(mCharSpeed.y * END_RESTITUTION_MULTIPLIER);
+                mCharSpeed.y = Math.max(mCharSpeed.y - END_RESTITUTION_SPEED_DECREASE, 0.0f);
             }
             
             mEndReachedCountdown -= delta;
@@ -162,8 +167,8 @@ public final class GameArea {
             } else if (mCharPosition.y < mVisibleAreaPosition) {
                 // TODO: only for testing; remove next line and uncomment following
                 mCharSpeed.y = JUMP_SPEED;
-                //mIsGameOver = true;
-                //return;
+                // mIsGameOver = true;
+                // return;
             }
         }
         
@@ -178,9 +183,9 @@ public final class GameArea {
         
         if (mCharPosition.y > mRiseHeight) {
             mIsEndReached = true;
-            mScore = Math.max(mScore, (int) mRiseHeight);
+            mScore = Math.max(mScore, (int) (mRiseHeight * METER_TO_PIXEL));
         } else {
-            mScore = Math.max(mScore, (int) mCharPosition.y);
+            mScore = Math.max(mScore, (int) (mCharPosition.y * METER_TO_PIXEL));
         }
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
@@ -188,18 +193,14 @@ public final class GameArea {
     
     public void render(float delta) {
         
-        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition,
-                HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
-        
+        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
         
         for (PlatformBase platform : mVisiblePlatforms) {
             platform.render(mBatch, delta);
         }
         
-        final float endLineHeight = 4.0f;
-        mBatch.draw(mEndLineTexture, 0.0f,
-                mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
+        mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
         mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
         

@@ -36,8 +36,8 @@ import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class HorizontalMovementPlatform extends PlatformBase {
     
-    private static final float ENGINE_WIDTH = 8.0f;
-    private static final float ENGINE_HEIGHT = 16.0f;
+    private static final float ENGINE_WIDTH = 0.2f;
+    private static final float ENGINE_HEIGHT = 0.4f;
     private static final float LEFT_ENGINE_X_OFFSET = 0.0f;
     private static final float LEFT_ENGINE_Y_OFFSET = (PlatformData.PLATFORM_HEIGHT - ENGINE_HEIGHT) / 2.0f;
     private static final float RIGHT_ENGINE_X_OFFSET = PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH;

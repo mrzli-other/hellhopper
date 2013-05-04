@@ -39,8 +39,8 @@ final class CircularMovementPlatform extends PlatformBase {
     
     private static final Vector2 PLATFORM_CENTER_OFFSET;
     
-    private static final float ENGINE_WIDTH = 16.0f;
-    private static final float ENGINE_HEIGHT = 16.0f;
+    private static final float ENGINE_WIDTH = 0.4f;
+    private static final float ENGINE_HEIGHT = 0.4f;
     private static final float ENGINE_X_OFFSET = (PlatformData.PLATFORM_WIDTH - ENGINE_WIDTH) / 2.0f;
     private static final float ENGINE_Y_OFFSET = 0.0f;
     

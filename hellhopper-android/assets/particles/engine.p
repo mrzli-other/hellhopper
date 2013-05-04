@@ -58,8 +58,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 16.0
-highMax: 16.0
+highMin: 0.4
+highMax: 0.4
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -78,7 +78,7 @@ active: false
 - Tint - 
 colorsCount: 3
 colors0: 0.46666667
-colors1: 0.9882353
+colors1: 0.99215686
 colors2: 1.0
 timelineCount: 1
 timeline0: 0.0

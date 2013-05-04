@@ -26,13 +26,14 @@ package com.turbogerm.hellhopper.game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 
 public final class RisePositionScroll {
     
     private static final float POSITION_SCROLL_LINE_WIDTH = 5.0f;
-    private static final float POSITION_SCROLL_LINE_HEIGHT = GameArea.GAME_AREA_HEIGHT - 60.0f;
-    private static final float POSITION_SCROLL_LINE_X = GameArea.GAME_AREA_WIDTH - POSITION_SCROLL_LINE_WIDTH - 5.0f;
+    private static final float POSITION_SCROLL_LINE_HEIGHT = HellHopper.VIEWPORT_HEIGHT - 60.0f;
+    private static final float POSITION_SCROLL_LINE_X = HellHopper.VIEWPORT_WIDTH - POSITION_SCROLL_LINE_WIDTH - 5.0f;
     private static final float POSITION_SCROLL_LINE_Y = 10.0f;
     private static final float MIN_POSITION_SCROLL_BOX_SIZE = 5.0f;
     private static final float POSITION_SCROLL_END_LINE_HEIGHT = 4.0f;

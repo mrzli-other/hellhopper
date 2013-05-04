@@ -29,8 +29,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -41,6 +39,9 @@ import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
+    
+    private static final float METER_TO_PIXEL = 40.0f;
+    private static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
     
     public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH;
     public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT;
@@ -71,8 +72,6 @@ public final class GameArea {
     private final Texture mCharacterTexture;
     private final Texture mEndLineTexture;
     
-    private final ParticleEffect mEffect;
-    
     private Rise mRise;
     private float mRiseHeight;
     
@@ -102,10 +101,6 @@ public final class GameArea {
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
-        
-        mEffect = new ParticleEffect();
-        mEffect.load(Gdx.files.internal("particles/test.p"), Gdx.files.internal("particles"));
-        mEffect.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         
         mCharPosition = new Vector2();
         mCharSpeed = new Vector2();
@@ -189,12 +184,6 @@ public final class GameArea {
         }
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
-        
-        // TODO: remove, this is test code
-        if (mTestObject != null) {
-            mTestObject.translate(0.0f, -50.0f * delta);
-            mTestObject.rotate(120.0f * delta);
-        }
     }
     
     public void render(float delta) {
@@ -212,14 +201,7 @@ public final class GameArea {
         mBatch.draw(mEndLineTexture, 0.0f,
                 mRiseHeight - endLineHeight, GAME_AREA_WIDTH, endLineHeight);
         
-        //mEffect.draw(mBatch, delta);
-        
         mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
-        
-        // TODO: remove, this is test code
-        if (mTestObject != null) {
-            mTestObject.draw(mBatch);
-        }
         
         mBatch.end();
     }
@@ -256,16 +238,6 @@ public final class GameArea {
         
         mVisibleAreaPosition = Math.max(
                 mVisibleAreaPosition, mCharPosition.y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
-    }
-    
-    // TODO: remove, this is test code
-    private Sprite mTestObject;
-    
-    public void createObject(float x, float y) {
-        Texture texture = mAssetManager.get(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE);
-        mTestObject = new Sprite(texture);
-        mTestObject.setBounds(x, y + mVisibleAreaPosition, 64, 64);
-        mTestObject.setOrigin(32.0f, 32.0f);
     }
     
     private float getHorizontalSpeed() {

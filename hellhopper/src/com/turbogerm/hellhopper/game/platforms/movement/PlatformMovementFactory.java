@@ -21,25 +21,30 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.game.platforms.movement;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.util.ExceptionThrower;
 
-public final class PlatformFactory {
+public final class PlatformMovementFactory {
     
-    public static PlatformBase create(PlatformData platformData, int startStep, AssetManager assetManager) {
+    public static PlatformMovementBase create(PlatformMovementData movementData, Vector2 initialPosition, AssetManager assetManager) {
         
-        String platformType = platformData.getPlatformType();
-        if (PlatformData.NORMAL.equals(platformType)) {
-            return new NormalPlatform(platformData, startStep, assetManager);
-        } else if (PlatformData.CRUMBLE.equals(platformType)) {
-            return new CrumblePlatform(platformData, startStep, assetManager);
-        } else if (PlatformData.FLAME.equals(platformType)) {
-            return new FlamePlatform(platformData, startStep, assetManager);
+        if (movementData == null) {
+            return new NullPlatformMovement(initialPosition, assetManager);
+        }
+        
+        String movementType = movementData.getMovementType();
+        if (PlatformMovementData.HORIZONTAL_MOVEMENT.equals(movementType)) {
+            return new HorizontalPlatformMovement(movementData, initialPosition, assetManager);
+        } else if (PlatformMovementData.VERTICAL_MOVEMENT.equals(movementType)) {
+            return new VerticalPlatformMovement(movementData, initialPosition, assetManager);
+        } else if (PlatformMovementData.CIRCULAR_MOVEMENT.equals(movementType)) {
+            return new CircularPlatformMovement(movementData, initialPosition, assetManager);
         } else {
-            ExceptionThrower.throwException("Invalid platform type: %s", platformType);
+            ExceptionThrower.throwException("Invalid platform movement type: %s", movementType);
             return null;
         }
     }

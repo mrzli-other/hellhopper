@@ -21,7 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.dataaccess;
 
 import java.io.IOException;
 
@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+import com.turbogerm.hellhopper.game.RiseGenerator;
 import com.turbogerm.hellhopper.util.Logger;
 
 public final class RiseSectionDataReader {
@@ -71,10 +72,30 @@ public final class RiseSectionDataReader {
         int offset = Integer.parseInt(offsetAttribute);
         String type = platformNode.getAttribute("type");
         
-        Element propertiesNode = platformNode.getChildByName("properties");
-        ObjectMap<String, String> properties = getProperties(propertiesNode);
+        PlatformMovementData movementData = getMovementData(platformNode.getChildByName("movement"));
+        Array<PlatformFeaturesData> featuresData = getFeaturesData(platformNode.getChildByName("features"));
+        ObjectMap<String, String> properties = getProperties(platformNode.getChildByName("properties"));
         
-        return new PlatformData(type, step, offset, properties);
+        return new PlatformData(type, step, offset, movementData, featuresData, properties);
+    }
+    
+    private static PlatformMovementData getMovementData(Element movementNode) {
+        if (movementNode == null) {
+            return null;
+        }
+        
+        String type = movementNode.getAttribute("type");
+        ObjectMap<String, String> properties = getProperties(movementNode.getChildByName("properties"));
+        
+        return new PlatformMovementData(type, properties);
+    }
+    
+    private static Array<PlatformFeaturesData> getFeaturesData(Element featuresNode) {
+        if (featuresNode == null) {
+            return null;
+        }
+        
+        return null;
     }
     
     private static ObjectMap<String, String> getProperties(Element propertiesNode) {

@@ -30,6 +30,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
+import com.turbogerm.hellhopper.dataaccess.RiseSectionDataReader;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
@@ -56,10 +59,11 @@ public final class RiseGenerator {
     
     public static Rise generate(AssetManager assetManager) {
         Array<RiseSectionData> riseSections = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
-        //riseSections.add(generateRiseSection(50, 100));
-        //riseSections.add(generateRiseSection(100, 100));
+        // riseSections.add(generateRiseSection(50, 100));
+        // riseSections.add(generateRiseSection(100, 100));
         
-        RiseSectionData testRiseSection = RiseSectionDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTION_TEST));
+        RiseSectionData testRiseSection = RiseSectionDataReader.read(Gdx.files
+                .internal(ResourceNames.RISE_SECTION_TEST));
         riseSections.add(testRiseSection);
         
         int totalNumPlatforms = 0;
@@ -88,7 +92,8 @@ public final class RiseGenerator {
         Array<StepPossiblePlaformPositions> positions = getInitialAllStepPositionsPositions(stepRange);
         for (int i = 0; i < numPads; i++) {
             PlaformPosition position = getRandomPosition(positions);
-            PlatformData padData = new PlatformData(PlatformData.NORMAL, position.step, position.offset, null);
+            PlatformData padData = new PlatformData(PlatformData.NORMAL, position.step, position.offset, null, null,
+                    null);
             platformDataList.add(padData);
             updatePossiblePlatformPositions(positions, position);
         }
@@ -162,7 +167,7 @@ public final class RiseGenerator {
         int step = getFirstEmptyRequiredStep(stepRange, platformDataList);
         while (step != -1) {
             int offset = MathUtils.random(PlatformData.MAX_PLATFORM_OFFSET - 1);
-            PlatformData platformData = new PlatformData(PlatformData.NORMAL, step, offset, null);
+            PlatformData platformData = new PlatformData(PlatformData.NORMAL, step, offset, null, null, null);
             platformDataList.add(platformData);
             
             step = getFirstEmptyRequiredStep(stepRange, platformDataList);

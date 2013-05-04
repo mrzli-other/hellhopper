@@ -21,16 +21,33 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.dataaccess;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.badlogic.gdx.utils.ObjectMap;
 
-final class NormalPlatform extends PlatformBase {
+public final class PlatformMovementData {
     
-    public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
-                .getRandomPlatformNormalTexture(), assetManager);
+    public static final String HORIZONTAL_MOVEMENT = "horizontal";
+    public static final String VERTICAL_MOVEMENT = "vertical";
+    public static final String CIRCULAR_MOVEMENT = "circular";
+    
+    public static final String RANGE_PROPERTY = "range";
+    public static final String RADIUS_PROPERTY = "radius";
+    public static final String SPEED_PROPERTY = "speed";
+    
+    private final String mMovementType;
+    private final ObjectMap<String, String> mProperties;
+    
+    public PlatformMovementData(String movementType, ObjectMap<String, String> properties) {
+        mMovementType = movementType;
+        mProperties = properties;
+    }
+    
+    public String getMovementType() {
+        return mMovementType;
+    }
+    
+    public String getProperty(String name) {
+        return mProperties.get(name);
     }
 }

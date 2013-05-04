@@ -21,16 +21,24 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.game.platforms.movement;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
-final class NormalPlatform extends PlatformBase {
+public final class NullPlatformMovement extends PlatformMovementBase {
     
-    public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
-                .getRandomPlatformNormalTexture(), assetManager);
+    public NullPlatformMovement(Vector2 initialPosition, AssetManager assetManager) {
+        super(initialPosition, assetManager);
+    }
+    
+    @Override
+    public void renderEngine(SpriteBatch batch, float delta) {
+    }
+    
+    @Override
+    public boolean hasVerticalMovement() {
+        return false;
     }
 }

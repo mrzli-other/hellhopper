@@ -21,16 +21,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.game.platforms.features;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.dataaccess.PlatformData;
-
-final class NormalPlatform extends PlatformBase {
+public abstract class FeatureBase {
     
-    public NormalPlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
-                .getRandomPlatformNormalTexture(), assetManager);
-    }
 }

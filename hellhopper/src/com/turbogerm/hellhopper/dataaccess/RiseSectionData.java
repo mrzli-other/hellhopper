@@ -21,7 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.utils.Array;
 

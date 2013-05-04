@@ -29,28 +29,31 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.GameArea;
-import com.turbogerm.hellhopper.game.PlatformData;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
+import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
+import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
     protected final Sprite mSprite;
-    protected final Vector2 mInitialPosition;
+    
+    private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
     
-    public PlatformBase(Vector2 initialPosition, String texturePath, AssetManager assetManager,
-            boolean hasVerticalMovement) {
-        
-        mInitialPosition = initialPosition;
+    public PlatformBase(PlatformData platformData, Vector2 initialPosition, String texturePath,
+            AssetManager assetManager) {
         
         Texture texture = assetManager.get(texturePath);
         mSprite = new Sprite(texture);
-        mSprite.setBounds(mInitialPosition.x, mInitialPosition.y,
+        mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
         
-        mHasVerticalMovement = hasVerticalMovement;
+        mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
+                assetManager);
+        mHasVerticalMovement = mPlatformMovement.hasVerticalMovement();
     }
     
     public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
@@ -81,12 +84,15 @@ public abstract class PlatformBase {
     }
     
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+        mPlatformMovement.updatePosition(delta);
     }
     
     public void render(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         mSprite.setPosition(position.x, position.y);
         mSprite.draw(batch);
+        
+        mPlatformMovement.renderEngine(batch, delta);
     }
     
     public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
@@ -115,6 +121,6 @@ public abstract class PlatformBase {
     }
     
     public Vector2 getPosition() {
-        return mInitialPosition;
+        return mPlatformMovement.getPosition();
     }
 }

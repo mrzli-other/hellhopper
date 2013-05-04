@@ -1,5 +1,3 @@
-- use different in game units, like 40px equals 1m
-
 - change platform architecture
   - don't use inheritance, use some kind of composition and add properties to platform
   - properties: horz, vert or circ movable, flame, jump boost, crumble etc.

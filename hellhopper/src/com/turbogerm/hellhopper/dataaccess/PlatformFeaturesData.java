@@ -21,15 +21,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.dataaccess;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.turbogerm.hellhopper.HellHopper;
 
-public final class PlatformData {
+public final class PlatformFeaturesData {
     
-    public static final String NORMAL = "normal";
     public static final String HORIZONTAL_MOVEMENT = "horizontalmovement";
     public static final String VERTICAL_MOVEMENT = "verticalmovement";
     public static final String CIRCULAR_MOVEMENT = "circularmovement";
@@ -40,52 +37,19 @@ public final class PlatformData {
     public static final String CIRCULAR_MOVEMENT_RADIUS_PROPERTY = "radius";
     public static final String MOVEMENT_SPEED_PROPERTY = "speed";
     
-    // 'step' is vertical offset, 'offset' is horizontal offset in position grid
-    
-    public static final float STEP_HEIGHT = 1.0f;
-    private static final float OFFSET_WIDTH = 0.25f;
-    
-    public static final int PLATFORM_WIDTH_OFFSETS = 8;
-    private static final float PLATFORM_HEIGHT_STEPS = 0.5f;
-    
-    public static final float PLATFORM_WIDTH = OFFSET_WIDTH * PLATFORM_WIDTH_OFFSETS;
-    public static final float PLATFORM_HEIGHT = STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
-    
-    public static final int MAX_PLATFORM_DISTANCE_STEPS = 5;
-    public static final int MAX_PLATFORM_OFFSET = (int) (HellHopper.VIEWPORT_WIDTH / OFFSET_WIDTH) -
-            PLATFORM_WIDTH_OFFSETS;
-    
-    private final String mPlatformType;
-    private final int mStep;
-    private final int mOffset;
+    private final String mFeatureType;
     private final ObjectMap<String, String> mProperties;
     
-    public PlatformData(String platformType, int step, int offset, ObjectMap<String, String> properties) {
-        mPlatformType = platformType;
-        mStep = step;
-        mOffset = offset;
+    public PlatformFeaturesData(String featureType, ObjectMap<String, String> properties) {
+        mFeatureType = featureType;
         mProperties = properties;
     }
     
-    public String getPlatformType() {
-        return mPlatformType;
-    }
-    
-    public int getStep() {
-        return mStep;
-    }
-    
-    public int getOffset() {
-        return mOffset;
+    public String getFeatureType() {
+        return mFeatureType;
     }
     
     public String getProperty(String name) {
         return mProperties.get(name);
-    }
-    
-    public Vector2 getPlatformPositions(int startStep) {
-        float x = mOffset * OFFSET_WIDTH;
-        float y = (mStep + startStep) * STEP_HEIGHT;
-        return new Vector2(x, y);
     }
 }

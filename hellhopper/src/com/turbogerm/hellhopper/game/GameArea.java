@@ -34,6 +34,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;

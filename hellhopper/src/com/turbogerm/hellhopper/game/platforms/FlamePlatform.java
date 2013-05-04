@@ -28,7 +28,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
-import com.turbogerm.hellhopper.game.PlatformData;
+import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class FlamePlatform extends PlatformBase {
@@ -39,8 +39,8 @@ final class FlamePlatform extends PlatformBase {
     private final ParticleEffect mFlameEffect;
     
     public FlamePlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData.getPlatformPositions(startStep), ResourceNames.getRandomPlatformNormalTexture(),
-                assetManager, false);
+        super(platformData, platformData.getPlatformPositions(startStep), ResourceNames
+                .getRandomPlatformNormalTexture(), assetManager);
         
         mFlameEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_PLATFORM_FLAME));
     }

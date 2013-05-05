@@ -1,17 +1,17 @@
-Untitled
+flame
 - Delay -
 active: false
 - Duration - 
-lowMin: 3000.0
-lowMax: 3000.0
+lowMin: 3200.0
+lowMax: 3200.0
 - Count - 
 min: 0
 max: 800
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 40.0
-highMax: 40.0
+highMin: 50.0
+highMax: 50.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -20,7 +20,7 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
+highMin: 1000.0
 highMax: 1000.0
 relative: false
 scalingCount: 1
@@ -58,8 +58,8 @@ timeline0: 0.0
 - Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.8
-highMax: 0.8
+highMin: 0.4
+highMax: 0.4
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -105,7 +105,7 @@ active: false
 - Tint - 
 colorsCount: 3
 colors0: 1.0
-colors1: 0.3882353
+colors1: 0.38431373
 colors2: 0.19607843
 timelineCount: 1
 timeline0: 0.0
@@ -127,7 +127,7 @@ timeline2: 0.8
 timeline3: 1.0
 - Options - 
 attached: false
-continuous: true
+continuous: false
 aligned: false
 additive: true
 behind: false

@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.debug.PerformanceData;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.RisePositionScroll;
 
@@ -56,7 +57,7 @@ public final class PlayScreen extends ScreenBase {
     private boolean mIsPaused;
     
     // TODO: remove, only for testing
-    private final Label mFpsLabel;
+    private final Label mPerformanceLabel;
     long startTime = 0l;
     
     private final RisePositionScroll mRisePositionScroll;
@@ -91,11 +92,11 @@ public final class PlayScreen extends ScreenBase {
         // TODO: remove, only for testing
         LabelStyle fpsLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         fpsLabelStyle.font = mGuiSkin.getFont("medium-font");
-        mFpsLabel = new Label("", mGuiSkin);
-        mFpsLabel.setBounds(0.0f, 0.0f, 20.0f, 20.0f);
-        mFpsLabel.setStyle(fpsLabelStyle);
-        mFpsLabel.setAlignment(Align.left);
-        mGuiStage.addActor(mFpsLabel);
+        mPerformanceLabel = new Label("", mGuiSkin);
+        mPerformanceLabel.setBounds(0.0f, 0.0f, 20.0f, 20.0f);
+        mPerformanceLabel.setStyle(fpsLabelStyle);
+        mPerformanceLabel.setAlignment(Align.left);
+        mGuiStage.addActor(mPerformanceLabel);
         
         mRisePositionScroll = new RisePositionScroll(mAssetManager);
     }
@@ -148,7 +149,9 @@ public final class PlayScreen extends ScreenBase {
         
         // TODO: remove, only for testing
         if (System.currentTimeMillis() - startTime > 1000) {
-            mFpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
+            PerformanceData performanceData = mGameArea.getPerformanceData();
+            performanceData.update();
+            mPerformanceLabel.setText(performanceData.toString());
             startTime = System.currentTimeMillis();
         }
     }

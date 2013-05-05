@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.debug.PerformanceData;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
@@ -74,6 +75,7 @@ public final class GameArea {
     
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
+    private final PerformanceData mPerformanceData;
     
     private final Texture mCharacterTexture;
     private final Texture mEndLineTexture;
@@ -100,10 +102,12 @@ public final class GameArea {
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
+    
     public GameArea(AssetManager assetManager) {
         
         mAssetManager = assetManager;
         mBatch = new SpriteBatch();
+        mPerformanceData = new PerformanceData(mBatch);
         
         mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
@@ -330,5 +334,9 @@ public final class GameArea {
     
     public float getVisibleAreaPosition() {
         return mVisibleAreaPosition;
+    }
+    
+    public PerformanceData getPerformanceData() {
+        return mPerformanceData;
     }
 }

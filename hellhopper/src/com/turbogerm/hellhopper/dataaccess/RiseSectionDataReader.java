@@ -73,7 +73,7 @@ public final class RiseSectionDataReader {
         String type = platformNode.getAttribute("type");
         
         PlatformMovementData movementData = getMovementData(platformNode.getChildByName("movement"));
-        Array<PlatformFeaturesData> featuresData = getFeaturesData(platformNode.getChildByName("features"));
+        Array<PlatformFeatureData> featuresData = getFeaturesData(platformNode.getChildByName("features"));
         ObjectMap<String, String> properties = getProperties(platformNode.getChildByName("properties"));
         
         return new PlatformData(type, step, offset, movementData, featuresData, properties);
@@ -90,12 +90,27 @@ public final class RiseSectionDataReader {
         return new PlatformMovementData(type, properties);
     }
     
-    private static Array<PlatformFeaturesData> getFeaturesData(Element featuresNode) {
+    private static Array<PlatformFeatureData> getFeaturesData(Element featuresNode) {
         if (featuresNode == null) {
             return null;
         }
         
-        return null;
+        int numFeatures = featuresNode.getChildCount();
+        Array<PlatformFeatureData> featureDataList = new Array<PlatformFeatureData>(true, numFeatures);
+        for (int i = 0; i < numFeatures; i++) {
+            Element featureNode = featuresNode.getChild(i);
+            PlatformFeatureData featureData = getFeatureData(featureNode);
+            featureDataList.add(featureData);
+        }
+        
+        return featureDataList;
+    }
+    
+    private static PlatformFeatureData getFeatureData(Element featureNode) {
+        String type = featureNode.getAttribute("type");
+        ObjectMap<String, String> properties = getProperties(featureNode.getChildByName("properties"));
+        
+        return new PlatformFeatureData(type, properties);
     }
     
     private static ObjectMap<String, String> getProperties(Element propertiesNode) {

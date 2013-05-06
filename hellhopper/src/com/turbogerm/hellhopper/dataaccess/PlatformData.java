@@ -53,11 +53,11 @@ public final class PlatformData {
     private final int mStep;
     private final int mOffset;
     private final PlatformMovementData mMovementData;
-    private final Array<PlatformFeaturesData> mFeaturesData;
+    private final Array<PlatformFeatureData> mFeaturesData;
     private final ObjectMap<String, String> mProperties;
     
     public PlatformData(String platformType, int step, int offset, PlatformMovementData movementData,
-            Array<PlatformFeaturesData> featuresData, ObjectMap<String, String> properties) {
+            Array<PlatformFeatureData> featuresData, ObjectMap<String, String> properties) {
         mPlatformType = platformType;
         mStep = step;
         mOffset = offset;
@@ -86,7 +86,7 @@ public final class PlatformData {
         return mMovementData;
     }
     
-    public Array<PlatformFeaturesData> getFeaturesData() {
+    public Array<PlatformFeatureData> getFeaturesData() {
         return mFeaturesData;
     }
     

@@ -20,6 +20,14 @@
           <property name="initialoffset" value="3" />
         </properties>
       </movement>
+      <features>
+          <feature type="jumpboost">
+            <properties>
+              <property name="position" value="0.3" />
+              <property name="power" value="low" />
+            </properties>
+          </feature>
+      </features>
     </platform>
     
     <platform step="22" offset="10" type="normal">
@@ -68,7 +76,15 @@
       </movement>
     </platform>
     
-    <platform step="12" offset="27" type="flame" />
+    <platform step="12" offset="27" type="flame">
+      <movement type="vertical">
+        <properties>
+          <property name="range" value="5" />
+          <property name="speed" value="1.25" />
+          <property name="initialoffset" value="3" />
+        </properties>
+      </movement>
+    </platform>
     
   </platforms>
   

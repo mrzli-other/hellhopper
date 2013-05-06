@@ -29,10 +29,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
 import com.turbogerm.hellhopper.util.Pools;
@@ -44,6 +48,8 @@ public abstract class PlatformBase {
     private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
     
+    private final Array<PlatformFeatureBase> mPlatformFeatures;
+    
     public PlatformBase(PlatformData platformData, Vector2 initialPosition, AssetManager assetManager) {
         
         Texture texture = assetManager.get(getTexturePath(platformData));
@@ -54,6 +60,8 @@ public abstract class PlatformBase {
         mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
                 assetManager);
         mHasVerticalMovement = mPlatformMovement.hasVerticalMovement();
+        
+        mPlatformFeatures = getPlatformFeatures(platformData.getFeaturesData(), assetManager);
     }
     
     public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
@@ -87,12 +95,21 @@ public abstract class PlatformBase {
         mPlatformMovement.updatePosition(delta);
     }
     
-    public void render(SpriteBatch batch, float delta) {
+    public final void render(SpriteBatch batch, float delta) {
+        
+        if (mPlatformFeatures != null) {
+            for (PlatformFeatureBase platformFeature : mPlatformFeatures) {
+                platformFeature.render(batch, getPosition(), delta);
+            }
+        }
+        renderImpl(batch, delta);
+        mPlatformMovement.render(batch, delta);
+    }
+    
+    protected void renderImpl(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         mSprite.setPosition(position.x, position.y);
         mSprite.draw(batch);
-        
-        mPlatformMovement.renderEngine(batch, delta);
     }
     
     public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {
@@ -133,5 +150,21 @@ public abstract class PlatformBase {
         } else {
             return ResourceNames.getRandomPlatformNormalTexture();
         }
+    }
+    
+    private static Array<PlatformFeatureBase> getPlatformFeatures(Array<PlatformFeatureData> featuresData,
+            AssetManager assetManager) {
+        
+        if (featuresData == null) {
+            return null;
+        }
+        
+        Array<PlatformFeatureBase> platformFeatures = new Array<PlatformFeatureBase>(true, featuresData.size);
+        for (PlatformFeatureData featureData : featuresData) {
+            PlatformFeatureBase platformFeature = PlatformFeatureFactory.create(featureData, assetManager);
+            platformFeatures.add(platformFeature);
+        }
+        
+        return platformFeatures;
     }
 }

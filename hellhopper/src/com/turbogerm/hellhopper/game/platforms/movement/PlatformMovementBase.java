@@ -52,7 +52,7 @@ public abstract class PlatformMovementBase {
     
     public PlatformMovementBase(Vector2 initialPosition, AssetManager assetManager) {
         
-        Texture engineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE);
+        Texture engineTexture = assetManager.get(ResourceNames.PLATFORM_ENGINE_TEXTURE);
         mEngineSprite = new Sprite(engineTexture);
         mEngineSprite.setSize(ENGINE_WIDTH, ENGINE_HEIGHT);
         
@@ -70,7 +70,7 @@ public abstract class PlatformMovementBase {
         // mEngineAnimationTime += delta;
     }
     
-    public void renderEngine(SpriteBatch batch, float delta) {
+    public void render(SpriteBatch batch, float delta) {
         mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
         mEngineSprite.draw(batch);
         

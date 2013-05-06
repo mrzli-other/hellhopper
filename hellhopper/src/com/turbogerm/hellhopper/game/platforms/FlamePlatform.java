@@ -24,35 +24,45 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class FlamePlatform extends PlatformBase {
     
-    private static final float FLAME_X_OFFSET = 0.1f;
-    private static final float FLAME_Y_OFFSET = PlatformData.PLATFORM_HEIGHT + 0.0f;
+    private static final String FIRE_IMAGE_NAME = "platformfire";
+    private static final float FIRE_FRAME_DURATION = 0.15f;
+    private static final float FIRE_SPRITE_WIDTH = 2.0f;
+    private static final float FIRE_SPRITE_HEIGHT = 0.6f;
     
     private static final float MIN_COLOR_VALUE = 0.4f;
     private static final float MAX_COLOR_VALUE = 1.0f;
     private static final float COLOR_VALUE_RANGE = MAX_COLOR_VALUE - MIN_COLOR_VALUE;
     
-    private final ParticleEffect mFlameEffect;
+    private final Animation mFireAnimation;
+    private float mFireAnimationTime = 0.0f;
     
     private final FlameStateMachine mFlameStateMachine;
     private float mColorValue;
-    private boolean mIsEffectActive;
+    private boolean mIsFlameActive;
     
     public FlamePlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
         super(platformData, platformData.getPlatformPositions(startStep), assetManager);
         
-        mFlameEffect = new ParticleEffect((ParticleEffect) assetManager.get(ResourceNames.PARTICLE_PLATFORM_FLAME));
-        
         mFlameStateMachine = new FlameStateMachine();
-        mIsEffectActive = false;
+        mIsFlameActive = false;
+        
+        TextureAtlas fireAtlas = assetManager.get(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS);
+        Array<AtlasRegion> fireAtlasRegions = fireAtlas.findRegions(FIRE_IMAGE_NAME);
+        mFireAnimation = new Animation(FIRE_FRAME_DURATION, fireAtlasRegions, Animation.LOOP);
+        mFireAnimationTime = 0.0f;
     }
     
     @Override
@@ -60,27 +70,33 @@ final class FlamePlatform extends PlatformBase {
         mFlameStateMachine.update(delta);
         mColorValue = getColorValue();
         
+        if (mFlameStateMachine.getCurrentState() == FlameStateMachine.FLAME) {
+            if (!mIsFlameActive) {
+                mIsFlameActive = true;
+                mFireAnimationTime = 0.0f;
+            } else {
+                mFireAnimationTime += delta;
+            }
+        } else {
+            mIsFlameActive = false;
+        }
+        
         super.updateImpl(delta, c1, c2, collisionData);
     }
     
     @Override
-    public void render(SpriteBatch batch, float delta) {
+    protected void renderImpl(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         
-        if (mFlameStateMachine.getCurrentState() == FlameStateMachine.FLAME) {
-            if (!mIsEffectActive) {
-                mFlameEffect.start();
-                mIsEffectActive = true;
-            }
-        } else {
-            mIsEffectActive = false;
+        if (mIsFlameActive) {
+            TextureRegion fireAnimationFrame = mFireAnimation.getKeyFrame(mFireAnimationTime);
+            batch.draw(fireAnimationFrame,
+                    position.x, position.y + PlatformData.PLATFORM_HEIGHT,
+                    FIRE_SPRITE_WIDTH, FIRE_SPRITE_HEIGHT);
         }
         
-        mFlameEffect.setPosition(position.x + FLAME_X_OFFSET, position.y + FLAME_Y_OFFSET);
-        mFlameEffect.draw(batch, delta);
-        
         mSprite.setColor(mColorValue, mColorValue, mColorValue, 1.0f);
-        super.render(batch, delta);
+        super.renderImpl(batch, delta);
     }
     
     private float getColorValue() {

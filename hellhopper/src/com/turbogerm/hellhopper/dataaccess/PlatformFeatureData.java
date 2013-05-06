@@ -25,22 +25,21 @@ package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
-public final class PlatformFeaturesData {
+public final class PlatformFeatureData {
     
-    public static final String HORIZONTAL_MOVEMENT = "horizontalmovement";
-    public static final String VERTICAL_MOVEMENT = "verticalmovement";
-    public static final String CIRCULAR_MOVEMENT = "circularmovement";
-    public static final String CRUMBLE = "crumble";
-    public static final String FLAME = "flame";
+    public static final String JUMP_BOOST = "jumpboost";
     
-    public static final String MOVEMENT_RANGE_PROPERTY = "range";
-    public static final String CIRCULAR_MOVEMENT_RADIUS_PROPERTY = "radius";
-    public static final String MOVEMENT_SPEED_PROPERTY = "speed";
+    public static final String JUMP_BOOST_POSITION_PROPERTY = "position";
+    public static final String JUMP_BOOST_POWER_PROPERTY = "power";
+    
+    public static final String JUMP_BOOST_POWER_LOW_PROPERTY_VALUE = "low";
+    public static final String JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE = "medium";
+    public static final String JUMP_BOOST_POWER_HIGH_PROPERTY_VALUE = "high";
     
     private final String mFeatureType;
     private final ObjectMap<String, String> mProperties;
     
-    public PlatformFeaturesData(String featureType, ObjectMap<String, String> properties) {
+    public PlatformFeatureData(String featureType, ObjectMap<String, String> properties) {
         mFeatureType = featureType;
         mProperties = properties;
     }

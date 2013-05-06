@@ -65,13 +65,14 @@ public final class ResourceNames {
     public static final int PLATFORM_FLAME_TEXTURE_COUNT = 5;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
-    public static final String PLATFORM_ENGINE_TOP_TEXTURE = PLATFORMS_DIR + "enginetop.png";
-    public static final String PLATFORM_ENGINE_BOTTOM_TEXTURE = PLATFORMS_DIR + "enginebottom.png";
-    public static final String PLATFORM_ENGINE_LEFT_TEXTURE = PLATFORMS_DIR + "engineleft.png";
-    public static final String PLATFORM_ENGINE_RIGHT_TEXTURE = PLATFORMS_DIR + "engineright.png";
-    public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE = PLATFORMS_DIR + "enginecircular.png";
+    public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
     
-    public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS = PLATFORMS_DIR + "enginecircular.atlas";
+    public static final String PLATFORM_ENGINE_TEXTURE = PLATFORMS_DIR + "engine.png";
+    //public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS = PLATFORMS_DIR + "enginecircular.atlas";
+    
+    public static final String PLATFORM_JUMP_BOOST_TEXTURE_ATLAS = PLATFORMS_DIR + "jumpboostlow.atlas";
+    
+    public static final String PLATFORM_JUMP_BOOST_CRATER_TEXTURE = PLATFORMS_DIR + "jumpboostcrater.png";
     
     public static final String OBJECTS_DIR = GAME_DIR + "objects/";
     public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";
@@ -79,6 +80,9 @@ public final class ResourceNames {
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE = PARTICLES_DIR + "engine.p";
     public static final String PARTICLE_PLATFORM_FLAME = PARTICLES_DIR + "platformflame.p";
+    public static final String PARTICLE_JUMP_BOOST_LOW = PARTICLES_DIR + "jumpboostlow.p";
+    public static final String PARTICLE_JUMP_BOOST_MEDIUM = PARTICLES_DIR + "jumpboostmedium.p";
+    public static final String PARTICLE_JUMP_BOOST_HIGH = PARTICLES_DIR + "jumpboosthigh.p";
     
     public static String getPlatformNormalTexture(int i) {
         return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);

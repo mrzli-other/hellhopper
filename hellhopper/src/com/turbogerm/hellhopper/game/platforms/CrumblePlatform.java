@@ -44,7 +44,7 @@ public final class CrumblePlatform extends PlatformBase {
     }
     
     @Override
-    public void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+    protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
         if (mCrumblingCountdown <= 0.0f) {
             return;
         }
@@ -57,7 +57,7 @@ public final class CrumblePlatform extends PlatformBase {
     }
     
     @Override
-    public void render(SpriteBatch batch, float delta) {
+    protected void renderImpl(SpriteBatch batch, float delta) {
         if (mCrumblingCountdown <= 0.0f) {
             return;
         }

@@ -23,6 +23,20 @@
  */
 package com.turbogerm.hellhopper.game.platforms.features;
 
-public abstract class FeatureBase {
+import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
+import com.turbogerm.hellhopper.util.ExceptionThrower;
+
+public final class PlatformFeatureFactory {
     
+public static PlatformFeatureBase create(PlatformFeatureData featureData, AssetManager assetManager) {
+        
+        String featureType = featureData.getFeatureType();
+        if (PlatformFeatureData.JUMP_BOOST.equals(featureType)) {
+            return new JumpBoostPlatformFeature(featureData, assetManager);
+        } else {
+            ExceptionThrower.throwException("Invalid platform feature type: %s", featureType);
+            return null;
+        }
+    }
 }

@@ -59,7 +59,7 @@ public final class GameArea {
     private static final float UPDATE_RATE = 60.0f;
     private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
-    private static final float JUMP_SPEED = 21.25f;
+    public static final float JUMP_SPEED = 21.25f;
     private static final float GRAVITY = 35.0f;
     private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
     private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;

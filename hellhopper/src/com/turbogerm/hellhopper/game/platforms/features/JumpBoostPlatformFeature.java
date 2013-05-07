@@ -31,6 +31,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
+import com.turbogerm.hellhopper.game.GameArea;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
@@ -46,6 +47,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     private final Sprite mDischargeSprite;
     private final Vector2 mDischargeOffset;
     
+    private final float mJumpBoostSpeed;
+    
     public JumpBoostPlatformFeature(PlatformFeatureData featureData, AssetManager assetManager) {
         
         Texture craterTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_TEXTURE);
@@ -55,6 +58,9 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         Texture dischargeTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_TEXTURE);
         mDischargeSprite = new Sprite(dischargeTexture);
         mDischargeSprite.setSize(DISCHARGE_WIDTH, DISCHARGE_HEIGHT);
+        
+        String powerString = featureData.getProperty(PlatformFeatureData.JUMP_BOOST_POWER_PROPERTY);
+        mJumpBoostSpeed = getJumpBoostSpeed(powerString);
         
         float positionFraction = Float.parseFloat(featureData
                 .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
@@ -81,13 +87,13 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mDischargeSprite.draw(batch);
     }
     
-    private static String getParticlePath(String powerString) {
+    private static float getJumpBoostSpeed(String powerString) {
         if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
-            return ResourceNames.PARTICLE_JUMP_BOOST_LOW;
+            return GameArea.JUMP_SPEED * 2.0f;
         } else if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
-            return ResourceNames.PARTICLE_JUMP_BOOST_MEDIUM;
+            return GameArea.JUMP_SPEED * 3.0f;
         } else {
-            return ResourceNames.PARTICLE_JUMP_BOOST_HIGH;
+            return GameArea.JUMP_SPEED * 4.0f;
         }
     }
 }

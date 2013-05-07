@@ -75,10 +75,6 @@ public final class ResourceNames {
     
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE = PARTICLES_DIR + "engine.p";
-    public static final String PARTICLE_PLATFORM_FLAME = PARTICLES_DIR + "platformflame.p";
-    public static final String PARTICLE_JUMP_BOOST_LOW = PARTICLES_DIR + "jumpboostlow.p";
-    public static final String PARTICLE_JUMP_BOOST_MEDIUM = PARTICLES_DIR + "jumpboostmedium.p";
-    public static final String PARTICLE_JUMP_BOOST_HIGH = PARTICLES_DIR + "jumpboosthigh.p";
     
     public static String getPlatformNormalTexture(int i) {
         return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);

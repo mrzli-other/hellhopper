@@ -90,10 +90,6 @@ public final class Resources {
         mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE, ParticleEffect.class, null);
-        mAssetManager.load(ResourceNames.PARTICLE_PLATFORM_FLAME, ParticleEffect.class, null);
-        mAssetManager.load(ResourceNames.PARTICLE_JUMP_BOOST_LOW, ParticleEffect.class, null);
-        mAssetManager.load(ResourceNames.PARTICLE_JUMP_BOOST_MEDIUM, ParticleEffect.class, null);
-        mAssetManager.load(ResourceNames.PARTICLE_JUMP_BOOST_HIGH, ParticleEffect.class, null);
         
         mAssetManager.finishLoading();
         

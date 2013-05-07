@@ -66,13 +66,9 @@ public final class ResourceNames {
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
     public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
-    
-    public static final String PLATFORM_ENGINE_TEXTURE = PLATFORMS_DIR + "engine.png";
-    //public static final String PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS = PLATFORMS_DIR + "enginecircular.atlas";
-    
-    public static final String PLATFORM_JUMP_BOOST_TEXTURE_ATLAS = PLATFORMS_DIR + "jumpboostlow.atlas";
-    
     public static final String PLATFORM_JUMP_BOOST_CRATER_TEXTURE = PLATFORMS_DIR + "jumpboostcrater.png";
+    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_TEXTURE = PLATFORMS_DIR + "jumpboostdischarge.png";
+    public static final String PLATFORM_ENGINE_TEXTURE = PLATFORMS_DIR + "engine.png";
     
     public static final String OBJECTS_DIR = GAME_DIR + "objects/";
     public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";

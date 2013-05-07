@@ -34,54 +34,51 @@ import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
-    private static final float JUMP_BOOST_WIDTH = 0.5f;
+    private static final float CRATER_WIDTH = 0.5f;
+    private static final float CRATER_HEIGHT = 0.2f;
     
-    // private static final String JUMP_BOOST_IMAGE_NAME = "jumpboostlow";
-    // private static final float JUMP_BOOST_FRAME_DURATION = 1.0f / 60.0f;
-    private static final float JUMP_BOOST_FRAME_WIDTH = 1.25f;
-    // private static final float JUMP_BOOST_FRAME_HEIGHT = 1.0f;
+    private static final float DISCHARGE_WIDTH = 0.2f;
+    private static final float DISCHARGE_HEIGHT = 0.375f;
     
-    // private final Animation mJumpBoostAnimation;
-    // private float mJumpBoostAnimationTime = 0.0f;
+    private final Sprite mCraterSprite;
+    private final Vector2 mCraterOffset;
     
-    private final Sprite mJumpBoostCraterSprite;
-    
-    private final float mPositionOffset;
+    private final Sprite mDischargeSprite;
+    private final Vector2 mDischargeOffset;
     
     public JumpBoostPlatformFeature(PlatformFeatureData featureData, AssetManager assetManager) {
         
+        Texture craterTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_TEXTURE);
+        mCraterSprite = new Sprite(craterTexture);
+        mCraterSprite.setSize(CRATER_WIDTH, CRATER_HEIGHT);
+        
+        Texture dischargeTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_TEXTURE);
+        mDischargeSprite = new Sprite(dischargeTexture);
+        mDischargeSprite.setSize(DISCHARGE_WIDTH, DISCHARGE_HEIGHT);
+        
         float positionFraction = Float.parseFloat(featureData
                 .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
-        mPositionOffset = (PlatformData.PLATFORM_WIDTH - JUMP_BOOST_WIDTH) * positionFraction -
-                (JUMP_BOOST_FRAME_WIDTH - JUMP_BOOST_WIDTH) / 2.0f;
+        mCraterOffset = new Vector2(
+                (PlatformData.PLATFORM_WIDTH - CRATER_WIDTH) * positionFraction,
+                PlatformData.PLATFORM_HEIGHT);
         
-        // String powerString = featureData.getProperty(PlatformFeatureData.JUMP_BOOST_POWER_PROPERTY);
-        
-        // TextureAtlas jumpBoostAtlas = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_TEXTURE_ATLAS);
-        // Array<AtlasRegion> engineAtlasRegions = jumpBoostAtlas.findRegions(JUMP_BOOST_IMAGE_NAME);
-        // mJumpBoostAnimation = new Animation(JUMP_BOOST_FRAME_DURATION, engineAtlasRegions, Animation.LOOP);
-        // mJumpBoostAnimationTime = 0.0f;
-        
-        Texture jumpBoostCraterTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_TEXTURE);
-        mJumpBoostCraterSprite = new Sprite(jumpBoostCraterTexture);
-        mJumpBoostCraterSprite.setSize(0.5f, 0.2f);
+        mDischargeOffset = new Vector2(
+                mCraterOffset.x + (CRATER_WIDTH - DISCHARGE_WIDTH) / 2.0f,
+                mCraterOffset.y + CRATER_HEIGHT - DISCHARGE_HEIGHT + 0.5f);
     }
     
     @Override
     public void render(SpriteBatch batch, Vector2 platformPosition, float delta) {
         
-        // mJumpBoostAnimationTime += delta;
+        mCraterSprite.setPosition(
+                platformPosition.x + mCraterOffset.x,
+                platformPosition.y + mCraterOffset.y);
+        mCraterSprite.draw(batch);
         
-        // TextureRegion engineAnimationFrame = mJumpBoostAnimation.getKeyFrame(mJumpBoostAnimationTime);
-        // batch.draw(engineAnimationFrame,
-        // platformPosition.x + mPositionOffset,
-        // platformPosition.y + 0.0f, // PlatformData.PLATFORM_HEIGHT,
-        // JUMP_BOOST_FRAME_WIDTH, JUMP_BOOST_FRAME_HEIGHT);
-        
-        mJumpBoostCraterSprite.setPosition(
-                platformPosition.x + mPositionOffset + 0.25f,
-                platformPosition.y + PlatformData.PLATFORM_HEIGHT);
-        mJumpBoostCraterSprite.draw(batch);
+        mDischargeSprite.setPosition(
+                platformPosition.x + mDischargeOffset.x,
+                platformPosition.y + mDischargeOffset.y);
+        mDischargeSprite.draw(batch);
     }
     
     private static String getParticlePath(String powerString) {

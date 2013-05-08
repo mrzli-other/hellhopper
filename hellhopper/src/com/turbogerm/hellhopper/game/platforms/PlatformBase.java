@@ -33,6 +33,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
+import com.turbogerm.hellhopper.game.GameCharacter;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
@@ -119,7 +120,7 @@ public abstract class PlatformBase {
         Vector2 p2 = Pools.obtainVector();
         
         float pY = position.y + PlatformData.PLATFORM_HEIGHT;
-        p1.set(position.x - GameArea.CHARACTER_WIDTH, pY);
+        p1.set(position.x - GameCharacter.WIDTH, pY);
         p2.set(position.x + PlatformData.PLATFORM_WIDTH, pY);
         
         boolean isIntersection = Intersector.intersectSegments(c1, c2, p1, p2, intersection);

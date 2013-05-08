@@ -31,7 +31,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
-import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.game.GameCharacter;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
@@ -89,11 +89,11 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
     private static float getJumpBoostSpeed(String powerString) {
         if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
-            return GameArea.JUMP_SPEED * 2.0f;
+            return GameCharacter.JUMP_SPEED * 2.0f;
         } else if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
-            return GameArea.JUMP_SPEED * 3.0f;
+            return GameCharacter.JUMP_SPEED * 3.0f;
         } else {
-            return GameArea.JUMP_SPEED * 4.0f;
+            return GameCharacter.JUMP_SPEED * 4.0f;
         }
     }
 }

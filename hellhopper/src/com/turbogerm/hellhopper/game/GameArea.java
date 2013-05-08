@@ -37,7 +37,6 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.PerformanceData;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
@@ -45,29 +44,19 @@ public final class GameArea {
     private static final float METER_TO_PIXEL = 40.0f;
     private static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
     
-    private static final float EPSILON = 1e-5f;
-    
-    private static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * PIXEL_TO_METER;
+    public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * PIXEL_TO_METER;
     public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * PIXEL_TO_METER;
     
-    public static final float CHARACTER_WIDTH = 1.0f;
-    public static final float CHARACTER_HEIGHT = 1.5f;
-    private static final float CHARACTER_CENTER_X_OFFSET = CHARACTER_WIDTH / 2.0f;
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
+    
+    private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
+    private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
     
     private static final float MAX_DELTA = 0.1f;
     private static final float UPDATE_RATE = 60.0f;
     private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
-    public static final float JUMP_SPEED = 21.25f;
-    private static final float GRAVITY = 35.0f;
-    private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
-    private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
-    
     private static final float END_LINE_HEIGHT = 0.1f;
-    private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
-    private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
-    private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
     private static final float ACTIVE_PLATFORMS_AREA_PADDING = 5.0f;
     
@@ -77,7 +66,6 @@ public final class GameArea {
     private final SpriteBatch mBatch;
     private final PerformanceData mPerformanceData;
     
-    private final Texture mCharacterTexture;
     private final Texture mEndLineTexture;
     
     private Rise mRise;
@@ -86,8 +74,7 @@ public final class GameArea {
     private int mScore;
     
     private float mVisibleAreaPosition;
-    private final Vector2 mCharPosition;
-    private final Vector2 mCharSpeed;
+    private final GameCharacter mCharacter;
     private final PlatformToCharCollisionData mPlatformToCharCollisionData;
     
     private float mDeltaAccumulator;
@@ -96,8 +83,6 @@ public final class GameArea {
     private final Array<PlatformBase> mVisiblePlatforms;
     
     private boolean mIsGameOver;
-    private boolean mIsEndReached;
-    private float mEndReachedCountdown;
     
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
@@ -109,11 +94,9 @@ public final class GameArea {
         mBatch = new SpriteBatch();
         mPerformanceData = new PerformanceData(mBatch);
         
-        mCharacterTexture = mAssetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
-        mCharPosition = new Vector2();
-        mCharSpeed = new Vector2();
+        mCharacter = new GameCharacter(mAssetManager);
         mPlatformToCharCollisionData = new PlatformToCharCollisionData();
         
         mVisiblePlatforms = new Array<PlatformBase>(false, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
@@ -126,8 +109,6 @@ public final class GameArea {
     
     public void reset() {
         mIsGameOver = false;
-        mIsEndReached = false;
-        mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
         
         mRise = RiseGenerator.generate(mAssetManager);
         mRiseHeight = mRise.getHeight();
@@ -135,8 +116,7 @@ public final class GameArea {
         mScore = 0;
         
         mVisibleAreaPosition = 0.0f;
-        mCharPosition.set(GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
-        mCharSpeed.set(0.0f, JUMP_SPEED);
+        mCharacter.reset(mRiseHeight);
         
         mDeltaAccumulator = 0.0f;
         
@@ -152,46 +132,24 @@ public final class GameArea {
             delta = MAX_DELTA;
         }
         
-        float horizontalSpeed = getHorizontalSpeed();
-        
-        if (mIsEndReached) {
-            if (mEndReachedCountdown <= 0.0f) {
-                mIsGameOver = true;
-                return;
-            } else if (mCharPosition.y <= mRiseHeight) {
-                mCharPosition.y = mRiseHeight + EPSILON;
-                mCharSpeed.y = Math.abs(mCharSpeed.y * END_RESTITUTION_MULTIPLIER);
-                mCharSpeed.y = Math.max(mCharSpeed.y - END_RESTITUTION_SPEED_DECREASE, 0.0f);
-            }
-            
-            mEndReachedCountdown -= delta;
-        } else {
-            if (mCharPosition.y <= 0.0f) {
-                mCharPosition.y = 0.0f;
-                mCharSpeed.y = JUMP_SPEED;
-            } else if (mCharPosition.y < mVisibleAreaPosition) {
-                // TODO: only for testing; remove next line and uncomment following
-                mCharSpeed.y = JUMP_SPEED;
-                // mIsGameOver = true;
-                // return;
-            }
+        mIsGameOver = !mCharacter.preUpdate(mVisibleAreaPosition, delta);
+        if (mIsGameOver) {
+            return;
         }
+        
+        float horizontalSpeed = getHorizontalSpeed();
         
         mDeltaAccumulator += delta;
         while (mDeltaAccumulator >= UPDATE_STEP) {
-            updateStep(JUMP_SPEED, horizontalSpeed, UPDATE_STEP);
+            updateStep(horizontalSpeed, UPDATE_STEP);
             mDeltaAccumulator -= UPDATE_STEP;
         }
         
-        updateStep(JUMP_SPEED, horizontalSpeed, mDeltaAccumulator);
+        updateStep(horizontalSpeed, mDeltaAccumulator);
         mDeltaAccumulator = 0.0f;
         
-        if (mCharPosition.y > mRiseHeight) {
-            mIsEndReached = true;
-            mScore = Math.max(mScore, (int) (mRiseHeight * METER_TO_PIXEL));
-        } else {
-            mScore = Math.max(mScore, (int) (mCharPosition.y * METER_TO_PIXEL));
-        }
+        float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
+        mScore = Math.max(mScore, (int) (effectiveCharPositionY * METER_TO_PIXEL));
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
     }
@@ -207,43 +165,22 @@ public final class GameArea {
         
         mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
-        mBatch.draw(mCharacterTexture, mCharPosition.x, mCharPosition.y, CHARACTER_WIDTH, CHARACTER_HEIGHT);
+        mCharacter.render(mBatch);
         
         mBatch.end();
     }
     
-    private void updateStep(float jumpSpeed, float horizontalSpeed, float delta) {
+    private void updateStep(float horizontalSpeed, float delta) {
         
         updateVisiblePlatformsList();
         
         updatePlatforms(delta);
         
-        if (!mPlatformToCharCollisionData.isCollision) {
-            Vector2 cpNext = Pools.obtainVector();
-            cpNext.set(mCharPosition.x + mCharSpeed.x * delta, mCharPosition.y + mCharSpeed.y * delta);
-            Vector2 intersection = Pools.obtainVector();
-            
-            if (isCollisionWithPlatform(mVisiblePlatforms, mCharPosition, cpNext, intersection)) {
-                mCharPosition.set(intersection);
-                mCharSpeed.set(horizontalSpeed, jumpSpeed);
-            } else {
-                mCharPosition.set(cpNext);
-                float speedY = Math.max(mCharSpeed.y - GRAVITY * delta, -JUMP_SPEED);
-                mCharSpeed.set(horizontalSpeed, speedY);
-            }
-            
-            Pools.freeVector(cpNext);
-            Pools.freeVector(intersection);
-        } else {
-            mCharPosition.y = mPlatformToCharCollisionData.collisionPoint.y;
-            mCharSpeed.set(horizontalSpeed, jumpSpeed);
-        }
-        
-        mCharPosition.x = GameUtils.getPositiveModulus(
-                mCharPosition.x + CHARACTER_CENTER_X_OFFSET, GAME_AREA_WIDTH) - CHARACTER_CENTER_X_OFFSET;
+        mCharacter.updateStep(horizontalSpeed, mPlatformToCharCollisionData, mVisiblePlatforms, delta);
         
         mVisibleAreaPosition = Math.max(
-                mVisibleAreaPosition, mCharPosition.y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
+                mVisibleAreaPosition, mCharacter.getPosition().y -
+                GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
     }
     
     private float getHorizontalSpeed() {
@@ -284,11 +221,13 @@ public final class GameArea {
         Vector2 c2 = Pools.obtainVector();
         mPlatformToCharCollisionData.reset();
         
-        c1.set(mCharPosition.x - PlatformData.PLATFORM_WIDTH, mCharPosition.y);
-        c2.set(mCharPosition.x + CHARACTER_WIDTH, mCharPosition.y);
+        Vector2 charPosition = mCharacter.getPosition();
+        
+        c1.set(charPosition.x - PlatformData.PLATFORM_WIDTH, charPosition.y);
+        c2.set(charPosition.x + GameCharacter.WIDTH, charPosition.y);
         
         // only check for collision when character is going down
-        mPlatformToCharCollisionData.isEnabled = mCharSpeed.y < 0.0f;
+        mPlatformToCharCollisionData.isEnabled = mCharacter.getSpeed().y < 0.0f;
         
         for (PlatformBase platform : mVisiblePlatforms) {
             platform.update(delta, c1, c2, mPlatformToCharCollisionData);
@@ -296,24 +235,6 @@ public final class GameArea {
         
         Pools.freeVector(c1);
         Pools.freeVector(c2);
-    }
-    
-    private static boolean isCollisionWithPlatform(
-            Array<PlatformBase> platforms,
-            Vector2 c1, Vector2 c2, Vector2 intersection) {
-        
-        // only check for collision when character is going down
-        if (c2.y >= c1.y) {
-            return false;
-        }
-        
-        for (PlatformBase platform : platforms) {
-            if (platform.isCollision(c1, c2, intersection)) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     public int getScore() {

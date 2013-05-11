@@ -25,9 +25,17 @@ package com.turbogerm.hellhopper.game.platforms.features;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.game.CollisionEffect;
 
 public abstract class PlatformFeatureBase {
     
     public void render(SpriteBatch batch, Vector2 platformPosition, float delta) {
+    }
+    
+    public boolean isContact(float relativeCollisionPointX) {
+        return false;
+    }
+    
+    public void applyContact(CollisionEffect collisionEffect) {
     }
 }

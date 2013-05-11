@@ -33,6 +33,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.game.CollisionEffect;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 
 final class FlamePlatform extends PlatformBase {
@@ -97,6 +98,15 @@ final class FlamePlatform extends PlatformBase {
         
         mSprite.setColor(mColorValue, mColorValue, mColorValue, 1.0f);
         super.renderImpl(batch, delta);
+    }
+    
+    @Override
+    public void fillCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
+        if (mFlameStateMachine.getCurrentState() == FlameStateMachine.FLAME) {
+            collisionEffect.set(CollisionEffect.BURN);
+        } else {
+            super.fillCollisionEffect(collisionPointX, collisionEffect);
+        }
     }
     
     private float getColorValue() {

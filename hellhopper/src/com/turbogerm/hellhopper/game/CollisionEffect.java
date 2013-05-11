@@ -23,21 +23,32 @@
  */
 package com.turbogerm.hellhopper.game;
 
-import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-
-public final class PlatformToCharCollisionData {
+public final class CollisionEffect {
     
-    public boolean isCollision;
-    public final Vector2 collisionPoint;
-    public PlatformBase collisionPlatform;
-    public boolean isEnabled;
+    public static final int NONE = 0;
+    public static final int JUMP_BOOST = 1;
+    public static final int BURN = 2;
     
-    public PlatformToCharCollisionData() {
-        collisionPoint = new Vector2();
+    private int mEffect;
+    private float mValue;
+    
+    public CollisionEffect() {
     }
     
-    public void reset() {
-        isCollision = false;
+    public void set(int effect) {
+        mEffect = effect;
+    }
+    
+    public void set(int effect, float value) {
+        mEffect = effect;
+        mValue = value;
+    }
+    
+    public int getEffect() {
+        return mEffect;
+    }
+    
+    public float getValue() {
+        return mValue;
     }
 }

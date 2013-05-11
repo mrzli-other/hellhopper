@@ -223,8 +223,8 @@ public final class GameArea {
         
         Vector2 charPosition = mCharacter.getPosition();
         
-        c1.set(charPosition.x - PlatformData.PLATFORM_WIDTH, charPosition.y);
-        c2.set(charPosition.x + GameCharacter.WIDTH, charPosition.y);
+        c1.set(charPosition.x + GameCharacter.COLLISION_WIDTH_OFFSET - PlatformData.PLATFORM_WIDTH, charPosition.y);
+        c2.set(charPosition.x + GameCharacter.COLLISION_LINE_LENGTH, charPosition.y);
         
         // only check for collision when character is going down
         mPlatformToCharCollisionData.isEnabled = mCharacter.getSpeed().y < 0.0f;

@@ -33,6 +33,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
+import com.turbogerm.hellhopper.game.CollisionEffect;
 import com.turbogerm.hellhopper.game.GameCharacter;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
@@ -82,7 +83,10 @@ public abstract class PlatformBase {
             if (p2.y > p1.y) {
                 collisionData.isCollision = Intersector.intersectSegments(
                         c1, c2, p1, p2, collisionData.collisionPoint);
-                collisionData.collisionPoint.y = p2.y;
+                if (collisionData.isCollision) {
+                    collisionData.collisionPlatform = this;
+                    collisionData.collisionPoint.y = p2.y;
+                }
             }
             
             Pools.freeVector(p1);
@@ -120,8 +124,8 @@ public abstract class PlatformBase {
         Vector2 p2 = Pools.obtainVector();
         
         float pY = position.y + PlatformData.PLATFORM_HEIGHT;
-        p1.set(position.x - GameCharacter.WIDTH, pY);
-        p2.set(position.x + PlatformData.PLATFORM_WIDTH, pY);
+        p1.set(position.x - GameCharacter.COLLISION_LINE_LENGTH, pY);
+        p2.set(position.x + PlatformData.PLATFORM_WIDTH - GameCharacter.COLLISION_WIDTH_OFFSET, pY);
         
         boolean isIntersection = Intersector.intersectSegments(c1, c2, p1, p2, intersection);
         
@@ -136,6 +140,20 @@ public abstract class PlatformBase {
         float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
         float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
         return position.y >= activeRangeLower && position.y <= activeRangeUpper;
+    }
+    
+    public void fillCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
+        if (mPlatformFeatures != null) {
+            float relativeCollisionPointX = collisionPointX - getPosition().x;
+            for (PlatformFeatureBase feature : mPlatformFeatures) {
+                if (feature.isContact(relativeCollisionPointX)) {
+                    feature.applyContact(collisionEffect);
+                    return;
+                }
+            }
+        }
+        
+        collisionEffect.set(CollisionEffect.NONE);
     }
     
     public Vector2 getPosition() {

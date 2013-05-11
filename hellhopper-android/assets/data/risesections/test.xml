@@ -76,16 +76,26 @@
       </movement>
     </platform>
     
-    <platform step="12" offset="27" type="flame">
-      <movement type="vertical">
+    <platform step="12" offset="20" type="flame">
+      <movement type="horizontal">
         <properties>
-          <property name="range" value="5" />
+          <property name="range" value="2" />
           <property name="speed" value="1.25" />
           <property name="initialoffset" value="3" />
         </properties>
       </movement>
     </platform>
     
+    <platform step="8" offset="0" type="normal">
+      <features>
+          <feature type="jumpboost">
+            <properties>
+              <property name="position" value="1.0" />
+              <property name="power" value="low" />
+            </properties>
+          </feature>
+      </features>
+    </platform>
   </platforms>
   
 </risesection>

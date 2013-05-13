@@ -30,7 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
-import com.turbogerm.hellhopper.game.RiseGenerator;
+import com.turbogerm.hellhopper.game.generator.RiseGeneratorUtils;
 import com.turbogerm.hellhopper.util.Logger;
 
 public final class RiseSectionDataReader {
@@ -60,7 +60,7 @@ public final class RiseSectionDataReader {
             PlatformData platformData = getPlatformData(platformNode);
             platformDataList.add(platformData);
         }
-        RiseGenerator.sort(platformDataList);
+        RiseGeneratorUtils.sort(platformDataList);
         
         return new RiseSectionData(stepRange, difficulty, platformDataList);
     }

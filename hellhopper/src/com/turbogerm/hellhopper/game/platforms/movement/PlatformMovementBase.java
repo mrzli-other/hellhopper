@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class PlatformMovementBase {
     
@@ -70,9 +71,11 @@ public abstract class PlatformMovementBase {
         // mEngineAnimationTime += delta;
     }
     
-    public void render(SpriteBatch batch, float delta) {
+    public void render(SpriteBatch batch, float alpha, float delta) {
         mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
         mEngineSprite.draw(batch);
+        
+        GameUtils.setSpriteAlpha(mEngineSprite, alpha);
         
         // TextureRegion engineAnimationFrame = mEngineAnimation.getKeyFrame(mEngineAnimationTime);
         // batch.draw(engineAnimationFrame, mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET,

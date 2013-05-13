@@ -41,11 +41,13 @@ import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
+import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
     protected final Sprite mSprite;
+    protected float mAlpha;
     
     private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
@@ -58,6 +60,7 @@ public abstract class PlatformBase {
         mSprite = new Sprite(texture);
         mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
+        mAlpha = 1.0f;
         
         mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
                 assetManager);
@@ -97,23 +100,26 @@ public abstract class PlatformBase {
     }
     
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
-        mPlatformMovement.updatePosition(delta);
+        if (isMovingInternal()) {
+            mPlatformMovement.updatePosition(delta);
+        }
     }
     
     public final void render(SpriteBatch batch, float delta) {
         
         if (mPlatformFeatures != null) {
             for (PlatformFeatureBase platformFeature : mPlatformFeatures) {
-                platformFeature.render(batch, getPosition(), delta);
+                platformFeature.render(batch, getPosition(), mAlpha, delta);
             }
         }
         renderImpl(batch, delta);
-        mPlatformMovement.render(batch, delta);
+        mPlatformMovement.render(batch, mAlpha, isMovingInternal() ? delta : 0.0f);
     }
     
     protected void renderImpl(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         mSprite.setPosition(position.x, position.y);
+        GameUtils.setSpriteAlpha(mSprite, mAlpha);
         mSprite.draw(batch);
     }
     
@@ -136,10 +142,22 @@ public abstract class PlatformBase {
     }
     
     public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
+        if (!isActiveInternal()) {
+            return false;
+        }
+        
         Vector2 position = getPosition();
         float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
         float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
         return position.y >= activeRangeLower && position.y <= activeRangeUpper;
+    }
+    
+    protected boolean isActiveInternal() {
+        return true;
+    }
+    
+    protected boolean isMovingInternal() {
+        return true;
     }
     
     public void fillCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {

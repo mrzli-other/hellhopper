@@ -33,6 +33,7 @@ import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffect;
 import com.turbogerm.hellhopper.game.GameCharacter;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
@@ -84,7 +85,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     }
     
     @Override
-    public void render(SpriteBatch batch, Vector2 platformPosition, float delta) {
+    public void render(SpriteBatch batch, Vector2 platformPosition, float alpha, float delta) {
         
         if (mDischargeElapsed < DISCHARGE_DURATION) {
             mDischargeElapsed += delta;
@@ -100,6 +101,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mCraterSprite.setPosition(
                 platformPosition.x + mCraterOffset.x,
                 platformPosition.y + mCraterOffset.y);
+        GameUtils.setSpriteAlpha(mCraterSprite, alpha);
         mCraterSprite.draw(batch);
     }
     

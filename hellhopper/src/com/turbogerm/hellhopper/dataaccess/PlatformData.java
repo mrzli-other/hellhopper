@@ -26,7 +26,7 @@ package com.turbogerm.hellhopper.dataaccess;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.game.GameArea;
 
 public final class PlatformData {
     
@@ -46,7 +46,7 @@ public final class PlatformData {
     public static final float PLATFORM_HEIGHT = STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
     
     public static final int MAX_PLATFORM_DISTANCE_STEPS = 5;
-    public static final int MAX_PLATFORM_OFFSET = (int) (HellHopper.VIEWPORT_WIDTH / OFFSET_WIDTH) -
+    public static final int MAX_PLATFORM_OFFSET = (int) (GameArea.GAME_AREA_WIDTH / OFFSET_WIDTH) -
             PLATFORM_WIDTH_OFFSETS;
     
     private final String mPlatformType;

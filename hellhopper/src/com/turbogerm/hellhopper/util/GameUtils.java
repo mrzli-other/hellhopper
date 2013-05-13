@@ -23,6 +23,11 @@
  */
 package com.turbogerm.hellhopper.util;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+
 public final class GameUtils {
     
     /* Math */
@@ -32,5 +37,31 @@ public final class GameUtils {
     
     public static int getPositiveModulus(int value, int mod) {
         return ((value % mod) + mod) % mod;
+    }
+    
+    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes) {
+        Array<Integer> selectedList = new Array<Integer>(numberOfIndexes);
+        
+        Array<Integer> availableList = new Array<Integer>(true, range);
+        for (int i = 0; i < range; i++) {
+            availableList.add(i);
+        }
+        
+        for (int i = 0; i < numberOfIndexes; i++) {
+            int selectedIndex = MathUtils.random(availableList.size - 1);
+            int selected = availableList.get(selectedIndex);
+            selectedList.add(selected);
+            availableList.removeIndex(selectedIndex);
+        }
+        
+        selectedList.sort();
+        
+        return selectedList;
+    }
+    
+    /* Graphics */
+    public static void setSpriteAlpha(Sprite sprite, float alpha) {
+        Color c = sprite.getColor();
+        sprite.setColor(c.r, c.g, c.b, alpha);
     }
 }

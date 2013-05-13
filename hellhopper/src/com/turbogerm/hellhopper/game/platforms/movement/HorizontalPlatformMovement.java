@@ -46,10 +46,15 @@ public final class HorizontalPlatformMovement extends PlatformMovementBase {
         
         mLeftLimit = initialPosition.x;
         mRightLimit = initialPosition.x + mRange;
-        mIsRightMovement = true;
         
         float initialOffset = Float.parseFloat(movementData.getProperty(PlatformMovementData.INITIAL_OFFSET_PROPERTY));
-        changePosition(initialOffset);
+        if (initialOffset <= mRange) {
+            changePosition(initialOffset);
+            mIsRightMovement = true;
+        } else {
+            changePosition(mRange - initialOffset % mRange);
+            mIsRightMovement = false;
+        }
     }
     
     @Override

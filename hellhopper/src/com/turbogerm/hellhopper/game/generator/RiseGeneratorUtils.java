@@ -21,21 +21,33 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms.features;
+package com.turbogerm.hellhopper.game.generator;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import java.util.Comparator;
 
-public abstract class PlatformFeatureBase {
+import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.dataaccess.PlatformData;
+
+public final class RiseGeneratorUtils {
     
-    public void render(SpriteBatch batch, Vector2 platformPosition, float alpha, float delta) {
+    private static final Comparator<PlatformData> PLATFORM_DATA_COMPARATOR;
+    
+    static {
+        PLATFORM_DATA_COMPARATOR = new Comparator<PlatformData>() {
+            @Override
+            public int compare(PlatformData p1, PlatformData p2) {
+                if (p1.getStep() < p2.getStep()) {
+                    return -1;
+                } else if (p1.getStep() > p2.getStep()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
     }
     
-    public boolean isContact(float relativeCollisionPointX) {
-        return false;
-    }
-    
-    public void applyContact(CollisionEffect collisionEffect) {
+    public static void sort(Array<PlatformData> platformDataList) {
+        platformDataList.sort(PLATFORM_DATA_COMPARATOR);
     }
 }

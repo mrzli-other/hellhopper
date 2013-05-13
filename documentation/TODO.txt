@@ -8,16 +8,11 @@
 
 - make portal with flame square for character
   - when he jumps move screen with eased in/out interpolation to the new location
-  
-- platform additions:
-  - jump boost in form of geothermal vent or whatever on
-    - should activate on collision with pad when collided in area where that boost is
-  - spikes on platform, or flame on platform
-    - only part of platform
-    - entire platform going up and down (turning on and for), perhaps more time off than on
-      - maybe even with a small timer that says when change occurs, or maybe some animation
-        prior to turning on
-        
+       
+
+- rise sections:
+  - all horizontal moving platforms, one on each step, 0.1 jump boost chance
+       
 - maybe:
   - use separate camera for gui and game
     - try making gui camera same as physical resolution

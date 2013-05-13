@@ -48,7 +48,13 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
         mIsUpMovement = true;
         
         float initialOffset = Float.parseFloat(movementData.getProperty(PlatformMovementData.INITIAL_OFFSET_PROPERTY));
-        changePosition(initialOffset);
+        if (initialOffset <= mRange) {
+            changePosition(initialOffset);
+            mIsUpMovement = true;
+        } else {
+            changePosition(mRange - initialOffset % mRange);
+            mIsUpMovement = false;
+        }
     }
     
     @Override

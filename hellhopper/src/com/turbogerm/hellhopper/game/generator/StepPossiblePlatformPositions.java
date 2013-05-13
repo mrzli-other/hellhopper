@@ -21,21 +21,32 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms.features;
+package com.turbogerm.hellhopper.game.generator;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import com.badlogic.gdx.utils.Array;
 
-public abstract class PlatformFeatureBase {
+final class StepPossiblePlaformPositions {
+    private final int mStep;
+    private final Array<Integer> mOffsets;
     
-    public void render(SpriteBatch batch, Vector2 platformPosition, float alpha, float delta) {
+    public StepPossiblePlaformPositions(int step, Array<Integer> offsets) {
+        mStep = step;
+        mOffsets = offsets;
     }
     
-    public boolean isContact(float relativeCollisionPointX) {
-        return false;
+    public int getStep() {
+        return mStep;
     }
     
-    public void applyContact(CollisionEffect collisionEffect) {
+    public int getNumPositions() {
+        return mOffsets.size;
+    }
+    
+    public int getOffset(int index) {
+        return mOffsets.get(index);
+    }
+    
+    public void removeOffsetValue(int value) {
+        mOffsets.removeValue(value, false);
     }
 }

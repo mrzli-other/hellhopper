@@ -45,10 +45,6 @@ public final class CrumblePlatform extends PlatformBase {
     
     @Override
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
-        if (mCrumblingCountdown <= 0.0f) {
-            return;
-        }
-        
         if (mIsCrumbling) {
             mCrumblingCountdown -= delta;
         }
@@ -58,16 +54,11 @@ public final class CrumblePlatform extends PlatformBase {
     
     @Override
     protected void renderImpl(SpriteBatch batch, float delta) {
-        if (mCrumblingCountdown <= 0.0f) {
-            return;
+        if (mIsCrumbling) {
+            mAlpha = mCrumblingCountdown / CRUMBLING_COUNTDOWN_DURATION;
         }
         
-        if (mIsCrumbling) {
-            float alpha = mCrumblingCountdown / CRUMBLING_COUNTDOWN_DURATION;
-            mSprite.draw(batch, alpha);
-        } else {
-            mSprite.draw(batch);
-        }
+        super.renderImpl(batch, delta);
     }
     
     @Override
@@ -84,5 +75,15 @@ public final class CrumblePlatform extends PlatformBase {
             return false;
         }
         
+    }
+    
+    @Override
+    protected boolean isActiveInternal() {
+        return mCrumblingCountdown > 0.0f;
+    }
+    
+    @Override
+    protected boolean isMovingInternal() {
+        return !mIsCrumbling;
     }
 }

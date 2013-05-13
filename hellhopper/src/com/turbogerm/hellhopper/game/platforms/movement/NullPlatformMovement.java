@@ -34,7 +34,7 @@ public final class NullPlatformMovement extends PlatformMovementBase {
     }
     
     @Override
-    public void render(SpriteBatch batch, float delta) {
+    public void render(SpriteBatch batch, float delta, float alpha) {
     }
     
     @Override

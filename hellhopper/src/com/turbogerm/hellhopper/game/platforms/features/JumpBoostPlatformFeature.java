@@ -37,15 +37,21 @@ import com.turbogerm.hellhopper.util.GameUtils;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
-    private static final float CRATER_WIDTH = 0.5f;
+    private static final float CRATER_LOW_WIDTH = 0.5f;
+    private static final float CRATER_MEDIUM_WIDTH = 0.75f;
+    private static final float CRATER_HIGH_WIDTH = 1.0f;
     private static final float CRATER_HEIGHT = 0.2f;
     
-    private static final float DISCHARGE_WIDTH = 0.6f;
-    private static final float DISCHARGE_HEIGHT = 0.5f;
+    private static final float DISCHARGE_LOW_WIDTH = 0.6f;
+    private static final float DISCHARGE_LOW_HEIGHT = 0.5f;
+    private static final float DISCHARGE_MEDIUM_WIDTH = 0.9f;
+    private static final float DISCHARGE_MEDIUM_HEIGHT = 0.75f;
+    private static final float DISCHARGE_HIGH_WIDTH = 1.2f;
+    private static final float DISCHARGE_HIGH_HEIGHT = 1.0f;
     
     private static final float LOW_POWER_MULTIPLIER = 1.3f;
     private static final float MEDIUM_POWER_MULTIPLIER = 1.6f;
-    private static final float HIGH_POWER_MULTIPLIER = 1.8f;
+    private static final float HIGH_POWER_MULTIPLIER = 1.9f;
     
     private static final float DISCHARGE_DURATION = 0.4f;
     
@@ -56,29 +62,34 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     private final Vector2 mDischargeInitialOffset;
     private float mDischargeElapsed;
     
+    private final float mCraterWidth;
     private final float mJumpBoostSpeed;
     
     public JumpBoostPlatformFeature(PlatformFeatureData featureData, AssetManager assetManager) {
         
-        Texture craterTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_TEXTURE);
-        mCraterSprite = new Sprite(craterTexture);
-        mCraterSprite.setSize(CRATER_WIDTH, CRATER_HEIGHT);
-        
-        Texture dischargeTexture = assetManager.get(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_TEXTURE);
-        mDischargeSprite = new Sprite(dischargeTexture);
-        mDischargeSprite.setSize(DISCHARGE_WIDTH, DISCHARGE_HEIGHT);
-        
         String powerString = featureData.getProperty(PlatformFeatureData.JUMP_BOOST_POWER_PROPERTY);
-        mJumpBoostSpeed = getJumpBoostSpeed(powerString);
+        JumpPowerData powerData = getJumpPowerData(powerString);
+        
+        mCraterWidth = powerData.craterWidth;
+        
+        Texture craterTexture = assetManager.get(powerData.craterTextureName);
+        mCraterSprite = new Sprite(craterTexture);
+        mCraterSprite.setSize(mCraterWidth, CRATER_HEIGHT);
+        
+        Texture dischargeTexture = assetManager.get(powerData.dischargeTextureName);
+        mDischargeSprite = new Sprite(dischargeTexture);
+        mDischargeSprite.setSize(powerData.dischargeWidth, powerData.dischargeHeight);
+        
+        mJumpBoostSpeed = powerData.speed;
         
         float positionFraction = Float.parseFloat(featureData
                 .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
         mCraterOffset = new Vector2(
-                (PlatformData.PLATFORM_WIDTH - CRATER_WIDTH) * positionFraction,
+                (PlatformData.PLATFORM_WIDTH - mCraterWidth) * positionFraction,
                 PlatformData.PLATFORM_HEIGHT);
         
         mDischargeInitialOffset = new Vector2(
-                mCraterOffset.x + (CRATER_WIDTH - DISCHARGE_WIDTH) / 2.0f,
+                mCraterOffset.x + (mCraterWidth - powerData.dischargeWidth) / 2.0f,
                 mCraterOffset.y + CRATER_HEIGHT);
         
         mDischargeElapsed = DISCHARGE_DURATION;
@@ -111,7 +122,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         float charX2 = charX1 + GameCharacter.COLLISION_WIDTH;
         
         float featureX1 = mCraterOffset.x;
-        float featureX2 = featureX1 + CRATER_WIDTH;
+        float featureX2 = featureX1 + mCraterWidth;
         
         // http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
         return charX2 >= featureX1 && featureX2 >= charX1;
@@ -127,13 +138,57 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mDischargeElapsed = 0.0f;
     }
     
-    private static float getJumpBoostSpeed(String powerString) {
+    private static JumpPowerData getJumpPowerData(String powerString) {
+        
         if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
-            return GameCharacter.JUMP_SPEED * LOW_POWER_MULTIPLIER;
+            return new JumpPowerData(
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE,
+                    CRATER_LOW_WIDTH,
+                    DISCHARGE_LOW_WIDTH,
+                    DISCHARGE_LOW_HEIGHT,
+                    GameCharacter.JUMP_SPEED * LOW_POWER_MULTIPLIER);
         } else if (PlatformFeatureData.JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE.equals(powerString)) {
-            return GameCharacter.JUMP_SPEED * MEDIUM_POWER_MULTIPLIER;
+            return new JumpPowerData(
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE,
+                    CRATER_MEDIUM_WIDTH,
+                    DISCHARGE_MEDIUM_WIDTH,
+                    DISCHARGE_MEDIUM_HEIGHT,
+                    GameCharacter.JUMP_SPEED * MEDIUM_POWER_MULTIPLIER);
         } else {
-            return GameCharacter.JUMP_SPEED * HIGH_POWER_MULTIPLIER;
+            return new JumpPowerData(
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE,
+                    CRATER_HIGH_WIDTH,
+                    DISCHARGE_HIGH_WIDTH,
+                    DISCHARGE_HIGH_HEIGHT,
+                    GameCharacter.JUMP_SPEED * HIGH_POWER_MULTIPLIER);
+        }
+    }
+    
+    private static class JumpPowerData {
+        final String craterTextureName;
+        final String dischargeTextureName;
+        final float craterWidth;
+        final float dischargeWidth;
+        final float dischargeHeight;
+        final float speed;
+        
+        public JumpPowerData(
+                String craterTextureName,
+                String dischargeTextureName,
+                float craterWidth,
+                float dischargeWidth,
+                float dischargeHeight,
+                float speed) {
+            
+            this.craterTextureName = craterTextureName;
+            this.dischargeTextureName = dischargeTextureName;
+            this.craterWidth = craterWidth;
+            this.dischargeWidth = dischargeWidth;
+            this.dischargeHeight = dischargeHeight;
+            this.speed = speed;
         }
     }
 }

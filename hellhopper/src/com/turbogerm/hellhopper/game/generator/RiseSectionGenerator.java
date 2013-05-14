@@ -111,7 +111,7 @@ final class RiseSectionGenerator {
             properties.put(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY,
                     String.valueOf(MathUtils.random()));
             properties.put(PlatformFeatureData.JUMP_BOOST_POWER_PROPERTY,
-                    PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE);
+                    PlatformFeatureData.JUMP_BOOST_POWER_HIGH_PROPERTY_VALUE);
             
             PlatformFeatureData featureData = new PlatformFeatureData(PlatformFeatureData.JUMP_BOOST, properties);
             featuresData.add(featureData);

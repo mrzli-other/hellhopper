@@ -1,0 +1,14 @@
+<risesection steprange="48" difficulty="2">
+  <platforms>
+    <platform step="0" offset="5" type="normal" />
+    <platform step="5" offset="5" type="flame" />
+    <platform step="10" offset="5" type="normal" />
+    <platform step="15" offset="32" type="normal" />
+    <platform step="20" offset="32" type="flame" />
+    <platform step="25" offset="32" type="normal" />
+    <platform step="30" offset="5" type="normal" />
+    <platform step="35" offset="5" type="flame" />
+    <platform step="40" offset="5" type="normal" />
+    <platform step="45" offset="32" type="normal" />
+  </platforms>
+</risesection>

@@ -48,18 +48,14 @@ public final class RiseGenerator {
     public static Rise generate(AssetManager assetManager) {
         Array<RiseSectionData> riseSections = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
         
-        riseSections.add(PREBUILT_RISE_SECTIONS.getRiseSection("semiflame"));
-        
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 2, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-//        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 4.0f, 6.0f, 0.1f, 0.15f, 0));
-        
-        riseSections.add(RiseSectionGenerator.generateRiseSection(120,
-                PlatformData.MAX_PLATFORM_DISTANCE_STEPS, PlatformData.MAX_PLATFORM_DISTANCE_STEPS,
-                1.0f, 6.0f, 10.0f, 1.0f, 0.1f, 2));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+        riseSections.add(PREBUILT_RISE_SECTIONS.getRiseSection("simpleflametransition"));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 2, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.0f, 0.15f, 0));
+        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.15f, 0.15f, 0));
         
         int totalNumPlatforms = 0;
         for (RiseSectionData riseSection : riseSections) {

@@ -13,6 +13,11 @@
 - rise sections:
   - all horizontal moving platforms, one on each step, 0.1 jump boost chance
        
+- implement a mechanic where you need to jump on specific platforms in specific order
+  (which can be random) to generate a platform above to jump on and continue going up
+  - possibly have 4-5 platforms on the same step and then randomly turn the platform to green
+    color so player knows on which to jump
+
 - maybe:
   - use separate camera for gui and game
     - try making gui camera same as physical resolution

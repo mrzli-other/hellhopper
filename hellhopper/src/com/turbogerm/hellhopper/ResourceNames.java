@@ -48,7 +48,7 @@ public final class ResourceNames {
     
     public static final String DATA_DIR = "data/";
     public static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
-    public static final String RISE_SECTION_TEST = RISE_SECTIONS_DIR + "test.xml";
+    public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
     
     public static final String GAME_DIR = "game/";
     public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";
@@ -75,6 +75,10 @@ public final class ResourceNames {
     
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE = PARTICLES_DIR + "engine.p";
+    
+    public static String getRiseSectionPath(String name) {
+        return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
+    }
     
     public static String getPlatformNormalTexture(int i) {
         return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);

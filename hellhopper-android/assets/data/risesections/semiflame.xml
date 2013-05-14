@@ -1,0 +1,20 @@
+<risesection steprange="80" difficulty="2">
+  <platforms>
+    <platform step="0" offset="32" type="normal" />
+    <platform step="5" offset="5" type="flame" />
+    <platform step="10" offset="25" type="normal" />
+    <platform step="15" offset="5" type="flame" />
+    <platform step="20" offset="25" type="normal" />
+    <platform step="25" offset="5" type="flame" />
+    <platform step="30" offset="25" type="normal" />
+    <platform step="35" offset="5" type="flame" />
+    <platform step="40" offset="25" type="normal" />
+    <platform step="45" offset="5" type="flame" />
+    <platform step="50" offset="25" type="normal" />
+    <platform step="55" offset="5" type="flame" />
+    <platform step="60" offset="25" type="normal" />
+    <platform step="65" offset="5" type="flame" />
+    <platform step="70" offset="25" type="normal" />
+    <platform step="75" offset="5" type="flame" />
+  </platforms>
+</risesection>

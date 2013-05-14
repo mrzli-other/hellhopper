@@ -184,7 +184,7 @@ final class RiseSectionGenerator {
         return steps;
     }
     
-    public static RiseSectionData generateSpreadOutRiseSection(
+    public static RiseSectionData generateRiseSection(
             int stepRange,
             int minStepDistance,
             int maxStepDistance,

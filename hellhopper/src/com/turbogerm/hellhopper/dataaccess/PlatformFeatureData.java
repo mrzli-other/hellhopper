@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public final class PlatformFeatureData {
     
-    public static final String JUMP_BOOST = "jumpboost";
+    public static final String JUMP_BOOST_FEATURE = "jumpboost";
     
     public static final String JUMP_BOOST_POSITION_PROPERTY = "position";
     public static final String JUMP_BOOST_POWER_PROPERTY = "power";
@@ -36,7 +36,7 @@ public final class PlatformFeatureData {
     public static final String JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE = "medium";
     public static final String JUMP_BOOST_POWER_HIGH_PROPERTY_VALUE = "high";
     
-    public static final String FLAME = "flame";
+    public static final String FLAME_FEATURE = "flame";
     
     public static final String FLAME_CYCLE_OFFSET_PROPERTY = "cycleoffset";
     public static final String FLAME_FLAME_DURATION_PROPERTY = "flameduration";

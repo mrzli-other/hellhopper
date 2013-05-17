@@ -32,6 +32,7 @@ import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsDataReader;
 import com.turbogerm.hellhopper.game.Rise;
+import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
@@ -46,40 +47,51 @@ public final class RiseGenerator {
     }
     
     public static Rise generate(AssetManager assetManager) {
-        Array<RiseSectionData> riseSections = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
+        Array<RiseSectionData> riseSectionsData = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
         
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        riseSections.add(PREBUILT_RISE_SECTIONS.getRiseSection("simpleflametransition"));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 2, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.0f, 0.15f, 0));
-        riseSections.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.15f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("simpleflametransition"));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 2, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.0f, 0.15f, 0));
+//        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.15f, 0.15f, 0));
         
-        int totalNumPlatforms = 0;
-        for (RiseSectionData riseSection : riseSections) {
-            totalNumPlatforms += riseSection.getPlatformDataList().size;
-        }
+        riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("test"));
         
-        Array<PlatformBase> platforms = new Array<PlatformBase>(true, totalNumPlatforms);
-        int startStep = 0;
-        for (RiseSectionData riseSection : riseSections) {
-            addPlatforms(platforms, riseSection, startStep, assetManager);
-            startStep += riseSection.getStepRange();
-        }
+        Array<RiseSection> riseSections = getRiseSections(riseSectionsData, assetManager);
         
-        float riseHeight = startStep * PlatformData.STEP_HEIGHT;
-        
-        return new Rise(riseHeight, platforms);
+        return new Rise(riseSections);
     }
     
-    private static void addPlatforms(Array<PlatformBase> platforms, RiseSectionData riseSection, int startStep,
+    private static Array<RiseSection> getRiseSections(Array<RiseSectionData> riseSectionsData,
             AssetManager assetManager) {
-        Array<PlatformData> platformDataList = riseSection.getPlatformDataList();
-        for (PlatformData platformData : platformDataList) {
+        Array<RiseSection> riseSections = new Array<RiseSection>(true, riseSectionsData.size);
+        
+        int startStep = 0;
+        for (RiseSectionData riseSectionData : riseSectionsData) {
+            RiseSection riseSection = getRiseSection(startStep, riseSectionData, assetManager);
+            riseSections.add(riseSection);
+            startStep += riseSectionData.getStepRange();
+        }
+        
+        return riseSections;
+    }
+    
+    private static RiseSection getRiseSection(int startStep, RiseSectionData riseSectionData,
+            AssetManager assetManager) {
+        
+        float startY = startStep * PlatformData.STEP_HEIGHT;
+        float height = riseSectionData.getStepRange() * PlatformData.STEP_HEIGHT;
+        
+        Array<PlatformData> platformsData = riseSectionData.getPlatformDataList();
+        Array<PlatformBase> platforms = new Array<PlatformBase>(true, platformsData.size);
+        for (PlatformData platformData : platformsData) {
             PlatformBase platform = PlatformFactory.create(platformData, startStep, assetManager);
             platforms.add(platform);
         }
+        
+        return new RiseSection(startY, height, platforms);
     }
 }

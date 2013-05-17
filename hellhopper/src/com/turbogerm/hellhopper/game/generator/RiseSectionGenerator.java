@@ -113,7 +113,7 @@ final class RiseSectionGenerator {
             properties.put(PlatformFeatureData.JUMP_BOOST_POWER_PROPERTY,
                     PlatformFeatureData.JUMP_BOOST_POWER_HIGH_PROPERTY_VALUE);
             
-            PlatformFeatureData featureData = new PlatformFeatureData(PlatformFeatureData.JUMP_BOOST, properties);
+            PlatformFeatureData featureData = new PlatformFeatureData(PlatformFeatureData.JUMP_BOOST_FEATURE, properties);
             featuresData.add(featureData);
         } else {
             featuresData = null;

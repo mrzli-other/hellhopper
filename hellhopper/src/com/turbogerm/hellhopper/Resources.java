@@ -83,7 +83,8 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS, TextureAtlas.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_JUMP_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE, Texture.class, null);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE, Texture.class, null);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE, Texture.class, null);
@@ -93,7 +94,8 @@ public final class Resources {
         
         mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
-        mAssetManager.load(ResourceNames.PARTICLE_ENGINE, ParticleEffect.class, null);
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class, null);
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_JUMP, ParticleEffect.class, null);
         
         mAssetManager.finishLoading();
         

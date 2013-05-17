@@ -59,9 +59,10 @@ public final class GameArea {
     
     private static final float END_LINE_HEIGHT = 0.1f;
     
-    private static final float ACTIVE_PLATFORMS_AREA_PADDING = 5.0f;
-    
+    private static final int ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY = 5;
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
+    
+    private static final float VISIBLE_PLATFORMS_AREA_PADDING = 2.0f;
     
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
@@ -80,7 +81,7 @@ public final class GameArea {
     
     private float mDeltaAccumulator;
     
-    private int mMinVisiblePlatformIndex;
+    private final Array<RiseSection> mActiveRiseSections;
     private final Array<PlatformBase> mVisiblePlatforms;
     
     private boolean mIsGameOver;
@@ -100,7 +101,8 @@ public final class GameArea {
         mCharacter = new GameCharacter(mAssetManager);
         mPlatformToCharCollisionData = new PlatformToCharCollisionData();
         
-        mVisiblePlatforms = new Array<PlatformBase>(false, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
+        mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
+        mVisiblePlatforms = new Array<PlatformBase>(true, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -120,8 +122,6 @@ public final class GameArea {
         mCharacter.reset(mRiseHeight);
         
         mDeltaAccumulator = 0.0f;
-        
-        mMinVisiblePlatformIndex = 0;
         
         mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
@@ -173,7 +173,7 @@ public final class GameArea {
     
     private void updateStep(float horizontalSpeed, float delta) {
         
-        updateVisiblePlatformsList();
+        updateActiveAndVisiblePlatforms();
         
         updatePlatforms(delta);
         
@@ -200,19 +200,23 @@ public final class GameArea {
         }
     }
     
-    private void updateVisiblePlatformsList() {
+    private void updateActiveAndVisiblePlatforms() {
+        mActiveRiseSections.clear();
         mVisiblePlatforms.clear();
-        Array<PlatformBase> allPlatforms = mRise.getPlatforms();
         
-        boolean isFirstVisible = true;
-        for (int i = mMinVisiblePlatformIndex; i < allPlatforms.size; i++) {
-            PlatformBase platform = allPlatforms.get(i);
-            if (platform.isActive(mVisibleAreaPosition, ACTIVE_PLATFORMS_AREA_PADDING)) {
-                if (isFirstVisible) {
-                    mMinVisiblePlatformIndex = i;
-                    isFirstVisible = false;
+        Array<RiseSection> allRiseSections = mRise.getRiseSections();
+        
+        for (RiseSection riseSection : allRiseSections) {
+            if (riseSection.getEndY() > mVisibleAreaPosition &&
+                    riseSection.getStartY() < mVisibleAreaPosition + GameArea.GAME_AREA_HEIGHT) {
+                mActiveRiseSections.add(riseSection);
+                
+                Array<PlatformBase> allPlatforms = riseSection.getPlatforms();
+                for (PlatformBase platform : allPlatforms) {
+                    if (platform.isActive(mVisibleAreaPosition, VISIBLE_PLATFORMS_AREA_PADDING)) {
+                        mVisiblePlatforms.add(platform);
+                    }
                 }
-                mVisiblePlatforms.add(platform);
             }
         }
     }
@@ -230,8 +234,11 @@ public final class GameArea {
         // only check for collision when character is going down
         mPlatformToCharCollisionData.isEnabled = mCharacter.getSpeed().y < 0.0f;
         
-        for (PlatformBase platform : mVisiblePlatforms) {
-            platform.update(delta, c1, c2, mPlatformToCharCollisionData);
+        for (RiseSection riseSection : mActiveRiseSections) {
+            Array<PlatformBase> platforms = riseSection.getPlatforms();
+            for (PlatformBase platform : platforms) {
+                platform.update(delta, c1, c2, mPlatformToCharCollisionData);
+            }
         }
         
         Pools.freeVector(c1);

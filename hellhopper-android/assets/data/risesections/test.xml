@@ -1,4 +1,4 @@
-<risesection steprange="55" difficulty="0">
+<risesection steprange="65" difficulty="0">
   <platforms>
   
     <platform step="0" offset="10" type="normal" />
@@ -7,7 +7,6 @@
     <platform step="15" offset="10" type="normal" />
     <platform step="20" offset="10" type="normal" />
     <platform step="25" offset="10" type="normal" />
-    <platform step="30" offset="10" type="normal" />
     <platform step="35" offset="5" type="normal" />
     <platform step="40" offset="10" type="normal" />
     <platform step="45" offset="10" type="normal" />
@@ -76,16 +75,6 @@
       </movement>
     </platform>
     
-    <platform step="12" offset="20" type="flame">
-      <movement type="horizontal">
-        <properties>
-          <property name="range" value="2" />
-          <property name="speed" value="1.25" />
-          <property name="initialoffset" value="3" />
-        </properties>
-      </movement>
-    </platform>
-    
     <platform step="8" offset="0" type="normal">
       <features>
         <feature type="jumpboost">
@@ -95,6 +84,16 @@
           </properties>
         </feature>
       </features>
+    </platform>
+    
+    <platform step="30" offset="10" type="normal">
+      <movement type="jump">
+        <properties>
+          <property name="jumptype" value="random" />
+          <property name="initialoffset" value="1" />
+          <property name="range" value="5" />
+        </properties>
+      </movement>
     </platform>
   </platforms>
   

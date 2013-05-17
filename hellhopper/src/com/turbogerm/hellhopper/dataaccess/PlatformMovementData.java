@@ -30,18 +30,22 @@ public final class PlatformMovementData {
     public static final String HORIZONTAL_MOVEMENT = "horizontal";
     public static final String VERTICAL_MOVEMENT = "vertical";
     public static final String CIRCULAR_MOVEMENT = "circular";
+    public static final String JUMP_MOVEMENT = "jump";
     
     public static final String SPEED_PROPERTY = "speed";
     
     public static final String RANGE_PROPERTY = "range";
     public static final String INITIAL_OFFSET_PROPERTY = "initialoffset";
-    
     public static final String RADIUS_PROPERTY = "radius";
-    public static final String DIRECTION_PROPERTY = "direction";
     public static final String INITIAL_DEGREES_PROPERTY = "initialdegrees";
     
+    public static final String DIRECTION_PROPERTY = "direction";
     public static final String DIRECTION_CCW_PROPERTY_VALUE = "ccw";
     public static final String DIRECTION_CW_PROPERTY_VALUE = "cw";
+    
+    public static final String JUMP_TYPE_PROPERTY = "jumptype";
+    public static final String JUMP_TYPE_RANDOM_PROPERTY_VALUE = "random";
+    public static final String JUMP_TYPE_EDGE_PROPERTY_VALUE = "edge";
     
     private final String mMovementType;
     private final ObjectMap<String, String> mProperties;

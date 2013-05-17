@@ -190,14 +190,14 @@ public abstract class PlatformBase {
         return isIntersection;
     }
     
-    public boolean isActive(float visibleAreaPosition, float activePlatformsAreaPadding) {
+    public boolean isActive(float visibleAreaPosition, float visiblePlatformsAreaPadding) {
         if (!isActiveInternal()) {
             return false;
         }
         
         Vector2 position = getPosition();
-        float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - activePlatformsAreaPadding;
-        float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + activePlatformsAreaPadding;
+        float activeRangeLower = visibleAreaPosition - PlatformData.PLATFORM_HEIGHT - visiblePlatformsAreaPadding;
+        float activeRangeUpper = visibleAreaPosition + GameArea.GAME_AREA_HEIGHT + visiblePlatformsAreaPadding;
         return position.y >= activeRangeLower && position.y <= activeRangeUpper;
     }
     

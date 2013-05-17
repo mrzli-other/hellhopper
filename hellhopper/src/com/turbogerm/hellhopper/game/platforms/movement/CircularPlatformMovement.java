@@ -26,6 +26,7 @@ package com.turbogerm.hellhopper.game.platforms.movement;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.util.GameUtils;
 
@@ -41,7 +42,8 @@ public final class CircularPlatformMovement extends PlatformMovementBase {
     
     public CircularPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
             AssetManager assetManager) {
-        super(initialPosition, assetManager);
+        super(initialPosition, ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE,
+                ResourceNames.PARTICLE_ENGINE_NORMAL, assetManager);
         
         mRadius = Float.parseFloat(movementData.getProperty(PlatformMovementData.RADIUS_PROPERTY));
         mSpeed = Float.parseFloat(movementData.getProperty(PlatformMovementData.SPEED_PROPERTY));

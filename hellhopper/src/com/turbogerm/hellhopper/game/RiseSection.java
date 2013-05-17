@@ -21,24 +21,38 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms.features;
+package com.turbogerm.hellhopper.game;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
+import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 
-public final class PlatformFeatureFactory {
+public final class RiseSection {
     
-public static PlatformFeatureBase create(PlatformFeatureData featureData, AssetManager assetManager) {
-        
-        String featureType = featureData.getFeatureType();
-        if (PlatformFeatureData.JUMP_BOOST_FEATURE.equals(featureType)) {
-            return new JumpBoostPlatformFeature(featureData, assetManager);
-        } else if (PlatformFeatureData.FLAME_FEATURE.equals(featureType)) {
-            return new FlamePlatformFeature(featureData, assetManager);
-        } else {
-            ExceptionThrower.throwException("Invalid platform feature type: %s", featureType);
-            return null;
-        }
+    private final float mStartY;
+    private final float mEndY; 
+    private final float mHeight;
+    private final Array<PlatformBase> mPlatforms;
+    
+    public RiseSection(float startY, float height, Array<PlatformBase> platforms) {
+        mStartY = startY;
+        mHeight = height;
+        mEndY = mStartY + mHeight;
+        mPlatforms = platforms;
+    }
+    
+    public float getStartY() {
+        return mStartY;
+    }
+    
+    public float getEndY() {
+        return mEndY;
+    }
+    
+    public float getHeight() {
+        return mHeight;
+    }
+    
+    public Array<PlatformBase> getPlatforms() {
+        return mPlatforms;
     }
 }

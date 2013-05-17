@@ -24,23 +24,27 @@
 package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 
 public final class Rise {
     
+    private final Array<RiseSection> mRiseSections;
     private final float mHeight;
-    private final Array<PlatformBase> mPlatforms;
     
-    public Rise(float height, Array<PlatformBase> platforms) {
+    public Rise(Array<RiseSection> riseSections) {
+        mRiseSections = riseSections;
+        
+        float height = 0.0f;
+        for (RiseSection riseSection : riseSections) {
+            height += riseSection.getHeight();
+        }
         mHeight = height;
-        mPlatforms = platforms;
     }
     
     public float getHeight() {
         return mHeight;
     }
     
-    public Array<PlatformBase> getPlatforms() {
-        return mPlatforms;
+    public Array<RiseSection> getRiseSections() {
+        return mRiseSections;
     }
 }

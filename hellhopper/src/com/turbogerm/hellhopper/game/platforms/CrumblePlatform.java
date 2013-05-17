@@ -55,7 +55,7 @@ public final class CrumblePlatform extends PlatformBase {
     @Override
     protected void renderImpl(SpriteBatch batch, float delta) {
         if (mIsCrumbling) {
-            mAlpha = mCrumblingCountdown / CRUMBLING_COUNTDOWN_DURATION;
+            mSpriteColor.a = mCrumblingCountdown / CRUMBLING_COUNTDOWN_DURATION;
         }
         
         super.renderImpl(batch, delta);

@@ -167,7 +167,7 @@ public final class GameCharacter {
     
     private boolean processCollision() {
         
-        mCharCollisionData.collisionPlatform.fillCollisionEffect(
+        mCharCollisionData.collisionPlatform.getCollisionEffect(
                 mCharCollisionData.collisionPointX, mCollisionEffect);
         
         switch (mCollisionEffect.getEffect()) {

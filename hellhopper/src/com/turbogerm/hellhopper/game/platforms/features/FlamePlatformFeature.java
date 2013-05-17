@@ -21,9 +21,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.platforms;
+package com.turbogerm.hellhopper.game.platforms.features;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -33,43 +34,77 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
+import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffect;
-import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
+import com.turbogerm.hellhopper.util.ColorInterpolator;
 
-final class FlamePlatform extends PlatformBase {
+final class FlamePlatformFeature extends PlatformFeatureBase {
+    
+    private static final float RENDER_PRECEDENCE = 2.0f;
+    private static final float CONTACT_PRECEDENCE = 2.0f;
     
     private static final String FIRE_IMAGE_NAME = "platformfire";
     private static final float FIRE_FRAME_DURATION = 0.15f;
     private static final float FIRE_SPRITE_WIDTH = 2.0f;
     private static final float FIRE_SPRITE_HEIGHT = 0.6f;
     
-    private static final float MIN_COLOR_VALUE = 0.4f;
-    private static final float MAX_COLOR_VALUE = 1.0f;
-    private static final float COLOR_VALUE_RANGE = MAX_COLOR_VALUE - MIN_COLOR_VALUE;
+    private static final Color FLAME_COLOR;
+    private static final Color DORMANT_COLOR;
     
     private final Animation mFireAnimation;
     private float mFireAnimationTime = 0.0f;
     
     private final FlameStateMachine mFlameStateMachine;
-    private float mColorValue;
     private boolean mIsFlameActive;
+    private float mFirstCycleCountdown;
     
-    public FlamePlatform(PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(platformData, platformData.getPlatformPositions(startStep), assetManager);
+    private final ColorInterpolator mColorInterpolator;
+    
+    static {
+        FLAME_COLOR = new Color(1.0f, 0.5f, 0.0f, 1.0f);
+        DORMANT_COLOR = new Color(FLAME_COLOR);
+        DORMANT_COLOR.mul(0.4f);
+        DORMANT_COLOR.a = 1.0f;
+    }
+    
+    public FlamePlatformFeature(PlatformFeatureData featureData, AssetManager assetManager) {
         
-        mFlameStateMachine = new FlameStateMachine();
+        mFirstCycleCountdown = Float.valueOf(
+                featureData.getProperty(PlatformFeatureData.FLAME_CYCLE_OFFSET_PROPERTY));
+        float flameDuration = Float.valueOf(
+                featureData.getProperty(PlatformFeatureData.FLAME_FLAME_DURATION_PROPERTY));
+        float dormantDuration = Float.valueOf(
+                featureData.getProperty(PlatformFeatureData.FLAME_DORMANT_DURATION_PROPERTY));
+        float transitionDuration = Float.valueOf(
+                featureData.getProperty(PlatformFeatureData.FLAME_TRANSITION_DURATION_PROPERTY));
+        
+        mFlameStateMachine = new FlameStateMachine(flameDuration, dormantDuration, transitionDuration);
         mIsFlameActive = false;
         
         TextureAtlas fireAtlas = assetManager.get(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS);
         Array<AtlasRegion> fireAtlasRegions = fireAtlas.findRegions(FIRE_IMAGE_NAME);
         mFireAnimation = new Animation(FIRE_FRAME_DURATION, fireAtlasRegions, Animation.LOOP);
         mFireAnimationTime = 0.0f;
+        
+        mRenderPrecedence = RENDER_PRECEDENCE;
+        mContactPrecendence = CONTACT_PRECEDENCE;
+        
+        mColorInterpolator = new ColorInterpolator();
     }
     
     @Override
-    protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+    public void update(float delta) {
+        if (mFirstCycleCountdown > 0.0f) {
+            mFirstCycleCountdown -= delta;
+            if (mFirstCycleCountdown >= 0.0f) {
+                delta = 0.0f;
+            } else {
+                delta = -mFirstCycleCountdown;
+                mFirstCycleCountdown = 0.0f;
+            }
+        }
+        
         mFlameStateMachine.update(delta);
-        mColorValue = getColorValue();
         
         if (mFlameStateMachine.getCurrentState() == FlameStateMachine.FLAME) {
             if (!mIsFlameActive) {
@@ -81,50 +116,53 @@ final class FlamePlatform extends PlatformBase {
         } else {
             mIsFlameActive = false;
         }
-        
-        super.updateImpl(delta, c1, c2, collisionData);
     }
     
     @Override
-    protected void renderImpl(SpriteBatch batch, float delta) {
-        Vector2 position = getPosition();
-        
+    public void render(SpriteBatch batch, Vector2 platformPosition, Color color) {
         if (mIsFlameActive) {
             TextureRegion fireAnimationFrame = mFireAnimation.getKeyFrame(mFireAnimationTime);
             batch.draw(fireAnimationFrame,
-                    position.x, position.y + PlatformData.PLATFORM_HEIGHT,
+                    platformPosition.x, platformPosition.y + PlatformData.PLATFORM_HEIGHT,
                     FIRE_SPRITE_WIDTH, FIRE_SPRITE_HEIGHT);
         }
-        
-        mSprite.setColor(mColorValue, mColorValue, mColorValue, 1.0f);
-        super.renderImpl(batch, delta);
     }
     
     @Override
-    public void fillCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
-        if (mFlameStateMachine.getCurrentState() == FlameStateMachine.FLAME) {
-            collisionEffect.set(CollisionEffect.BURN);
-        } else {
-            super.fillCollisionEffect(collisionPointX, collisionEffect);
-        }
-    }
-    
-    private float getColorValue() {
+    public void applyColor(Color color) {
+        float oldAplha = color.a;
+        
         switch (mFlameStateMachine.getCurrentState()) {
             case FlameStateMachine.DORMANT:
-                return MIN_COLOR_VALUE;
-                
+                color.set(DORMANT_COLOR);
+                break;
+            
             case FlameStateMachine.TRANSITION1:
-                return MIN_COLOR_VALUE + mFlameStateMachine.getStateElapsedFraction() * COLOR_VALUE_RANGE;
-                
+                color.set(mColorInterpolator.interpolateColor(
+                        DORMANT_COLOR, FLAME_COLOR, mFlameStateMachine.getStateElapsedFraction()));
+                break;
+            
             case FlameStateMachine.FLAME:
-                return MAX_COLOR_VALUE;
-                
+                color.set(FLAME_COLOR);
+                break;
+            
             case FlameStateMachine.TRANSITION2:
-                return MAX_COLOR_VALUE - mFlameStateMachine.getStateElapsedFraction() * COLOR_VALUE_RANGE;
+                color.set(mColorInterpolator.interpolateColor(
+                        FLAME_COLOR, DORMANT_COLOR, mFlameStateMachine.getStateElapsedFraction()));
+                break;
         }
         
-        return 0.0f;
+        color.a = oldAplha;
+    }
+    
+    @Override
+    public boolean isContact(float relativeCollisionPointX) {
+        return mIsFlameActive;
+    }
+    
+    @Override
+    public void applyContact(CollisionEffect collisionEffect) {
+        collisionEffect.set(CollisionEffect.BURN);
     }
     
     private static class FlameStateMachine {
@@ -135,25 +173,27 @@ final class FlamePlatform extends PlatformBase {
         public static final int TRANSITION2 = 3;
         private static final int STATE_COUNT = 4;
         
-        private static final float[] STATE_DURATIONS;
+        private final float[] mStateDurations;
         
         private int mCurrentState;
         private float mCurrentStateElapsed;
         
-        static {
-            STATE_DURATIONS = new float[] { 2.0f, 2.0f, 4.0f, 2.0f };
-        }
-        
-        public FlameStateMachine() {
+        public FlameStateMachine(float flameDuration, float dormantDuration, float transitionDuration) {
             mCurrentState = DORMANT;
             mCurrentStateElapsed = 0.0f;
+            
+            mStateDurations = new float[STATE_COUNT];
+            mStateDurations[FLAME] = flameDuration;
+            mStateDurations[DORMANT] = dormantDuration;
+            mStateDurations[TRANSITION1] = transitionDuration;
+            mStateDurations[TRANSITION2] = transitionDuration;
         }
         
         public void update(float delta) {
             mCurrentStateElapsed += delta;
             
-            if (mCurrentStateElapsed >= STATE_DURATIONS[mCurrentState]) {
-                mCurrentStateElapsed -= STATE_DURATIONS[mCurrentState];
+            if (mCurrentStateElapsed >= mStateDurations[mCurrentState]) {
+                mCurrentStateElapsed -= mStateDurations[mCurrentState];
                 mCurrentState = (mCurrentState + 1) % STATE_COUNT;
             }
         }
@@ -163,7 +203,7 @@ final class FlamePlatform extends PlatformBase {
         }
         
         public float getStateElapsedFraction() {
-            return mCurrentStateElapsed / STATE_DURATIONS[mCurrentState];
+            return mCurrentStateElapsed / mStateDurations[mCurrentState];
         }
     }
 }

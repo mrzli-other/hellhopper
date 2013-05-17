@@ -24,6 +24,7 @@
 package com.turbogerm.hellhopper.game.platforms.features;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -33,14 +34,17 @@ import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffect;
 import com.turbogerm.hellhopper.game.GameCharacter;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
+    
+    private static final float RENDER_PRECEDENCE = 1.0f;
+    private static final float CONTACT_PRECEDENCE = 1.0f;
     
     private static final float CRATER_LOW_WIDTH = 0.5f;
     private static final float CRATER_MEDIUM_WIDTH = 0.75f;
     private static final float CRATER_HIGH_WIDTH = 1.0f;
-    private static final float CRATER_HEIGHT = 0.2f;
+    private static final float CRATER_HEIGHT = 0.225f;
+    private static final float CRATER_IN_PLATFORM_DEPTH = 0.025f;
     
     private static final float DISCHARGE_LOW_WIDTH = 0.6f;
     private static final float DISCHARGE_LOW_HEIGHT = 0.5f;
@@ -86,21 +90,30 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                 .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
         mCraterOffset = new Vector2(
                 (PlatformData.PLATFORM_WIDTH - mCraterWidth) * positionFraction,
-                PlatformData.PLATFORM_HEIGHT);
+                PlatformData.PLATFORM_HEIGHT - CRATER_IN_PLATFORM_DEPTH);
         
         mDischargeInitialOffset = new Vector2(
                 mCraterOffset.x + (mCraterWidth - powerData.dischargeWidth) / 2.0f,
                 mCraterOffset.y + CRATER_HEIGHT);
         
         mDischargeElapsed = DISCHARGE_DURATION;
+        
+        mRenderPrecedence = RENDER_PRECEDENCE;
+        mContactPrecendence = CONTACT_PRECEDENCE;
     }
     
     @Override
-    public void render(SpriteBatch batch, Vector2 platformPosition, float alpha, float delta) {
+    public void update(float delta) {
         
         if (mDischargeElapsed < DISCHARGE_DURATION) {
             mDischargeElapsed += delta;
-            
+        }
+    }
+    
+    @Override
+    public void render(SpriteBatch batch, Vector2 platformPosition, Color color) {
+        
+        if (mDischargeElapsed < DISCHARGE_DURATION) {
             float dischargeAlpha = 1.0f - mDischargeElapsed / DISCHARGE_DURATION;
             
             mDischargeSprite.setPosition(
@@ -112,7 +125,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mCraterSprite.setPosition(
                 platformPosition.x + mCraterOffset.x,
                 platformPosition.y + mCraterOffset.y);
-        GameUtils.setSpriteAlpha(mCraterSprite, alpha);
+        mCraterSprite.setColor(color);
         mCraterSprite.draw(batch);
     }
     

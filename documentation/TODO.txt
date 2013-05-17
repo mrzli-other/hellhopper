@@ -12,6 +12,13 @@
 
 - rise sections:
   - all horizontal moving platforms, one on each step, 0.1 jump boost chance
+  
+- platform types:
+  - normal
+  - visible on touch
+  - crumble
+  - moving
+  - irratic moving
        
 - implement a mechanic where you need to jump on specific platforms in specific order
   (which can be random) to generate a platform above to jump on and continue going up

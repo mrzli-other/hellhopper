@@ -23,19 +23,37 @@
  */
 package com.turbogerm.hellhopper.game.platforms.features;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.CollisionEffect;
 
 public abstract class PlatformFeatureBase {
     
-    public void render(SpriteBatch batch, Vector2 platformPosition, float alpha, float delta) {
+    protected float mRenderPrecedence;
+    protected float mContactPrecendence;
+    
+    public void update(float delta) {
+    }
+    
+    public void render(SpriteBatch batch, Vector2 platformPosition, Color color) {
     }
     
     public boolean isContact(float relativeCollisionPointX) {
         return false;
     }
     
+    public void applyColor(Color color) {
+    }
+    
     public void applyContact(CollisionEffect collisionEffect) {
+    }
+    
+    public float getRenderPrecedence() {
+        return mRenderPrecedence;
+    }
+    
+    public float getContactPrecedence() {
+        return mContactPrecendence;
     }
 }

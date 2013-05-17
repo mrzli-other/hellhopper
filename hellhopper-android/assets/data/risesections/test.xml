@@ -88,12 +88,12 @@
     
     <platform step="8" offset="0" type="normal">
       <features>
-          <feature type="jumpboost">
-            <properties>
-              <property name="position" value="1.0" />
-              <property name="power" value="low" />
-            </properties>
-          </feature>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="1.0" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
       </features>
     </platform>
   </platforms>

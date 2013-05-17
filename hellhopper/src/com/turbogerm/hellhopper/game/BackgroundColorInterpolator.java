@@ -26,15 +26,14 @@
 package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.turbogerm.hellhopper.util.HslColor;
+import com.turbogerm.hellhopper.util.ColorInterpolator;
 
 public final class BackgroundColorInterpolator {
     
     private static final int NUM_COLORS = 5;
     private static final float LIGHT_MULTIPLIER = 0.6f;
     
-    private final HslColor mHsl1;
-    private final HslColor mHsl2;
+    private final ColorInterpolator mColorInterpolator;
     private final Color mResult;
     
     private float[] mColorPositions;
@@ -43,10 +42,9 @@ public final class BackgroundColorInterpolator {
     private float mRiseHeight;
     
     public BackgroundColorInterpolator() {
-        mHsl1 = new HslColor();
-        mHsl2 = new HslColor();
+        
+        mColorInterpolator = new ColorInterpolator();
         mResult = new Color();
-        mResult.a = 1.0f;
         
         mColorPositions = new float[NUM_COLORS];
         mColors = new Color[NUM_COLORS];
@@ -82,92 +80,14 @@ public final class BackgroundColorInterpolator {
             float t = (colorPosition - mColorPositions[stopIndex - 1]) /
                     (mColorPositions[stopIndex] - mColorPositions[stopIndex - 1]);
             
-            interpolateColor(mColors[stopIndex - 1], mColors[stopIndex], t);
+            mResult.set(mColorInterpolator.interpolateColor(mColors[stopIndex - 1], mColors[stopIndex], t));
         }
         
         return mResult;
     }
     
-    private void interpolateColor(Color c1, Color c2, float t) {
-        rgbToHsl(c1.r, c1.g, c1.b, true);
-        rgbToHsl(c2.r, c2.g, c2.b, false);
-        
-        float h = interpolateHue(mHsl1.h, mHsl2.h, t);
-        float s = mHsl1.s + t * (mHsl2.s - mHsl1.s);
-        float l = mHsl1.l + t * (mHsl2.l - mHsl1.l);
-        hslToRgb(h, s, l);
-    }
-    
     private void setColor(int stopIndex, float position, Color color) {
         mColorPositions[stopIndex] = position;
         mColors[stopIndex] = color;
-    }
-    
-    private void rgbToHsl(float r, float g, float b, boolean isFirst) {
-        float max = Math.max(Math.max(r, g), b);
-        float min = Math.min(Math.min(r, g), b);
-        float h, s, l;
-        h = s = l = (max + min) / 2;
-        
-        if (max == min) {
-            h = s = 0.0f; // achromatic
-        } else {
-            float d = max - min;
-            s = l > 0.5f ? d / (2.0f - max - min) : d / (max + min);
-            if (max == r) {
-                h = (g - b) / d + (g < b ? 6.0f : 0.0f);
-            } else if (max == g) {
-                h = (b - r) / d + 2.0f;
-            } else if (max == b) {
-                h = (r - g) / d + 4.0f;
-            }
-            h /= 6.0f;
-        }
-        
-        HslColor hsl = isFirst ? mHsl1 : mHsl2;
-        hsl.h = h;
-        hsl.s = s;
-        hsl.l = l;
-    }
-    
-    private void hslToRgb(float h, float s, float l) {
-        float r, g, b;
-        
-        if (s == 0) {
-            r = g = b = l; // achromatic
-        } else {
-            float q = l < 0.5f ? l * (1.0f + s) : l + s - l * s;
-            float p = 2.0f * l - q;
-            r = hueToRgb(p, q, h + 1.0f / 3.0f);
-            g = hueToRgb(p, q, h);
-            b = hueToRgb(p, q, h - 1.0f / 3.0f);
-        }
-        
-        mResult.r = r;
-        mResult.g = g;
-        mResult.b = b;
-    }
-    
-    private static float hueToRgb(float p, float q, float t) {
-        if (t < 0)
-            t += 1;
-        if (t > 1)
-            t -= 1;
-        if (t < 1.0f / 6.0f)
-            return p + (q - p) * 6.0f * t;
-        if (t < 1.0f / 2.0f)
-            return q;
-        if (t < 2.0f / 3.0f)
-            return p + (q - p) * (2.0f / 3.0f - t) * 6.0f;
-        return p;
-    }
-    
-    private static float interpolateHue(float h1, float h2, float t) {
-        float h = h1 + t * (h2 - h1);
-        if (Math.abs(h2 - h1) > 0.5f) {
-            h = (h + 0.5f) % 1.0f;
-        }
-        
-        return h;
     }
 }

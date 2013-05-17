@@ -23,7 +23,10 @@
  */
 package com.turbogerm.hellhopper.game.platforms;
 
+import java.util.Comparator;
+
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,18 +44,52 @@ import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
-import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
+    private static final float DEFAULT_COLOR_VALUE = 0.35f;
+    
+    private static final Comparator<PlatformFeatureBase> PLATFORM_FEATURE_RENDER_COMPARATOR;
+    private static final Comparator<PlatformFeatureBase> PLATFORM_FEATURE_CONTACT_COMPARATOR;
+    
+    static {
+        PLATFORM_FEATURE_RENDER_COMPARATOR = new Comparator<PlatformFeatureBase>() {
+            @Override
+            public int compare(PlatformFeatureBase f1, PlatformFeatureBase f2) {
+                if (f1.getRenderPrecedence() < f2.getRenderPrecedence()) {
+                    return -1;
+                } else if (f1.getRenderPrecedence() > f2.getRenderPrecedence()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
+        
+        PLATFORM_FEATURE_CONTACT_COMPARATOR = new Comparator<PlatformFeatureBase>() {
+            @Override
+            public int compare(PlatformFeatureBase f1, PlatformFeatureBase f2) {
+                if (f1.getContactPrecedence() > f2.getContactPrecedence()) {
+                    return -1;
+                } else if (f1.getContactPrecedence() < f2.getContactPrecedence()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
+    }
+    
     protected final Sprite mSprite;
-    protected float mAlpha;
+    protected final Color mSpriteColor;
     
     private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
     
     private final Array<PlatformFeatureBase> mPlatformFeatures;
+    private final Array<PlatformFeatureBase> mPlatformFeaturesForRendering;
+    private final Array<PlatformFeatureBase> mPlatformFeaturesForContact;
     
     public PlatformBase(PlatformData platformData, Vector2 initialPosition, AssetManager assetManager) {
         
@@ -60,13 +97,20 @@ public abstract class PlatformBase {
         mSprite = new Sprite(texture);
         mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
-        mAlpha = 1.0f;
+        mSpriteColor = new Color();
         
         mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
                 assetManager);
         mHasVerticalMovement = mPlatformMovement.hasVerticalMovement();
         
-        mPlatformFeatures = getPlatformFeatures(platformData.getFeaturesData(), assetManager);
+        Array<PlatformFeatureBase> platformFeatures = getPlatformFeatures(platformData.getFeaturesData(), assetManager);
+        mPlatformFeatures = platformFeatures != null ? platformFeatures : new Array<PlatformFeatureBase>(true, 0);
+        
+        mPlatformFeaturesForRendering = new Array<PlatformFeatureBase>(mPlatformFeatures);
+        mPlatformFeaturesForRendering.sort(PLATFORM_FEATURE_RENDER_COMPARATOR);
+        
+        mPlatformFeaturesForContact = new Array<PlatformFeatureBase>(mPlatformFeatures);
+        mPlatformFeaturesForContact.sort(PLATFORM_FEATURE_CONTACT_COMPARATOR);
     }
     
     public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
@@ -100,6 +144,10 @@ public abstract class PlatformBase {
     }
     
     protected void updateImpl(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
+        for (PlatformFeatureBase platformFeature : mPlatformFeatures) {
+            platformFeature.update(delta);
+        }
+        
         if (isMovingInternal()) {
             mPlatformMovement.updatePosition(delta);
         }
@@ -107,19 +155,20 @@ public abstract class PlatformBase {
     
     public final void render(SpriteBatch batch, float delta) {
         
-        if (mPlatformFeatures != null) {
-            for (PlatformFeatureBase platformFeature : mPlatformFeatures) {
-                platformFeature.render(batch, getPosition(), mAlpha, delta);
-            }
+        updateSpriteColor();
+        
+        for (PlatformFeatureBase platformFeature : mPlatformFeaturesForRendering) {
+            platformFeature.render(batch, getPosition(), mSpriteColor);
         }
+        
         renderImpl(batch, delta);
-        mPlatformMovement.render(batch, mAlpha, isMovingInternal() ? delta : 0.0f);
+        mPlatformMovement.render(batch, mSpriteColor.a, isMovingInternal() ? delta : 0.0f);
     }
     
     protected void renderImpl(SpriteBatch batch, float delta) {
         Vector2 position = getPosition();
         mSprite.setPosition(position.x, position.y);
-        GameUtils.setSpriteAlpha(mSprite, mAlpha);
+        mSprite.setColor(mSpriteColor);
         mSprite.draw(batch);
     }
     
@@ -160,10 +209,18 @@ public abstract class PlatformBase {
         return true;
     }
     
-    public void fillCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
+    private void updateSpriteColor() {
+        mSpriteColor.set(DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, 1.0f);
+        
+        for (PlatformFeatureBase feature : mPlatformFeatures) {
+            feature.applyColor(mSpriteColor);
+        }
+    }
+    
+    public void getCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
         if (mPlatformFeatures != null) {
             float relativeCollisionPointX = collisionPointX - getPosition().x;
-            for (PlatformFeatureBase feature : mPlatformFeatures) {
+            for (PlatformFeatureBase feature : mPlatformFeaturesForContact) {
                 if (feature.isContact(relativeCollisionPointX)) {
                     feature.applyContact(collisionEffect);
                     return;

@@ -23,32 +23,42 @@
  */
 package com.turbogerm.hellhopper.game;
 
-public final class CollisionEffect {
+public final class CollisionEffects {
     
-    public static final int NONE = 0;
-    public static final int JUMP_BOOST = 1;
-    public static final int BURN = 2;
+    public static final int JUMP_BOOST = 0;
+    public static final int BURN = 1;
+    public static final int REPOSITION_PLATFORMS = 2;
+    private static final int NUM_EFFECTS = 3;
     
-    private int mEffect;
-    private float mValue;
+    private final boolean mEffects[];
+    private final float mValues[];
     
-    public CollisionEffect() {
+    public CollisionEffects() {
+        mEffects = new boolean[NUM_EFFECTS];
+        mValues = new float[NUM_EFFECTS];
+    }
+    
+    public void clear() {
+        for (int i = 0; i < NUM_EFFECTS; i++) {
+            mEffects[i] = false;
+            mValues[i] = 0.0f;
+        }
     }
     
     public void set(int effect) {
-        mEffect = effect;
+        mEffects[effect] = true;
     }
     
     public void set(int effect, float value) {
-        mEffect = effect;
-        mValue = value;
+        mEffects[effect] = true;
+        mValues[effect] = value;
     }
     
-    public int getEffect() {
-        return mEffect;
+    public boolean isEffectActive(int effect) {
+        return mEffects[effect];
     }
     
-    public float getValue() {
-        return mValue;
+    public float getValue(int effect) {
+        return mValues[effect];
     }
 }

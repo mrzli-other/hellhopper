@@ -63,7 +63,7 @@ public final class GameCharacter {
     private boolean mIsDead;
     
     private final CharCollisionData mCharCollisionData;
-    private final CollisionEffect mCollisionEffect;
+    private final CollisionEffects mCollisionEffects;
     
     public GameCharacter(AssetManager assetManager) {
         mCharacterTexture = assetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
@@ -72,7 +72,7 @@ public final class GameCharacter {
         mSpeed = new Vector2();
         
         mCharCollisionData = new CharCollisionData();
-        mCollisionEffect = new CollisionEffect();
+        mCollisionEffects = new CollisionEffects();
     }
     
     public void reset(float riseHeight) {
@@ -165,29 +165,25 @@ public final class GameCharacter {
         batch.draw(mCharacterTexture, mPosition.x, mPosition.y, WIDTH, HEIGHT);
     }
     
-    private boolean processCollision() {
+    private void processCollision() {
         
-        mCharCollisionData.collisionPlatform.getCollisionEffect(
-                mCharCollisionData.collisionPointX, mCollisionEffect);
+        mCharCollisionData.collisionPlatform.getCollisionEffects(
+                mCharCollisionData.collisionPointX, mCollisionEffects);
         
-        switch (mCollisionEffect.getEffect()) {
-            case CollisionEffect.NONE:
-                mSpeed.y = JUMP_SPEED;
-                break;
-                
-            case CollisionEffect.JUMP_BOOST:
-                mSpeed.y = mCollisionEffect.getValue();
-                break;
-                
-            case CollisionEffect.BURN:
-                mIsDead = true;
-                break;
-            
-            default:
-                break;
+        if (mCollisionEffects.isEffectActive(CollisionEffects.BURN)) {
+            mIsDead = true;
+            return;
         }
         
-        return true;
+        if (mCollisionEffects.isEffectActive(CollisionEffects.JUMP_BOOST)) {
+            mSpeed.y = mCollisionEffects.getValue(CollisionEffects.JUMP_BOOST);
+        } else {
+            mSpeed.y = JUMP_SPEED;
+        }
+        
+        if (mCollisionEffects.isEffectActive(CollisionEffects.REPOSITION_PLATFORMS)) {
+            
+        }
     }
     
     private static boolean isCollisionWithPlatform(

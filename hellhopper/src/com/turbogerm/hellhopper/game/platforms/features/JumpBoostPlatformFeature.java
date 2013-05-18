@@ -32,7 +32,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.GameCharacter;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
@@ -142,8 +142,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     }
     
     @Override
-    public void applyContact(CollisionEffect collisionEffect) {
-        collisionEffect.set(CollisionEffect.JUMP_BOOST, mJumpBoostSpeed);
+    public void applyContact(CollisionEffects collisionEffects) {
+        collisionEffects.set(CollisionEffects.JUMP_BOOST, mJumpBoostSpeed);
         startDischarge();
     }
     

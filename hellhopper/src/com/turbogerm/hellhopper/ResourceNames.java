@@ -67,7 +67,7 @@ public final class ResourceNames {
     
     public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
     public static final String PLATFORM_ENGINE_NORMAL_TEXTURE = PLATFORMS_DIR + "enginenormal.png";
-    public static final String PLATFORM_ENGINE_JUMP_TEXTURE = PLATFORMS_DIR + "enginejump.png";
+    public static final String PLATFORM_ENGINE_REPOSITION_TEXTURE = PLATFORMS_DIR + "enginereposition.png";
     public static final String PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE = PLATFORMS_DIR + "jumpboostcraterlow.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE = PLATFORMS_DIR + "jumpboostdischargelow.png";
     public static final String PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE = PLATFORMS_DIR + "jumpboostcratermedium.png";
@@ -80,7 +80,7 @@ public final class ResourceNames {
     
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE_NORMAL = PARTICLES_DIR + "enginenormal.p";
-    public static final String PARTICLE_ENGINE_JUMP = PARTICLES_DIR + "enginejump.p";
+    public static final String PARTICLE_ENGINE_REPOSITION = PARTICLES_DIR + "enginereposition.p";
     
     public static String getRiseSectionPath(String name) {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);

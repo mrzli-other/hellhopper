@@ -87,9 +87,9 @@
     </platform>
     
     <platform step="30" offset="10" type="normal">
-      <movement type="jump">
+      <movement type="reposition">
         <properties>
-          <property name="jumptype" value="random" />
+          <property name="repositiontype" value="random" />
           <property name="initialoffset" value="1" />
           <property name="range" value="5" />
         </properties>

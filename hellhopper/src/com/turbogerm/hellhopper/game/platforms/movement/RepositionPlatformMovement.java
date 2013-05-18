@@ -29,7 +29,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 
-final class JumpPlatformMovement extends PlatformMovementBase {
+final class RepositionPlatformMovement extends PlatformMovementBase {
     
     private static final float SPEED = 15.0f;
     
@@ -42,16 +42,16 @@ final class JumpPlatformMovement extends PlatformMovementBase {
     private final float mRightLimit;
     private boolean mIsRightMovement;
     
-    public JumpPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
+    public RepositionPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
             AssetManager assetManager) {
-        super(initialPosition, ResourceNames.PLATFORM_ENGINE_JUMP_TEXTURE,
-                ResourceNames.PARTICLE_ENGINE_JUMP, assetManager);
+        super(initialPosition, ResourceNames.PLATFORM_ENGINE_REPOSITION_TEXTURE,
+                ResourceNames.PARTICLE_ENGINE_REPOSITION, assetManager);
         
         mRange = Float.parseFloat(movementData.getProperty(PlatformMovementData.RANGE_PROPERTY));
         mSpeed = SPEED;
         
-        mIsRandomMovement = PlatformMovementData.JUMP_TYPE_RANDOM_PROPERTY_VALUE.equals(
-                movementData.getProperty(PlatformMovementData.JUMP_TYPE_PROPERTY));
+        mIsRandomMovement = PlatformMovementData.REPOSITION_TYPE_RANDOM_PROPERTY_VALUE.equals(
+                movementData.getProperty(PlatformMovementData.REPOSITION_TYPE_PROPERTY));
         
         mLeftLimit = initialPosition.x;
         mRightLimit = initialPosition.x + mRange;

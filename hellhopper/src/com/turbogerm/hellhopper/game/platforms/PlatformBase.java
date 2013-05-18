@@ -36,7 +36,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.GameCharacter;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
@@ -51,7 +51,6 @@ public abstract class PlatformBase {
     private static final float DEFAULT_COLOR_VALUE = 0.35f;
     
     private static final Comparator<PlatformFeatureBase> PLATFORM_FEATURE_RENDER_COMPARATOR;
-    private static final Comparator<PlatformFeatureBase> PLATFORM_FEATURE_CONTACT_COMPARATOR;
     
     static {
         PLATFORM_FEATURE_RENDER_COMPARATOR = new Comparator<PlatformFeatureBase>() {
@@ -60,19 +59,6 @@ public abstract class PlatformBase {
                 if (f1.getRenderPrecedence() < f2.getRenderPrecedence()) {
                     return -1;
                 } else if (f1.getRenderPrecedence() > f2.getRenderPrecedence()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        };
-        
-        PLATFORM_FEATURE_CONTACT_COMPARATOR = new Comparator<PlatformFeatureBase>() {
-            @Override
-            public int compare(PlatformFeatureBase f1, PlatformFeatureBase f2) {
-                if (f1.getContactPrecedence() > f2.getContactPrecedence()) {
-                    return -1;
-                } else if (f1.getContactPrecedence() < f2.getContactPrecedence()) {
                     return 1;
                 } else {
                     return 0;
@@ -89,7 +75,6 @@ public abstract class PlatformBase {
     
     private final Array<PlatformFeatureBase> mPlatformFeatures;
     private final Array<PlatformFeatureBase> mPlatformFeaturesForRendering;
-    private final Array<PlatformFeatureBase> mPlatformFeaturesForContact;
     
     public PlatformBase(PlatformData platformData, Vector2 initialPosition, AssetManager assetManager) {
         
@@ -108,9 +93,6 @@ public abstract class PlatformBase {
         
         mPlatformFeaturesForRendering = new Array<PlatformFeatureBase>(mPlatformFeatures);
         mPlatformFeaturesForRendering.sort(PLATFORM_FEATURE_RENDER_COMPARATOR);
-        
-        mPlatformFeaturesForContact = new Array<PlatformFeatureBase>(mPlatformFeatures);
-        mPlatformFeaturesForContact.sort(PLATFORM_FEATURE_CONTACT_COMPARATOR);
     }
     
     public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
@@ -217,18 +199,15 @@ public abstract class PlatformBase {
         }
     }
     
-    public void getCollisionEffect(float collisionPointX, CollisionEffect collisionEffect) {
+    public void getCollisionEffects(float collisionPointX, CollisionEffects collisionEffects) {
         if (mPlatformFeatures != null) {
             float relativeCollisionPointX = collisionPointX - getPosition().x;
-            for (PlatformFeatureBase feature : mPlatformFeaturesForContact) {
+            for (PlatformFeatureBase feature : mPlatformFeatures) {
                 if (feature.isContact(relativeCollisionPointX)) {
-                    feature.applyContact(collisionEffect);
-                    return;
+                    feature.applyContact(collisionEffects);
                 }
             }
         }
-        
-        collisionEffect.set(CollisionEffect.NONE);
     }
     
     public Vector2 getPosition() {

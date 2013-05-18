@@ -35,7 +35,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
 
 final class FlamePlatformFeature extends PlatformFeatureBase {
@@ -161,8 +161,8 @@ final class FlamePlatformFeature extends PlatformFeatureBase {
     }
     
     @Override
-    public void applyContact(CollisionEffect collisionEffect) {
-        collisionEffect.set(CollisionEffect.BURN);
+    public void applyContact(CollisionEffects collisionEffects) {
+        collisionEffects.set(CollisionEffects.BURN);
     }
     
     private static class FlameStateMachine {

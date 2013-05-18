@@ -43,8 +43,8 @@ public final class PlatformMovementFactory {
             return new VerticalPlatformMovement(movementData, initialPosition, assetManager);
         } else if (PlatformMovementData.CIRCULAR_MOVEMENT.equals(movementType)) {
             return new CircularPlatformMovement(movementData, initialPosition, assetManager);
-        } else if (PlatformMovementData.JUMP_MOVEMENT.equals(movementType)) {
-            return new JumpPlatformMovement(movementData, initialPosition, assetManager);
+        } else if (PlatformMovementData.REPOSITION_MOVEMENT.equals(movementType)) {
+            return new RepositionPlatformMovement(movementData, initialPosition, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid platform movement type: %s", movementType);
             return null;

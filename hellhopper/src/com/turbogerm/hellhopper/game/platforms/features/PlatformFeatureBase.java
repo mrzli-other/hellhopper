@@ -26,7 +26,7 @@ package com.turbogerm.hellhopper.game.platforms.features;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.game.CollisionEffect;
+import com.turbogerm.hellhopper.game.CollisionEffects;
 
 public abstract class PlatformFeatureBase {
     
@@ -46,7 +46,7 @@ public abstract class PlatformFeatureBase {
     public void applyColor(Color color) {
     }
     
-    public void applyContact(CollisionEffect collisionEffect) {
+    public void applyContact(CollisionEffects collisionEffects) {
     }
     
     public float getRenderPrecedence() {

@@ -102,7 +102,7 @@ public final class GameArea {
         mPlatformToCharCollisionData = new PlatformToCharCollisionData();
         
         mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
-        mVisiblePlatforms = new Array<PlatformBase>(true, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
+        mVisiblePlatforms = new Array<PlatformBase>(VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -177,7 +177,12 @@ public final class GameArea {
         
         updatePlatforms(delta);
         
-        mCharacter.updateStep(horizontalSpeed, mPlatformToCharCollisionData, mVisiblePlatforms, delta);
+        mCharacter.updateStep(
+                horizontalSpeed,
+                mPlatformToCharCollisionData,
+                mActiveRiseSections,
+                mVisiblePlatforms,
+                delta);
         
         mVisibleAreaPosition = Math.max(
                 mVisibleAreaPosition, mCharacter.getPosition().y -

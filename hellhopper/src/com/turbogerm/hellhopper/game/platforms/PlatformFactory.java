@@ -29,13 +29,14 @@ import com.turbogerm.hellhopper.util.ExceptionThrower;
 
 public final class PlatformFactory {
     
-    public static PlatformBase create(PlatformData platformData, int startStep, AssetManager assetManager) {
+    public static PlatformBase create(int riseSectionId, PlatformData platformData, int startStep,
+            AssetManager assetManager) {
         
         String platformType = platformData.getPlatformType();
         if (PlatformData.NORMAL.equals(platformType)) {
-            return new NormalPlatform(platformData, startStep, assetManager);
+            return new NormalPlatform(riseSectionId, platformData, startStep, assetManager);
         } else if (PlatformData.CRUMBLE.equals(platformType)) {
-            return new CrumblePlatform(platformData, startStep, assetManager);
+            return new CrumblePlatform(riseSectionId, platformData, startStep, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid platform type: %s", platformType);
             return null;

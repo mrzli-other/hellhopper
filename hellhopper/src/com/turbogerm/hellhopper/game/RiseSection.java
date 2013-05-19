@@ -28,16 +28,28 @@ import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 
 public final class RiseSection {
     
+    private final int mId;
     private final float mStartY;
     private final float mEndY; 
     private final float mHeight;
     private final Array<PlatformBase> mPlatforms;
     
-    public RiseSection(float startY, float height, Array<PlatformBase> platforms) {
+    public RiseSection(int id, float startY, float height, Array<PlatformBase> platforms) {
+        mId = id;
         mStartY = startY;
         mHeight = height;
         mEndY = mStartY + mHeight;
         mPlatforms = platforms;
+    }
+    
+    public void applyEffect(int collisionEffect) {
+        for (PlatformBase platform : mPlatforms) {
+            platform.applyEffect(collisionEffect);
+        }
+    }
+    
+    public int getId() {
+        return mId;
     }
     
     public float getStartY() {

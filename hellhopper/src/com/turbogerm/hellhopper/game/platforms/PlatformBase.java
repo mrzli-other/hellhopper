@@ -67,6 +67,8 @@ public abstract class PlatformBase {
         };
     }
     
+    private final int mRiseSectionId;
+    
     protected final Sprite mSprite;
     protected final Color mSpriteColor;
     
@@ -76,7 +78,10 @@ public abstract class PlatformBase {
     private final Array<PlatformFeatureBase> mPlatformFeatures;
     private final Array<PlatformFeatureBase> mPlatformFeaturesForRendering;
     
-    public PlatformBase(PlatformData platformData, Vector2 initialPosition, AssetManager assetManager) {
+    public PlatformBase(int riseSectionId, PlatformData platformData, Vector2 initialPosition,
+            AssetManager assetManager) {
+        
+        mRiseSectionId = riseSectionId;
         
         Texture texture = assetManager.get(getTexturePath(platformData));
         mSprite = new Sprite(texture);
@@ -183,6 +188,10 @@ public abstract class PlatformBase {
         return position.y >= activeRangeLower && position.y <= activeRangeUpper;
     }
     
+    public void applyEffect(int collisionEffect) {
+        mPlatformMovement.applyEffect(collisionEffect);
+    }
+    
     protected boolean isActiveInternal() {
         return true;
     }
@@ -200,14 +209,18 @@ public abstract class PlatformBase {
     }
     
     public void getCollisionEffects(float collisionPointX, CollisionEffects collisionEffects) {
-        if (mPlatformFeatures != null) {
-            float relativeCollisionPointX = collisionPointX - getPosition().x;
-            for (PlatformFeatureBase feature : mPlatformFeatures) {
-                if (feature.isContact(relativeCollisionPointX)) {
-                    feature.applyContact(collisionEffects);
-                }
+        mPlatformMovement.applyContact(collisionEffects);
+        
+        float relativeCollisionPointX = collisionPointX - getPosition().x;
+        for (PlatformFeatureBase feature : mPlatformFeatures) {
+            if (feature.isContact(relativeCollisionPointX)) {
+                feature.applyContact(collisionEffects);
             }
         }
+    }
+    
+    public int getRiseSectionId() {
+        return mRiseSectionId;
     }
     
     public Vector2 getPosition() {

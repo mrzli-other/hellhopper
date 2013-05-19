@@ -69,17 +69,19 @@ public final class RiseGenerator {
             AssetManager assetManager) {
         Array<RiseSection> riseSections = new Array<RiseSection>(true, riseSectionsData.size);
         
+        int id = 0;
         int startStep = 0;
         for (RiseSectionData riseSectionData : riseSectionsData) {
-            RiseSection riseSection = getRiseSection(startStep, riseSectionData, assetManager);
+            RiseSection riseSection = getRiseSection(id, startStep, riseSectionData, assetManager);
             riseSections.add(riseSection);
+            id++;
             startStep += riseSectionData.getStepRange();
         }
         
         return riseSections;
     }
     
-    private static RiseSection getRiseSection(int startStep, RiseSectionData riseSectionData,
+    private static RiseSection getRiseSection(int riseSectionId, int startStep, RiseSectionData riseSectionData,
             AssetManager assetManager) {
         
         float startY = startStep * PlatformData.STEP_HEIGHT;
@@ -88,10 +90,10 @@ public final class RiseGenerator {
         Array<PlatformData> platformsData = riseSectionData.getPlatformDataList();
         Array<PlatformBase> platforms = new Array<PlatformBase>(true, platformsData.size);
         for (PlatformData platformData : platformsData) {
-            PlatformBase platform = PlatformFactory.create(platformData, startStep, assetManager);
+            PlatformBase platform = PlatformFactory.create(riseSectionId, platformData, startStep, assetManager);
             platforms.add(platform);
         }
         
-        return new RiseSection(startY, height, platforms);
+        return new RiseSection(riseSectionId, startY, height, platforms);
     }
 }

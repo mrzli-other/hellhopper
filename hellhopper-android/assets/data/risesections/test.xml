@@ -6,7 +6,6 @@
     <platform step="10" offset="10" type="normal" />
     <platform step="15" offset="10" type="normal" />
     <platform step="20" offset="10" type="normal" />
-    <platform step="25" offset="10" type="normal" />
     <platform step="35" offset="5" type="normal" />
     <platform step="40" offset="10" type="normal" />
     <platform step="45" offset="10" type="normal" />
@@ -84,6 +83,16 @@
           </properties>
         </feature>
       </features>
+    </platform>
+    
+    <platform step="25" offset="10" type="normal">
+      <movement type="reposition">
+        <properties>
+          <property name="repositiontype" value="edge" />
+          <property name="initialoffset" value="0" />
+          <property name="range" value="5" />
+        </properties>
+      </movement>
     </platform>
     
     <platform step="30" offset="10" type="normal">

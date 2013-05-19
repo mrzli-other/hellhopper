@@ -28,19 +28,19 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
+import com.turbogerm.hellhopper.game.CollisionEffects;
 
 final class RepositionPlatformMovement extends PlatformMovementBase {
     
     private static final float SPEED = 15.0f;
     
     private final float mRange;
-    private final float mSpeed;
     
     private final boolean mIsRandomMovement;
     
     private final float mLeftLimit;
     private final float mRightLimit;
-    private boolean mIsRightMovement;
+    private float mTargetPosition;
     
     public RepositionPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
             AssetManager assetManager) {
@@ -48,7 +48,6 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
                 ResourceNames.PARTICLE_ENGINE_REPOSITION, assetManager);
         
         mRange = Float.parseFloat(movementData.getProperty(PlatformMovementData.RANGE_PROPERTY));
-        mSpeed = SPEED;
         
         mIsRandomMovement = PlatformMovementData.REPOSITION_TYPE_RANDOM_PROPERTY_VALUE.equals(
                 movementData.getProperty(PlatformMovementData.REPOSITION_TYPE_PROPERTY));
@@ -59,32 +58,59 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
         float initialOffset = Float.parseFloat(movementData.getProperty(PlatformMovementData.INITIAL_OFFSET_PROPERTY));
         if (initialOffset <= mRange) {
             changePosition(initialOffset);
-            mIsRightMovement = true;
         } else {
             changePosition(mRange - initialOffset % mRange);
-            mIsRightMovement = false;
         }
+        
+        mTargetPosition = mPosition.x;
     }
     
     @Override
     public void updatePosition(float delta) {
-        float travelled = mSpeed * delta;
-        if (!mIsRightMovement) {
-            travelled = -travelled;
+        if (mTargetPosition == mPosition.x) {
+            return;
         }
         
-        changePosition(travelled);
+        float travelled = SPEED * delta;
+        float distance = mTargetPosition - mPosition.x;
+        if (Math.abs(distance) <= travelled) {
+            setPosition(mTargetPosition);
+        } else {
+            changePosition(Math.signum(distance) * travelled);
+        }
+    }
+    
+    @Override
+    public void applyContact(CollisionEffects collisionEffects) {
+        collisionEffects.set(CollisionEffects.REPOSITION_PLATFORMS);
+    }
+    
+    @Override
+    public void applyEffect(int collisionEffect) {
+        if (collisionEffect == CollisionEffects.REPOSITION_PLATFORMS) {
+            reposition();
+        }
     }
     
     private void changePosition(float change) {
         mPosition.x += change;
-        if (mPosition.x <= mLeftLimit) {
-            mIsRightMovement = true;
-        } else if (mPosition.x >= mRightLimit) {
-            mIsRightMovement = false;
-        }
-        
         mPosition.x = MathUtils.clamp(mPosition.x, mLeftLimit, mRightLimit);
+    }
+    
+    private void setPosition(float position) {
+        mPosition.x = MathUtils.clamp(position, mLeftLimit, mRightLimit);
+    }
+    
+    private void reposition() {
+        if (mIsRandomMovement) {
+            mTargetPosition = MathUtils.random(mLeftLimit, mRightLimit);
+        } else {
+            if (mPosition.x == mLeftLimit) {
+                mTargetPosition = mRightLimit;
+            } else {
+                mTargetPosition = mLeftLimit;
+            }
+        }
     }
     
     @Override

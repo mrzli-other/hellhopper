@@ -119,6 +119,7 @@ public final class GameCharacter {
     
     public void updateStep(float horizontalSpeed,
             PlatformToCharCollisionData platformToCharCollisionData,
+            Array<RiseSection> activeRiseSections,
             Array<PlatformBase> visiblePlatforms,
             float delta) {
         
@@ -150,7 +151,7 @@ public final class GameCharacter {
         mSpeed.x = horizontalSpeed;
         
         if (isCollision) {
-            processCollision();
+            processCollision(activeRiseSections);
         }
         
         mPosition.x = GameUtils.getPositiveModulus(
@@ -165,13 +166,14 @@ public final class GameCharacter {
         batch.draw(mCharacterTexture, mPosition.x, mPosition.y, WIDTH, HEIGHT);
     }
     
-    private void processCollision() {
+    private void processCollision(Array<RiseSection> activeRiseSections) {
         
         mCharCollisionData.collisionPlatform.getCollisionEffects(
                 mCharCollisionData.collisionPointX, mCollisionEffects);
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.BURN)) {
             mIsDead = true;
+            mCollisionEffects.clear();
             return;
         }
         
@@ -182,8 +184,12 @@ public final class GameCharacter {
         }
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.REPOSITION_PLATFORMS)) {
-            
+            RiseSection riseSection = getRiseSection(
+                    mCharCollisionData.collisionPlatform.getRiseSectionId(), activeRiseSections);
+            riseSection.applyEffect(CollisionEffects.REPOSITION_PLATFORMS);
         }
+        
+        mCollisionEffects.clear();
     }
     
     private static boolean isCollisionWithPlatform(
@@ -204,6 +210,16 @@ public final class GameCharacter {
         }
         
         return false;
+    }
+    
+    private static RiseSection getRiseSection(int id, Array<RiseSection> riseSections) {
+        for (RiseSection riseSection : riseSections) {
+            if (riseSection.getId() == id) {
+                return riseSection;
+            }
+        }
+        
+        return null;
     }
     
     public Vector2 getPosition() {

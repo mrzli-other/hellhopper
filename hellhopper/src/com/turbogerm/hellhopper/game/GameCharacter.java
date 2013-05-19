@@ -183,10 +183,15 @@ public final class GameCharacter {
             mSpeed.y = JUMP_SPEED;
         }
         
+        RiseSection riseSection = getRiseSection(
+                mCharCollisionData.collisionPlatform.getRiseSectionId(), activeRiseSections);
+        
         if (mCollisionEffects.isEffectActive(CollisionEffects.REPOSITION_PLATFORMS)) {
-            RiseSection riseSection = getRiseSection(
-                    mCharCollisionData.collisionPlatform.getRiseSectionId(), activeRiseSections);
             riseSection.applyEffect(CollisionEffects.REPOSITION_PLATFORMS);
+        }
+        
+        if (mCollisionEffects.isEffectActive(CollisionEffects.VISIBLE_ON_JUMP)) {
+            riseSection.applyEffect(CollisionEffects.VISIBLE_ON_JUMP);
         }
         
         mCollisionEffects.clear();

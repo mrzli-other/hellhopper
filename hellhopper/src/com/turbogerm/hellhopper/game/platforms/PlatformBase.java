@@ -42,6 +42,7 @@ import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
 import com.turbogerm.hellhopper.util.Pools;
@@ -70,7 +71,7 @@ public abstract class PlatformBase {
     private final int mRiseSectionId;
     
     protected final Sprite mSprite;
-    protected final Color mSpriteColor;
+    protected final PlatformModifier mPlatformModifier;
     
     private final PlatformMovementBase mPlatformMovement;
     private final boolean mHasVerticalMovement;
@@ -87,7 +88,7 @@ public abstract class PlatformBase {
         mSprite = new Sprite(texture);
         mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
-        mSpriteColor = new Color();
+        mPlatformModifier = new PlatformModifier();
         
         mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
                 assetManager);
@@ -142,21 +143,24 @@ public abstract class PlatformBase {
     
     public final void render(SpriteBatch batch, float delta) {
         
-        updateSpriteColor();
+        updatePlatformModifier();
         
+        Color spriteColor = mPlatformModifier.spriteColor;
         for (PlatformFeatureBase platformFeature : mPlatformFeaturesForRendering) {
-            platformFeature.render(batch, getPosition(), mSpriteColor);
+            platformFeature.render(batch, getPosition(), spriteColor);
         }
         
         renderImpl(batch, delta);
-        mPlatformMovement.render(batch, mSpriteColor.a, isMovingInternal() ? delta : 0.0f);
+        mPlatformMovement.render(batch, spriteColor.a, isMovingInternal() ? delta : 0.0f);
     }
     
     protected void renderImpl(SpriteBatch batch, float delta) {
-        Vector2 position = getPosition();
-        mSprite.setPosition(position.x, position.y);
-        mSprite.setColor(mSpriteColor);
-        mSprite.draw(batch);
+        if (mPlatformModifier.isPlatformVisible) {
+            Vector2 position = getPosition();
+            mSprite.setPosition(position.x, position.y);
+            mSprite.setColor(mPlatformModifier.spriteColor);
+            mSprite.draw(batch);
+        }
     }
     
     public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {
@@ -190,6 +194,10 @@ public abstract class PlatformBase {
     
     public void applyEffect(int collisionEffect) {
         mPlatformMovement.applyEffect(collisionEffect);
+        
+        for (PlatformFeatureBase feature : mPlatformFeatures) {
+            feature.applyEffect(collisionEffect);
+        }
     }
     
     protected boolean isActiveInternal() {
@@ -200,11 +208,13 @@ public abstract class PlatformBase {
         return true;
     }
     
-    private void updateSpriteColor() {
-        mSpriteColor.set(DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, 1.0f);
+    private void updatePlatformModifier() {
+        mPlatformModifier.reset();
+        
+        mPlatformModifier.spriteColor.set(DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, 1.0f);
         
         for (PlatformFeatureBase feature : mPlatformFeatures) {
-            feature.applyColor(mSpriteColor);
+            feature.applyModifier(mPlatformModifier);
         }
     }
     
@@ -217,6 +227,8 @@ public abstract class PlatformBase {
                 feature.applyContact(collisionEffects);
             }
         }
+        
+        collisionEffects.set(CollisionEffects.VISIBLE_ON_JUMP);
     }
     
     public int getRiseSectionId() {

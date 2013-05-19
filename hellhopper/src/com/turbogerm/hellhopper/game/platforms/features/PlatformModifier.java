@@ -21,45 +21,21 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.game.platforms.features;
 
-public final class CollisionEffects {
+import com.badlogic.gdx.graphics.Color;
+
+public final class PlatformModifier {
     
-    public static final int JUMP_BOOST = 0;
-    public static final int BURN = 1;
-    public static final int REPOSITION_PLATFORMS = 2;
-    public static final int VISIBLE_ON_JUMP = 3;
-    private static final int NUM_EFFECTS = 4;
+    public boolean isPlatformVisible;
+    public Color spriteColor;
     
-    private final boolean mEffects[];
-    private final float mValues[];
-    
-    public CollisionEffects() {
-        mEffects = new boolean[NUM_EFFECTS];
-        mValues = new float[NUM_EFFECTS];
+    public PlatformModifier() {
+        isPlatformVisible = true;
+        spriteColor = new Color();
     }
     
-    public void clear() {
-        for (int i = 0; i < NUM_EFFECTS; i++) {
-            mEffects[i] = false;
-            mValues[i] = 0.0f;
-        }
-    }
-    
-    public void set(int effect) {
-        mEffects[effect] = true;
-    }
-    
-    public void set(int effect, float value) {
-        mEffects[effect] = true;
-        mValues[effect] = value;
-    }
-    
-    public boolean isEffectActive(int effect) {
-        return mEffects[effect];
-    }
-    
-    public float getValue(int effect) {
-        return mValues[effect];
+    public void reset() {
+        isPlatformVisible = true;
     }
 }

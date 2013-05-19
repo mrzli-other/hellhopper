@@ -36,6 +36,8 @@ public static PlatformFeatureBase create(PlatformFeatureData featureData, AssetM
             return new JumpBoostPlatformFeature(featureData, assetManager);
         } else if (PlatformFeatureData.FLAME_FEATURE.equals(featureType)) {
             return new FlamePlatformFeature(featureData, assetManager);
+        } else if (PlatformFeatureData.VISIBLE_ON_JUMP_FEATURE.equals(featureType)) {
+            return new VisibleOnJumpFeature(featureData, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid platform feature type: %s", featureType);
             return null;

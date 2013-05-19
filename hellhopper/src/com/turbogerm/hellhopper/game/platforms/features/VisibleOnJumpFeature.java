@@ -21,45 +21,39 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.game.platforms.features;
 
-public final class CollisionEffects {
+import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
+import com.turbogerm.hellhopper.game.CollisionEffects;
+
+final class VisibleOnJumpFeature extends PlatformFeatureBase {
     
-    public static final int JUMP_BOOST = 0;
-    public static final int BURN = 1;
-    public static final int REPOSITION_PLATFORMS = 2;
-    public static final int VISIBLE_ON_JUMP = 3;
-    private static final int NUM_EFFECTS = 4;
+    private static final float VISIBILITY_DURATION = 1.2f;
     
-    private final boolean mEffects[];
-    private final float mValues[];
+    private float mVisibilityCountdown;
     
-    public CollisionEffects() {
-        mEffects = new boolean[NUM_EFFECTS];
-        mValues = new float[NUM_EFFECTS];
+    public VisibleOnJumpFeature(PlatformFeatureData featureData, AssetManager assetManager) {
+        
+        mVisibilityCountdown = 0.0f;
     }
     
-    public void clear() {
-        for (int i = 0; i < NUM_EFFECTS; i++) {
-            mEffects[i] = false;
-            mValues[i] = 0.0f;
+    @Override
+    public void update(float delta) {
+        if (mVisibilityCountdown > 0.0f) {
+            mVisibilityCountdown -= delta;
         }
     }
     
-    public void set(int effect) {
-        mEffects[effect] = true;
+    @Override
+    public void applyModifier(PlatformModifier modifier) {
+        modifier.isPlatformVisible = mVisibilityCountdown > 0.0f;
+        modifier.spriteColor.set(1.0f, 1.0f, 1.0f, mVisibilityCountdown / VISIBILITY_DURATION);
     }
     
-    public void set(int effect, float value) {
-        mEffects[effect] = true;
-        mValues[effect] = value;
-    }
-    
-    public boolean isEffectActive(int effect) {
-        return mEffects[effect];
-    }
-    
-    public float getValue(int effect) {
-        return mValues[effect];
+    public void applyEffect(int collisionEffect) {
+        if (collisionEffect == CollisionEffects.VISIBLE_ON_JUMP) {
+            mVisibilityCountdown = VISIBILITY_DURATION;
+        }
     }
 }

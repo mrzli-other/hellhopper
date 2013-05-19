@@ -43,7 +43,10 @@ public abstract class PlatformFeatureBase {
         return false;
     }
     
-    public void applyColor(Color color) {
+    public void applyModifier(PlatformModifier modifier) {
+    }
+    
+    public void applyEffect(int collisionEffect) {
     }
     
     public void applyContact(CollisionEffects collisionEffects) {

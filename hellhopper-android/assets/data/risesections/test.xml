@@ -2,8 +2,19 @@
   <platforms>
   
     <platform step="0" offset="10" type="normal" />
-    <platform step="5" offset="10" type="normal" />
-    <platform step="10" offset="10" type="normal" />
+    
+    <platform step="5" offset="10" type="normal">
+        <features>
+          <feature type="visibleonjump" />
+      </features>
+    </platform>
+    
+    <platform step="10" offset="10" type="normal">
+        <features>
+          <feature type="visibleonjump" />
+      </features>
+    </platform>
+    
     <platform step="15" offset="10" type="normal" />
     <platform step="20" offset="10" type="normal" />
     <platform step="35" offset="5" type="normal" />

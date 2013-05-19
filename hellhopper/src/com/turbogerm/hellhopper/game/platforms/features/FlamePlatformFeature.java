@@ -129,7 +129,8 @@ final class FlamePlatformFeature extends PlatformFeatureBase {
     }
     
     @Override
-    public void applyColor(Color color) {
+    public void applyModifier(PlatformModifier modifier) {
+        Color color = modifier.spriteColor;
         float oldAplha = color.a;
         
         switch (mFlameStateMachine.getCurrentState()) {

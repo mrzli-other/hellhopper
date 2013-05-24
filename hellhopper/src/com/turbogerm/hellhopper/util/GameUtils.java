@@ -40,11 +40,18 @@ public final class GameUtils {
     }
     
     public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes) {
+        return getRandomIndexes(range, numberOfIndexes, null);
+    }
+    
+    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes, Array<Integer> excludedIndexes) {
         Array<Integer> selectedList = new Array<Integer>(numberOfIndexes);
         
-        Array<Integer> availableList = new Array<Integer>(true, range);
-        for (int i = 0; i < range; i++) {
-            availableList.add(i);
+        Array<Integer> availableList = getRange(range);
+        
+        if (excludedIndexes != null) {
+            for (Integer excludedIndex : excludedIndexes) {
+                availableList.removeValue(excludedIndex, false);
+            }
         }
         
         for (int i = 0; i < numberOfIndexes; i++) {
@@ -57,6 +64,15 @@ public final class GameUtils {
         selectedList.sort();
         
         return selectedList;
+    }
+    
+    public static Array<Integer> getRange(int range) {
+        Array<Integer> rangeList = new Array<Integer>(true, range);
+        for (int i = 0; i < range; i++) {
+            rangeList.add(i);
+        }
+        
+        return rangeList;
     }
     
     /* Graphics */

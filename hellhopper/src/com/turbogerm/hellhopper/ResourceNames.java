@@ -49,6 +49,7 @@ public final class ResourceNames {
     public static final String DATA_DIR = "data/";
     public static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
     public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
+    public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
     
     public static final String GAME_DIR = "game/";
     public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";

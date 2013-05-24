@@ -74,7 +74,8 @@ public final class RiseSectionDataReader {
         
         PlatformMovementData movementData = getMovementData(platformNode.getChildByName("movement"));
         Array<PlatformFeatureData> featuresData = getFeaturesData(platformNode.getChildByName("features"));
-        ObjectMap<String, String> properties = getProperties(platformNode.getChildByName("properties"));
+        ObjectMap<String, String> properties = ReaderUtilities.getProperties(
+                platformNode.getChildByName("properties"));
         
         return new PlatformData(type, step, offset, movementData, featuresData, properties);
     }
@@ -85,7 +86,8 @@ public final class RiseSectionDataReader {
         }
         
         String type = movementNode.getAttribute("type");
-        ObjectMap<String, String> properties = getProperties(movementNode.getChildByName("properties"));
+        ObjectMap<String, String> properties =  ReaderUtilities.getProperties(
+                movementNode.getChildByName("properties"));
         
         return new PlatformMovementData(type, properties);
     }
@@ -108,26 +110,9 @@ public final class RiseSectionDataReader {
     
     private static PlatformFeatureData getFeatureData(Element featureNode) {
         String type = featureNode.getAttribute("type");
-        ObjectMap<String, String> properties = getProperties(featureNode.getChildByName("properties"));
+        ObjectMap<String, String> properties = ReaderUtilities.getProperties(
+                featureNode.getChildByName("properties"));
         
         return new PlatformFeatureData(type, properties);
-    }
-    
-    private static ObjectMap<String, String> getProperties(Element propertiesNode) {
-        
-        if (propertiesNode == null) {
-            return null;
-        }
-        
-        int numProperties = propertiesNode.getChildCount();
-        ObjectMap<String, String> properties = new ObjectMap<String, String>(numProperties);
-        for (int i = 0; i < numProperties; i++) {
-            Element propertyNode = propertiesNode.getChild(i);
-            String name = propertyNode.getAttribute("name");
-            String value = propertyNode.getAttribute("value");
-            properties.put(name, value);
-        }
-        
-        return properties;
     }
 }

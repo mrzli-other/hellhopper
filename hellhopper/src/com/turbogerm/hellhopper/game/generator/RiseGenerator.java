@@ -29,8 +29,10 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
+import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadataReader;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsDataReader;
+import com.turbogerm.hellhopper.dataaccess.RiseSectionsMetadata;
 import com.turbogerm.hellhopper.game.Rise;
 import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
@@ -41,9 +43,12 @@ public final class RiseGenerator {
     private static final int RISE_SECTIONS_INITIAL_CAPACITY = 20;
     
     private static final RiseSectionsData PREBUILT_RISE_SECTIONS;
+    private static final RiseSectionsMetadata RISE_SECTIONS_METADATA;
     
     static {
         PREBUILT_RISE_SECTIONS = RiseSectionsDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTIONS_DATA));
+        RISE_SECTIONS_METADATA = RiseSectionMetadataReader.read(
+                Gdx.files.internal(ResourceNames.RISE_SECTIONS_METADATA));
     }
     
     public static Rise generate(AssetManager assetManager) {
@@ -57,8 +62,15 @@ public final class RiseGenerator {
 //        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
 //        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.0f, 0.15f, 0));
 //        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.15f, 0.15f, 0));
+//        
+//        riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("test"));
         
-        riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("test"));
+        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(
+                RISE_SECTIONS_METADATA.getByName("initial0")));
+        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(
+                RISE_SECTIONS_METADATA.getByName("initial1")));
+        riseSectionsData.add(RiseSectionGenerator.generateRiseSection(
+                RISE_SECTIONS_METADATA.getByName("initial2")));
         
         Array<RiseSection> riseSections = getRiseSections(riseSectionsData, assetManager);
         

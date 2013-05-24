@@ -37,7 +37,7 @@ public final class PlatformData {
     // 'step' is vertical offset, 'offset' is horizontal offset in position grid
     
     public static final float STEP_HEIGHT = 1.0f;
-    private static final float OFFSET_WIDTH = 0.25f;
+    public static final float OFFSET_WIDTH = 0.25f;
     
     public static final int PLATFORM_WIDTH_OFFSETS = 8;
     private static final float PLATFORM_HEIGHT_STEPS = 0.5f;

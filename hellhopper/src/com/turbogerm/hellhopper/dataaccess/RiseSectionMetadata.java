@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 public final class RiseSectionMetadata {
     
     public static final String BASIC_TYPE = "basic";
+    public static final String JUMP_BOOST_TYPE = "jumpboost";
     
     public static final String NORMAL_PLATFORM_WEIGHT_PROPERTY = "normalplatformweight";
     public static final String MOVING_PLATFORM_WEIGHT_PROPERTY = "movingplatformweight";

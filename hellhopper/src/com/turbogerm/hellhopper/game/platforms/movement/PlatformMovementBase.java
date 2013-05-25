@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class PlatformMovementBase {
@@ -85,6 +86,9 @@ public abstract class PlatformMovementBase {
         mEngineEffect.setPosition(
                 mEngineSprite.getX() + ENGINE_WIDTH / 2.0f, mEngineSprite.getY() + ENGINE_HEIGHT / 2.0f);
         mEngineEffect.draw(batch, delta);
+    }
+    
+    public void applyModifier(PlatformModifier modifier) {
     }
     
     public void applyContact(CollisionEffects collisionEffects) {

@@ -29,6 +29,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 
 final class RepositionPlatformMovement extends PlatformMovementBase {
     
@@ -78,6 +79,11 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
         } else {
             changePosition(Math.signum(distance) * travelled);
         }
+    }
+    
+    @Override
+    public void applyModifier(PlatformModifier modifier) {
+        modifier.spriteColor.set(0.5f, 0.0f, 0.0f, 1.0f);
     }
     
     @Override

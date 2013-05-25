@@ -35,7 +35,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
-import com.turbogerm.hellhopper.debug.PerformanceData;
+import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.Pools;
@@ -66,7 +66,7 @@ public final class GameArea {
     
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
-    private final PerformanceData mPerformanceData;
+    private final DebugData mDebugData;
     
     private final Texture mEndLineTexture;
     
@@ -94,7 +94,7 @@ public final class GameArea {
         
         mAssetManager = assetManager;
         mBatch = new SpriteBatch();
-        mPerformanceData = new PerformanceData(mBatch);
+        mDebugData = new DebugData();
         
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
@@ -169,6 +169,9 @@ public final class GameArea {
         mCharacter.render(mBatch);
         
         mBatch.end();
+        
+        // TODO: for debugging, remove
+        mDebugData.update(mBatch, getCurrentRiseSection());
     }
     
     private void updateStep(float horizontalSpeed, float delta) {
@@ -226,6 +229,20 @@ public final class GameArea {
         }
     }
     
+    // TODO: only for debugging
+    private RiseSection getCurrentRiseSection() {
+        Array<RiseSection> allRiseSections = mRise.getRiseSections();
+        
+        float characterY = mCharacter.getPosition().y;
+        for (RiseSection riseSection : allRiseSections) {
+            if (riseSection.getStartY() <= characterY && characterY < riseSection.getEndY()) {
+                return riseSection;
+            }
+        }
+        
+        return null;
+    }
+    
     private void updatePlatforms(float delta) {
         Vector2 c1 = Pools.obtainVector();
         Vector2 c2 = Pools.obtainVector();
@@ -270,7 +287,7 @@ public final class GameArea {
         return mVisibleAreaPosition;
     }
     
-    public PerformanceData getPerformanceData() {
-        return mPerformanceData;
+    public DebugData getDebugData() {
+        return mDebugData;
     }
 }

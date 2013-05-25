@@ -27,14 +27,20 @@ import com.badlogic.gdx.utils.Array;
 
 public final class RiseSectionData {
     
+    private final String mName;
     private final int mStepRange;
     private final int mDifficulty;
     private final Array<PlatformData> mPlatformDataList;
     
-    public RiseSectionData(int stepRange, int difficulty, Array<PlatformData> platformDataList) {
+    public RiseSectionData(String name, int stepRange, int difficulty, Array<PlatformData> platformDataList) {
+        mName = name;
         mStepRange = stepRange;
         mDifficulty = difficulty;
         mPlatformDataList = platformDataList;
+    }
+    
+    public String getName() {
+        return mName;
     }
     
     public int getStepRange() {

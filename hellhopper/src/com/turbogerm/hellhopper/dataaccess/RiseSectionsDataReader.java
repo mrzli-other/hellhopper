@@ -25,21 +25,24 @@ package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 
 public final class RiseSectionsDataReader {
     
+    private static final int INITIAL_RISE_SECTION_DATA_LIST_CAPACITY = 20;
+    
     public static RiseSectionsData read(FileHandle fileHandle) {
         
-        ObjectMap<String, RiseSectionData> riseSections = new ObjectMap<String, RiseSectionData>();
+        Array<RiseSectionData> riseSections = new Array<RiseSectionData>(
+                true, INITIAL_RISE_SECTION_DATA_LIST_CAPACITY);
         
         String riseSectionsText = fileHandle.readString();
         String[] riseSectionNames = riseSectionsText.split("\\r?\\n");
         for (String riseSectionName : riseSectionNames) {
-            RiseSectionData riseSection = RiseSectionDataReader.read(
+            RiseSectionData riseSection = RiseSectionDataReader.read(riseSectionName,
                     Gdx.files.internal(ResourceNames.getRiseSectionPath(riseSectionName)));
-            riseSections.put(riseSectionName, riseSection);
+            riseSections.add(riseSection);
         }
         
         return new RiseSectionsData(riseSections);

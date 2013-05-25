@@ -28,6 +28,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 
 public final class HorizontalPlatformMovement extends PlatformMovementBase {
     
@@ -67,6 +68,11 @@ public final class HorizontalPlatformMovement extends PlatformMovementBase {
         }
         
         changePosition(travelled);
+    }
+    
+    @Override
+    public void applyModifier(PlatformModifier modifier) {
+        modifier.spriteColor.set(0.65f, 0.25f, 0.25f, 1.0f);
     }
     
     private void changePosition(float change) {

@@ -28,6 +28,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
+import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 
 public final class VerticalPlatformMovement extends PlatformMovementBase {
     
@@ -78,6 +79,11 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
         }
         
         mPosition.y = MathUtils.clamp(mPosition.y, mBottomLimit, mTopLimit);
+    }
+    
+    @Override
+    public void applyModifier(PlatformModifier modifier) {
+        modifier.spriteColor.set(0.7f, 0.13f, 0.13f, 1.0f);
     }
     
     @Override

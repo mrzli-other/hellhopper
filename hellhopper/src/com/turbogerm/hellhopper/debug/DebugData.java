@@ -25,27 +25,35 @@ package com.turbogerm.hellhopper.debug;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.turbogerm.hellhopper.game.RiseSection;
 
-public final class PerformanceData {
+public final class DebugData {
     
     private int mFps;
     private int mRenderCalls;
     private int mMaxSpritesInBatch;
+    private String mRiseSectionName;
+    private int mRiseSectionDifficulty;
     
-    private final SpriteBatch mBatch;
-    
-    public PerformanceData(SpriteBatch batch) {
-        mBatch = batch;
+    public DebugData() {
     }
     
-    public void update() {
+    public void update(SpriteBatch batch, RiseSection riseSection) {
         mFps = Gdx.graphics.getFramesPerSecond();
-        mRenderCalls = mBatch.renderCalls;
-        mMaxSpritesInBatch = mBatch.maxSpritesInBatch;
+        mRenderCalls = batch.renderCalls;
+        mMaxSpritesInBatch = batch.maxSpritesInBatch;
+        if (riseSection != null) {
+            mRiseSectionName = riseSection.getName();
+            mRiseSectionDifficulty = riseSection.getDifficulty();
+        } else {
+            mRiseSectionName = "";
+            mRiseSectionDifficulty = -1;
+        }
     }
     
     @Override
     public String toString() {
-        return String.format("FPS: %d; CALLS: %d; BATCH: %d", mFps, mRenderCalls, mMaxSpritesInBatch);
+        return String.format("Fps: %d; Calls: %d; Max Batch: %d\nSection: %s; Diffic: %d",
+                mFps, mRenderCalls, mMaxSpritesInBatch, mRiseSectionName, mRiseSectionDifficulty);
     }
 }

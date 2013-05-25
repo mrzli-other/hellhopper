@@ -35,7 +35,7 @@ import com.turbogerm.hellhopper.util.Logger;
 
 public final class RiseSectionDataReader {
     
-    public static RiseSectionData read(FileHandle fileHandle) {
+    public static RiseSectionData read(String name, FileHandle fileHandle) {
         
         XmlReader reader = new XmlReader();
         
@@ -62,7 +62,7 @@ public final class RiseSectionDataReader {
         }
         RiseGeneratorUtils.sort(platformDataList);
         
-        return new RiseSectionData(stepRange, difficulty, platformDataList);
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
     }
     
     private static PlatformData getPlatformData(Element platformNode) {

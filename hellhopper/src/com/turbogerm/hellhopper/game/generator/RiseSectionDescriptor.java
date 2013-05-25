@@ -21,41 +21,27 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.game.generator;
 
-import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-
-public final class RiseSection {
-    
-    private final int mId;
+public final class RiseSectionDescriptor {
+    private final boolean mIsMetadata;
+    private final String mType;
     private final String mName;
     private final int mDifficulty;
     
-    private final float mStartY;
-    private final float mEndY; 
-    private final float mHeight;
-    private final Array<PlatformBase> mPlatforms;
-    
-    public RiseSection(int id, String name, int difficulty,
-            float startY, float height, Array<PlatformBase> platforms) {
-        mId = id;
+    public RiseSectionDescriptor(boolean isMetadata, String type, String name, int difficulty) {
+        mIsMetadata = isMetadata;
+        mType = type;
         mName = name;
         mDifficulty = difficulty;
-        mStartY = startY;
-        mHeight = height;
-        mEndY = mStartY + mHeight;
-        mPlatforms = platforms;
     }
     
-    public void applyEffect(int collisionEffect) {
-        for (PlatformBase platform : mPlatforms) {
-            platform.applyEffect(collisionEffect);
-        }
+    public boolean isMetadata() {
+        return mIsMetadata;
     }
     
-    public int getId() {
-        return mId;
+    public String getType() {
+        return mType;
     }
     
     public String getName() {
@@ -64,21 +50,5 @@ public final class RiseSection {
     
     public int getDifficulty() {
         return mDifficulty;
-    }
-    
-    public float getStartY() {
-        return mStartY;
-    }
-    
-    public float getEndY() {
-        return mEndY;
-    }
-    
-    public float getHeight() {
-        return mHeight;
-    }
-    
-    public Array<PlatformBase> getPlatforms() {
-        return mPlatforms;
     }
 }

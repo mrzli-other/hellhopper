@@ -23,17 +23,32 @@
  */
 package com.turbogerm.hellhopper.dataaccess;
 
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Array;
 
 public final class RiseSectionsData {
     
-    private final ObjectMap<String, RiseSectionData> mRiseSections;
+    private final Array<RiseSectionData> mRiseSections;
     
-    public RiseSectionsData(ObjectMap<String, RiseSectionData> riseSections) {
+    public RiseSectionsData(Array<RiseSectionData> riseSections) {
         mRiseSections = riseSections;
     }
     
     public RiseSectionData getRiseSection(String name) {
-        return mRiseSections.get(name);
+        
+        for (RiseSectionData riseSectionData : mRiseSections) {
+            if (riseSectionData.getName().equals(name)) {
+                return riseSectionData;
+            }
+        }
+        
+        return null;
+    }
+    
+    public Array<RiseSectionData> getAllRiseSections() {
+        return mRiseSections;
+    }
+    
+    public int getRiseSectionCount() {
+        return mRiseSections.size;
     }
 }

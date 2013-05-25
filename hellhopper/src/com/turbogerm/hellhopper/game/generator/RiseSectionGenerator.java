@@ -41,6 +41,7 @@ final class RiseSectionGenerator {
     
     public static RiseSectionData generateBasicRiseSection(int stepRange, int numPads, int difficulty,
             float jumpBoostChance) {
+        
         Array<PlatformData> platformDataList = new Array<PlatformData>(numPads);
         Array<StepPossiblePlaformPositions> positions = getInitialAllStepPositionsPositions(stepRange);
         for (int i = 0; i < numPads; i++) {
@@ -55,7 +56,7 @@ final class RiseSectionGenerator {
         correctPlatformList(stepRange, platformDataList, jumpBoostChance);
         RiseGeneratorUtils.sort(platformDataList);
         
-        return new RiseSectionData(stepRange, difficulty, platformDataList);
+        return new RiseSectionData("", stepRange, difficulty, platformDataList);
     }
     
     private static Array<StepPossiblePlaformPositions> getInitialAllStepPositionsPositions(int stepRange) {
@@ -229,7 +230,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(stepRange, difficulty, platformDataList);
+        return new RiseSectionData("", stepRange, difficulty, platformDataList);
     }
     
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {
@@ -278,6 +279,7 @@ final class RiseSectionGenerator {
     
     private static RiseSectionData generateRiseSectionBasic(RiseSectionMetadata riseSectionMetadata) {
         
+        String name = riseSectionMetadata.getName();
         int stepRange = MathUtils.random(
                 riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
         int minStepDistance = riseSectionMetadata.getMinStepDistance();
@@ -371,7 +373,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(stepRange, difficulty, platformDataList);
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
     }
     
     private static PlatformMovementData getMovementData(int index, Array<Integer> filledSteps,
@@ -430,7 +432,7 @@ final class RiseSectionGenerator {
             jumpBoostPowerString = PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE;
         } else if (jumpBoostMediumPlatformIndexes.contains(index, false)) {
             jumpBoostPowerString = PlatformFeatureData.JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE;
-        } else if (jumpBoostMediumPlatformIndexes.contains(index, false)) {
+        } else if (jumpBoostHighPlatformIndexes.contains(index, false)) {
             jumpBoostPowerString = PlatformFeatureData.JUMP_BOOST_POWER_HIGH_PROPERTY_VALUE;
         } else {
             jumpBoostPowerString = null;

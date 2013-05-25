@@ -213,6 +213,8 @@ public abstract class PlatformBase {
         
         mPlatformModifier.spriteColor.set(DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, DEFAULT_COLOR_VALUE, 1.0f);
         
+        mPlatformMovement.applyModifier(mPlatformModifier);
+        
         for (PlatformFeatureBase feature : mPlatformFeatures) {
             feature.applyModifier(mPlatformModifier);
         }

@@ -110,10 +110,13 @@ public final class ColorInterpolator {
     }
     
     private static float interpolateHue(float h1, float h2, float t) {
-        float h = h1 + t * (h2 - h1);
-        if (Math.abs(h2 - h1) > 0.5f) {
-            h = (h + 0.5f) % 1.0f;
-        }
+        // http://stackoverflow.com/questions/2593832/how-to-interpolate-hue-values-in-hsv-colour-space
+        
+        float distCCW = (h1 >= h2) ? h1 - h2 : 1 + h1 - h2;
+        float distCW = (h1 >= h2) ? 1 + h2 - h1 : h2 - h1;
+        
+        float h = (distCW <= distCCW) ? h1 + (distCW * t) : h1 - (distCCW * t);
+        h = GameUtils.getPositiveModulus(h, 1.0f);
         
         return h;
     }

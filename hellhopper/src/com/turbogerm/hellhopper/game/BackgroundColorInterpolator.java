@@ -27,11 +27,12 @@ package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
+import com.turbogerm.hellhopper.util.Logger;
 
 public final class BackgroundColorInterpolator {
     
-    private static final int NUM_COLORS = 5;
-    private static final float LIGHT_MULTIPLIER = 0.6f;
+    private static final int NUM_COLORS = 4; //5;
+    private static final float LIGHT_MULTIPLIER = 1.0f; //0.6f;
     
     private final ColorInterpolator mColorInterpolator;
     private final Color mResult;
@@ -48,11 +49,16 @@ public final class BackgroundColorInterpolator {
         
         mColorPositions = new float[NUM_COLORS];
         mColors = new Color[NUM_COLORS];
-        setColor(0, 0.0f, new Color(1.0f, 0.0f, 0.0f, 1.0f));
-        setColor(1, 1.0f, new Color(1.0f, 0.5f, 0.0f, 1.0f));
-        setColor(2, 2.0f, new Color(1.0f, 1.0f, 0.0f, 1.0f));
-        setColor(3, 3.0f, new Color(0.72f, 0.45f, 0.2f, 1.0f));
-        setColor(4, 4.0f, new Color(0.0f, 1.0f, 0.0f, 1.0f));
+        //setColor(0, 0.0f, new Color(1.0f, 0.0f, 0.0f, 1.0f));
+        //setColor(1, 1.0f, new Color(1.0f, 0.5f, 0.0f, 1.0f));
+        //setColor(2, 2.0f, new Color(1.0f, 1.0f, 0.0f, 1.0f));
+        //setColor(3, 3.0f, new Color(0.72f, 0.45f, 0.2f, 1.0f));
+        //setColor(4, 4.0f, new Color(0.0f, 1.0f, 0.0f, 1.0f));
+        
+        setColor(0, 0.0f, new Color(0.6f, 0.0f, 0.0f, 1.0f));
+        setColor(1, 1.0f, new Color(0.54f, 0.46f, 0.57f, 1.0f));
+        setColor(2, 2.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
+        setColor(3, 20.0f, new Color(0.0f, 0.6f, 0.0f, 1.0f));
         
         for (int i = 0; i < NUM_COLORS; i++) {
             mColors[i].mul(LIGHT_MULTIPLIER);

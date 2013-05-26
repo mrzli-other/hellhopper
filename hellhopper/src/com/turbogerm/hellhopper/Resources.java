@@ -99,6 +99,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class);
         
         mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);
+        mAssetManager.load(ResourceNames.SOUND_JUMP_BOOST, Sound.class);
         
         mAssetManager.finishLoading();
         

@@ -67,6 +67,7 @@ public final class GameCharacter {
     private final CollisionEffects mCollisionEffects;
     
     private final Sound mJumpSound;
+    private final Sound mJumpBoostSound;
     
     public GameCharacter(AssetManager assetManager) {
         mCharacterTexture = assetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
@@ -78,6 +79,7 @@ public final class GameCharacter {
         mCollisionEffects = new CollisionEffects();
         
         mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
+        mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
     }
     
     public void reset(float riseHeight) {
@@ -173,8 +175,6 @@ public final class GameCharacter {
     
     private void processCollision(Array<RiseSection> activeRiseSections) {
         
-        mJumpSound.play();
-        
         mCharCollisionData.collisionPlatform.getCollisionEffects(
                 mCharCollisionData.collisionPointX, mCollisionEffects);
         
@@ -186,8 +186,10 @@ public final class GameCharacter {
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.JUMP_BOOST)) {
             mSpeed.y = mCollisionEffects.getValue(CollisionEffects.JUMP_BOOST);
+            mJumpBoostSound.play();
         } else {
             mSpeed.y = JUMP_SPEED;
+            mJumpSound.play();
         }
         
         RiseSection riseSection = getRiseSection(

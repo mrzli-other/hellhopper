@@ -85,6 +85,7 @@ public final class ResourceNames {
     
     public static final String SOUNDS_DIR = "sounds/";
     public static final String SOUND_JUMP = SOUNDS_DIR + "jump.mp3";
+    public static final String SOUND_JUMP_BOOST = SOUNDS_DIR + "jumpboost.mp3";
     
     public static String getRiseSectionPath(String name) {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);

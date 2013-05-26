@@ -49,7 +49,7 @@ import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
     
-    private static final float DEFAULT_COLOR_VALUE = 0.35f;
+    private static final float DEFAULT_COLOR_VALUE = 0.5f;
     
     private static final Comparator<PlatformFeatureBase> PLATFORM_FEATURE_RENDER_COMPARATOR;
     

@@ -27,6 +27,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -82,20 +83,22 @@ public final class Resources {
         
         mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameter);
         
-        mAssetManager.load(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS, TextureAtlas.class, null);
+        mAssetManager.load(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS, TextureAtlas.class);
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE, Texture.class, textureParameter);
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_REPOSITION_TEXTURE, Texture.class, textureParameter);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE, Texture.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE, Texture.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE, Texture.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE, Texture.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE, Texture.class, null);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, null);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE, Texture.class, textureParameter);
+        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, textureParameter);
         
         mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameter);
         
-        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class, null);
-        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class, null);
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class);
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class);
+        
+        mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);
         
         mAssetManager.finishLoading();
         

@@ -24,6 +24,7 @@
 package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -65,6 +66,8 @@ public final class GameCharacter {
     private final CharCollisionData mCharCollisionData;
     private final CollisionEffects mCollisionEffects;
     
+    private final Sound mJumpSound;
+    
     public GameCharacter(AssetManager assetManager) {
         mCharacterTexture = assetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
         
@@ -73,6 +76,8 @@ public final class GameCharacter {
         
         mCharCollisionData = new CharCollisionData();
         mCollisionEffects = new CollisionEffects();
+        
+        mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
     }
     
     public void reset(float riseHeight) {
@@ -167,6 +172,8 @@ public final class GameCharacter {
     }
     
     private void processCollision(Array<RiseSection> activeRiseSections) {
+        
+        mJumpSound.play();
         
         mCharCollisionData.collisionPlatform.getCollisionEffects(
                 mCharCollisionData.collisionPointX, mCollisionEffects);

@@ -41,7 +41,7 @@ final class RiseSectionGenerator {
         if (RiseSectionMetadata.BASIC_TYPE.equals(type)) {
             return generateRiseSectionBasic(riseSectionMetadata);
         } else if (RiseSectionMetadata.JUMP_BOOST_TYPE.equals(type)) {
-            return generateRiseSectionBasic(riseSectionMetadata);
+            return generateRiseSectionJumpBoost(riseSectionMetadata);
         } else {
             ExceptionThrower.throwException("Invalid rise section metadata type: %s", type);
             return null;
@@ -133,6 +133,74 @@ final class RiseSectionGenerator {
             PlatformMovementData movementData = getMovementData(i, filledSteps,
                     movingPlatformIndexes, minMovingSpeed, maxMovingSpeed, minMovingRange, maxMovingRange,
                     repositionPlatformIndexes, minRepositionRange, maxRepositionRange);
+            
+            int offset = getOffset(movementData);
+            
+            Array<PlatformFeatureData> featuresData = getFeaturesData(i,
+                    jumpBoostLowPlatformIndexes, jumpBoostMediumPlatformIndexes, jumpBoostHighPlatformIndexes);
+            
+            PlatformData padData = new PlatformData(PlatformData.NORMAL, step, offset,
+                    movementData, featuresData, null);
+            platformDataList.add(padData);
+        }
+        
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+    }
+    
+    private static RiseSectionData generateRiseSectionJumpBoost(RiseSectionMetadata riseSectionMetadata) {
+        
+        String name = riseSectionMetadata.getName();
+        int stepRange = MathUtils.random(
+                riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
+        int minStepDistance = riseSectionMetadata.getMinStepDistance();
+        int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
+        int difficulty = riseSectionMetadata.getDifficulty();
+        
+        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
+        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
+        filledSteps.removeIndex(0);
+        filledSteps.removeIndex(0);
+        
+        int jumpBoostCount = filledSteps.size;
+        int numNonJumpBoostSteps = 0;
+        for (int step = 0; step < filledSteps.get(0); step += PlatformData.MAX_PLATFORM_DISTANCE_STEPS) {
+            filledSteps.add(step);
+            numNonJumpBoostSteps++;
+        }
+        filledSteps.sort();
+        
+        float jumpBoostLowWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_LOW_WEIGHT_PROPERTY));
+        float jumpBoostMediumWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_MEDIUM_WEIGHT_PROPERTY));
+        float jumpBoostHighWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
+        
+        float totalJumpBoostWeight = jumpBoostLowWeight + jumpBoostMediumWeight + jumpBoostHighWeight;
+        float jumpBoostLowFraction = jumpBoostLowWeight / totalJumpBoostWeight;
+        float jumpBoostMediumFraction = jumpBoostMediumWeight / totalJumpBoostWeight;
+        
+        int jumpBoostLowCount = (int) (jumpBoostCount * jumpBoostLowFraction);
+        int jumpBoostMediumCount = (int) (jumpBoostCount * jumpBoostMediumFraction);
+        int jumpBoostHighCount = jumpBoostCount - jumpBoostLowCount - jumpBoostMediumCount;
+        
+        Array<Integer> jumpBoostLowPlatformIndexes =
+                GameUtils.getRandomIndexes(jumpBoostCount, jumpBoostLowCount);
+        Array<Integer> jumpBoostMediumPlatformIndexes =
+                GameUtils.getRandomIndexes(jumpBoostCount, jumpBoostMediumCount, jumpBoostLowPlatformIndexes);
+        Array<Integer> jumpBoostLowAndMediumPlatformIndexes = new Array<Integer>(jumpBoostLowPlatformIndexes);
+        jumpBoostLowAndMediumPlatformIndexes.addAll(jumpBoostMediumPlatformIndexes);
+        Array<Integer> jumpBoostHighPlatformIndexes =
+                GameUtils.getRandomIndexes(jumpBoostCount, jumpBoostHighCount, jumpBoostLowAndMediumPlatformIndexes);
+        
+        jumpBoostLowPlatformIndexes = GameUtils.offsetValues(jumpBoostLowPlatformIndexes, numNonJumpBoostSteps);
+        jumpBoostMediumPlatformIndexes = GameUtils.offsetValues(jumpBoostMediumPlatformIndexes, numNonJumpBoostSteps);
+        jumpBoostHighPlatformIndexes = GameUtils.offsetValues(jumpBoostHighPlatformIndexes, numNonJumpBoostSteps);
+        
+        for (int i = 0; i < filledSteps.size; i++) {
+            int step = filledSteps.get(i);
+            
+            PlatformMovementData movementData = null;
             
             int offset = getOffset(movementData);
             

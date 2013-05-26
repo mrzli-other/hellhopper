@@ -67,12 +67,26 @@ public final class GameUtils {
     }
     
     public static Array<Integer> getRange(int range) {
+       return getRange(0, range);
+    }
+    
+    public static Array<Integer> getRange(int start, int range) {
         Array<Integer> rangeList = new Array<Integer>(true, range);
-        for (int i = 0; i < range; i++) {
+        int end = start + range;
+        for (int i = start; i < end; i++) {
             rangeList.add(i);
         }
         
         return rangeList;
+    }
+    
+    public static Array<Integer> offsetValues(Array<Integer> values, int offset) {
+        Array<Integer> offseted = new Array<Integer>(true, values.size);
+        for (Integer value : values) {
+            offseted.add(value + offset);
+        }
+        
+        return offseted;
     }
     
     /* Graphics */

@@ -187,52 +187,22 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="jumpboost" name="normallowjumpboost" minsteprange="60" maxsteprange="80" minstepdistance="10" maxstepdistance="10" difficulty="2">
+    <risesection type="jumpboost" name="normallowjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="10" maxstepdistance="10" difficulty="2">
       <properties>
-        <property name="normalplatformweight" value="1" />
-        <property name="movingplatformweight" value="0" />
-        <property name="repositionplatformweight" value="0" />
-        <property name="minmovingspeed" value="5.0" />
-        <property name="maxmovingspeed" value="6.0" />
-        <property name="minmovingrange" value="3.25" />
-        <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="6" />
-        <property name="maxrepositionrange" value="7.5" />
-        <property name="jumpboostfraction" value="1" />
         <property name="jumpboostlowweight" value="1" />
         <property name="jumpboostmediumweight" value="0" />
         <property name="jumpboosthighweight" value="0" />
       </properties>
     </risesection>
-    <risesection type="jumpboost" name="normalmediumjumpboost" minsteprange="60" maxsteprange="80" minstepdistance="16" maxstepdistance="16" difficulty="2">
+    <risesection type="jumpboost" name="normalmediumjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="16" maxstepdistance="16" difficulty="2">
       <properties>
-        <property name="normalplatformweight" value="1" />
-        <property name="movingplatformweight" value="0" />
-        <property name="repositionplatformweight" value="0" />
-        <property name="minmovingspeed" value="5.0" />
-        <property name="maxmovingspeed" value="6.0" />
-        <property name="minmovingrange" value="3.25" />
-        <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="6" />
-        <property name="maxrepositionrange" value="7.5" />
-        <property name="jumpboostfraction" value="1" />
         <property name="jumpboostlowweight" value="0" />
         <property name="jumpboostmediumweight" value="1" />
         <property name="jumpboosthighweight" value="0" />
       </properties>
     </risesection>
-    <risesection type="jumpboost" name="normalhighjumpboost" minsteprange="60" maxsteprange="80" minstepdistance="22" maxstepdistance="22" difficulty="2">
+    <risesection type="jumpboost" name="normalhighjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="22" maxstepdistance="22" difficulty="2">
       <properties>
-        <property name="normalplatformweight" value="1" />
-        <property name="movingplatformweight" value="0" />
-        <property name="repositionplatformweight" value="0" />
-        <property name="minmovingspeed" value="5.0" />
-        <property name="maxmovingspeed" value="6.0" />
-        <property name="minmovingrange" value="3.25" />
-        <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="6" />
-        <property name="maxrepositionrange" value="7.5" />
-        <property name="jumpboostfraction" value="1" />
         <property name="jumpboostlowweight" value="0" />
         <property name="jumpboostmediumweight" value="0" />
         <property name="jumpboosthighweight" value="1" />

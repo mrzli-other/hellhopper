@@ -59,6 +59,10 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
     private static final float DISCHARGE_DURATION = 0.4f;
     
+    private static final float LOW_POWER_SOUND_VOLUME = 0.33f;
+    private static final float MEDIUM_POWER_SOUND_VOLUME = 0.66f;
+    private static final float HIGH_POWER_SOUND_VOLUME = 1.0f;
+    
     private final Sprite mCraterSprite;
     private final Vector2 mCraterOffset;
     
@@ -68,6 +72,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
     private final float mCraterWidth;
     private final float mJumpBoostSpeed;
+    private final float mSoundVolume;
     
     public JumpBoostPlatformFeature(PlatformFeatureData featureData, AssetManager assetManager) {
         
@@ -85,6 +90,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mDischargeSprite.setSize(powerData.dischargeWidth, powerData.dischargeHeight);
         
         mJumpBoostSpeed = powerData.speed;
+        mSoundVolume = powerData.soundVolume;
         
         float positionFraction = Float.parseFloat(featureData
                 .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
@@ -143,7 +149,9 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     
     @Override
     public void applyContact(CollisionEffects collisionEffects) {
-        collisionEffects.set(CollisionEffects.JUMP_BOOST, mJumpBoostSpeed);
+        collisionEffects.set(CollisionEffects.JUMP_BOOST, CollisionEffects.JUMP_BOOST_SPEED_INDEX, mJumpBoostSpeed);
+        collisionEffects.set(CollisionEffects.JUMP_BOOST, CollisionEffects.JUMP_BOOST_SOUND_VOLUME_INDEX,
+                mSoundVolume);
         startDischarge();
     }
     
@@ -160,7 +168,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                     CRATER_LOW_WIDTH,
                     DISCHARGE_LOW_WIDTH,
                     DISCHARGE_LOW_HEIGHT,
-                    GameCharacter.JUMP_SPEED * LOW_POWER_MULTIPLIER);
+                    GameCharacter.JUMP_SPEED * LOW_POWER_MULTIPLIER,
+                    LOW_POWER_SOUND_VOLUME);
         } else if (PlatformFeatureData.JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE.equals(powerString)) {
             return new JumpPowerData(
                     ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE,
@@ -168,7 +177,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                     CRATER_MEDIUM_WIDTH,
                     DISCHARGE_MEDIUM_WIDTH,
                     DISCHARGE_MEDIUM_HEIGHT,
-                    GameCharacter.JUMP_SPEED * MEDIUM_POWER_MULTIPLIER);
+                    GameCharacter.JUMP_SPEED * MEDIUM_POWER_MULTIPLIER,
+                    MEDIUM_POWER_SOUND_VOLUME);
         } else {
             return new JumpPowerData(
                     ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE,
@@ -176,7 +186,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                     CRATER_HIGH_WIDTH,
                     DISCHARGE_HIGH_WIDTH,
                     DISCHARGE_HIGH_HEIGHT,
-                    GameCharacter.JUMP_SPEED * HIGH_POWER_MULTIPLIER);
+                    GameCharacter.JUMP_SPEED * HIGH_POWER_MULTIPLIER,
+                    HIGH_POWER_SOUND_VOLUME);
         }
     }
     
@@ -187,6 +198,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         final float dischargeWidth;
         final float dischargeHeight;
         final float speed;
+        final float soundVolume;
         
         public JumpPowerData(
                 String craterTextureName,
@@ -194,7 +206,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                 float craterWidth,
                 float dischargeWidth,
                 float dischargeHeight,
-                float speed) {
+                float speed,
+                float soundVolume) {
             
             this.craterTextureName = craterTextureName;
             this.dischargeTextureName = dischargeTextureName;
@@ -202,6 +215,7 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
             this.dischargeWidth = dischargeWidth;
             this.dischargeHeight = dischargeHeight;
             this.speed = speed;
+            this.soundVolume = soundVolume;
         }
     }
 }

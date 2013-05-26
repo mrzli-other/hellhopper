@@ -185,8 +185,11 @@ public final class GameCharacter {
         }
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.JUMP_BOOST)) {
-            mSpeed.y = mCollisionEffects.getValue(CollisionEffects.JUMP_BOOST);
-            mJumpBoostSound.play();
+            mSpeed.y = mCollisionEffects.getValue(CollisionEffects.JUMP_BOOST,
+                    CollisionEffects.JUMP_BOOST_SPEED_INDEX);
+            float volume = mCollisionEffects.getValue(CollisionEffects.JUMP_BOOST,
+                    CollisionEffects.JUMP_BOOST_SOUND_VOLUME_INDEX);
+            mJumpBoostSound.play(volume);
         } else {
             mSpeed.y = JUMP_SPEED;
             mJumpSound.play();

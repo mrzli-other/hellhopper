@@ -33,7 +33,7 @@ import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 
 final class RepositionPlatformMovement extends PlatformMovementBase {
     
-    private static final float SPEED = 15.0f;
+    private static final float REPOSITION_TIME = 0.2f;
     
     private final float mRange;
     
@@ -42,6 +42,8 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
     private final float mLeftLimit;
     private final float mRightLimit;
     private float mTargetPosition;
+    
+    private float mSpeed;
     
     public RepositionPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
             AssetManager assetManager) {
@@ -64,6 +66,7 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
         }
         
         mTargetPosition = mPosition.x;
+        mSpeed = 0.0f;
     }
     
     @Override
@@ -72,7 +75,7 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
             return;
         }
         
-        float travelled = SPEED * delta;
+        float travelled = mSpeed * delta;
         float distance = mTargetPosition - mPosition.x;
         if (Math.abs(distance) <= travelled) {
             setPosition(mTargetPosition);
@@ -117,6 +120,8 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
                 mTargetPosition = mLeftLimit;
             }
         }
+        
+        mSpeed = Math.abs(mTargetPosition - mPosition.x) / REPOSITION_TIME;
     }
     
     @Override

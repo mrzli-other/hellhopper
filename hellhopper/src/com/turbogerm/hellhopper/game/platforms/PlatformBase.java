@@ -245,8 +245,6 @@ public abstract class PlatformBase {
         String platformType = platformData.getPlatformType();
         if (PlatformData.CRUMBLE.equals(platformType)) {
             return ResourceNames.PLATFORM_CRUMBLE_TEXTURE;
-        } else if (PlatformData.FLAME.equals(platformType)) {
-            return ResourceNames.getRandomPlatformFlameTexture();
         } else {
             return ResourceNames.getRandomPlatformNormalTexture();
         }

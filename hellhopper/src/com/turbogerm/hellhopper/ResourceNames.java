@@ -62,8 +62,6 @@ public final class ResourceNames {
     public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
     public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
-    private static final String PLATFORM_FLAME_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "flameplatform%02d.png";
-    public static final int PLATFORM_FLAME_TEXTURE_COUNT = 5;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     
     public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
@@ -75,6 +73,13 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE = PLATFORMS_DIR + "jumpboostdischargemedium.png";
     public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
+    
+    public static final String BACKGROUND_DIR = GAME_DIR + "background/";
+    public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
+    private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
+    public static final int BACKGROUND_CLOUD_TEXTURE_COUNT = 3;
+    private static final String BACKGROUND_ROCK_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "rock%02d.png";
+    public static final int BACKGROUND_ROCK_TEXTURE_COUNT = 4;
     
     public static final String OBJECTS_DIR = GAME_DIR + "objects/";
     public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";
@@ -91,8 +96,8 @@ public final class ResourceNames {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
     }
     
-    public static String getPlatformNormalTexture(int i) {
-        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, i);
+    public static String getPlatformNormalTexture(int index) {
+        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, index);
     }
     
     public static String getRandomPlatformNormalTexture() {
@@ -100,12 +105,21 @@ public final class ResourceNames {
         return getPlatformNormalTexture(index);
     }
     
-    public static String getPlatformFlameTexture(int i) {
-        return String.format(ResourceNames.PLATFORM_FLAME_TEXTURE_NAME_FORMAT, i);
+    public static String getBackgroundCloudTexture(int index) {
+        return String.format(ResourceNames.BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT, index);
     }
     
-    public static String getRandomPlatformFlameTexture() {
-        int index = MathUtils.random(PLATFORM_FLAME_TEXTURE_COUNT - 1);
-        return getPlatformFlameTexture(index);
+    public static String getRandomBackgroundCloudTexture() {
+        int index = MathUtils.random(BACKGROUND_CLOUD_TEXTURE_COUNT - 1);
+        return getBackgroundCloudTexture(index);
+    }
+    
+    public static String getBackgroundRockTexture(int index) {
+        return String.format(ResourceNames.BACKGROUND_ROCK_TEXTURE_NAME_FORMAT, index);
+    }
+    
+    public static String getRandomBackgroundRockTexture() {
+        int index = MathUtils.random(BACKGROUND_ROCK_TEXTURE_COUNT - 1);
+        return getBackgroundRockTexture(index);
     }
 }

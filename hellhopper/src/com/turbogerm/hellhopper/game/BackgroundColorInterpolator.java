@@ -27,7 +27,6 @@ package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
-import com.turbogerm.hellhopper.util.Logger;
 
 public final class BackgroundColorInterpolator {
     
@@ -56,8 +55,8 @@ public final class BackgroundColorInterpolator {
         //setColor(4, 4.0f, new Color(0.0f, 1.0f, 0.0f, 1.0f));
         
         setColor(0, 0.0f, new Color(0.6f, 0.0f, 0.0f, 1.0f));
-        setColor(1, 1.0f, new Color(0.54f, 0.46f, 0.57f, 1.0f));
-        setColor(2, 2.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
+        setColor(1, 10.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
+        setColor(2, 18.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
         setColor(3, 20.0f, new Color(0.0f, 0.6f, 0.0f, 1.0f));
         
         for (int i = 0; i < NUM_COLORS; i++) {

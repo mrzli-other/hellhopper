@@ -134,10 +134,6 @@ public final class PlayScreen extends ScreenBase {
         
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         
-        // mBatch.begin();
-        // mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, SuchyBlocks.VIEWPORT_WIDTH, SuchyBlocks.VIEWPORT_HEIGHT);
-        // mBatch.end();
-        
         // if (!mIsPaused) {
         mGameArea.render(delta);
         // }
@@ -150,7 +146,8 @@ public final class PlayScreen extends ScreenBase {
         // TODO: remove, only for testing
         if (System.currentTimeMillis() - startTime > 1000) {
             DebugData debugData = mGameArea.getDebugData();
-            mDebugLabel.setText(debugData.toString());
+            //mDebugLabel.setText(debugData.toString());
+            mDebugLabel.setText("");
             startTime = System.currentTimeMillis();
         }
     }

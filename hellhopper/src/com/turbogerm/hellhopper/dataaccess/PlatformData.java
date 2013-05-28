@@ -32,7 +32,6 @@ public final class PlatformData {
     
     public static final String NORMAL = "normal";
     public static final String CRUMBLE = "crumble";
-    public static final String FLAME = "flame";
     
     // 'step' is vertical offset, 'offset' is horizontal offset in position grid
     

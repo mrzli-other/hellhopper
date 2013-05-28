@@ -36,14 +36,15 @@ import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
+import com.turbogerm.hellhopper.game.background.BackgroundScene;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
     
-    private static final float METER_TO_PIXEL = 40.0f;
-    private static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
+    public static final float METER_TO_PIXEL = 40.0f;
+    public static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
     
     public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * PIXEL_TO_METER;
     public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * PIXEL_TO_METER;
@@ -86,9 +87,10 @@ public final class GameArea {
     
     private boolean mIsGameOver;
     
+    private final Texture mBackgroundTexture;
+    private final BackgroundScene mBackgroundScene;
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
-    
     
     public GameArea(AssetManager assetManager) {
         
@@ -104,6 +106,8 @@ public final class GameArea {
         mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
         mVisiblePlatforms = new Array<PlatformBase>(VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         
+        mBackgroundTexture = mAssetManager.get(ResourceNames.BACKGROUND_TEXTURE);
+        mBackgroundScene = new BackgroundScene(mAssetManager);
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
         
@@ -153,9 +157,17 @@ public final class GameArea {
         mScore = Math.max(mScore, (int) (effectiveCharPositionY * METER_TO_PIXEL));
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
+        mBackgroundScene.update(mVisibleAreaPosition, delta);
     }
     
     public void render(float delta) {
+        
+        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        mBatch.begin();
+        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        mBatch.end();
+        
+        mBackgroundScene.render();
         
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
@@ -189,7 +201,7 @@ public final class GameArea {
         
         mVisibleAreaPosition = Math.max(
                 mVisibleAreaPosition, mCharacter.getPosition().y -
-                GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
+                        GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
     }
     
     private float getHorizontalSpeed() {

@@ -30,6 +30,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
@@ -199,9 +200,9 @@ public final class GameArea {
                 mVisiblePlatforms,
                 delta);
         
-        mVisibleAreaPosition = Math.max(
-                mVisibleAreaPosition, mCharacter.getPosition().y -
-                        GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION);
+        mVisibleAreaPosition = MathUtils.clamp(
+                mCharacter.getPosition().y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION,
+                mVisibleAreaPosition, mRiseHeight - 1.0f);
     }
     
     private float getHorizontalSpeed() {

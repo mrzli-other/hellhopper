@@ -24,11 +24,8 @@
 package com.turbogerm.hellhopper.game.background;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.GameArea;
 
 final class BackgroundLayer {

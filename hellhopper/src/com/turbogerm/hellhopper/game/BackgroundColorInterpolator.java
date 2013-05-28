@@ -26,18 +26,19 @@
 package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
 
 public final class BackgroundColorInterpolator {
     
-    private static final int NUM_COLORS = 4; //5;
-    private static final float LIGHT_MULTIPLIER = 1.0f; //0.6f;
+    private static final int BACKGROUND_COLORS_CAPACITY = 10;
+    
+    private static final float LIGHT_MULTIPLIER = 1.0f;
     
     private final ColorInterpolator mColorInterpolator;
     private final Color mResult;
     
-    private float[] mColorPositions;
-    private Color[] mColors;
+    private final Array<BackgroundColor> mBackgroundColors;
     
     private float mRiseHeight;
     
@@ -46,22 +47,18 @@ public final class BackgroundColorInterpolator {
         mColorInterpolator = new ColorInterpolator();
         mResult = new Color();
         
-        mColorPositions = new float[NUM_COLORS];
-        mColors = new Color[NUM_COLORS];
-        //setColor(0, 0.0f, new Color(1.0f, 0.0f, 0.0f, 1.0f));
-        //setColor(1, 1.0f, new Color(1.0f, 0.5f, 0.0f, 1.0f));
-        //setColor(2, 2.0f, new Color(1.0f, 1.0f, 0.0f, 1.0f));
-        //setColor(3, 3.0f, new Color(0.72f, 0.45f, 0.2f, 1.0f));
-        //setColor(4, 4.0f, new Color(0.0f, 1.0f, 0.0f, 1.0f));
+        mBackgroundColors = new Array<BackgroundColor>(true, BACKGROUND_COLORS_CAPACITY);
         
-        setColor(0, 0.0f, new Color(0.6f, 0.0f, 0.0f, 1.0f));
-        setColor(1, 10.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
-        setColor(2, 18.0f, new Color(0.91f, 0.6f, 0.09f, 1.0f));
-        setColor(3, 20.0f, new Color(0.0f, 0.6f, 0.0f, 1.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.0f, 0.0f, 0.0f, 1.0f), 0.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.6f, 0.0f, 0.0f, 1.0f), 5.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.91f, 0.6f, 0.09f, 1.0f), 10.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.91f, 0.6f, 0.09f, 1.0f), 18.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.0f, 0.6f, 0.0f, 1.0f), 20.0f));
         
-        for (int i = 0; i < NUM_COLORS; i++) {
-            mColors[i].mul(LIGHT_MULTIPLIER);
-            mColors[i].a = 1.0f;
+        for (int i = 0; i < mBackgroundColors.size; i++) {
+            Color color = mBackgroundColors.get(i).getColor();
+            color.mul(LIGHT_MULTIPLIER);
+            color.a = 1.0f;
         }
     }
     
@@ -70,29 +67,52 @@ public final class BackgroundColorInterpolator {
     }
     
     public Color getBackgroundColor(float currentHeight) {
-        float colorPosition = currentHeight / mRiseHeight * mColorPositions[NUM_COLORS - 1];
+        int numColors = mBackgroundColors.size;
         
-        if (colorPosition < mColorPositions[0]) {
-            mResult.set(mColors[0]);
-        } else if (colorPosition >= mColorPositions[NUM_COLORS - 1]) {
-            mResult.set(mColors[NUM_COLORS - 1]);
+        float colorPosition = currentHeight / mRiseHeight * getPosition(numColors - 1);
+        
+        if (colorPosition < getPosition(0)) {
+            mResult.set(getColor(0));
+        } else if (colorPosition >= getPosition(numColors - 1)) {
+            mResult.set(getColor(numColors - 1));
         } else {
             int stopIndex = 0;
-            while (colorPosition >= mColorPositions[stopIndex]) {
+            while (colorPosition >= getPosition(stopIndex)) {
                 stopIndex++;
             }
             
-            float t = (colorPosition - mColorPositions[stopIndex - 1]) /
-                    (mColorPositions[stopIndex] - mColorPositions[stopIndex - 1]);
+            float t = (colorPosition - getPosition(stopIndex - 1)) /
+                    (getPosition(stopIndex) - getPosition(stopIndex - 1));
             
-            mResult.set(mColorInterpolator.interpolateColor(mColors[stopIndex - 1], mColors[stopIndex], t));
+            mResult.set(mColorInterpolator.interpolateColor(getColor(stopIndex - 1), getColor(stopIndex), t));
         }
         
         return mResult;
     }
     
-    private void setColor(int stopIndex, float position, Color color) {
-        mColorPositions[stopIndex] = position;
-        mColors[stopIndex] = color;
+    private Color getColor(int index) {
+        return mBackgroundColors.get(index).getColor();
+    }
+    
+    private float getPosition(int index) {
+        return mBackgroundColors.get(index).getColorPosition();
+    }
+    
+    private static class BackgroundColor {
+        private final Color mColor;
+        private final float mColorPosition;
+        
+        public BackgroundColor(Color color, float colorPosition) {
+            mColor = color;
+            mColorPosition = colorPosition;
+        }
+        
+        public Color getColor() {
+            return mColor;
+        }
+        
+        public float getColorPosition() {
+            return mColorPosition;
+        }
     }
 }

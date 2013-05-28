@@ -243,7 +243,7 @@ public abstract class PlatformBase {
     
     private static String getTexturePath(PlatformData platformData) {
         String platformType = platformData.getPlatformType();
-        if (PlatformData.CRUMBLE.equals(platformType)) {
+        if (PlatformData.CRUMBLE_TYPE.equals(platformType)) {
             return ResourceNames.PLATFORM_CRUMBLE_TEXTURE;
         } else {
             return ResourceNames.getRandomPlatformNormalTexture();

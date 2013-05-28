@@ -33,9 +33,9 @@ public final class PlatformFactory {
             AssetManager assetManager) {
         
         String platformType = platformData.getPlatformType();
-        if (PlatformData.NORMAL.equals(platformType)) {
+        if (PlatformData.NORMAL_TYPE.equals(platformType)) {
             return new NormalPlatform(riseSectionId, platformData, startStep, assetManager);
-        } else if (PlatformData.CRUMBLE.equals(platformType)) {
+        } else if (PlatformData.CRUMBLE_TYPE.equals(platformType)) {
             return new CrumblePlatform(riseSectionId, platformData, startStep, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid platform type: %s", platformType);

@@ -49,7 +49,7 @@ public final class BackgroundColorInterpolator {
         
         mBackgroundColors = new Array<BackgroundColor>(true, BACKGROUND_COLORS_CAPACITY);
         
-        mBackgroundColors.add(new BackgroundColor(new Color(0.0f, 0.0f, 0.0f, 1.0f), 0.0f));
+        mBackgroundColors.add(new BackgroundColor(new Color(0.1f, 0.0f, 0.0f, 1.0f), 0.0f));
         mBackgroundColors.add(new BackgroundColor(new Color(0.6f, 0.0f, 0.0f, 1.0f), 5.0f));
         mBackgroundColors.add(new BackgroundColor(new Color(0.91f, 0.6f, 0.09f, 1.0f), 10.0f));
         mBackgroundColors.add(new BackgroundColor(new Color(0.91f, 0.6f, 0.09f, 1.0f), 18.0f));

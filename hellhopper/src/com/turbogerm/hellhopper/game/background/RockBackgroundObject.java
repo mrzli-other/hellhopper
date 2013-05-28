@@ -28,6 +28,6 @@ import com.turbogerm.hellhopper.ResourceNames;
 
 final class RockBackgroundObject extends BackgroundObjectBase {
     public RockBackgroundObject(AssetManager assetManager) {
-        super(assetManager, ResourceNames.getRandomBackgroundRockTexture());
+        super(ResourceNames.getRandomBackgroundRockTexture(), assetManager);
     }
 }

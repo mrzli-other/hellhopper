@@ -21,30 +21,14 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.background;
+package com.turbogerm.hellhopper.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
-abstract class BackgroundObjectBase {
+final class ImpEnemy extends EnemyBase {
     
-    private final Sprite mSprite;
-    
-    public BackgroundObjectBase(String texturePath, AssetManager assetManager) {
-        
-        Texture texture = assetManager.get(texturePath);
-        mSprite = new Sprite(texture);
-        mSprite.setSize(texture.getWidth() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER,
-                texture.getHeight() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER);
-    }
-    
-    public void update(float delta) {
-    }
-    
-    public void render(SpriteBatch batch) {
-        mSprite.draw(batch);
+    public ImpEnemy(EnemyData enemyData, AssetManager assetManager) {
+        super(null, assetManager);
     }
 }

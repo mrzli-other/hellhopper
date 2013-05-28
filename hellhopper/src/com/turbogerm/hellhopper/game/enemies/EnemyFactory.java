@@ -21,30 +21,22 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game.background;
+package com.turbogerm.hellhopper.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
+import com.turbogerm.hellhopper.util.ExceptionThrower;
 
-abstract class BackgroundObjectBase {
+public final class EnemyFactory {
     
-    private final Sprite mSprite;
-    
-    public BackgroundObjectBase(String texturePath, AssetManager assetManager) {
+    public static EnemyBase create(EnemyData enemyData, AssetManager assetManager) {
         
-        Texture texture = assetManager.get(texturePath);
-        mSprite = new Sprite(texture);
-        mSprite.setSize(texture.getWidth() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER,
-                texture.getHeight() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER);
-    }
-    
-    public void update(float delta) {
-    }
-    
-    public void render(SpriteBatch batch) {
-        mSprite.draw(batch);
+        String enemyType = enemyData.getType();
+        if (EnemyData.IMP_TYPE.equals(enemyType)) {
+            return new ImpEnemy(enemyData, assetManager);
+        } else {
+            ExceptionThrower.throwException("Invalid enemy type: %s", enemyType);
+            return null;
+        }
     }
 }

@@ -30,8 +30,8 @@ import com.turbogerm.hellhopper.game.GameArea;
 
 public final class PlatformData {
     
-    public static final String NORMAL = "normal";
-    public static final String CRUMBLE = "crumble";
+    public static final String NORMAL_TYPE = "normal";
+    public static final String CRUMBLE_TYPE = "crumble";
     
     // 'step' is vertical offset, 'offset' is horizontal offset in position grid
     

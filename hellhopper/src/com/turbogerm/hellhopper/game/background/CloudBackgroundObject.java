@@ -29,6 +29,6 @@ import com.turbogerm.hellhopper.ResourceNames;
 final class CloudBackgroundObject extends BackgroundObjectBase {
     
     public CloudBackgroundObject(AssetManager assetManager) {
-        super(assetManager, ResourceNames.getRandomBackgroundCloudTexture());
+        super(ResourceNames.getRandomBackgroundCloudTexture(), assetManager);
     }
 }

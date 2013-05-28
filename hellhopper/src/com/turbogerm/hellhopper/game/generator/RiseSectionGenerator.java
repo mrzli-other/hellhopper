@@ -139,7 +139,7 @@ final class RiseSectionGenerator {
             Array<PlatformFeatureData> featuresData = getFeaturesData(i,
                     jumpBoostLowPlatformIndexes, jumpBoostMediumPlatformIndexes, jumpBoostHighPlatformIndexes);
             
-            PlatformData padData = new PlatformData(PlatformData.NORMAL, step, offset,
+            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -207,7 +207,7 @@ final class RiseSectionGenerator {
             Array<PlatformFeatureData> featuresData = getFeaturesData(i,
                     jumpBoostLowPlatformIndexes, jumpBoostMediumPlatformIndexes, jumpBoostHighPlatformIndexes);
             
-            PlatformData padData = new PlatformData(PlatformData.NORMAL, step, offset,
+            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }

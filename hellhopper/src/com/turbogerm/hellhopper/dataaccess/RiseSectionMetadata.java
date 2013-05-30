@@ -29,10 +29,12 @@ public final class RiseSectionMetadata {
     
     public static final String BASIC_TYPE = "basic";
     public static final String JUMP_BOOST_TYPE = "jumpboost";
+    public static final String VISIBLE_ON_JUMP_TYPE = "visibleonjump";
     
     public static final String NORMAL_PLATFORM_WEIGHT_PROPERTY = "normalplatformweight";
     public static final String MOVING_PLATFORM_WEIGHT_PROPERTY = "movingplatformweight";
     public static final String REPOSITION_PLATFORM_WEIGHT_PROPERTY = "repositionplatformweight";
+    public static final String VISIBLE_ON_JUMP_PLATFORM_WEIGHT_PROPERTY = "visibleonjumpplatformweight";
     public static final String MIN_MOVING_SPEED_PROPERTY = "minmovingspeed";
     public static final String MAX_MOVING_SPEED_PROPERTY = "maxmovingspeed";
     public static final String MIN_MOVING_RANGE_PROPERTY = "minmovingrange";

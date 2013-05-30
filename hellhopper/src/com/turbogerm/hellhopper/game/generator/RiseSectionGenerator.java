@@ -42,6 +42,8 @@ final class RiseSectionGenerator {
             return generateRiseSectionBasic(riseSectionMetadata);
         } else if (RiseSectionMetadata.JUMP_BOOST_TYPE.equals(type)) {
             return generateRiseSectionJumpBoost(riseSectionMetadata);
+        } else if (RiseSectionMetadata.VISIBLE_ON_JUMP_TYPE.equals(type)) {
+            return generateRiseSectionVisibleOnJump(riseSectionMetadata);
         } else {
             ExceptionThrower.throwException("Invalid rise section metadata type: %s", type);
             return null;
@@ -67,11 +69,14 @@ final class RiseSectionGenerator {
         float repositionPlatformWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.REPOSITION_PLATFORM_WEIGHT_PROPERTY));
         
-        BasicSectionPlatformIndexes basicSectionPlatformIndexes = getBasicSectionPlatformIndexes(filledSteps.size,
-                normalPlatformWeight, movingPlatformWeight, repositionPlatformWeight);
+        Array<Float> weights = new Array<Float>(true, 3);
+        weights.add(normalPlatformWeight);
+        weights.add(movingPlatformWeight);
+        weights.add(repositionPlatformWeight);
+        Array<Array<Integer>> allPlatformIndexes = getPlatformIndexes(filledSteps.size, weights, 0);
         
-        Array<Integer> movingPlatformIndexes = basicSectionPlatformIndexes.getMovingPlatformIndexes();
-        Array<Integer> repositionPlatformIndexes = basicSectionPlatformIndexes.getRepositionPlatformIndexes();
+        Array<Integer> movingPlatformIndexes = allPlatformIndexes.get(1);
+        Array<Integer> repositionPlatformIndexes = allPlatformIndexes.get(2);
         
         float jumpBoostFraction = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_FRACTION_PROPERTY));
@@ -201,6 +206,47 @@ final class RiseSectionGenerator {
         return new RiseSectionData(name, stepRange, difficulty, platformDataList);
     }
     
+    private static RiseSectionData generateRiseSectionVisibleOnJump(RiseSectionMetadata riseSectionMetadata) {
+        
+        String name = riseSectionMetadata.getName();
+        int stepRange = MathUtils.random(
+                riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
+        int minStepDistance = riseSectionMetadata.getMinStepDistance();
+        int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
+        int difficulty = riseSectionMetadata.getDifficulty();
+        
+        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
+        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
+        
+        float normalPlatformWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.NORMAL_PLATFORM_WEIGHT_PROPERTY));
+        float visibleOnJumpPlatformWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.VISIBLE_ON_JUMP_PLATFORM_WEIGHT_PROPERTY));
+        
+        Array<Float> weights = new Array<Float>(true, 2);
+        weights.add(normalPlatformWeight);
+        weights.add(visibleOnJumpPlatformWeight);
+        Array<Array<Integer>> allPlatformIndexes = getPlatformIndexes(filledSteps.size - 1, weights, 1);
+        
+        Array<Integer> visibleOnJumpPlatformIndexes = allPlatformIndexes.get(1);
+        
+        for (int i = 0; i < filledSteps.size; i++) {
+            int step = filledSteps.get(i);
+            
+            PlatformMovementData movementData = null;
+            
+            int offset = getOffset(movementData);
+            
+            Array<PlatformFeatureData> featuresData = getFeaturesDataVisibleOnJump(i, visibleOnJumpPlatformIndexes);
+            
+            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
+                    movementData, featuresData, null);
+            platformDataList.add(padData);
+        }
+        
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+    }
+    
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {
         Array<Integer> filledSteps = new Array<Integer>(true, stepRange);
         int currentStep = 0;
@@ -213,41 +259,43 @@ final class RiseSectionGenerator {
         return filledSteps;
     }
     
-    private static BasicSectionPlatformIndexes getBasicSectionPlatformIndexes(int numFilledSteps,
-            float normalPlatformWeight, float movingPlatformWeight, float repositionPlatformWeight) {
+    private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, Array<Float> weights, int offset) {
         
-        float totalPlatformWeight = normalPlatformWeight + movingPlatformWeight + repositionPlatformWeight;
-        float normalPlatformFraction = normalPlatformWeight / totalPlatformWeight;
-        float movingPlatformFraction = movingPlatformWeight / totalPlatformWeight;
-        float repositionPlatformFraction = repositionPlatformWeight / totalPlatformWeight;
+        float totalPlatformWeight = 0.0f;
+        for (Float weight : weights) {
+            totalPlatformWeight += weight;
+        }
         
-        int normalPlatformCount = (int) (numFilledSteps * normalPlatformFraction);
-        Array<Integer> normalPlatformIndexes =
-                GameUtils.getRandomIndexes(numFilledSteps, normalPlatformCount);
+        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.size);
         
-        int movingPlatformCount = (int) (numFilledSteps * movingPlatformFraction);
-        Array<Integer> movingPlatformIndexes =
-                GameUtils.getRandomIndexes(numFilledSteps, movingPlatformCount, normalPlatformIndexes);
+        Array<Integer> takenIndexes = new Array<Integer>();
+        for (int i = 0; i < weights.size; i++) {
+            float platformFraction = weights.get(i) / totalPlatformWeight;
+            int platformCount = (int) (numIndexes * platformFraction);
+            Array<Integer> platformIndexes = GameUtils.getRandomIndexes(numIndexes, platformCount, takenIndexes);
+            takenIndexes.addAll(platformIndexes);
+            allIndexes.add(platformIndexes);
+        }
         
-        Array<Integer> normalAndMovingPlatformIndexes = new Array<Integer>(normalPlatformIndexes);
-        normalAndMovingPlatformIndexes.addAll(movingPlatformIndexes);
-        
-        int repositionPlatformCount = (int) (numFilledSteps * repositionPlatformFraction);
-        Array<Integer> repositionPlatformIndexes =
-                GameUtils.getRandomIndexes(numFilledSteps, repositionPlatformCount, normalAndMovingPlatformIndexes);
-        
-        Array<Integer> allFilledPlatformIndexes = new Array<Integer>(normalAndMovingPlatformIndexes);
-        allFilledPlatformIndexes.addAll(repositionPlatformIndexes);
-        
-        for (int i = 0; i < numFilledSteps; i++) {
-            if (!allFilledPlatformIndexes.contains(i, false)) {
-                normalPlatformIndexes.add(i);
+        Array<Integer> firstTypePlatformIndexes = allIndexes.get(0);
+        for (int i = 0; i < numIndexes; i++) {
+            if (!takenIndexes.contains(i, false)) {
+                firstTypePlatformIndexes.add(i);
             }
         }
         
-        normalPlatformIndexes.sort();
+        firstTypePlatformIndexes.sort();
         
-        return new BasicSectionPlatformIndexes(normalPlatformIndexes, movingPlatformIndexes, repositionPlatformIndexes);
+        if (offset > 0) {
+            Array<Array<Integer>> offsetedAllIndexes = new Array<Array<Integer>>(true, weights.size);
+            for (Array<Integer> platformIndexes : allIndexes) {
+                Array<Integer> offsetedPlatformIndexes = GameUtils.offsetValues(platformIndexes, offset);
+                offsetedAllIndexes.add(offsetedPlatformIndexes);
+            }
+            allIndexes = offsetedAllIndexes;
+        }
+        
+        return allIndexes;
     }
     
     private static PlatformMovementData getMovementData(int index, Array<Integer> filledSteps,
@@ -332,31 +380,19 @@ final class RiseSectionGenerator {
         return featuresData;
     }
     
-    private static class BasicSectionPlatformIndexes {
-        private final Array<Integer> mNormalPlatformIndexes;
-        private final Array<Integer> mMovingPlatformIndexes;
-        private final Array<Integer> mRepositionPlatformIndexes;
+    private static Array<PlatformFeatureData> getFeaturesDataVisibleOnJump(int index,
+            Array<Integer> visibleOnJumpPlatformIndexes) {
         
-        public BasicSectionPlatformIndexes(Array<Integer> normalPlatformIndexes,
-                Array<Integer> movingPlatformIndexes,
-                Array<Integer> repositionPlatformIndexes) {
-            
-            mNormalPlatformIndexes = normalPlatformIndexes;
-            mMovingPlatformIndexes = movingPlatformIndexes;
-            mRepositionPlatformIndexes = repositionPlatformIndexes;
+        Array<PlatformFeatureData> featuresData;
+        if (visibleOnJumpPlatformIndexes.contains(index, false)) {
+            featuresData = new Array<PlatformFeatureData>(true, 1);
+            PlatformFeatureData featureData = new PlatformFeatureData(
+                    PlatformFeatureData.VISIBLE_ON_JUMP_FEATURE, null);
+            featuresData.add(featureData);
+        } else {
+            featuresData = null;
         }
         
-        @SuppressWarnings("unused")
-        public Array<Integer> getNormalPlatformIndexes() {
-            return mNormalPlatformIndexes;
-        }
-        
-        public Array<Integer> getMovingPlatformIndexes() {
-            return mMovingPlatformIndexes;
-        }
-        
-        public Array<Integer> getRepositionPlatformIndexes() {
-            return mRepositionPlatformIndexes;
-        }
+        return featuresData;
     }
 }

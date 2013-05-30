@@ -92,8 +92,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         mJumpBoostSpeed = powerData.speed;
         mSoundVolume = powerData.soundVolume;
         
-        float positionFraction = Float.parseFloat(featureData
-                .getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
+        float positionFraction = Float.parseFloat(
+                featureData.getProperty(PlatformFeatureData.JUMP_BOOST_POSITION_PROPERTY));
         mCraterOffset = new Vector2(
                 (PlatformData.PLATFORM_WIDTH - mCraterWidth) * positionFraction,
                 PlatformData.PLATFORM_HEIGHT - CRATER_IN_PLATFORM_DEPTH);

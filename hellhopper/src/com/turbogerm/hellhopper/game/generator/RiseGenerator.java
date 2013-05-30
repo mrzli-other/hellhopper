@@ -25,6 +25,7 @@ package com.turbogerm.hellhopper.game.generator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
@@ -83,33 +84,12 @@ public final class RiseGenerator {
     public static Rise generate(AssetManager assetManager) {
         Array<RiseSectionData> riseSectionsData = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
         
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 1, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("simpleflametransition"));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 2, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.0f, 0.0f, 0.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 3, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 1, 4, 0.1f, 2.0f, 3.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.0f, 0.15f, 0));
-        // riseSectionsData.add(RiseSectionGenerator.generateRiseSection(100, 2, 5, 0.2f, 3.0f, 5.0f, 0.15f, 0.15f, 0));
-        //
         // riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("test"));
         
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("normalhighjumpboost"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("slowmoving"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("mediummoving"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("fastmoving"));
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("visibleonjump"));
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
@@ -137,7 +117,7 @@ public final class RiseGenerator {
     }
     
     private static RiseSectionData getRandomRiseSection(int stepsInRise) {
-        int minDifficulty = Math.min(stepsInRise / 500, 4);
+        int minDifficulty = MathUtils.clamp(stepsInRise / 500, 1, 4);
         int maxDifficulty = Math.max(stepsInRise / 500, 1);
         
         RiseSectionDescriptor riseSectionDescriptor = getRandomRiseSectionDescriptor(minDifficulty, maxDifficulty);

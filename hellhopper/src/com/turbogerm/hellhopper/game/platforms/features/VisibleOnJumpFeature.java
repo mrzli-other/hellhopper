@@ -29,7 +29,7 @@ import com.turbogerm.hellhopper.game.CollisionEffects;
 
 final class VisibleOnJumpFeature extends PlatformFeatureBase {
     
-    private static final float VISIBILITY_DURATION = 1.2f;
+    private static final float VISIBILITY_DURATION = 0.5f;
     
     private float mVisibilityCountdown;
     

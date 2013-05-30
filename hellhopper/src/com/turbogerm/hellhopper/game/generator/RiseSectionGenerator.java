@@ -57,6 +57,9 @@ final class RiseSectionGenerator {
         int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
         int difficulty = riseSectionMetadata.getDifficulty();
         
+        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
+        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
+        
         float normalPlatformWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.NORMAL_PLATFORM_WEIGHT_PROPERTY));
         float movingPlatformWeight = Float.valueOf(
@@ -64,28 +67,11 @@ final class RiseSectionGenerator {
         float repositionPlatformWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.REPOSITION_PLATFORM_WEIGHT_PROPERTY));
         
-        float totalPlatformWeight = normalPlatformWeight + movingPlatformWeight + repositionPlatformWeight;
-        float normalPlatformFraction = normalPlatformWeight / totalPlatformWeight;
-        float movingPlatformFraction = movingPlatformWeight / totalPlatformWeight;
+        BasicSectionPlatformIndexes basicSectionPlatformIndexes = getBasicSectionPlatformIndexes(filledSteps.size,
+                normalPlatformWeight, movingPlatformWeight, repositionPlatformWeight);
         
-        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
-        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
-        
-        int normalPlatformCount = (int) (filledSteps.size * normalPlatformFraction);
-        Array<Integer> normalPlatformIndexes =
-                GameUtils.getRandomIndexes(filledSteps.size, normalPlatformCount);
-        
-        int movingPlatformCount = (int) (filledSteps.size * movingPlatformFraction);
-        Array<Integer> movingPlatformIndexes =
-                GameUtils.getRandomIndexes(filledSteps.size, movingPlatformCount, normalPlatformIndexes);
-        
-        Array<Integer> repositionPlatformIndexes = GameUtils.getRange(filledSteps.size);
-        for (Integer normalPlatformIndex : normalPlatformIndexes) {
-            repositionPlatformIndexes.removeValue(normalPlatformIndex, false);
-        }
-        for (Integer movingPlatformIndex : movingPlatformIndexes) {
-            repositionPlatformIndexes.removeValue(movingPlatformIndex, false);
-        }
+        Array<Integer> movingPlatformIndexes = basicSectionPlatformIndexes.getMovingPlatformIndexes();
+        Array<Integer> repositionPlatformIndexes = basicSectionPlatformIndexes.getRepositionPlatformIndexes();
         
         float jumpBoostFraction = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_FRACTION_PROPERTY));
@@ -227,6 +213,43 @@ final class RiseSectionGenerator {
         return filledSteps;
     }
     
+    private static BasicSectionPlatformIndexes getBasicSectionPlatformIndexes(int numFilledSteps,
+            float normalPlatformWeight, float movingPlatformWeight, float repositionPlatformWeight) {
+        
+        float totalPlatformWeight = normalPlatformWeight + movingPlatformWeight + repositionPlatformWeight;
+        float normalPlatformFraction = normalPlatformWeight / totalPlatformWeight;
+        float movingPlatformFraction = movingPlatformWeight / totalPlatformWeight;
+        float repositionPlatformFraction = repositionPlatformWeight / totalPlatformWeight;
+        
+        int normalPlatformCount = (int) (numFilledSteps * normalPlatformFraction);
+        Array<Integer> normalPlatformIndexes =
+                GameUtils.getRandomIndexes(numFilledSteps, normalPlatformCount);
+        
+        int movingPlatformCount = (int) (numFilledSteps * movingPlatformFraction);
+        Array<Integer> movingPlatformIndexes =
+                GameUtils.getRandomIndexes(numFilledSteps, movingPlatformCount, normalPlatformIndexes);
+        
+        Array<Integer> normalAndMovingPlatformIndexes = new Array<Integer>(normalPlatformIndexes);
+        normalAndMovingPlatformIndexes.addAll(movingPlatformIndexes);
+        
+        int repositionPlatformCount = (int) (numFilledSteps * repositionPlatformFraction);
+        Array<Integer> repositionPlatformIndexes =
+                GameUtils.getRandomIndexes(numFilledSteps, repositionPlatformCount, normalAndMovingPlatformIndexes);
+        
+        Array<Integer> allFilledPlatformIndexes = new Array<Integer>(normalAndMovingPlatformIndexes);
+        allFilledPlatformIndexes.addAll(repositionPlatformIndexes);
+        
+        for (int i = 0; i < numFilledSteps; i++) {
+            if (!allFilledPlatformIndexes.contains(i, false)) {
+                normalPlatformIndexes.add(i);
+            }
+        }
+        
+        normalPlatformIndexes.sort();
+        
+        return new BasicSectionPlatformIndexes(normalPlatformIndexes, movingPlatformIndexes, repositionPlatformIndexes);
+    }
+    
     private static PlatformMovementData getMovementData(int index, Array<Integer> filledSteps,
             Array<Integer> movingPlatformIndexes, float minMovingSpeed, float maxMovingSpeed,
             float minMovingRange, float maxMovingRange,
@@ -307,5 +330,33 @@ final class RiseSectionGenerator {
         }
         
         return featuresData;
+    }
+    
+    private static class BasicSectionPlatformIndexes {
+        private final Array<Integer> mNormalPlatformIndexes;
+        private final Array<Integer> mMovingPlatformIndexes;
+        private final Array<Integer> mRepositionPlatformIndexes;
+        
+        public BasicSectionPlatformIndexes(Array<Integer> normalPlatformIndexes,
+                Array<Integer> movingPlatformIndexes,
+                Array<Integer> repositionPlatformIndexes) {
+            
+            mNormalPlatformIndexes = normalPlatformIndexes;
+            mMovingPlatformIndexes = movingPlatformIndexes;
+            mRepositionPlatformIndexes = repositionPlatformIndexes;
+        }
+        
+        @SuppressWarnings("unused")
+        public Array<Integer> getNormalPlatformIndexes() {
+            return mNormalPlatformIndexes;
+        }
+        
+        public Array<Integer> getMovingPlatformIndexes() {
+            return mMovingPlatformIndexes;
+        }
+        
+        public Array<Integer> getRepositionPlatformIndexes() {
+            return mRepositionPlatformIndexes;
+        }
     }
 }

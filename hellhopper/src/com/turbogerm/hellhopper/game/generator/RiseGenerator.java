@@ -41,7 +41,7 @@ import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 2000;
+    private static final int RISE_HEIGHT_STEPS = 5000;
     
     private static final int RISE_SECTIONS_INITIAL_CAPACITY = 20;
     private static final int INITIAL_RISE_SECTION_DESCRIPTOR_SELECTION_LIST_CAPACITY = 20;
@@ -101,6 +101,18 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("slowmoving"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("mediummoving"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("fastmoving"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
@@ -125,8 +137,8 @@ public final class RiseGenerator {
     }
     
     private static RiseSectionData getRandomRiseSection(int stepsInRise) {
-        int minDifficulty = Math.min(stepsInRise / 200, 2);
-        int maxDifficulty = Math.max(stepsInRise / 200, 1);
+        int minDifficulty = Math.min(stepsInRise / 500, 4);
+        int maxDifficulty = Math.max(stepsInRise / 500, 1);
         
         RiseSectionDescriptor riseSectionDescriptor = getRandomRiseSectionDescriptor(minDifficulty, maxDifficulty);
         RiseSectionData riseSectionData = getRiseSectionData(riseSectionDescriptor);

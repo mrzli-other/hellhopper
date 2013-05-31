@@ -71,12 +71,15 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_PLAY_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_PLAY_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         
-        mAssetManager.load(ResourceNames.GAME_CHARACTER_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GAME_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_LINE_ABOVE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
+        
+        mAssetManager.load(ResourceNames.CHARACTER_BODY_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_HEAD_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_EYES_TEXTURE, Texture.class, textureParameterLinear);
         
         for (int i = 0; i < ResourceNames.PLATFORM_NORMAL_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getPlatformNormalTexture(i), Texture.class, textureParameterLinear);

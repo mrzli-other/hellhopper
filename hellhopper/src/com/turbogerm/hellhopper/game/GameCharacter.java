@@ -25,7 +25,9 @@ package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -43,7 +45,24 @@ public final class GameCharacter {
     private static final float CHARACTER_CENTER_X_OFFSET = WIDTH / 2.0f;
     public static final float COLLISION_WIDTH = WIDTH * 0.6f;
     public static final float COLLISION_WIDTH_OFFSET = (WIDTH - COLLISION_WIDTH) / 2.0f;
-    public static final float COLLISION_LINE_LENGTH = COLLISION_WIDTH + COLLISION_WIDTH_OFFSET; 
+    public static final float COLLISION_LINE_LENGTH = COLLISION_WIDTH + COLLISION_WIDTH_OFFSET;
+    
+    private static final float BODY_OFFSET_X = 0.05f;
+    private static final float BODY_OFFSET_Y = 0.0f;
+    private static final float BODY_WIDTH = 0.9f;
+    private static final float BODY_HEIGHT = 0.8f;
+    private static final float HEAD_OFFSET_X = 0.0f;
+    private static final float HEAD_OFFSET_Y = 0.35f;
+    private static final float HEAD_WIDTH = 1.0f;
+    private static final float HEAD_HEIGHT = 1.15f;
+    private static final float EYES_OFFSET_X = 0.075f;
+    private static final float EYES_OFFSET_Y = 0.65f;
+    private static final float EYES_WIDTH = 0.85f;
+    private static final float EYES_HEIGHT = 0.45f;
+    
+    private static final Color BODY_COLOR;
+    private static final Color HEAD_COLOR;
+    private static final Color EYES_COLOR;
     
     private static final float EPSILON = 1e-5f;
     
@@ -54,7 +73,9 @@ public final class GameCharacter {
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
-    private final Texture mCharacterTexture;
+    private final Sprite mBodySprite;
+    private final Sprite mHeadSprite;
+    private final Sprite mEyesSprite;
     
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
@@ -72,8 +93,28 @@ public final class GameCharacter {
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
     
+    static {
+        BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
+        HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
+        EYES_COLOR = new Color(1.0f, 0.5f, 0.0f, 1.0f);
+    }
+    
     public GameCharacter(AssetManager assetManager) {
-        mCharacterTexture = assetManager.get(ResourceNames.GAME_CHARACTER_TEXTURE);
+        
+        Texture bodyTexture = assetManager.get(ResourceNames.CHARACTER_BODY_TEXTURE);
+        mBodySprite = new Sprite(bodyTexture);
+        mBodySprite.setSize(BODY_WIDTH, BODY_HEIGHT);
+        mBodySprite.setColor(BODY_COLOR);
+        
+        Texture headTexture = assetManager.get(ResourceNames.CHARACTER_HEAD_TEXTURE);
+        mHeadSprite = new Sprite(headTexture);
+        mHeadSprite.setSize(HEAD_WIDTH, HEAD_HEIGHT);
+        mHeadSprite.setColor(HEAD_COLOR);
+        
+        Texture eyesTexture = assetManager.get(ResourceNames.CHARACTER_EYES_TEXTURE);
+        mEyesSprite = new Sprite(eyesTexture);
+        mEyesSprite.setSize(EYES_WIDTH, EYES_HEIGHT);
+        mEyesSprite.setColor(EYES_COLOR);
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
@@ -185,7 +226,15 @@ public final class GameCharacter {
     }
     
     public void render(SpriteBatch batch) {
-        batch.draw(mCharacterTexture, mPosition.x, mPosition.y, WIDTH, HEIGHT);
+        
+        mBodySprite.setPosition(mPosition.x + BODY_OFFSET_X, mPosition.y + BODY_OFFSET_Y);
+        mBodySprite.draw(batch);
+        
+        mHeadSprite.setPosition(mPosition.x + HEAD_OFFSET_X, mPosition.y + HEAD_OFFSET_Y);
+        mHeadSprite.draw(batch);
+        
+        mEyesSprite.setPosition(mPosition.x + EYES_OFFSET_X, mPosition.y + EYES_OFFSET_Y);
+        mEyesSprite.draw(batch);
     }
     
     private void processCollision(Array<RiseSection> activeRiseSections) {

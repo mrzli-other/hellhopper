@@ -46,20 +46,24 @@ public final class ResourceNames {
     public static final String GUI_PLAY_UP_TEXTURE = GUI_DIR + "playup.png";
     public static final String GUI_PLAY_DOWN_TEXTURE = GUI_DIR + "playdown.png";
     
-    public static final String DATA_DIR = "data/";
-    public static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
+    private static final String DATA_DIR = "data/";
+    private static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
     public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
     public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
     
-    public static final String GAME_DIR = "game/";
-    public static final String GAME_CHARACTER_TEXTURE = GAME_DIR + "character.png";
+    private static final String GAME_DIR = "game/";
     public static final String GAME_END_LINE_TEXTURE = GAME_DIR + "endline.png";
     public static final String GAME_POSITION_SCROLL_LINE_TEXTURE = GAME_DIR + "positionscrollline.png";
     public static final String GAME_POSITION_SCROLL_LINE_ABOVE_TEXTURE = GAME_DIR + "positionscrolllineabove.png";
     public static final String GAME_POSITION_SCROLL_BOX_TEXTURE = GAME_DIR + "positionscrollbox.png";
     public static final String GAME_POSITION_SCROLL_END_LINE_TEXTURE = GAME_DIR + "positionscrollendline.png";
     
-    public static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
+    private static final String CHARACTER_DIR = GAME_DIR + "character/";
+    public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";
+    public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
+    public static final String CHARACTER_EYES_TEXTURE = CHARACTER_DIR + "eyes.png";
+    
+    private static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
     public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
     public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
@@ -74,24 +78,22 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
     
-    public static final String ENEMIES_DIR = GAME_DIR + "enemies/";
+    private static final String ENEMIES_DIR = GAME_DIR + "enemies/";
     public static final String ENEMY_IMP_TEXTURE = ENEMIES_DIR + "imp.png";
     public static final String ENEMY_SAW_TEXTURE = ENEMIES_DIR + "saw.png";
     
-    public static final String BACKGROUND_DIR = GAME_DIR + "background/";
+    private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
     private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
     public static final int BACKGROUND_CLOUD_TEXTURE_COUNT = 3;
     private static final String BACKGROUND_ROCK_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "rock%02d.png";
     public static final int BACKGROUND_ROCK_TEXTURE_COUNT = 4;
     
-    public static final String OBJECTS_DIR = GAME_DIR + "objects/";
-    
-    public static final String PARTICLES_DIR = "particles/";
+    private static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE_NORMAL = PARTICLES_DIR + "enginenormal.p";
     public static final String PARTICLE_ENGINE_REPOSITION = PARTICLES_DIR + "enginereposition.p";
     
-    public static final String SOUNDS_DIR = "sounds/";
+    private static final String SOUNDS_DIR = "sounds/";
     public static final String SOUND_JUMP = SOUNDS_DIR + "jump.mp3";
     public static final String SOUND_JUMP_BOOST = SOUNDS_DIR + "jumpboost.mp3";
     

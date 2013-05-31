@@ -29,12 +29,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.util.ColorInterpolator;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
@@ -60,9 +62,11 @@ public final class GameCharacter {
     private static final float EYES_WIDTH = 0.85f;
     private static final float EYES_HEIGHT = 0.45f;
     
-    private static final Color BODY_COLOR;
-    private static final Color HEAD_COLOR;
-    private static final Color EYES_COLOR;
+    private static final Color DEFAULT_BODY_COLOR;
+    private static final Color DEFAULT_HEAD_COLOR;
+    private static final Color DEFAULT_EYES_COLOR;
+    private static final Color ENEMY_DEATH_COLOR;
+    private static final Color FIRE_DEATH_COLOR;
     
     private static final float EPSILON = 1e-5f;
     
@@ -73,9 +77,15 @@ public final class GameCharacter {
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
     
+    private static final float DYING_ANIMATION_DURATION = 2.0f;
+    private static final float DYING_DURATION = DYING_ANIMATION_DURATION + 1.0f;
+    
     private final Sprite mBodySprite;
     private final Sprite mHeadSprite;
     private final Sprite mEyesSprite;
+    
+    private final Color mBodyColor;
+    private final Color mHeadColor;
     
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
@@ -86,6 +96,9 @@ public final class GameCharacter {
     private boolean mIsEndReached;
     private float mEndReachedCountdown;
     private boolean mIsDead;
+    private boolean mIsDyingFromEnemy;
+    private boolean mIsDyingFromFire;
+    private float mDyingElapsed;
     
     private final CharCollisionData mCharCollisionData;
     private final CollisionEffects mCollisionEffects;
@@ -93,10 +106,14 @@ public final class GameCharacter {
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
     
+    private final ColorInterpolator mColorInterpolator;
+    
     static {
-        BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
-        HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
-        EYES_COLOR = new Color(1.0f, 0.5f, 0.0f, 1.0f);
+        DEFAULT_BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
+        DEFAULT_HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
+        DEFAULT_EYES_COLOR = new Color(1.0f, 0.5f, 0.0f, 1.0f);
+        ENEMY_DEATH_COLOR = Color.RED;
+        FIRE_DEATH_COLOR = Color.BLACK;
     }
     
     public GameCharacter(AssetManager assetManager) {
@@ -104,17 +121,17 @@ public final class GameCharacter {
         Texture bodyTexture = assetManager.get(ResourceNames.CHARACTER_BODY_TEXTURE);
         mBodySprite = new Sprite(bodyTexture);
         mBodySprite.setSize(BODY_WIDTH, BODY_HEIGHT);
-        mBodySprite.setColor(BODY_COLOR);
         
         Texture headTexture = assetManager.get(ResourceNames.CHARACTER_HEAD_TEXTURE);
         mHeadSprite = new Sprite(headTexture);
         mHeadSprite.setSize(HEAD_WIDTH, HEAD_HEIGHT);
-        mHeadSprite.setColor(HEAD_COLOR);
         
         Texture eyesTexture = assetManager.get(ResourceNames.CHARACTER_EYES_TEXTURE);
         mEyesSprite = new Sprite(eyesTexture);
         mEyesSprite.setSize(EYES_WIDTH, EYES_HEIGHT);
-        mEyesSprite.setColor(EYES_COLOR);
+        
+        mBodyColor = new Color();
+        mHeadColor = new Color();
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
@@ -125,10 +142,16 @@ public final class GameCharacter {
         
         mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
         mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
+        
+        mColorInterpolator = new ColorInterpolator();
     }
     
     public void reset(float riseHeight) {
         mRiseHeight = riseHeight;
+        
+        mBodyColor.set(DEFAULT_BODY_COLOR);
+        mHeadColor.set(DEFAULT_HEAD_COLOR);
+        mEyesSprite.setColor(DEFAULT_EYES_COLOR);
         
         mIsEndReached = false;
         mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
@@ -137,12 +160,23 @@ public final class GameCharacter {
         mSpeed.set(0.0f, JUMP_SPEED);
         
         mIsDead = false;
+        mIsDyingFromEnemy = false;
+        mIsDyingFromFire = false;
+        mDyingElapsed = 0.0f;
     }
     
     public boolean preUpdate(float visibleAreaPosition, float delta) {
         
         if (mIsDead) {
             return false;
+        }
+        
+        if (isDying()) {
+            mDyingElapsed += delta;
+            if (mDyingElapsed >= DYING_DURATION) {
+                mIsDead = true;
+                return false;
+            }
         }
         
         if (mIsEndReached) {
@@ -175,6 +209,10 @@ public final class GameCharacter {
             Array<PlatformBase> visiblePlatforms,
             Array<EnemyBase> visibleEnemies,
             float delta) {
+        
+        if (isDying()) {
+            return;
+        }
         
         boolean isCollision = false;
         if (!platformToCharCollisionData.isCollision) {
@@ -219,13 +257,23 @@ public final class GameCharacter {
         
         for (EnemyBase enemyBase : visibleEnemies) {
             if (enemyBase.isCollision(mRect)) {
-                mIsDead = true;
+                mIsDyingFromEnemy = true;
                 return;
             }
         }
     }
     
     public void render(SpriteBatch batch) {
+        
+        if (isDying()) {
+            Color deathColor = mIsDyingFromEnemy ? ENEMY_DEATH_COLOR : FIRE_DEATH_COLOR;
+            float t = MathUtils.clamp(mDyingElapsed / DYING_ANIMATION_DURATION, 0.0f, 1.0f);
+            mBodyColor.set(mColorInterpolator.interpolateColor(DEFAULT_BODY_COLOR, deathColor, t));
+            mHeadColor.set(mColorInterpolator.interpolateColor(DEFAULT_BODY_COLOR, deathColor, t));
+        }
+        
+        mBodySprite.setColor(mBodyColor);
+        mHeadSprite.setColor(mHeadColor);
         
         mBodySprite.setPosition(mPosition.x + BODY_OFFSET_X, mPosition.y + BODY_OFFSET_Y);
         mBodySprite.draw(batch);
@@ -243,7 +291,7 @@ public final class GameCharacter {
                 mCharCollisionData.collisionPointX, mCollisionEffects);
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.BURN)) {
-            mIsDead = true;
+            mIsDyingFromFire = true;
             mCollisionEffects.clear();
             return;
         }
@@ -301,6 +349,10 @@ public final class GameCharacter {
         }
         
         return null;
+    }
+    
+    private boolean isDying() {
+        return mIsDyingFromEnemy || mIsDyingFromFire;
     }
     
     public Vector2 getPosition() {

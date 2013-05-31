@@ -29,6 +29,6 @@ import com.turbogerm.hellhopper.dataaccess.PlatformData;
 final class NormalPlatform extends PlatformBase {
     
     public NormalPlatform(int riseSectionId, PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(riseSectionId, platformData, platformData.getPlatformPositions(startStep), assetManager);
+        super(riseSectionId, platformData, startStep, assetManager);
     }
 }

@@ -37,7 +37,7 @@ public final class CrumblePlatform extends PlatformBase {
     private float mCrumblingCountdown;
     
     public CrumblePlatform(int riseSectionId, PlatformData platformData, int startStep, AssetManager assetManager) {
-        super(riseSectionId, platformData, platformData.getPlatformPositions(startStep), assetManager);
+        super(riseSectionId, platformData, startStep, assetManager);
         
         mIsCrumbling = false;
         mCrumblingCountdown = CRUMBLING_COUNTDOWN_DURATION;

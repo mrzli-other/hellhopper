@@ -29,7 +29,7 @@ import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
 final class ImpEnemy extends EnemyBase {
     
-    public ImpEnemy(EnemyData enemyData, AssetManager assetManager) {
-        super(ResourceNames.ENEMY_IMP_TEXTURE, assetManager);
+    public ImpEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
+        super(enemyData, ResourceNames.ENEMY_IMP_TEXTURE, startStep, assetManager);
     }
 }

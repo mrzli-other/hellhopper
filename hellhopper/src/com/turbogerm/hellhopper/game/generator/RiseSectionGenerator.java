@@ -31,6 +31,7 @@ import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadata;
+import com.turbogerm.hellhopper.game.GameAreaUtils;
 import com.turbogerm.hellhopper.util.ExceptionThrower;
 import com.turbogerm.hellhopper.util.GameUtils;
 
@@ -337,7 +338,7 @@ final class RiseSectionGenerator {
         
         if (movementData != null) {
             float range = Float.valueOf(movementData.getProperty(PlatformMovementData.RANGE_PROPERTY));
-            int rangeInOffsets = MathUtils.ceil(range / PlatformData.OFFSET_WIDTH);
+            int rangeInOffsets = MathUtils.ceil(range / GameAreaUtils.OFFSET_WIDTH);
             int maxOffset = PlatformData.MAX_PLATFORM_OFFSET - rangeInOffsets;
             return MathUtils.random(maxOffset);
         } else {

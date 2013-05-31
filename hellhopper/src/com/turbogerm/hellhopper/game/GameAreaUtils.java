@@ -21,44 +21,22 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.dataaccess;
+package com.turbogerm.hellhopper.game;
 
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.Vector2;
 
-public final class RiseSectionData {
+public final class GameAreaUtils {
     
-    private final String mName;
-    private final int mStepRange;
-    private final int mDifficulty;
-    private final Array<PlatformData> mPlatformsData;
-    private final Array<EnemyData> mEnemiesData;
+    public static final float METER_TO_PIXEL = 40.0f;
+    public static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
     
-    public RiseSectionData(String name, int stepRange, int difficulty,
-            Array<PlatformData> platformsData, Array<EnemyData> enemiesData) {
-        mName = name;
-        mStepRange = stepRange;
-        mDifficulty = difficulty;
-        mPlatformsData = platformsData;
-        mEnemiesData = enemiesData;
-    }
+    // 'step' is vertical offset, 'offset' is horizontal offset in position grid
+    public static final float STEP_HEIGHT = 1.0f;
+    public static final float OFFSET_WIDTH = 0.25f;
     
-    public String getName() {
-        return mName;
-    }
-    
-    public int getStepRange() {
-        return mStepRange;
-    }
-    
-    public int getDifficulty() {
-        return mDifficulty;
-    }
-    
-    public Array<PlatformData> getPlatformsData() {
-        return mPlatformsData;
-    }
-    
-    public Array<EnemyData> getEnemiesData() {
-        return mEnemiesData;
+    public static Vector2 getPosition(int startStep, float step, float offset) {
+        float x = offset *  OFFSET_WIDTH;
+        float y = (step + startStep) * STEP_HEIGHT;
+        return new Vector2(x, y);
     }
 }

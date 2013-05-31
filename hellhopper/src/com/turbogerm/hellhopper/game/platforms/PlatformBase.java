@@ -79,12 +79,14 @@ public abstract class PlatformBase {
     private final Array<PlatformFeatureBase> mPlatformFeatures;
     private final Array<PlatformFeatureBase> mPlatformFeaturesForRendering;
     
-    public PlatformBase(int riseSectionId, PlatformData platformData, Vector2 initialPosition,
+    public PlatformBase(int riseSectionId, PlatformData platformData, int startStep,
             AssetManager assetManager) {
         
         mRiseSectionId = riseSectionId;
         
         Texture texture = assetManager.get(getTexturePath(platformData));
+        Vector2 initialPosition =  platformData.getPosition(startStep);
+        
         mSprite = new Sprite(texture);
         mSprite.setBounds(initialPosition.x, initialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);

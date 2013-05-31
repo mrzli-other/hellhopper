@@ -38,17 +38,15 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.background.BackgroundScene;
+import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
     
-    public static final float METER_TO_PIXEL = 40.0f;
-    public static final float PIXEL_TO_METER = 1.0f / METER_TO_PIXEL;
-    
-    public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * PIXEL_TO_METER;
-    public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * PIXEL_TO_METER;
+    public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * GameAreaUtils.PIXEL_TO_METER;
+    public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * GameAreaUtils.PIXEL_TO_METER;
     
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
@@ -63,6 +61,7 @@ public final class GameArea {
     
     private static final int ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY = 5;
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
+    private static final int VISIBLE_ENEMIES_INITIAL_CAPACITY = 5;
     
     private static final float VISIBLE_PLATFORMS_AREA_PADDING = 2.0f;
     
@@ -85,6 +84,7 @@ public final class GameArea {
     
     private final Array<RiseSection> mActiveRiseSections;
     private final Array<PlatformBase> mVisiblePlatforms;
+    private final Array<EnemyBase> mVisibleEnemies;
     
     private boolean mIsGameOver;
     
@@ -105,7 +105,8 @@ public final class GameArea {
         mPlatformToCharCollisionData = new PlatformToCharCollisionData();
         
         mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
-        mVisiblePlatforms = new Array<PlatformBase>(VISIBLE_PLATFORMS_INITIAL_CAPACITY);
+        mVisiblePlatforms = new Array<PlatformBase>(true, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
+        mVisibleEnemies = new Array<EnemyBase>(true, VISIBLE_ENEMIES_INITIAL_CAPACITY);
         
         mBackgroundTexture = mAssetManager.get(ResourceNames.BACKGROUND_TEXTURE);
         mBackgroundScene = new BackgroundScene(mAssetManager);
@@ -155,7 +156,7 @@ public final class GameArea {
         mDeltaAccumulator = 0.0f;
         
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
-        mScore = Math.max(mScore, (int) (effectiveCharPositionY * METER_TO_PIXEL));
+        mScore = Math.max(mScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
         mBackgroundScene.update(mVisibleAreaPosition, delta);
@@ -177,6 +178,10 @@ public final class GameArea {
             platform.render(mBatch, delta);
         }
         
+        for (EnemyBase enemy : mVisibleEnemies) {
+            enemy.render(mBatch);
+        }
+        
         mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
         mCharacter.render(mBatch);
@@ -192,12 +197,14 @@ public final class GameArea {
         updateActiveAndVisiblePlatforms();
         
         updatePlatforms(delta);
+        updateEnemies(delta);
         
         mCharacter.updateStep(
                 horizontalSpeed,
                 mPlatformToCharCollisionData,
                 mActiveRiseSections,
                 mVisiblePlatforms,
+                mVisibleEnemies,
                 delta);
         
         mVisibleAreaPosition = MathUtils.clamp(
@@ -224,6 +231,7 @@ public final class GameArea {
     private void updateActiveAndVisiblePlatforms() {
         mActiveRiseSections.clear();
         mVisiblePlatforms.clear();
+        mVisibleEnemies.clear();
         
         Array<RiseSection> allRiseSections = mRise.getRiseSections();
         
@@ -237,6 +245,11 @@ public final class GameArea {
                     if (platform.isActive(mVisibleAreaPosition, VISIBLE_PLATFORMS_AREA_PADDING)) {
                         mVisiblePlatforms.add(platform);
                     }
+                }
+                
+                Array<EnemyBase> allEnemies = riseSection.getEnemies();
+                for (EnemyBase enemy : allEnemies) {
+                    mVisibleEnemies.add(enemy);
                 }
             }
         }
@@ -278,6 +291,15 @@ public final class GameArea {
         
         Pools.freeVector(c1);
         Pools.freeVector(c2);
+    }
+    
+    private void updateEnemies(float delta) {
+        for (RiseSection riseSection : mActiveRiseSections) {
+            Array<EnemyBase> enemies = riseSection.getEnemies();
+            for (EnemyBase enemy : enemies) {
+                enemy.update(delta);
+            }
+        }
     }
     
     public int getScore() {

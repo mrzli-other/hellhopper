@@ -27,9 +27,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
@@ -56,6 +58,7 @@ public final class GameCharacter {
     
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
+    private final Rectangle mRect;
     
     private float mRiseHeight;
     
@@ -74,6 +77,7 @@ public final class GameCharacter {
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
+        mRect = new Rectangle(0.0f, 0.0f, WIDTH, HEIGHT);
         
         mCharCollisionData = new CharCollisionData();
         mCollisionEffects = new CollisionEffects();
@@ -128,6 +132,7 @@ public final class GameCharacter {
             PlatformToCharCollisionData platformToCharCollisionData,
             Array<RiseSection> activeRiseSections,
             Array<PlatformBase> visiblePlatforms,
+            Array<EnemyBase> visibleEnemies,
             float delta) {
         
         boolean isCollision = false;
@@ -166,6 +171,16 @@ public final class GameCharacter {
         
         if (mPosition.y > mRiseHeight) {
             mIsEndReached = true;
+        }
+        
+        mRect.x = mPosition.x;
+        mRect.y = mPosition.y;
+        
+        for (EnemyBase enemyBase : visibleEnemies) {
+            if (enemyBase.isCollision(mRect)) {
+                mIsDead = true;
+                return;
+            }
         }
     }
     

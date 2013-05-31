@@ -142,11 +142,11 @@ public final class RiseSectionDataReader {
         return enemyDataList;
     }
     
-    private static EnemyData getEnemyData(Element platformNode) {
-        String type = platformNode.getAttribute("type");
-        String stepAttribute = platformNode.getAttribute("step");
+    private static EnemyData getEnemyData(Element enemyNode) {
+        String type = enemyNode.getAttribute("type");
+        String stepAttribute = enemyNode.getAttribute("step");
         float step = Float.parseFloat(stepAttribute);
-        String offsetAttribute = platformNode.getAttribute("offset");
+        String offsetAttribute = enemyNode.getAttribute("offset");
         float offset = Float.parseFloat(offsetAttribute);
         
         return new EnemyData(type, step, offset);

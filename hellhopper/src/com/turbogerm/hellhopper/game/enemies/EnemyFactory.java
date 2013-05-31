@@ -29,13 +29,13 @@ import com.turbogerm.hellhopper.util.ExceptionThrower;
 
 public final class EnemyFactory {
     
-    public static EnemyBase create(EnemyData enemyData, AssetManager assetManager) {
+    public static EnemyBase create(EnemyData enemyData, int startStep, AssetManager assetManager) {
         
         String enemyType = enemyData.getType();
         if (EnemyData.IMP_TYPE.equals(enemyType)) {
-            return new ImpEnemy(enemyData, assetManager);
-        } else if (EnemyData.IMP_TYPE.equals(enemyType)) {
-            return new SawEnemy(enemyData, assetManager);
+            return new ImpEnemy(enemyData, startStep, assetManager);
+        } else if (EnemyData.SAW_TYPE.equals(enemyType)) {
+            return new SawEnemy(enemyData, startStep, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid enemy type: %s", enemyType);
             return null;

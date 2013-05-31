@@ -27,25 +27,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.game.GameAreaUtils;
 
 public final class PlatformData {
     
     public static final String NORMAL_TYPE = "normal";
     public static final String CRUMBLE_TYPE = "crumble";
     
-    // 'step' is vertical offset, 'offset' is horizontal offset in position grid
-    
-    public static final float STEP_HEIGHT = 1.0f;
-    public static final float OFFSET_WIDTH = 0.25f;
-    
     public static final int PLATFORM_WIDTH_OFFSETS = 8;
     private static final float PLATFORM_HEIGHT_STEPS = 0.5f;
     
-    public static final float PLATFORM_WIDTH = OFFSET_WIDTH * PLATFORM_WIDTH_OFFSETS;
-    public static final float PLATFORM_HEIGHT = STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
+    public static final float PLATFORM_WIDTH = GameAreaUtils.OFFSET_WIDTH * PLATFORM_WIDTH_OFFSETS;
+    public static final float PLATFORM_HEIGHT = GameAreaUtils.STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
     
     public static final int MAX_PLATFORM_DISTANCE_STEPS = 5;
-    public static final int MAX_PLATFORM_OFFSET = (int) (GameArea.GAME_AREA_WIDTH / OFFSET_WIDTH) -
+    public static final int MAX_PLATFORM_OFFSET = (int) (GameArea.GAME_AREA_WIDTH / GameAreaUtils.OFFSET_WIDTH) -
             PLATFORM_WIDTH_OFFSETS;
     
     private final String mPlatformType;
@@ -89,9 +85,7 @@ public final class PlatformData {
         return mFeaturesData;
     }
     
-    public Vector2 getPlatformPositions(int startStep) {
-        float x = mOffset * OFFSET_WIDTH;
-        float y = (mStep + startStep) * STEP_HEIGHT;
-        return new Vector2(x, y);
+    public Vector2 getPosition(int startStep) {
+        return GameAreaUtils.getPosition(startStep, mStep, mOffset);
     }
 }

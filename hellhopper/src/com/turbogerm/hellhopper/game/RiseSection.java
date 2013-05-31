@@ -24,6 +24,7 @@
 package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 
 public final class RiseSection {
@@ -36,9 +37,10 @@ public final class RiseSection {
     private final float mEndY; 
     private final float mHeight;
     private final Array<PlatformBase> mPlatforms;
+    private final Array<EnemyBase> mEnemies;
     
-    public RiseSection(int id, String name, int difficulty,
-            float startY, float height, Array<PlatformBase> platforms) {
+    public RiseSection(int id, String name, int difficulty, float startY, float height,
+            Array<PlatformBase> platforms, Array<EnemyBase> enemies) {
         mId = id;
         mName = name;
         mDifficulty = difficulty;
@@ -46,6 +48,7 @@ public final class RiseSection {
         mHeight = height;
         mEndY = mStartY + mHeight;
         mPlatforms = platforms;
+        mEnemies = enemies;
     }
     
     public void applyEffect(int collisionEffect) {
@@ -80,5 +83,9 @@ public final class RiseSection {
     
     public Array<PlatformBase> getPlatforms() {
         return mPlatforms;
+    }
+    
+    public Array<EnemyBase> getEnemies() {
+        return mEnemies;
     }
 }

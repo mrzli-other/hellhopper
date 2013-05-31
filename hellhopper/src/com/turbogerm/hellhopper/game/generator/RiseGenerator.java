@@ -28,6 +28,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadata;
@@ -35,8 +36,11 @@ import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadataReader;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsDataReader;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsMetadata;
+import com.turbogerm.hellhopper.game.GameAreaUtils;
 import com.turbogerm.hellhopper.game.Rise;
 import com.turbogerm.hellhopper.game.RiseSection;
+import com.turbogerm.hellhopper.game.enemies.EnemyBase;
+import com.turbogerm.hellhopper.game.enemies.EnemyFactory;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
@@ -87,7 +91,11 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("simpleenemy");
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("enemyavoidscreenendleft");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("enemyavoidscreenendright");
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
@@ -180,16 +188,28 @@ public final class RiseGenerator {
         String riseSectionName = riseSectionData.getName();
         int difficulty = riseSectionData.getDifficulty();
         
-        float startY = startStep * PlatformData.STEP_HEIGHT;
-        float height = riseSectionData.getStepRange() * PlatformData.STEP_HEIGHT;
+        float startY = startStep * GameAreaUtils.STEP_HEIGHT;
+        float height = riseSectionData.getStepRange() * GameAreaUtils.STEP_HEIGHT;
         
-        Array<PlatformData> platformsData = riseSectionData.getPlatformDataList();
+        Array<PlatformData> platformsData = riseSectionData.getPlatformsData();
         Array<PlatformBase> platforms = new Array<PlatformBase>(true, platformsData.size);
         for (PlatformData platformData : platformsData) {
             PlatformBase platform = PlatformFactory.create(riseSectionId, platformData, startStep, assetManager);
             platforms.add(platform);
         }
         
-        return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms);
+        Array<EnemyData> enemiesData = riseSectionData.getEnemiesData();
+        Array<EnemyBase> enemies;
+        if (enemiesData != null) {
+            enemies = new Array<EnemyBase>(true, enemiesData.size);
+            for (EnemyData enemyData : enemiesData) {
+                EnemyBase enemy = EnemyFactory.create(enemyData, startStep, assetManager);
+                enemies.add(enemy);
+            }
+        } else {
+            enemies = new Array<EnemyBase>(true, 0);
+        }
+        
+        return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms, enemies);
     }
 }

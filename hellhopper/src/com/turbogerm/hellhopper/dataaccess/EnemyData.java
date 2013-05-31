@@ -23,6 +23,9 @@
  */
 package com.turbogerm.hellhopper.dataaccess;
 
+import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.game.GameAreaUtils;
+
 public final class EnemyData {
     
     public static final String IMP_TYPE = "imp";
@@ -48,5 +51,9 @@ public final class EnemyData {
     
     public float getOffset() {
         return mOffset;
+    }
+    
+    public Vector2 getPosition(int startStep) {
+        return GameAreaUtils.getPosition(startStep, mStep, mOffset);
     }
 }

@@ -27,7 +27,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.game.GameAreaUtils;
 
 abstract class BackgroundObjectBase {
     
@@ -37,8 +37,8 @@ abstract class BackgroundObjectBase {
         
         Texture texture = assetManager.get(texturePath);
         mSprite = new Sprite(texture);
-        mSprite.setSize(texture.getWidth() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER,
-                texture.getHeight() * GameArea.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER);
+        mSprite.setSize(texture.getWidth() * GameAreaUtils.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER,
+                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER * BackgroundLayer.SPRITE_SCALE_MULTIPLIER);
     }
     
     public void update(float delta) {

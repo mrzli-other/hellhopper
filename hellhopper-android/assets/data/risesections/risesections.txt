@@ -1,3 +1,4 @@
 test
 simpleflametransition
-simpleenemy
+enemyavoidscreenendleft
+enemyavoidscreenendright

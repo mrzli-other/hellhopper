@@ -26,11 +26,13 @@ package com.turbogerm.hellhopper.game.generator;
 import java.util.Comparator;
 
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 
 public final class RiseGeneratorUtils {
     
     private static final Comparator<PlatformData> PLATFORM_DATA_COMPARATOR;
+    private static final Comparator<EnemyData> ENEMY_DATA_COMPARATOR;
     
     static {
         PLATFORM_DATA_COMPARATOR = new Comparator<PlatformData>() {
@@ -45,9 +47,26 @@ public final class RiseGeneratorUtils {
                 }
             }
         };
+        
+        ENEMY_DATA_COMPARATOR = new Comparator<EnemyData>() {
+            @Override
+            public int compare(EnemyData e1, EnemyData e2) {
+                if (e1.getStep() < e2.getStep()) {
+                    return -1;
+                } else if (e1.getStep() > e2.getStep()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
     }
     
-    public static void sort(Array<PlatformData> platformDataList) {
+    public static void sortPlatforms(Array<PlatformData> platformDataList) {
         platformDataList.sort(PLATFORM_DATA_COMPARATOR);
+    }
+    
+    public static void sortEnemies(Array<EnemyData> enemyDataList) {
+        enemyDataList.sort(ENEMY_DATA_COMPARATOR);
     }
 }

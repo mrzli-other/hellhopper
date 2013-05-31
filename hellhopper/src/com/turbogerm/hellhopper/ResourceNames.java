@@ -74,6 +74,10 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
     
+    public static final String ENEMIES_DIR = GAME_DIR + "enemies/";
+    public static final String ENEMY_IMP_TEXTURE = ENEMIES_DIR + "imp.png";
+    public static final String ENEMY_SAW_TEXTURE = ENEMIES_DIR + "saw.png";
+    
     public static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
     private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
@@ -82,7 +86,6 @@ public final class ResourceNames {
     public static final int BACKGROUND_ROCK_TEXTURE_COUNT = 4;
     
     public static final String OBJECTS_DIR = GAME_DIR + "objects/";
-    public static final String OBJECT_LAVA_ROCK_TEXTURE = OBJECTS_DIR + "lavarock.png";
     
     public static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE_NORMAL = PARTICLES_DIR + "enginenormal.p";

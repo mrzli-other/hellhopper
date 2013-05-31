@@ -11,8 +11,8 @@
         <property name="maxmovingspeed" value="1.5" />
         <property name="minmovingrange" value="9.25" />
         <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="3" />
-        <property name="maxrepositionrange" value="4" />
+        <property name="minrepositionrange" value="1" />
+        <property name="maxrepositionrange" value="2" />
         <property name="jumpboostfraction" value="0.15" />
         <property name="jumpboostlowweight" value="1" />
         <property name="jumpboostmediumweight" value="1" />
@@ -28,8 +28,8 @@
         <property name="maxmovingspeed" value="1.5" />
         <property name="minmovingrange" value="9.25" />
         <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="2" />
-        <property name="maxrepositionrange" value="3" />
+        <property name="minrepositionrange" value="1" />
+        <property name="maxrepositionrange" value="2" />
         <property name="jumpboostfraction" value="0.15" />
         <property name="jumpboostlowweight" value="1" />
         <property name="jumpboostmediumweight" value="1" />
@@ -41,12 +41,12 @@
         <property name="normalplatformweight" value="10" />
         <property name="movingplatformweight" value="3" />
         <property name="repositionplatformweight" value="0" />
-        <property name="minmovingspeed" value="2.0" />
-        <property name="maxmovingspeed" value="4.0" />
-        <property name="minmovingrange" value="6.25" />
+        <property name="minmovingspeed" value="1.0" />
+        <property name="maxmovingspeed" value="2.0" />
+        <property name="minmovingrange" value="9.25" />
         <property name="maxmovingrange" value="9.25" />
-        <property name="minrepositionrange" value="2" />
-        <property name="maxrepositionrange" value="4.5" />
+        <property name="minrepositionrange" value="1" />
+        <property name="maxrepositionrange" value="2" />
         <property name="jumpboostfraction" value="0.15" />
         <property name="jumpboostlowweight" value="1" />
         <property name="jumpboostmediumweight" value="1" />

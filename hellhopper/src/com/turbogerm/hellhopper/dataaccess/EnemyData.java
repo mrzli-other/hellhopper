@@ -26,14 +26,27 @@ package com.turbogerm.hellhopper.dataaccess;
 public final class EnemyData {
     
     public static final String IMP_TYPE = "imp";
+    public static final String SAW_TYPE = "saw";
     
     private final String mType;
+    private final float mStep;
+    private final float mOffset;
     
-    public EnemyData(String type) {
+    public EnemyData(String type, float step, float offset) {
         mType = type;
+        mStep = step;
+        mOffset = offset;
     }
     
     public String getType() {
         return mType;
+    }
+    
+    public float getStep() {
+        return mStep;
+    }
+    
+    public float getOffset() {
+        return mOffset;
     }
 }

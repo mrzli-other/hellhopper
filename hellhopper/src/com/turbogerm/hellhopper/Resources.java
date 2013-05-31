@@ -94,6 +94,9 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, textureParameterLinear);
         
+        mAssetManager.load(ResourceNames.ENEMY_IMP_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_SAW_TEXTURE, Texture.class, textureParameterNearest);
+        
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);
         
         for (int i = 0; i < ResourceNames.BACKGROUND_CLOUD_TEXTURE_COUNT; i++) {
@@ -103,8 +106,6 @@ public final class Resources {
         for (int i = 0; i < ResourceNames.BACKGROUND_ROCK_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getBackgroundRockTexture(i), Texture.class, textureParameterNearest);
         }
-        
-        mAssetManager.load(ResourceNames.OBJECT_LAVA_ROCK_TEXTURE, Texture.class, textureParameterLinear);
         
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class);
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class);

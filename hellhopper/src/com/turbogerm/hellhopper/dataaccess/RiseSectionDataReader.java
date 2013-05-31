@@ -53,6 +53,15 @@ public final class RiseSectionDataReader {
         int difficulty = Integer.parseInt(difficultyAttribute);
         
         Element platformsNode = riseSectionNode.getChildByName("platforms");
+        Array<PlatformData> platformDataList = getPlatformsData(platformsNode);
+        
+        Element enemiesNode = riseSectionNode.getChildByName("enemies");
+        Array<EnemyData> enemyDataList = getEnemiesData(enemiesNode);
+        
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList, enemyDataList);
+    }
+    
+    private static Array<PlatformData> getPlatformsData(Element platformsNode) {
         int numPlatforms = platformsNode.getChildCount();
         Array<PlatformData> platformDataList = new Array<PlatformData>(true, numPlatforms);
         for (int i = 0; i < numPlatforms; i++) {
@@ -60,9 +69,9 @@ public final class RiseSectionDataReader {
             PlatformData platformData = getPlatformData(platformNode);
             platformDataList.add(platformData);
         }
-        RiseGeneratorUtils.sort(platformDataList);
+        RiseGeneratorUtils.sortPlatforms(platformDataList);
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+        return platformDataList;
     }
     
     private static PlatformData getPlatformData(Element platformNode) {
@@ -114,5 +123,32 @@ public final class RiseSectionDataReader {
                 featureNode.getChildByName("properties"));
         
         return new PlatformFeatureData(type, properties);
+    }
+    
+    private static Array<EnemyData> getEnemiesData(Element enemiesNode) {
+        if (enemiesNode == null) {
+            return null;
+        }
+        
+        int numEnemies = enemiesNode.getChildCount();
+        Array<EnemyData> enemyDataList = new Array<EnemyData>(true, numEnemies);
+        for (int i = 0; i < numEnemies; i++) {
+            Element enemyNode = enemiesNode.getChild(i);
+            EnemyData enemyData = getEnemyData(enemyNode);
+            enemyDataList.add(enemyData);
+        }
+        RiseGeneratorUtils.sortEnemies(enemyDataList);
+        
+        return enemyDataList;
+    }
+    
+    private static EnemyData getEnemyData(Element platformNode) {
+        String type = platformNode.getAttribute("type");
+        String stepAttribute = platformNode.getAttribute("step");
+        float step = Float.parseFloat(stepAttribute);
+        String offsetAttribute = platformNode.getAttribute("offset");
+        float offset = Float.parseFloat(offsetAttribute);
+        
+        return new EnemyData(type, step, offset);
     }
 }

@@ -135,7 +135,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
     }
     
     private static RiseSectionData generateRiseSectionJumpBoost(RiseSectionMetadata riseSectionMetadata) {
@@ -203,7 +203,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
     }
     
     private static RiseSectionData generateRiseSectionVisibleOnJump(RiseSectionMetadata riseSectionMetadata) {
@@ -244,7 +244,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList);
+        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
     }
     
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {

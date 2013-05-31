@@ -34,6 +34,8 @@ public final class EnemyFactory {
         String enemyType = enemyData.getType();
         if (EnemyData.IMP_TYPE.equals(enemyType)) {
             return new ImpEnemy(enemyData, assetManager);
+        } else if (EnemyData.IMP_TYPE.equals(enemyType)) {
+            return new SawEnemy(enemyData, assetManager);
         } else {
             ExceptionThrower.throwException("Invalid enemy type: %s", enemyType);
             return null;

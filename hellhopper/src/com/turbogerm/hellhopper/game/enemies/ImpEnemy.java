@@ -24,11 +24,12 @@
 package com.turbogerm.hellhopper.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
 final class ImpEnemy extends EnemyBase {
     
     public ImpEnemy(EnemyData enemyData, AssetManager assetManager) {
-        super(null, assetManager);
+        super(ResourceNames.ENEMY_IMP_TEXTURE, assetManager);
     }
 }

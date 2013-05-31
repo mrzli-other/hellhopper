@@ -1,0 +1,10 @@
+<risesection steprange="10" difficulty="2">
+  <platforms>
+    <platform step="0" offset="4" type="normal" />
+    <platform step="5" offset="33" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="saw" >
+  </enemies>
+</risesection>

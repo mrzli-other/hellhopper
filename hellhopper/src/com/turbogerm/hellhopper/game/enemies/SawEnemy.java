@@ -21,44 +21,15 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.dataaccess;
+package com.turbogerm.hellhopper.game.enemies;
 
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
-public final class RiseSectionData {
+public final class SawEnemy extends EnemyBase {
     
-    private final String mName;
-    private final int mStepRange;
-    private final int mDifficulty;
-    private final Array<PlatformData> mPlatformDataList;
-    private final Array<EnemyData> mEnemyDataList;
-    
-    public RiseSectionData(String name, int stepRange, int difficulty,
-            Array<PlatformData> platformDataList, Array<EnemyData> enemyDataList) {
-        mName = name;
-        mStepRange = stepRange;
-        mDifficulty = difficulty;
-        mPlatformDataList = platformDataList;
-        mEnemyDataList = enemyDataList;
-    }
-    
-    public String getName() {
-        return mName;
-    }
-    
-    public int getStepRange() {
-        return mStepRange;
-    }
-    
-    public int getDifficulty() {
-        return mDifficulty;
-    }
-    
-    public Array<PlatformData> getPlatformDataList() {
-        return mPlatformDataList;
-    }
-    
-    public Array<EnemyData> getEnemyDataList() {
-        return mEnemyDataList;
+    public SawEnemy(EnemyData enemyData, AssetManager assetManager) {
+        super(ResourceNames.ENEMY_SAW_TEXTURE, assetManager);
     }
 }

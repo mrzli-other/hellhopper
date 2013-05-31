@@ -84,12 +84,10 @@ public final class RiseGenerator {
     public static Rise generate(AssetManager assetManager) {
         Array<RiseSectionData> riseSectionsData = new Array<RiseSectionData>(true, RISE_SECTIONS_INITIAL_CAPACITY);
         
-        // riseSectionsData.add(PREBUILT_RISE_SECTIONS.getRiseSection("test"));
-        
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("visibleonjump"));
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("simpleenemy");
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         

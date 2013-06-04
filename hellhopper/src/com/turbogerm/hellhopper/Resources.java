@@ -54,6 +54,7 @@ public final class Resources {
         textureParameterNearest.magFilter = TextureFilter.Nearest;
         textureParameterNearest.genMipMaps = false;
         
+        // GUI
         mAssetManager.load(ResourceNames.GUI_BLACK_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BACKGROUND_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_UP_TEXTURE, Texture.class, textureParameterLinear);
@@ -77,10 +78,15 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
         
+        // CHARACTER
         mAssetManager.load(ResourceNames.CHARACTER_BODY_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_HEAD_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_EYES_TEXTURE, Texture.class, textureParameterLinear);
         
+        for (int i = 0; i < ResourceNames.CHARACTER_EYES_TEXTURE_COUNT; i++) {
+            mAssetManager.load(ResourceNames.getCharacterEyesTexture(i), Texture.class, textureParameterLinear);
+        }
+        
+        // PLATFORMS
         for (int i = 0; i < ResourceNames.PLATFORM_NORMAL_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getPlatformNormalTexture(i), Texture.class, textureParameterLinear);
         }
@@ -97,9 +103,11 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, textureParameterLinear);
         
+        // ENEMIES
         mAssetManager.load(ResourceNames.ENEMY_IMP_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.ENEMY_SAW_TEXTURE, Texture.class, textureParameterNearest);
         
+        // BACKGROUND
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);
         
         for (int i = 0; i < ResourceNames.BACKGROUND_CLOUD_TEXTURE_COUNT; i++) {
@@ -110,9 +118,11 @@ public final class Resources {
             mAssetManager.load(ResourceNames.getBackgroundRockTexture(i), Texture.class, textureParameterNearest);
         }
         
+        // PARTICLES
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class);
         mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class);
         
+        // SOUNDS
         mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_JUMP_BOOST, Sound.class);
         

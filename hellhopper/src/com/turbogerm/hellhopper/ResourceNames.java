@@ -61,7 +61,8 @@ public final class ResourceNames {
     private static final String CHARACTER_DIR = GAME_DIR + "character/";
     public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";
     public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
-    public static final String CHARACTER_EYES_TEXTURE = CHARACTER_DIR + "eyes.png";
+    public static final int CHARACTER_EYES_TEXTURE_COUNT = 2;
+    private static final String CHARACTER_EYES_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyes%02d.png";
     
     private static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
@@ -99,6 +100,10 @@ public final class ResourceNames {
     
     public static String getRiseSectionPath(String name) {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
+    }
+    
+    public static String getCharacterEyesTexture(int index) {
+        return String.format(ResourceNames.CHARACTER_EYES_TEXTURE_NAME_FORMAT, index);
     }
     
     public static String getPlatformNormalTexture(int index) {

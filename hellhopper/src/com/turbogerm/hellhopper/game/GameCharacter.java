@@ -82,7 +82,7 @@ public final class GameCharacter {
     
     private final Sprite mBodySprite;
     private final Sprite mHeadSprite;
-    private final Sprite mEyesSprite;
+    private final Sprite[] mEyesSprites;
     
     private final Color mBodyColor;
     private final Color mHeadColor;
@@ -108,6 +108,8 @@ public final class GameCharacter {
     
     private final ColorInterpolator mColorInterpolator;
     
+    private final BlinkingStateMachine mBlinkingStateMachine;
+    
     static {
         DEFAULT_BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
         DEFAULT_HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
@@ -126,9 +128,12 @@ public final class GameCharacter {
         mHeadSprite = new Sprite(headTexture);
         mHeadSprite.setSize(HEAD_WIDTH, HEAD_HEIGHT);
         
-        Texture eyesTexture = assetManager.get(ResourceNames.CHARACTER_EYES_TEXTURE);
-        mEyesSprite = new Sprite(eyesTexture);
-        mEyesSprite.setSize(EYES_WIDTH, EYES_HEIGHT);
+        mEyesSprites = new Sprite[ResourceNames.CHARACTER_EYES_TEXTURE_COUNT];
+        for (int i = 0; i < mEyesSprites.length; i++) {
+            mEyesSprites[i] = new Sprite((Texture) assetManager.get(ResourceNames.getCharacterEyesTexture(i)));
+            mEyesSprites[i].setSize(EYES_WIDTH, EYES_HEIGHT);
+            mEyesSprites[i].setColor(DEFAULT_EYES_COLOR);
+        }
         
         mBodyColor = new Color();
         mHeadColor = new Color();
@@ -144,6 +149,8 @@ public final class GameCharacter {
         mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
         
         mColorInterpolator = new ColorInterpolator();
+        
+        mBlinkingStateMachine = new BlinkingStateMachine();
     }
     
     public void reset(float riseHeight) {
@@ -151,7 +158,6 @@ public final class GameCharacter {
         
         mBodyColor.set(DEFAULT_BODY_COLOR);
         mHeadColor.set(DEFAULT_HEAD_COLOR);
-        mEyesSprite.setColor(DEFAULT_EYES_COLOR);
         
         mIsEndReached = false;
         mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
@@ -261,6 +267,8 @@ public final class GameCharacter {
                 return;
             }
         }
+        
+        mBlinkingStateMachine.update(delta);
     }
     
     public void render(SpriteBatch batch) {
@@ -281,8 +289,9 @@ public final class GameCharacter {
         mHeadSprite.setPosition(mPosition.x + HEAD_OFFSET_X, mPosition.y + HEAD_OFFSET_Y);
         mHeadSprite.draw(batch);
         
-        mEyesSprite.setPosition(mPosition.x + EYES_OFFSET_X, mPosition.y + EYES_OFFSET_Y);
-        mEyesSprite.draw(batch);
+        int eyesSpriteIndex = mBlinkingStateMachine.getTextureIndex();
+        mEyesSprites[eyesSpriteIndex].setPosition(mPosition.x + EYES_OFFSET_X, mPosition.y + EYES_OFFSET_Y);
+        mEyesSprites[eyesSpriteIndex].draw(batch);
     }
     
     private void processCollision(Array<RiseSection> activeRiseSections) {
@@ -367,5 +376,109 @@ public final class GameCharacter {
         
         public PlatformBase collisionPlatform;
         public float collisionPointX;
+    }
+    
+    private static class BlinkingStateMachine {
+        
+        private static final int OPEN = 0;
+        private static final int CLOSED = 1;
+        private static final int DOUBLE_BLINK_OPEN = 2;
+        private static final int DOUBLE_BLINK_CLOSED_1 = 3;
+        private static final int DOUBLE_BLINK_CLOSED_2 = 4;
+        //private static final int STATE_COUNT = 5;
+        
+        private static final float MIN_OPEN_DURATION = 2.0f;
+        private static final float MAX_OPEN_DURATION = 5.0f;
+        private static final float CLOSED_DURATION = 0.2f;
+        private static final float DOUBLE_BLINK_OPEN_DURATION = 0.2f;
+        private static final float DOUBLE_BLINK_CLOSED_DURATION = 0.1f;
+        
+        private static final float DOUBLE_BLINK_CHANCE = 0.3f;
+        
+        private int mCurrentState;
+        private float mCurrentStateDuration;
+        private float mCurrentStateElapsed;
+        
+        public BlinkingStateMachine() {
+            mCurrentState = OPEN;
+            mCurrentStateElapsed = 0.0f;
+            updateStateDuration();
+        }
+        
+        public void update(float delta) {
+            mCurrentStateElapsed += delta;
+            
+            if (mCurrentStateElapsed >= mCurrentStateDuration) {
+                mCurrentStateElapsed -= mCurrentStateDuration;
+                changeState();
+                updateStateDuration();
+            }
+        }
+        
+        public int getTextureIndex() {
+            if (mCurrentState == OPEN || mCurrentState == DOUBLE_BLINK_OPEN) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+        
+        private void changeState() {
+            mCurrentState = getNextState(mCurrentState);
+        }
+        
+        private static int getNextState(int currentState) {
+            switch (currentState) {
+                case OPEN:
+                    if (isDoubleBlink()) {
+                        return DOUBLE_BLINK_CLOSED_1;
+                    } else {
+                        return CLOSED;
+                    }
+                    
+                case CLOSED:
+                    return OPEN;
+                    
+                case DOUBLE_BLINK_OPEN:
+                    return DOUBLE_BLINK_CLOSED_2;
+                    
+                case DOUBLE_BLINK_CLOSED_1:
+                    return DOUBLE_BLINK_OPEN;
+                    
+                case DOUBLE_BLINK_CLOSED_2:
+                    return OPEN;
+                
+                default:
+                    return OPEN;
+            }
+        }
+        
+        private void updateStateDuration() {
+            mCurrentStateDuration = getStateDuration(mCurrentState);
+        }
+        
+        private static float getStateDuration(int state) {
+            switch (state) {
+                case OPEN:
+                    return MathUtils.random(MIN_OPEN_DURATION, MAX_OPEN_DURATION);
+                    
+                case CLOSED:
+                    return CLOSED_DURATION;
+                    
+                case DOUBLE_BLINK_OPEN:
+                    return DOUBLE_BLINK_OPEN_DURATION;
+                    
+                case DOUBLE_BLINK_CLOSED_1:
+                case DOUBLE_BLINK_CLOSED_2:
+                    return DOUBLE_BLINK_CLOSED_DURATION;
+                
+                default:
+                    return 0.0f;
+            }
+        }
+        
+        private static boolean isDoubleBlink() {
+            return MathUtils.random() < DOUBLE_BLINK_CHANCE;
+        }
     }
 }

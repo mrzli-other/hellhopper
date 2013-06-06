@@ -24,6 +24,7 @@
 package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
 
 public final class EnemyData {
@@ -35,14 +36,19 @@ public final class EnemyData {
     public static final String EVIL_TWIN_TYPE = "eviltwin";
     public static final String COOL_CLERK_TYPE = "coolclerk";
     
+    public static final String RANGE_PROPERTY = "range";
+    public static final String RANGES_PROPERTY = "ranges";
+    
     private final String mType;
     private final float mStep;
     private final float mOffset;
+    private final ObjectMap<String, String> mProperties;
     
-    public EnemyData(String type, float step, float offset) {
+    public EnemyData(String type, float step, float offset, ObjectMap<String, String> properties) {
         mType = type;
         mStep = step;
         mOffset = offset;
+        mProperties = properties;
     }
     
     public String getType() {
@@ -55,6 +61,10 @@ public final class EnemyData {
     
     public float getOffset() {
         return mOffset;
+    }
+    
+    public String getProperty(String name) {
+        return mProperties.get(name);
     }
     
     public Vector2 getPosition(int startStep) {

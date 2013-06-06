@@ -11,11 +11,28 @@
   
   <enemies>
     <enemy type="saw" step="5" offset="25" />
-    <enemy type="imp" step="10" offset="25" />
+    
+    <enemy type="imp" step="10" offset="15">
+      <properties>
+        <property name="range" value="5" />
+      </properties>
+    </enemy>
+    
     <enemy type="loco" step="15" offset="25" />
     <enemy type="knight" step="20" offset="25" />
-    <enemy type="eviltwin" step="25" offset="25" />
-    <enemy type="coolclerk" step="30" offset="25" />
+    
+    <enemy type="eviltwin" step="25" offset="5">
+      <properties>
+        <property name="ranges" value="2,6,2" />
+      </properties>
+    </enemy>
+    
+    <enemy type="coolclerk" step="30" offset="20">
+      <properties>
+        <property name="range" value="5" />
+      </properties>
+    </enemy>
+    
   </enemies>
   
 </risesection>

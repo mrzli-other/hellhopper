@@ -149,6 +149,9 @@ public final class RiseSectionDataReader {
         String offsetAttribute = enemyNode.getAttribute("offset");
         float offset = Float.parseFloat(offsetAttribute);
         
-        return new EnemyData(type, step, offset);
+        ObjectMap<String, String> properties = ReaderUtilities.getProperties(
+                enemyNode.getChildByName("properties"));
+        
+        return new EnemyData(type, step, offset, properties);
     }
 }

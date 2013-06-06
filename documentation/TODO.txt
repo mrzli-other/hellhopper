@@ -1,24 +1,10 @@
-- change platform architecture
-  - don't use inheritance, use some kind of composition and add properties to platform
-  - properties: flame, jump boost, crumble etc.
-  
-- background:
-  - add bottom hell image with lava rivers and volcano in perspective
-    - maybe also animate colors
-
-- make portal with flame square for character
-  - when he jumps move screen with eased in/out interpolation to the new location
-       
-
-- rise sections:
-  - all horizontal moving platforms, one on each step, 0.1 jump boost chance
-  
-- platform types:
-  - normal
-  - visible on touch
-  - crumble
-  - moving
-  - irratic moving
+- black box:
+  - random powerup or disability
+- powerups:
+  - beans
+    - causes n farts that continuously propel player
+    - make sure that farts don't stop on a place where there is no platform between player and bottom of the screen (jump boost sections)
+  - 
        
 - implement a mechanic where you need to jump on specific platforms in specific order
   (which can be random) to generate a platform above to jump on and continue going up

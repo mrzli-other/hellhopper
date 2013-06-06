@@ -39,9 +39,9 @@ final class LocoEnemy extends EnemyBase {
     private static final float COLLISION_PADDING = 0.05f;
     
     private final float mRange;
-    private final Rectangle mCollisionRect;
-    
     private float mTravelTime;
+    
+    private final Rectangle mCollisionRect;
     
     public LocoEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
         super(enemyData, ResourceNames.ENEMY_LOCO_TEXTURE, startStep, assetManager);
@@ -50,13 +50,13 @@ final class LocoEnemy extends EnemyBase {
                 
         mSprite.setX(0.0f);
         
+        mTravelTime = 0.0f;
+        
         float x = mSprite.getX() + COLLISION_PADDING;
         float y = mSprite.getY() + COLLISION_PADDING;
         float width = mSprite.getWidth() - 2.0f * COLLISION_PADDING;
         float height = mSprite.getHeight() - 2.0f * COLLISION_PADDING;
         mCollisionRect = new Rectangle(x, y, width, height);
-        
-        mTravelTime = 0.0f;
     }
     
     @Override

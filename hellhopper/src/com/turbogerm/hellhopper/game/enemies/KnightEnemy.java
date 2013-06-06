@@ -24,29 +24,12 @@
 package com.turbogerm.hellhopper.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
 
-public final class EnemyFactory {
+final class KnightEnemy extends EnemyBase {
     
-    public static EnemyBase create(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        
-        String enemyType = enemyData.getType();
-        if (EnemyData.SAW_TYPE.equals(enemyType)) {
-            return new SawEnemy(enemyData, startStep, assetManager);
-        } else if (EnemyData.IMP_TYPE.equals(enemyType)) {
-            return new ImpEnemy(enemyData, startStep, assetManager);
-        } else if (EnemyData.LOCO_TYPE.equals(enemyType)) {
-            return new LocoEnemy(enemyData, startStep, assetManager);
-        } else if (EnemyData.KNIGHT_TYPE.equals(enemyType)) {
-            return new KnightEnemy(enemyData, startStep, assetManager);
-        } else if (EnemyData.EVIL_TWIN_TYPE.equals(enemyType)) {
-            return new EvilTwinEnemy(enemyData, startStep, assetManager);
-        } else if (EnemyData.COOL_CLERK_TYPE.equals(enemyType)) {
-            return new CoolClerkEnemy(enemyData, startStep, assetManager);
-        } else {
-            ExceptionThrower.throwException("Invalid enemy type: %s", enemyType);
-            return null;
-        }
+    public KnightEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
+        super(enemyData, ResourceNames.ENEMY_KNIGHT_TEXTURE, startStep, assetManager);
     }
 }

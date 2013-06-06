@@ -80,8 +80,12 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
     
     private static final String ENEMIES_DIR = GAME_DIR + "enemies/";
-    public static final String ENEMY_IMP_TEXTURE = ENEMIES_DIR + "imp.png";
     public static final String ENEMY_SAW_TEXTURE = ENEMIES_DIR + "saw.png";
+    public static final String ENEMY_IMP_TEXTURE = ENEMIES_DIR + "imp.png";
+    public static final String ENEMY_LOCO_TEXTURE = ENEMIES_DIR + "loco.png";
+    public static final String ENEMY_KNIGHT_TEXTURE = ENEMIES_DIR + "knight.png";
+    public static final String ENEMY_EVIL_TWIN_TEXTURE = ENEMIES_DIR + "eviltwin.png";
+    public static final String ENEMY_COOL_CLERK_TEXTURE = ENEMIES_DIR + "coolclerk.png";
     
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";

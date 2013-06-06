@@ -40,7 +40,7 @@ final class BackgroundLayer {
     
     private float mLayerDisplayY;
     
-    private float mRiseHeight;
+    //private float mRiseHeight;
     
     private final Array<BackgroundObjectBase> mBackgroundObjects;
     
@@ -62,7 +62,7 @@ final class BackgroundLayer {
     }
     
     public void reset(float riseHeight) {
-        mRiseHeight = riseHeight;
+        //mRiseHeight = riseHeight;
     }
     
     public void update(float visibleAreaPosition, float delta) {

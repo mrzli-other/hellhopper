@@ -28,8 +28,12 @@ import com.turbogerm.hellhopper.game.GameAreaUtils;
 
 public final class EnemyData {
     
-    public static final String IMP_TYPE = "imp";
     public static final String SAW_TYPE = "saw";
+    public static final String IMP_TYPE = "imp";
+    public static final String LOCO_TYPE = "loco";
+    public static final String KNIGHT_TYPE = "knight";
+    public static final String EVIL_TWIN_TYPE = "eviltwin";
+    public static final String COOL_CLERK_TYPE = "coolclerk";
     
     private final String mType;
     private final float mStep;

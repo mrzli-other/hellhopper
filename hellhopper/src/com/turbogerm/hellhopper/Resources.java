@@ -104,8 +104,12 @@ public final class Resources {
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, textureParameterLinear);
         
         // ENEMIES
-        mAssetManager.load(ResourceNames.ENEMY_IMP_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.ENEMY_SAW_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_IMP_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_LOCO_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_KNIGHT_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_EVIL_TWIN_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ENEMY_COOL_CLERK_TEXTURE, Texture.class, textureParameterNearest);
         
         // BACKGROUND
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);

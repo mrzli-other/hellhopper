@@ -91,9 +91,9 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("enemyavoidscreenendleft");
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testenemies");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);

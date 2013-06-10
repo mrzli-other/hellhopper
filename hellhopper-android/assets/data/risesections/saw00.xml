@@ -1,0 +1,15 @@
+<risesection steprange="27" difficulty="5">
+  <platforms>
+    <platform step="0" offset="35" type="normal" />
+    <platform step="4" offset="37" type="normal" />
+    <platform step="9" offset="36" type="normal" />
+    <platform step="13" offset="35" type="normal" />
+    <platform step="18" offset="4" type="normal" />
+    <platform step="23" offset="14" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="saw" step="19" offset="34" />
+  </enemies>
+  
+</risesection>

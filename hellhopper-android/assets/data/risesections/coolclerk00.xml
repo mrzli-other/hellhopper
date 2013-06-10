@@ -1,0 +1,31 @@
+<risesection steprange="17" difficulty="5">
+  <platforms>
+    <platform step="0" offset="7" type="normal" />
+    <platform step="4" offset="4" type="normal" />
+    <platform step="8" offset="5" type="normal" />
+    <platform step="6" offset="30" type="normal" />
+    <platform step="10" offset="32" type="normal" />
+    <platform step="14" offset="31" type="normal" />
+    <platform step="12" offset="3" type="normal" />
+    <platform step="12" offset="11" type="normal" />
+    <platform step="12" offset="19" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="coolclerk" step="12.5" offset="3">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="1.5" />
+        <property name="initialoffset" value="0" />
+      </properties>
+    </enemy>
+    <enemy type="coolclerk" step="12.5" offset="15">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="1.5" />
+        <property name="initialoffset" value="1.5" />
+      </properties>
+    </enemy>
+  </enemies>
+  
+</risesection>

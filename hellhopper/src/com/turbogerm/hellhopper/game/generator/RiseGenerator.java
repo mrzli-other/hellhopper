@@ -91,7 +91,11 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testenemies");
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("coolclerk02moving");
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
@@ -119,8 +123,16 @@ public final class RiseGenerator {
     }
     
     private static RiseSectionData getRandomRiseSection(int stepsInRise) {
-        int minDifficulty = MathUtils.clamp(stepsInRise / 500, 1, 4);
-        int maxDifficulty = Math.max(stepsInRise / 500, 1);
+        int treshold = 1000;
+        int minDifficulty;
+        int maxDifficulty;
+        if (stepsInRise <= treshold) {
+            minDifficulty = MathUtils.clamp(stepsInRise / 250, 1, 4);
+            maxDifficulty = minDifficulty;
+        } else {
+            minDifficulty = 4;
+            maxDifficulty = Math.min(minDifficulty + (stepsInRise - treshold) / 500, 10);
+        }
         
         RiseSectionDescriptor riseSectionDescriptor = getRandomRiseSectionDescriptor(minDifficulty, maxDifficulty);
         RiseSectionData riseSectionData = getRiseSectionData(riseSectionDescriptor);

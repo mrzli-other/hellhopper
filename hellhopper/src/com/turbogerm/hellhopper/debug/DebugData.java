@@ -25,6 +25,7 @@ package com.turbogerm.hellhopper.debug;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.turbogerm.hellhopper.game.GameCharacter;
 import com.turbogerm.hellhopper.game.RiseSection;
 
 public final class DebugData {
@@ -34,11 +35,12 @@ public final class DebugData {
     private int mMaxSpritesInBatch;
     private String mRiseSectionName;
     private int mRiseSectionDifficulty;
+    private int mDeathCount;
     
     public DebugData() {
     }
     
-    public void update(SpriteBatch batch, RiseSection riseSection) {
+    public void update(SpriteBatch batch, RiseSection riseSection, GameCharacter character) {
         mFps = Gdx.graphics.getFramesPerSecond();
         mRenderCalls = batch.renderCalls;
         mMaxSpritesInBatch = batch.maxSpritesInBatch;
@@ -49,11 +51,12 @@ public final class DebugData {
             mRiseSectionName = "";
             mRiseSectionDifficulty = -1;
         }
+        mDeathCount = character.deathCount;
     }
     
     @Override
     public String toString() {
-        return String.format("Fps: %d; Calls: %d; Max Batch: %d\nSection: %s; Diffic: %d",
-                mFps, mRenderCalls, mMaxSpritesInBatch, mRiseSectionName, mRiseSectionDifficulty);
+        return String.format("Fps: %d; Calls: %d; Max Batch: %d\nSection: %s\nDiffic: %d; Deaths: %d",
+                mFps, mRenderCalls, mMaxSpritesInBatch, mRiseSectionName, mRiseSectionDifficulty, mDeathCount);
     }
 }

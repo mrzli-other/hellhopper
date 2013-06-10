@@ -33,10 +33,9 @@ import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
 final class CoolClerkEnemy extends EnemyBase {
     
-    private static final float SPEED = 5.0f;
-    
     private static final float COLLISION_PADDING = 0.05f;
     
+    private final float mSpeed;
     private final float mRange;
     
     private final float mLeftLimit;
@@ -50,13 +49,22 @@ final class CoolClerkEnemy extends EnemyBase {
         super(enemyData, ResourceNames.ENEMY_COOL_CLERK_TEXTURE, startStep, assetManager);
         
         Vector2 initialPosition = enemyData.getPosition(startStep);
+        mSpeed = Float.parseFloat(enemyData.getProperty(EnemyData.SPEED_PROPERTY));
         mRange = Float.parseFloat(enemyData.getProperty(EnemyData.RANGE_PROPERTY));
         
         mLeftLimit = initialPosition.x;
         mRightLimit = initialPosition.x + mRange;
-        mIsRightMovement = true;
         
         mPositionX = initialPosition.x;
+        
+        float initialOffset = Float.parseFloat(enemyData.getProperty(EnemyData.INITIAL_OFFSET_PROPERTY));
+        if (initialOffset <= mRange) {
+            changePosition(initialOffset);
+            mIsRightMovement = true;
+        } else {
+            changePosition(mRange - initialOffset % mRange);
+            mIsRightMovement = false;
+        }
         
         float x = mSprite.getX() + COLLISION_PADDING;
         float y = mSprite.getY() + COLLISION_PADDING;
@@ -67,7 +75,7 @@ final class CoolClerkEnemy extends EnemyBase {
     
     @Override
     public void update(float delta) {
-        float travelled = SPEED * delta;
+        float travelled = mSpeed * delta;
         if (!mIsRightMovement) {
             travelled = -travelled;
         }

@@ -34,10 +34,10 @@ import com.turbogerm.hellhopper.game.GameArea;
 
 final class LocoEnemy extends EnemyBase {
     
-    private static final float TRAVEL_PERIOD = 4.0f;
-    private static final float TRAVEL_HALF_PERIOD = TRAVEL_PERIOD / 2.0f;
     private static final float COLLISION_PADDING = 0.05f;
     
+    private final float mTravelPeriod;
+    private final float mTravelHalfPeriod;
     private final float mRange;
     private float mTravelTime;
     
@@ -46,6 +46,8 @@ final class LocoEnemy extends EnemyBase {
     public LocoEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
         super(enemyData, ResourceNames.ENEMY_LOCO_TEXTURE, startStep, assetManager);
         
+        mTravelPeriod = Float.parseFloat(enemyData.getProperty(EnemyData.TRAVEL_PERIOD_PROPERTY));
+        mTravelHalfPeriod = mTravelPeriod / 2.0f;
         mRange = GameArea.GAME_AREA_WIDTH - mSprite.getWidth();
                 
         mSprite.setX(0.0f);
@@ -61,7 +63,7 @@ final class LocoEnemy extends EnemyBase {
     
     @Override
     public void update(float delta) {
-        mTravelTime = (mTravelTime + delta) % TRAVEL_PERIOD;
+        mTravelTime = (mTravelTime + delta) % mTravelPeriod;
         float x = mRange * getPositionFraction();
         mSprite.setX(x);
         mCollisionRect.setX(mSprite.getX() + COLLISION_PADDING);
@@ -73,7 +75,7 @@ final class LocoEnemy extends EnemyBase {
     }
     
     private float getPositionFraction() {
-        float t = mTravelTime / TRAVEL_HALF_PERIOD;
+        float t = mTravelTime / mTravelHalfPeriod;
         if (t > 1.0f) {
             t = 2.0f - t;
         }

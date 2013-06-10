@@ -110,6 +110,9 @@ public final class GameCharacter {
     
     private final BlinkingStateMachine mBlinkingStateMachine;
     
+    // TODO: for testing
+    public int deathCount;
+    
     static {
         DEFAULT_BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
         DEFAULT_HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
@@ -169,6 +172,8 @@ public final class GameCharacter {
         mIsDyingFromEnemy = false;
         mIsDyingFromFire = false;
         mDyingElapsed = 0.0f;
+        
+        deathCount = 0;
     }
     
     public boolean preUpdate(float visibleAreaPosition, float delta) {
@@ -202,6 +207,7 @@ public final class GameCharacter {
             } else if (mPosition.y < visibleAreaPosition) {
                 // TODO: only for testing; remove next line and uncomment following
                 mSpeed.y = JUMP_SPEED;
+                deathCount++;
                 //return false;
             }
         }
@@ -264,6 +270,7 @@ public final class GameCharacter {
         for (EnemyBase enemyBase : visibleEnemies) {
             if (enemyBase.isCollision(mRect)) {
                 mIsDyingFromEnemy = true;
+                deathCount++;
                 return;
             }
         }
@@ -301,6 +308,7 @@ public final class GameCharacter {
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.BURN)) {
             mIsDyingFromFire = true;
+            deathCount++;
             mCollisionEffects.clear();
             return;
         }
@@ -361,7 +369,9 @@ public final class GameCharacter {
     }
     
     private boolean isDying() {
-        return mIsDyingFromEnemy || mIsDyingFromFire;
+        // TODO: uncomment this after testing
+        //return mIsDyingFromEnemy || mIsDyingFromFire;
+        return false;
     }
     
     public Vector2 getPosition() {

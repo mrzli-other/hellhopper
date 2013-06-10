@@ -36,8 +36,11 @@ public final class EnemyData {
     public static final String EVIL_TWIN_TYPE = "eviltwin";
     public static final String COOL_CLERK_TYPE = "coolclerk";
     
+    public static final String SPEED_PROPERTY = "speed";
+    public static final String TRAVEL_PERIOD_PROPERTY = "travelperiod";
     public static final String RANGE_PROPERTY = "range";
     public static final String RANGES_PROPERTY = "ranges";
+    public static final String INITIAL_OFFSET_PROPERTY = "initialoffset";
     
     private final String mType;
     private final float mStep;

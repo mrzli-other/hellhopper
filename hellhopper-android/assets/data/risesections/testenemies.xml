@@ -14,11 +14,17 @@
     
     <enemy type="imp" step="10" offset="15">
       <properties>
+        <property name="speed" value="3" />
         <property name="range" value="5" />
       </properties>
     </enemy>
     
-    <enemy type="loco" step="15" offset="25" />
+    <enemy type="loco" step="15" offset="25">
+      <properties>
+        <property name="travelperiod" value="4" />
+      </properties>
+    </enemy>
+    
     <enemy type="knight" step="20" offset="25" />
     
     <enemy type="eviltwin" step="25" offset="5">
@@ -29,7 +35,9 @@
     
     <enemy type="coolclerk" step="30" offset="20">
       <properties>
+        <property name="speed" value="5" />
         <property name="range" value="5" />
+        <property name="initialoffset" value="0" />
       </properties>
     </enemy>
     

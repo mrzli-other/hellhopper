@@ -1,5 +1,15 @@
 test
 testenemies
 simpleflametransition
-enemyavoidscreenendleft
-enemyavoidscreenendright
+coolclerk00
+coolclerk01
+coolclerk02normal
+coolclerk02moving
+saw00
+saw01
+sawavoidleft
+sawavoidright
+impnormal
+impmoving
+loconormal
+locomoving

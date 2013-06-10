@@ -1,6 +1,26 @@
 <risesectionsmeta>
   <risesections>
   
+    <!-- TRANSITION -->
+    <risesection type="basic" name="transition" minsteprange="15" maxsteprange="20" minstepdistance="4" maxstepdistance="5" difficulty="0">
+      <properties>
+        <property name="normalplatformweight" value="1" />
+        <property name="movingplatformweight" value="0" />
+        <property name="repositionplatformweight" value="0" />
+        <property name="minmovingspeed" value="1.0" />
+        <property name="maxmovingspeed" value="1.5" />
+        <property name="minmovingrange" value="9.25" />
+        <property name="maxmovingrange" value="9.25" />
+        <property name="minrepositionrange" value="1" />
+        <property name="maxrepositionrange" value="2" />
+        <property name="jumpboostfraction" value="0" />
+        <property name="jumpboostlowweight" value="1" />
+        <property name="jumpboostmediumweight" value="1" />
+        <property name="jumpboosthighweight" value="0.2" />
+      </properties>
+    </risesection>
+    <!-- END TRANSITION -->
+  
     <!-- INITIAL -->
     <risesection type="basic" name="initial0" minsteprange="100" maxsteprange="100" minstepdistance="1" maxstepdistance="1" difficulty="0">
       <properties>

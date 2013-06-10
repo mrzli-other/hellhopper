@@ -33,12 +33,13 @@ import com.turbogerm.hellhopper.dataaccess.EnemyData;
 
 final class ImpEnemy extends EnemyBase {
     
-    private static final float SPEED = 3.0f;
     private static final float SIN_AMPLITUDE = 0.2f;
     private static final float SIN_PERIOD = 0.5f;
     
+    private static final float COLLISION_PADDING_FRONT = 0.55f;
     private static final float COLLISION_PADDING = 0.05f;
     
+    private final float mSpeed;
     private final float mRange;
     
     private final float mLeftLimit;
@@ -56,6 +57,8 @@ final class ImpEnemy extends EnemyBase {
         super(enemyData, ResourceNames.ENEMY_IMP_TEXTURE, startStep, assetManager);
         
         mInitialPosition = enemyData.getPosition(startStep);
+        
+        mSpeed = Float.parseFloat(enemyData.getProperty(EnemyData.SPEED_PROPERTY));
         mRange = Float.parseFloat(enemyData.getProperty(EnemyData.RANGE_PROPERTY));
         
         mLeftLimit = mInitialPosition.x;
@@ -70,14 +73,14 @@ final class ImpEnemy extends EnemyBase {
         
         float x = mSprite.getX() + COLLISION_PADDING;
         float y = mSprite.getY() + COLLISION_PADDING;
-        float width = mSprite.getWidth() - 2.0f * COLLISION_PADDING;
+        float width = mSprite.getWidth() - COLLISION_PADDING - COLLISION_PADDING_FRONT;
         float height = mSprite.getHeight() - 2.0f * COLLISION_PADDING;
         mCollisionRect = new Rectangle(x, y, width, height);
     }
     
     @Override
     public void update(float delta) {
-        float travelled = SPEED * delta;
+        float travelled = mSpeed * delta;
         if (!mIsRightMovement) {
             travelled = -travelled;
         }
@@ -88,7 +91,11 @@ final class ImpEnemy extends EnemyBase {
         mPosition.y = mInitialPosition.y + MathUtils.sinDeg(mSinTime / SIN_PERIOD * 360.0f) * SIN_AMPLITUDE;
         
         mSprite.setPosition(mPosition.x, mPosition.y);
-        mCollisionRect.setX(mPosition.x + COLLISION_PADDING);
+        if (mIsRightMovement) {
+            mCollisionRect.setX(mPosition.x + COLLISION_PADDING);
+        } else {
+            mCollisionRect.setX(mPosition.x + COLLISION_PADDING_FRONT);
+        }
         mCollisionRect.setY(mPosition.y + COLLISION_PADDING);
     }
     

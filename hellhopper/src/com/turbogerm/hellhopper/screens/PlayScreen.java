@@ -93,7 +93,7 @@ public final class PlayScreen extends ScreenBase {
         LabelStyle fpsLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         fpsLabelStyle.font = mGuiSkin.getFont("medium-font");
         mDebugLabel = new Label("", mGuiSkin);
-        mDebugLabel.setBounds(0.0f, 0.0f, 20.0f, 48.0f);
+        mDebugLabel.setBounds(0.0f, 0.0f, 20.0f, 72.0f);
         mDebugLabel.setStyle(fpsLabelStyle);
         mDebugLabel.setAlignment(Align.left);
         mGuiStage.addActor(mDebugLabel);

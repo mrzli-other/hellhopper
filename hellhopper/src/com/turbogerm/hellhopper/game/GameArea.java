@@ -189,7 +189,7 @@ public final class GameArea {
         mBatch.end();
         
         // TODO: for debugging, remove
-        mDebugData.update(mBatch, getCurrentRiseSection());
+        mDebugData.update(mBatch, getCurrentRiseSection(), mCharacter);
     }
     
     private void updateStep(float horizontalSpeed, float delta) {

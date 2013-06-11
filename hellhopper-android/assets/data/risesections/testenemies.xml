@@ -29,6 +29,7 @@
     
     <enemy type="eviltwin" step="25" offset="5">
       <properties>
+        <property name="speed" value="5" />
         <property name="ranges" value="2,6,2" />
       </properties>
     </enemy>

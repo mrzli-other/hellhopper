@@ -4,20 +4,20 @@
     
     <platform step="5" offset="5" type="normal">
       <features>
-          <feature type="flame">
-            <properties>
-              <property name="cycleoffset" value="0" />
-              <property name="flameduration" value="2.0" />
-              <property name="dormantduration" value="2.0" />
-              <property name="transitionduration" value="2.0" />
-            </properties>
-          </feature>
-          <feature type="jumpboost">
-            <properties>
-              <property name="position" value="0.1" />
-              <property name="power" value="low" />
-            </properties>
-          </feature>
+        <feature type="flame">
+          <properties>
+            <property name="cycleoffset" value="0" />
+            <property name="flameduration" value="2.0" />
+            <property name="dormantduration" value="2.0" />
+            <property name="transitionduration" value="2.0" />
+          </properties>
+        </feature>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.1" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
       </features>
     </platform>
     
@@ -26,20 +26,20 @@
     
     <platform step="20" offset="32" type="normal">
       <features>
-          <feature type="jumpboost">
-            <properties>
-              <property name="position" value="0.1" />
-              <property name="power" value="low" />
-            </properties>
-          </feature>
-          <feature type="flame">
-            <properties>
-              <property name="cycleoffset" value="0" />
-              <property name="flameduration" value="2.0" />
-              <property name="dormantduration" value="2.0" />
-              <property name="transitionduration" value="2.0" />
-            </properties>
-          </feature>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.1" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
+        <feature type="flame">
+          <properties>
+            <property name="cycleoffset" value="0" />
+            <property name="flameduration" value="2.0" />
+            <property name="dormantduration" value="2.0" />
+            <property name="transitionduration" value="2.0" />
+          </properties>
+        </feature>
       </features>
     </platform>
     <platform step="25" offset="32" type="normal" />
@@ -47,14 +47,14 @@
     
     <platform step="35" offset="5" type="normal">
       <features>
-          <feature type="flame">
-            <properties>
-              <property name="cycleoffset" value="0" />
-              <property name="flameduration" value="2.0" />
-              <property name="dormantduration" value="2.0" />
-              <property name="transitionduration" value="2.0" />
-            </properties>
-          </feature>
+        <feature type="flame">
+          <properties>
+            <property name="cycleoffset" value="0" />
+            <property name="flameduration" value="2.0" />
+            <property name="dormantduration" value="2.0" />
+            <property name="transitionduration" value="2.0" />
+          </properties>
+        </feature>
       </features>
     </platform>
     

@@ -95,7 +95,7 @@ public final class RiseGenerator {
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("coolclerk02moving");
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         

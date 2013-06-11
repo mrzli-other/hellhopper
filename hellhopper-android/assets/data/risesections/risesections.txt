@@ -1,10 +1,6 @@
 test
 testenemies
 simpleflametransition
-coolclerk00
-coolclerk01
-coolclerk02normal
-coolclerk02moving
 saw00
 saw01
 sawavoidleft
@@ -13,3 +9,11 @@ impnormal
 impmoving
 loconormal
 locomoving
+coolclerk00
+coolclerk01
+coolclerk02normal
+coolclerk02moving
+eviltwin01normal
+eviltwin02normal
+knightnormal
+knightmoving

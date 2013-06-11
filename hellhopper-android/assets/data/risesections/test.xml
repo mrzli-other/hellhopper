@@ -30,12 +30,12 @@
         </properties>
       </movement>
       <features>
-          <feature type="jumpboost">
-            <properties>
-              <property name="position" value="0.3" />
-              <property name="power" value="low" />
-            </properties>
-          </feature>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.3" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
       </features>
     </platform>
     

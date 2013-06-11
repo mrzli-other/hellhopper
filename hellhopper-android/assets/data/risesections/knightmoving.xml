@@ -1,0 +1,57 @@
+<risesection steprange="25" difficulty="9">
+  <platforms>
+    <platform step="0" offset="7" type="normal" />
+    <platform step="5" offset="12" type="normal" />
+    
+    <platform step="10" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="9.25" />
+          <property name="speed" value="5" />
+          <property name="initialoffset" value="0" />
+        </properties>
+      </movement>
+      <features>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.5" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
+      </features>
+    </platform>
+    
+    <platform step="13" offset="8" type="normal">
+      <features>
+        <feature type="flame">
+          <properties>
+            <property name="cycleoffset" value="0" />
+            <property name="flameduration" value="100.0" />
+            <property name="dormantduration" value="0.1" />
+            <property name="transitionduration" value="0.1" />
+          </properties>
+        </feature>
+      </features>
+    </platform>
+    
+    <platform step="13" offset="29" type="normal">
+      <features>
+        <feature type="flame">
+          <properties>
+            <property name="cycleoffset" value="0" />
+            <property name="flameduration" value="100.0" />
+            <property name="dormantduration" value="0.1" />
+            <property name="transitionduration" value="0.1" />
+          </properties>
+        </feature>
+      </features>
+    </platform>
+    
+    <platform step="20" offset="18" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="knight" step="12.5" offset="0" />
+  </enemies>
+  
+</risesection>

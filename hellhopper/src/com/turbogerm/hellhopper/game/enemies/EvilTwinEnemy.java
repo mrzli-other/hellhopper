@@ -34,8 +34,6 @@ import com.turbogerm.hellhopper.util.GameUtils;
 
 final class EvilTwinEnemy extends EnemyBase {
     
-    private static final float SPEED = 5.0f;
-    
     private static final float COLLISION_PADDING = 0.05f;
     
     private final float[] mAngleSpeeds;
@@ -55,6 +53,7 @@ final class EvilTwinEnemy extends EnemyBase {
         super(enemyData, ResourceNames.ENEMY_EVIL_TWIN_TEXTURE, startStep, assetManager);
         
         Vector2 initialPosition = enemyData.getPosition(startStep);
+        float speed = Float.parseFloat(enemyData.getProperty(EnemyData.SPEED_PROPERTY));
         float[] ranges = getRanges(enemyData.getProperty(EnemyData.RANGES_PROPERTY));
         int numCurves = ranges.length;
         
@@ -62,22 +61,24 @@ final class EvilTwinEnemy extends EnemyBase {
         mRadiuses = new float[numCurves];
         mRotationCenters = new Vector2[numCurves];
         
+        mPosition = new Vector2();
+        mCenterOffset = new Vector2(
+                mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
+        
+        float rotationCenterY = initialPosition.y + mCenterOffset.y;
         for (int i = 0; i < numCurves; i++) {
             mRadiuses[i] = ranges[i] / 2.0f;
-            mAngleSpeeds[i] = SPEED / mRadiuses[i] * MathUtils.radDeg;
+            mAngleSpeeds[i] = speed / mRadiuses[i] * MathUtils.radDeg;
             
             float rotationCenterX = i == 0 ?
-                    initialPosition.x + mRadiuses[i] : mRotationCenters[i - 1].x + mRadiuses[i - 1] + mRadiuses[i];
-            mRotationCenters[i] = new Vector2(rotationCenterX, initialPosition.y);
+                    initialPosition.x + mCenterOffset.x + mRadiuses[i] :
+                    mRotationCenters[i - 1].x + mRadiuses[i - 1] + mRadiuses[i];
+            mRotationCenters[i] = new Vector2(rotationCenterX, rotationCenterY);
         }
         
         mAngleParameter = 0.0f;
         mHalfMaxAngleParameter = numCurves * 180.0f;
         mMaxAngleParameter = mHalfMaxAngleParameter * 2.0f;
-        
-        mPosition = new Vector2();
-        mCenterOffset = new Vector2(
-                mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
         
         float x = mSprite.getX() + COLLISION_PADDING;
         float y = mSprite.getY() + COLLISION_PADDING;

@@ -25,13 +25,13 @@ package com.turbogerm.hellhopper.game.generator;
 
 public final class RiseSectionDescriptor {
     private final boolean mIsMetadata;
-    private final String mType;
+    private final String mGeneratorType;
     private final String mName;
     private final int mDifficulty;
     
-    public RiseSectionDescriptor(boolean isMetadata, String type, String name, int difficulty) {
+    public RiseSectionDescriptor(boolean isMetadata, String generatorType, String name, int difficulty) {
         mIsMetadata = isMetadata;
-        mType = type;
+        mGeneratorType = generatorType;
         mName = name;
         mDifficulty = difficulty;
     }
@@ -40,8 +40,8 @@ public final class RiseSectionDescriptor {
         return mIsMetadata;
     }
     
-    public String getType() {
-        return mType;
+    public String getGeneratorType() {
+        return mGeneratorType;
     }
     
     public String getName() {

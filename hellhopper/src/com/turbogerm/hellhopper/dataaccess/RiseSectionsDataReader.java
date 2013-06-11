@@ -38,11 +38,17 @@ public final class RiseSectionsDataReader {
                 true, INITIAL_RISE_SECTION_DATA_LIST_CAPACITY);
         
         String riseSectionsText = fileHandle.readString();
-        String[] riseSectionNames = riseSectionsText.split("\\r?\\n");
-        for (String riseSectionName : riseSectionNames) {
-            RiseSectionData riseSection = RiseSectionDataReader.read(riseSectionName,
-                    Gdx.files.internal(ResourceNames.getRiseSectionPath(riseSectionName)));
-            riseSections.add(riseSection);
+        String[] riseSectionLines = riseSectionsText.split("\\r?\\n");
+        String riseSectionType = "";
+        for (String riseSectionLine : riseSectionLines) {
+            if (riseSectionLine.startsWith("-")) {
+                riseSectionType = riseSectionLine.substring(1);
+            } else {
+                RiseSectionData riseSection = RiseSectionDataReader.read(
+                        riseSectionType, riseSectionLine,
+                        Gdx.files.internal(ResourceNames.getRiseSectionPath(riseSectionLine)));
+                riseSections.add(riseSection);
+            }
         }
         
         return new RiseSectionsData(riseSections);

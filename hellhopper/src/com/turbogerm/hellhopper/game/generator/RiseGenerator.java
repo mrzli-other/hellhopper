@@ -76,7 +76,7 @@ public final class RiseGenerator {
         Array<RiseSectionMetadata> riseSectionsMetadata = RISE_SECTIONS_METADATA.getAllRiseSections();
         for (RiseSectionMetadata riseSectionMetadata : riseSectionsMetadata) {
             RiseSectionDescriptor riseSectionDescriptor = new RiseSectionDescriptor(
-                    true, riseSectionMetadata.getType(), riseSectionMetadata.getName(),
+                    true, riseSectionMetadata.getGeneratorType(), riseSectionMetadata.getName(),
                     riseSectionMetadata.getDifficulty());
             ALL_RISE_SECTION_DESCRIPTORS.add(riseSectionDescriptor);
         }
@@ -164,10 +164,10 @@ public final class RiseGenerator {
     private static RiseSectionData getRiseSectionData(RiseSectionDescriptor riseSectionDescriptor) {
         
         if (riseSectionDescriptor.isMetadata()) {
-            String type = riseSectionDescriptor.getType();
+            String generatorType = riseSectionDescriptor.getGeneratorType();
             int difficulty = riseSectionDescriptor.getDifficulty();
             RiseSectionMetadata riseSectionMetadata =
-                    RISE_SECTIONS_METADATA.getRandomRiseSection(type, difficulty, difficulty);
+                    RISE_SECTIONS_METADATA.getRandomRiseSection(generatorType, difficulty, difficulty);
             return RiseSectionGenerator.generateRiseSection(riseSectionMetadata);
         } else {
             return PREBUILT_RISE_SECTIONS.getRiseSection(riseSectionDescriptor.getName());

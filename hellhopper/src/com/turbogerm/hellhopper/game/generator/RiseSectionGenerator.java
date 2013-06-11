@@ -38,21 +38,22 @@ import com.turbogerm.hellhopper.util.GameUtils;
 final class RiseSectionGenerator {
     
     public static RiseSectionData generateRiseSection(RiseSectionMetadata riseSectionMetadata) {
-        String type = riseSectionMetadata.getType();
-        if (RiseSectionMetadata.BASIC_TYPE.equals(type)) {
+        String generatorType = riseSectionMetadata.getGeneratorType();
+        if (RiseSectionMetadata.BASIC_GENERATOR_TYPE.equals(generatorType)) {
             return generateRiseSectionBasic(riseSectionMetadata);
-        } else if (RiseSectionMetadata.JUMP_BOOST_TYPE.equals(type)) {
+        } else if (RiseSectionMetadata.JUMP_BOOST_GENERATOR_TYPE.equals(generatorType)) {
             return generateRiseSectionJumpBoost(riseSectionMetadata);
-        } else if (RiseSectionMetadata.VISIBLE_ON_JUMP_TYPE.equals(type)) {
+        } else if (RiseSectionMetadata.VISIBLE_ON_JUMP_GENERATOR_TYPE.equals(generatorType)) {
             return generateRiseSectionVisibleOnJump(riseSectionMetadata);
         } else {
-            ExceptionThrower.throwException("Invalid rise section metadata type: %s", type);
+            ExceptionThrower.throwException("Invalid rise section metadata generator type: %s", generatorType);
             return null;
         }
     }
     
     private static RiseSectionData generateRiseSectionBasic(RiseSectionMetadata riseSectionMetadata) {
         
+        String type = riseSectionMetadata.getType();
         String name = riseSectionMetadata.getName();
         int stepRange = MathUtils.random(
                 riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
@@ -136,11 +137,12 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null);
     }
     
     private static RiseSectionData generateRiseSectionJumpBoost(RiseSectionMetadata riseSectionMetadata) {
         
+        String type = riseSectionMetadata.getType();
         String name = riseSectionMetadata.getName();
         int stepRange = MathUtils.random(
                 riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
@@ -204,11 +206,12 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null);
     }
     
     private static RiseSectionData generateRiseSectionVisibleOnJump(RiseSectionMetadata riseSectionMetadata) {
         
+        String type = riseSectionMetadata.getType();
         String name = riseSectionMetadata.getName();
         int stepRange = MathUtils.random(
                 riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
@@ -245,7 +248,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(name, stepRange, difficulty, platformDataList, null);
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null);
     }
     
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {

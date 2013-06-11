@@ -60,6 +60,7 @@ public final class RiseSectionMetadataReader {
     }
     
     private static RiseSectionMetadata getRiseSectionMetadata(Element riseSection) {
+        String generatorType = riseSection.getAttribute("generatortype");
         String type = riseSection.getAttribute("type");
         String name = riseSection.getAttribute("name");
         int minStepRange = Integer.parseInt(riseSection.getAttribute("minsteprange"));
@@ -71,7 +72,7 @@ public final class RiseSectionMetadataReader {
         ObjectMap<String, String> properties =  ReaderUtilities.getProperties(
                 riseSection.getChildByName("properties"));
         
-        return new RiseSectionMetadata(type, name,
+        return new RiseSectionMetadata(generatorType, type, name,
                 minStepRange, maxStepRange, minStepDistance, maxStepDistance,
                 difficulty, properties);
     }

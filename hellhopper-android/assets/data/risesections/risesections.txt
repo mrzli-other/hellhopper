@@ -1,6 +1,8 @@
+-generic
 test
 testenemies
 simpleflametransition
+-enemy
 saw00
 saw01
 sawavoidleft

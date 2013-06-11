@@ -2,7 +2,7 @@
   <risesections>
   
     <!-- TRANSITION -->
-    <risesection type="basic" name="transition" minsteprange="15" maxsteprange="20" minstepdistance="4" maxstepdistance="5" difficulty="0">
+    <risesection generatortype="basic" type="transition" name="transition" minsteprange="15" maxsteprange="20" minstepdistance="4" maxstepdistance="5" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="0" />
@@ -22,7 +22,7 @@
     <!-- END TRANSITION -->
   
     <!-- INITIAL -->
-    <risesection type="basic" name="initial0" minsteprange="100" maxsteprange="100" minstepdistance="1" maxstepdistance="1" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial0" minsteprange="100" maxsteprange="100" minstepdistance="1" maxstepdistance="1" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="0" />
@@ -39,7 +39,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="initial1" minsteprange="100" maxsteprange="100" minstepdistance="1" maxstepdistance="3" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial1" minsteprange="100" maxsteprange="100" minstepdistance="1" maxstepdistance="3" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="10" />
         <property name="movingplatformweight" value="2" />
@@ -56,7 +56,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="initial2" minsteprange="100" maxsteprange="100" minstepdistance="2" maxstepdistance="3" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial2" minsteprange="100" maxsteprange="100" minstepdistance="2" maxstepdistance="3" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="10" />
         <property name="movingplatformweight" value="3" />
@@ -76,7 +76,7 @@
     <!-- END INITIAL -->
     
     <!-- NORMAL -->
-    <risesection type="basic" name="easynormal" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="1">
+    <risesection generatortype="basic" type="normal" name="easynormal" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="1">
       <properties>
         <property name="normalplatformweight" value="4" />
         <property name="movingplatformweight" value="1" />
@@ -93,7 +93,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="mediumnormal" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="3">
+    <risesection generatortype="basic" type="normal" name="mediumnormal" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="3">
       <properties>
         <property name="normalplatformweight" value="3" />
         <property name="movingplatformweight" value="1" />
@@ -110,7 +110,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="hardnormal" minsteprange="50" maxsteprange="100" minstepdistance="4" maxstepdistance="5" difficulty="5">
+    <risesection generatortype="basic" type="normal" name="hardnormal" minsteprange="50" maxsteprange="100" minstepdistance="4" maxstepdistance="5" difficulty="5">
       <properties>
         <property name="normalplatformweight" value="2" />
         <property name="movingplatformweight" value="1" />
@@ -130,7 +130,7 @@
     <!-- END NORMAL -->
     
     <!-- MOVING -->
-    <risesection type="basic" name="slowmoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="3" difficulty="1">
+    <risesection generatortype="basic" type="moving" name="slowmoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="3" difficulty="1">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="4" />
@@ -147,7 +147,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="mediummoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="5">
+    <risesection generatortype="basic" type="moving" name="mediummoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="5">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="4" />
@@ -164,7 +164,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="fastmoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="8">
+    <risesection generatortype="basic" type="moving" name="fastmoving" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="8">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="4" />
@@ -184,7 +184,7 @@
     <!-- END MOVING -->
     
     <!-- REPOSITION -->
-    <risesection type="basic" name="smallreposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="3" difficulty="1">
+    <risesection generatortype="basic" type="reposition" name="smallreposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="3" difficulty="1">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="1" />
@@ -201,7 +201,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="mediumreposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="4">
+    <risesection generatortype="basic" type="reposition" name="mediumreposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="4" difficulty="4">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="1" />
@@ -218,7 +218,7 @@
         <property name="jumpboosthighweight" value="0.2" />
       </properties>
     </risesection>
-    <risesection type="basic" name="largereposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="6">
+    <risesection generatortype="basic" type="reposition" name="largereposition" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="6">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="1" />
@@ -238,21 +238,21 @@
     <!-- END REPOSITION -->
     
     <!-- JUMP BOOST -->
-    <risesection type="jumpboost" name="normallowjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="10" maxstepdistance="10" difficulty="4">
+    <risesection generatortype="jumpboost" type="jumpboost" name="normallowjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="10" maxstepdistance="10" difficulty="4">
       <properties>
         <property name="jumpboostlowweight" value="1" />
         <property name="jumpboostmediumweight" value="0" />
         <property name="jumpboosthighweight" value="0" />
       </properties>
     </risesection>
-    <risesection type="jumpboost" name="normalmediumjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="16" maxstepdistance="16" difficulty="4">
+    <risesection generatortype="jumpboost" type="jumpboost" name="normalmediumjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="16" maxstepdistance="16" difficulty="4">
       <properties>
         <property name="jumpboostlowweight" value="0" />
         <property name="jumpboostmediumweight" value="1" />
         <property name="jumpboosthighweight" value="0" />
       </properties>
     </risesection>
-    <risesection type="jumpboost" name="normalhighjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="22" maxstepdistance="22" difficulty="4">
+    <risesection generatortype="jumpboost" type="jumpboost" name="normalhighjumpboost" minsteprange="100" maxsteprange="120" minstepdistance="22" maxstepdistance="22" difficulty="4">
       <properties>
         <property name="jumpboostlowweight" value="0" />
         <property name="jumpboostmediumweight" value="0" />
@@ -262,7 +262,7 @@
     <!-- END JUMP BOOST -->
     
     <!-- VISIBLE ON JUMP -->
-    <risesection type="visibleonjump" name="visibleonjump" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="4">
+    <risesection generatortype="visibleonjump" type="visibleonjump" name="visibleonjump" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="4">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="visibleonjumpplatformweight" value="5" />

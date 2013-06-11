@@ -57,7 +57,7 @@ public final class RiseSectionsMetadata {
         return null;
     }
     
-    public RiseSectionMetadata getRandomRiseSection(String type, int minDifficulty, int maxDifficulty) {
+    public RiseSectionMetadata getRandomRiseSection(String generatorType, int minDifficulty, int maxDifficulty) {
         if (maxDifficulty < 0) {
             return null;
         }
@@ -66,7 +66,7 @@ public final class RiseSectionsMetadata {
         
         for (RiseSectionMetadata riseSection : mRiseSectionMetadataList) {
             int difficulty = riseSection.getDifficulty();
-            if (riseSection.getType().equals(type) && minDifficulty <= difficulty && difficulty <= maxDifficulty) {
+            if (riseSection.getGeneratorType().equals(generatorType) && minDifficulty <= difficulty && difficulty <= maxDifficulty) {
                 mSelectionList.add(riseSection);
             }
         }
@@ -74,7 +74,7 @@ public final class RiseSectionsMetadata {
         if (mSelectionList.size > 0) {
             return mSelectionList.random();
         } else {
-            return getRandomRiseSection(type, minDifficulty - 1, minDifficulty - 1); 
+            return getRandomRiseSection(generatorType, minDifficulty - 1, minDifficulty - 1); 
         }
     }
 }

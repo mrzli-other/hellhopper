@@ -27,9 +27,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public final class RiseSectionMetadata {
     
-    public static final String BASIC_TYPE = "basic";
-    public static final String JUMP_BOOST_TYPE = "jumpboost";
-    public static final String VISIBLE_ON_JUMP_TYPE = "visibleonjump";
+    public static final String BASIC_GENERATOR_TYPE = "basic";
+    public static final String JUMP_BOOST_GENERATOR_TYPE = "jumpboost";
+    public static final String VISIBLE_ON_JUMP_GENERATOR_TYPE = "visibleonjump";
     
     public static final String NORMAL_PLATFORM_WEIGHT_PROPERTY = "normalplatformweight";
     public static final String MOVING_PLATFORM_WEIGHT_PROPERTY = "movingplatformweight";
@@ -46,6 +46,7 @@ public final class RiseSectionMetadata {
     public static final String JUMP_BOOST_MEDIUM_WEIGHT_PROPERTY = "jumpboostmediumweight";
     public static final String JUMP_BOOST_HIGH_WEIGHT_PROPERTY = "jumpboosthighweight";
     
+    private final String mGeneratorType;
     private final String mType;
     private final String mName;
     private final int mMinStepRange;
@@ -55,10 +56,11 @@ public final class RiseSectionMetadata {
     private final int mDifficulty;
     private final ObjectMap<String, String> mProperties;
     
-    public RiseSectionMetadata(String type, String name,
+    public RiseSectionMetadata(String generatorType, String type, String name,
             int minStepRange, int maxStepRange, int minStepDistance,
             int maxStepDistance, int difficulty, ObjectMap<String, String> properties) {
         mName = name;
+        mGeneratorType = generatorType;
         mType = type;
         mMinStepRange = minStepRange;
         mMaxStepRange = maxStepRange;
@@ -70,6 +72,10 @@ public final class RiseSectionMetadata {
     
     public String getName() {
         return mName;
+    }
+    
+    public String getGeneratorType() {
+        return mGeneratorType;
     }
     
     public String getType() {

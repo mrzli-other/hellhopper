@@ -78,7 +78,8 @@ public final class RiseGenerator {
         
         float totalSectionWeight = STANDARD_SECTION_WEIGHT + ENEMY_SECTION_WEIGHT + SPECIAL_SECTION_WEIGHT;
         STANDARD_SECTION_CUMULATIVE_FRACTION = STANDARD_SECTION_WEIGHT / totalSectionWeight;
-        ENEMY_SECTION_CUMULATIVE_FRACTION = STANDARD_SECTION_CUMULATIVE_FRACTION + ENEMY_SECTION_WEIGHT / totalSectionWeight;
+        ENEMY_SECTION_CUMULATIVE_FRACTION = STANDARD_SECTION_CUMULATIVE_FRACTION + ENEMY_SECTION_WEIGHT /
+                totalSectionWeight;
         
         PREBUILT_RISE_SECTIONS = RiseSectionsDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTIONS_DATA));
         RISE_SECTIONS_METADATA = RiseSectionMetadataReader.read(
@@ -123,45 +124,18 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition01"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+        String typePrefix = "reposition";
+        for (int i = 1; i <= 10; i++) {
+            String sectionName = String.format(typePrefix + "%02d", i);
+            currRiseSection = RiseSectionGenerator.generateRiseSection(
+                    RISE_SECTIONS_METADATA.getByName(sectionName));
+            riseSectionsData.add(currRiseSection);
+            stepsInRise += currRiseSection.getStepRange();
+        }
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition02"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition03"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition04"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition05"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition06"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition07"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition08"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition09"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition10"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+        // currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition10"));
+        // riseSectionsData.add(currRiseSection);
+        // stepsInRise += currRiseSection.getStepRange();
         
         // currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
         // riseSectionsData.add(currRiseSection);
@@ -248,22 +222,22 @@ public final class RiseGenerator {
                 minDifficulty = difficulty;
                 maxDifficulty = difficulty;
                 break;
-                
+            
             case STANDARD_SECTION_TYPE:
                 minDifficulty = Math.max(difficulty - 3, 1);
                 maxDifficulty = Math.min(difficulty, 10);
                 break;
-                
+            
             case ENEMY_SECTION_TYPE:
                 minDifficulty = Math.min(difficulty, 4);
                 maxDifficulty = difficulty;
                 break;
-                
+            
             case SPECIAL_SECTION_TYPE:
                 minDifficulty = Math.min(difficulty, 4);
                 maxDifficulty = difficulty;
                 break;
-                
+            
             default:
                 minDifficulty = 0;
                 maxDifficulty = 10;

@@ -72,7 +72,7 @@ public final class HorizontalPlatformMovement extends PlatformMovementBase {
     
     @Override
     public void applyModifier(PlatformModifier modifier) {
-        modifier.spriteColor.set(0.65f, 0.25f, 0.25f, 1.0f);
+        modifier.spriteColor.set(0.5f, 0.5f, 0.0f, 1.0f);
     }
     
     private void changePosition(float change) {

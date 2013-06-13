@@ -241,7 +241,7 @@ public final class GameCharacter {
                 
                 // TODO: only for testing, revert
                 float speedY = Math.max(mSpeed.y - GRAVITY * delta, -JUMP_SPEED);
-                //float speedY = JUMP_SPEED / 2.0f;
+                //float speedY = JUMP_SPEED;
                 
                 mSpeed.set(horizontalSpeed, speedY);
             }

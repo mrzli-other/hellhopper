@@ -124,14 +124,14 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        String typePrefix = "reposition";
-        for (int i = 1; i <= 10; i++) {
-            String sectionName = String.format(typePrefix + "%02d", i);
-            currRiseSection = RiseSectionGenerator.generateRiseSection(
-                    RISE_SECTIONS_METADATA.getByName(sectionName));
-            riseSectionsData.add(currRiseSection);
-            stepsInRise += currRiseSection.getStepRange();
-        }
+//        String typePrefix = "reposition";
+//        for (int i = 1; i <= 10; i++) {
+//            String sectionName = String.format(typePrefix + "%02d", i);
+//            currRiseSection = RiseSectionGenerator.generateRiseSection(
+//                    RISE_SECTIONS_METADATA.getByName(sectionName));
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//        }
         
         // currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition10"));
         // riseSectionsData.add(currRiseSection);
@@ -161,6 +161,12 @@ public final class RiseGenerator {
             isTransitionSection = !isTransitionSection;
         }
         
+        // TODO: only for debugging
+        String[] riseSectionNames = new String[riseSectionsData.size];
+        for (int i = 0; i < riseSectionNames.length; i++) {
+            riseSectionNames[i] = riseSectionsData.get(i).getName();
+        }
+        
         Array<RiseSection> riseSections = getRiseSections(riseSectionsData, assetManager);
         
         return new Rise(riseSections);
@@ -168,23 +174,28 @@ public final class RiseGenerator {
     
     private static RiseSectionData getRandomRiseSection(int stepsInRise, boolean isTransitionSection) {
         int sectionType;
+        boolean revertToStandard;
         if (isTransitionSection) {
             sectionType = TRANSITION_SECTION_TYPE;
+            revertToStandard = false;
         } else {
             float randomRiseSectionNumber = MathUtils.random();
             if (randomRiseSectionNumber <= STANDARD_SECTION_CUMULATIVE_FRACTION) {
                 sectionType = STANDARD_SECTION_TYPE;
+                revertToStandard = false;
             } else if (randomRiseSectionNumber <= ENEMY_SECTION_CUMULATIVE_FRACTION) {
                 sectionType = ENEMY_SECTION_TYPE;
+                revertToStandard = true;
             } else {
                 sectionType = SPECIAL_SECTION_TYPE;
+                revertToStandard = true;
             }
         }
         
         Array<RiseSectionDataBase> riseSectionList = getRiseSectionList(sectionType);
         MinMaxDifficulty minMaxDifficulty = getRiseSectionMinMaxDifficulty(sectionType, stepsInRise);
         RiseSectionData riseSectionData = getRandomRiseSectionData(
-                minMaxDifficulty.minDifficulty, minMaxDifficulty.maxDifficulty, riseSectionList);
+                minMaxDifficulty.minDifficulty, minMaxDifficulty.maxDifficulty, riseSectionList, revertToStandard);
         
         return riseSectionData;
     }
@@ -224,7 +235,11 @@ public final class RiseGenerator {
                 break;
             
             case STANDARD_SECTION_TYPE:
-                minDifficulty = Math.max(difficulty - 3, 1);
+                if (difficulty <= 4) {
+                    minDifficulty = difficulty;
+                } else {
+                    minDifficulty = Math.max(difficulty - 2, 4);
+                }
                 maxDifficulty = Math.min(difficulty, 10);
                 break;
             
@@ -248,7 +263,7 @@ public final class RiseGenerator {
     }
     
     private static RiseSectionData getRandomRiseSectionData(int minDifficulty, int maxDifficulty,
-            Array<RiseSectionDataBase> riseSectionList) {
+            Array<RiseSectionDataBase> riseSectionList, boolean revertToStandard) {
         
         if (maxDifficulty < 0) {
             return null;
@@ -270,17 +285,21 @@ public final class RiseGenerator {
                 if (RISE_SECTION_SELECTION_LIST.size == 0) {
                     RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
                 } else {
-                    RiseSectionDataBase selectedRiseSectionDataBase = RISE_SECTION_SELECTION_LIST.first();
-                    int currentDist = getDifficultyDistance(
-                            selectedRiseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
-                    int newDist = getDifficultyDistance(
-                            riseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
-                    
-                    if (currentDist == newDist) {
-                        RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
-                    } else if (isNewDifficultyDistanceBetter(currentDist, newDist)) {
-                        RISE_SECTION_SELECTION_LIST.clear();
-                        RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                    if (revertToStandard) {
+                        return getRandomRiseSectionData(minDifficulty, maxDifficulty, STANDARD_RISE_SECTIONS, false);
+                    } else {
+                        RiseSectionDataBase selectedRiseSectionDataBase = RISE_SECTION_SELECTION_LIST.first();
+                        int currentDist = getDifficultyDistance(
+                                selectedRiseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
+                        int newDist = getDifficultyDistance(
+                                riseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
+                        
+                        if (currentDist == newDist) {
+                            RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                        } else if (isNewDifficultyDistanceBetter(currentDist, newDist)) {
+                            RISE_SECTION_SELECTION_LIST.clear();
+                            RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                        }
                     }
                 }
             }

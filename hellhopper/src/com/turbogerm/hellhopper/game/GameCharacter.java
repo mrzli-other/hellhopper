@@ -238,7 +238,11 @@ public final class GameCharacter {
                 isCollision = true;
             } else {
                 mPosition.set(cpNext);
+                
+                // TODO: only for testing, revert
                 float speedY = Math.max(mSpeed.y - GRAVITY * delta, -JUMP_SPEED);
+                //float speedY = JUMP_SPEED / 2.0f;
+                
                 mSpeed.set(horizontalSpeed, speedY);
             }
             

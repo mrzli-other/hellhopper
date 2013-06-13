@@ -25,7 +25,7 @@ package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
-public final class RiseSectionMetadata {
+public final class RiseSectionMetadata extends RiseSectionDataBase {
     
     public static final String BASIC_GENERATOR_TYPE = "basic";
     public static final String JUMP_BOOST_GENERATOR_TYPE = "jumpboost";
@@ -47,39 +47,32 @@ public final class RiseSectionMetadata {
     public static final String JUMP_BOOST_HIGH_WEIGHT_PROPERTY = "jumpboosthighweight";
     
     private final String mGeneratorType;
-    private final String mType;
-    private final String mName;
     private final int mMinStepRange;
     private final int mMaxStepRange;
     private final int mMinStepDistance;
     private final int mMaxStepDistance;
-    private final int mDifficulty;
     private final ObjectMap<String, String> mProperties;
     
     public RiseSectionMetadata(String generatorType, String type, String name,
             int minStepRange, int maxStepRange, int minStepDistance,
             int maxStepDistance, int difficulty, ObjectMap<String, String> properties) {
-        mName = name;
+        super(type, name, difficulty);
+        
         mGeneratorType = generatorType;
-        mType = type;
         mMinStepRange = minStepRange;
         mMaxStepRange = maxStepRange;
         mMinStepDistance = minStepDistance;
         mMaxStepDistance = maxStepDistance;
-        mDifficulty = difficulty;
         mProperties = properties;
     }
     
-    public String getName() {
-        return mName;
+    @Override
+    public boolean isMetadata() {
+        return true;
     }
     
     public String getGeneratorType() {
         return mGeneratorType;
-    }
-    
-    public String getType() {
-        return mType;
     }
     
     public int getMinStepRange() {
@@ -96,10 +89,6 @@ public final class RiseSectionMetadata {
     
     public int getMaxStepDistance() {
         return mMaxStepDistance;
-    }
-    
-    public int getDifficulty() {
-        return mDifficulty;
     }
     
     public String getProperty(String name) {

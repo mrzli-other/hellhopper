@@ -25,39 +25,28 @@ package com.turbogerm.hellhopper.dataaccess;
 
 import com.badlogic.gdx.utils.Array;
 
-public final class RiseSectionData {
+public final class RiseSectionData extends RiseSectionDataBase {
     
-    private final String mType;
-    private final String mName;
     private final int mStepRange;
-    private final int mDifficulty;
     private final Array<PlatformData> mPlatformsData;
     private final Array<EnemyData> mEnemiesData;
     
     public RiseSectionData(String type, String name, int stepRange, int difficulty,
             Array<PlatformData> platformsData, Array<EnemyData> enemiesData) {
-        mType = type;
-        mName = name;
+        super(type, name, difficulty);
+        
         mStepRange = stepRange;
-        mDifficulty = difficulty;
         mPlatformsData = platformsData;
         mEnemiesData = enemiesData;
     }
     
-    public String getType() {
-        return mType;
-    }
-    
-    public String getName() {
-        return mName;
+    @Override
+    public boolean isMetadata() {
+        return false;
     }
     
     public int getStepRange() {
         return mStepRange;
-    }
-    
-    public int getDifficulty() {
-        return mDifficulty;
     }
     
     public Array<PlatformData> getPlatformsData() {

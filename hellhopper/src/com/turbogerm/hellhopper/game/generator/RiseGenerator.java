@@ -31,6 +31,7 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
+import com.turbogerm.hellhopper.dataaccess.RiseSectionDataBase;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadata;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadataReader;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionsData;
@@ -47,42 +48,73 @@ import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 public final class RiseGenerator {
     
     private static final int RISE_HEIGHT_STEPS = 5000;
+    private static final float STANDARD_SECTION_WEIGHT = 2.0f;
+    private static final float ENEMY_SECTION_WEIGHT = 1.0f;
+    private static final float SPECIAL_SECTION_WEIGHT = 1.0f;
+    private static final float STANDARD_SECTION_CUMULATIVE_FRACTION;
+    private static final float ENEMY_SECTION_CUMULATIVE_FRACTION;
     
-    private static final int RISE_SECTIONS_INITIAL_CAPACITY = 20;
-    private static final int INITIAL_RISE_SECTION_DESCRIPTOR_SELECTION_LIST_CAPACITY = 20;
+    private static final int RISE_SECTIONS_INITIAL_CAPACITY = 400;
     
     private static final RiseSectionsData PREBUILT_RISE_SECTIONS;
     private static final RiseSectionsMetadata RISE_SECTIONS_METADATA;
-    private static final Array<RiseSectionDescriptor> ALL_RISE_SECTION_DESCRIPTORS;
     
-    private static final Array<RiseSectionDescriptor> mRiseSectionDescriptorSelectionList;
+    private static final Array<RiseSectionDataBase> TRANSITION_RISE_SECTIONS;
+    private static final Array<RiseSectionDataBase> STANDARD_RISE_SECTIONS;
+    private static final Array<RiseSectionDataBase> ENEMY_RISE_SECTIONS;
+    private static final Array<RiseSectionDataBase> SPECIAL_RISE_SECTIONS;
+    
+    private static final int RISE_SECTION_TYPE_INITIAL_CAPACITY = 10;
+    
+    private static final Array<RiseSectionDataBase> RISE_SECTION_SELECTION_LIST;
+    private static final int RISE_SECTION_SELECTION_LIST_INITIAL_CAPACITY = 10;
+    
+    private static final int TRANSITION_SECTION_TYPE = 0;
+    private static final int STANDARD_SECTION_TYPE = 1;
+    private static final int ENEMY_SECTION_TYPE = 2;
+    private static final int SPECIAL_SECTION_TYPE = 3;
     
     static {
+        
+        float totalSectionWeight = STANDARD_SECTION_WEIGHT + ENEMY_SECTION_WEIGHT + SPECIAL_SECTION_WEIGHT;
+        STANDARD_SECTION_CUMULATIVE_FRACTION = STANDARD_SECTION_WEIGHT / totalSectionWeight;
+        ENEMY_SECTION_CUMULATIVE_FRACTION = STANDARD_SECTION_CUMULATIVE_FRACTION + ENEMY_SECTION_WEIGHT / totalSectionWeight;
+        
         PREBUILT_RISE_SECTIONS = RiseSectionsDataReader.read(Gdx.files.internal(ResourceNames.RISE_SECTIONS_DATA));
         RISE_SECTIONS_METADATA = RiseSectionMetadataReader.read(
                 Gdx.files.internal(ResourceNames.RISE_SECTIONS_METADATA));
         
+        // initialize all rise sections list
+        Array<RiseSectionData> prebuiltRiseSections = PREBUILT_RISE_SECTIONS.getAllRiseSections();
+        Array<RiseSectionMetadata> riseSectionsMetadata = RISE_SECTIONS_METADATA.getAllRiseSections();
+        
         int allRiseSectionsCount = PREBUILT_RISE_SECTIONS.getRiseSectionCount() +
                 RISE_SECTIONS_METADATA.getRiseSectionCount();
-        ALL_RISE_SECTION_DESCRIPTORS = new Array<RiseSectionDescriptor>(true, allRiseSectionsCount);
+        Array<RiseSectionDataBase> allRiseSections = new Array<RiseSectionDataBase>(true, allRiseSectionsCount);
+        allRiseSections.addAll(prebuiltRiseSections);
+        allRiseSections.addAll(riseSectionsMetadata);
         
-        Array<RiseSectionData> prebuiltRiseSections = PREBUILT_RISE_SECTIONS.getAllRiseSections();
-        for (RiseSectionData riseSectionData : prebuiltRiseSections) {
-            RiseSectionDescriptor riseSectionDescriptor = new RiseSectionDescriptor(
-                    false, null, riseSectionData.getName(), riseSectionData.getDifficulty());
-            ALL_RISE_SECTION_DESCRIPTORS.add(riseSectionDescriptor);
+        // separate rise section types
+        TRANSITION_RISE_SECTIONS = new Array<RiseSectionDataBase>(false, RISE_SECTION_TYPE_INITIAL_CAPACITY);
+        STANDARD_RISE_SECTIONS = new Array<RiseSectionDataBase>(false, RISE_SECTION_TYPE_INITIAL_CAPACITY);
+        ENEMY_RISE_SECTIONS = new Array<RiseSectionDataBase>(false, RISE_SECTION_TYPE_INITIAL_CAPACITY);
+        SPECIAL_RISE_SECTIONS = new Array<RiseSectionDataBase>(false, RISE_SECTION_TYPE_INITIAL_CAPACITY);
+        
+        for (RiseSectionDataBase riseSectionDataBase : allRiseSections) {
+            String type = riseSectionDataBase.getType();
+            if (RiseSectionDataBase.isTransitionType(type)) {
+                TRANSITION_RISE_SECTIONS.add(riseSectionDataBase);
+            } else if (RiseSectionDataBase.isStandardType(type)) {
+                STANDARD_RISE_SECTIONS.add(riseSectionDataBase);
+            } else if (RiseSectionDataBase.isEnemyType(type)) {
+                ENEMY_RISE_SECTIONS.add(riseSectionDataBase);
+            } else if (RiseSectionDataBase.isSpecialType(type)) {
+                SPECIAL_RISE_SECTIONS.add(riseSectionDataBase);
+            }
         }
         
-        Array<RiseSectionMetadata> riseSectionsMetadata = RISE_SECTIONS_METADATA.getAllRiseSections();
-        for (RiseSectionMetadata riseSectionMetadata : riseSectionsMetadata) {
-            RiseSectionDescriptor riseSectionDescriptor = new RiseSectionDescriptor(
-                    true, riseSectionMetadata.getGeneratorType(), riseSectionMetadata.getName(),
-                    riseSectionMetadata.getDifficulty());
-            ALL_RISE_SECTION_DESCRIPTORS.add(riseSectionDescriptor);
-        }
-        
-        mRiseSectionDescriptorSelectionList = new Array<RiseSectionDescriptor>(
-                true, INITIAL_RISE_SECTION_DESCRIPTOR_SELECTION_LIST_CAPACITY);
+        RISE_SECTION_SELECTION_LIST = new Array<RiseSectionDataBase>(
+                false, RISE_SECTION_SELECTION_LIST_INITIAL_CAPACITY);
     }
     
     public static Rise generate(AssetManager assetManager) {
@@ -91,13 +123,49 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition"));
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition01"));
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition02"));
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition03"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition04"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition05"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition06"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition07"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition08"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition09"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition10"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        // currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
+        // riseSectionsData.add(currRiseSection);
+        // stepsInRise += currRiseSection.getStepRange();
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);
@@ -111,10 +179,12 @@ public final class RiseGenerator {
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
+        boolean isTransitionSection = true;
         while (stepsInRise < RISE_HEIGHT_STEPS) {
-            currRiseSection = getRandomRiseSection(stepsInRise);
+            currRiseSection = getRandomRiseSection(stepsInRise, isTransitionSection);
             riseSectionsData.add(currRiseSection);
             stepsInRise += currRiseSection.getStepRange();
+            isTransitionSection = !isTransitionSection;
         }
         
         Array<RiseSection> riseSections = getRiseSections(riseSectionsData, assetManager);
@@ -122,56 +192,150 @@ public final class RiseGenerator {
         return new Rise(riseSections);
     }
     
-    private static RiseSectionData getRandomRiseSection(int stepsInRise) {
-        int treshold = 1000;
-        int minDifficulty;
-        int maxDifficulty;
-        if (stepsInRise <= treshold) {
-            minDifficulty = MathUtils.clamp(stepsInRise / 250, 1, 4);
-            maxDifficulty = minDifficulty;
+    private static RiseSectionData getRandomRiseSection(int stepsInRise, boolean isTransitionSection) {
+        int sectionType;
+        if (isTransitionSection) {
+            sectionType = TRANSITION_SECTION_TYPE;
         } else {
-            minDifficulty = 4;
-            maxDifficulty = Math.min(minDifficulty + (stepsInRise - treshold) / 500, 10);
+            float randomRiseSectionNumber = MathUtils.random();
+            if (randomRiseSectionNumber <= STANDARD_SECTION_CUMULATIVE_FRACTION) {
+                sectionType = STANDARD_SECTION_TYPE;
+            } else if (randomRiseSectionNumber <= ENEMY_SECTION_CUMULATIVE_FRACTION) {
+                sectionType = ENEMY_SECTION_TYPE;
+            } else {
+                sectionType = SPECIAL_SECTION_TYPE;
+            }
         }
         
-        RiseSectionDescriptor riseSectionDescriptor = getRandomRiseSectionDescriptor(minDifficulty, maxDifficulty);
-        RiseSectionData riseSectionData = getRiseSectionData(riseSectionDescriptor);
+        Array<RiseSectionDataBase> riseSectionList = getRiseSectionList(sectionType);
+        MinMaxDifficulty minMaxDifficulty = getRiseSectionMinMaxDifficulty(sectionType, stepsInRise);
+        RiseSectionData riseSectionData = getRandomRiseSectionData(
+                minMaxDifficulty.minDifficulty, minMaxDifficulty.maxDifficulty, riseSectionList);
         
         return riseSectionData;
     }
     
-    private static RiseSectionDescriptor getRandomRiseSectionDescriptor(int minDifficulty, int maxDifficulty) {
+    private static Array<RiseSectionDataBase> getRiseSectionList(int sectionType) {
+        switch (sectionType) {
+            case TRANSITION_SECTION_TYPE:
+                return TRANSITION_RISE_SECTIONS;
+            case STANDARD_SECTION_TYPE:
+                return STANDARD_RISE_SECTIONS;
+            case ENEMY_SECTION_TYPE:
+                return ENEMY_RISE_SECTIONS;
+            case SPECIAL_SECTION_TYPE:
+                return SPECIAL_RISE_SECTIONS;
+            default:
+                return TRANSITION_RISE_SECTIONS;
+        }
+    }
+    
+    private static MinMaxDifficulty getRiseSectionMinMaxDifficulty(int sectionType, int stepsInRise) {
+        
+        int treshold = 1000;
+        int difficulty;
+        if (stepsInRise <= treshold) {
+            difficulty = MathUtils.clamp(stepsInRise / 250, 1, 4);
+        } else {
+            difficulty = Math.min(4 + (stepsInRise - treshold) / 500, 10);
+        }
+        
+        int minDifficulty;
+        int maxDifficulty;
+        
+        switch (sectionType) {
+            case TRANSITION_SECTION_TYPE:
+                minDifficulty = difficulty;
+                maxDifficulty = difficulty;
+                break;
+                
+            case STANDARD_SECTION_TYPE:
+                minDifficulty = Math.max(difficulty - 3, 1);
+                maxDifficulty = Math.min(difficulty, 10);
+                break;
+                
+            case ENEMY_SECTION_TYPE:
+                minDifficulty = Math.min(difficulty, 4);
+                maxDifficulty = difficulty;
+                break;
+                
+            case SPECIAL_SECTION_TYPE:
+                minDifficulty = Math.min(difficulty, 4);
+                maxDifficulty = difficulty;
+                break;
+                
+            default:
+                minDifficulty = 0;
+                maxDifficulty = 10;
+                break;
+        }
+        
+        return new MinMaxDifficulty(minDifficulty, maxDifficulty);
+    }
+    
+    private static RiseSectionData getRandomRiseSectionData(int minDifficulty, int maxDifficulty,
+            Array<RiseSectionDataBase> riseSectionList) {
+        
         if (maxDifficulty < 0) {
             return null;
         }
         
-        mRiseSectionDescriptorSelectionList.clear();
+        RISE_SECTION_SELECTION_LIST.clear();
         
-        for (RiseSectionDescriptor riseSectionDescriptor : ALL_RISE_SECTION_DESCRIPTORS) {
-            int difficulty = riseSectionDescriptor.getDifficulty();
+        for (RiseSectionDataBase riseSectionDataBase : riseSectionList) {
+            int difficulty = riseSectionDataBase.getDifficulty();
             if (minDifficulty <= difficulty && difficulty <= maxDifficulty) {
-                mRiseSectionDescriptorSelectionList.add(riseSectionDescriptor);
+                RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
             }
         }
         
-        if (mRiseSectionDescriptorSelectionList.size > 0) {
-            return mRiseSectionDescriptorSelectionList.random();
+        if (RISE_SECTION_SELECTION_LIST.size > 0) {
+            return getRiseSectionData(RISE_SECTION_SELECTION_LIST.random());
         } else {
-            return getRandomRiseSectionDescriptor(minDifficulty - 1, minDifficulty - 1); 
+            for (RiseSectionDataBase riseSectionDataBase : riseSectionList) {
+                if (RISE_SECTION_SELECTION_LIST.size == 0) {
+                    RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                } else {
+                    RiseSectionDataBase selectedRiseSectionDataBase = RISE_SECTION_SELECTION_LIST.first();
+                    int currentDist = getDifficultyDistance(
+                            selectedRiseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
+                    int newDist = getDifficultyDistance(
+                            riseSectionDataBase.getDifficulty(), minDifficulty, maxDifficulty);
+                    
+                    if (currentDist == newDist) {
+                        RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                    } else if (isNewDifficultyDistanceBetter(currentDist, newDist)) {
+                        RISE_SECTION_SELECTION_LIST.clear();
+                        RISE_SECTION_SELECTION_LIST.add(riseSectionDataBase);
+                    }
+                }
+            }
+            return getRiseSectionData(RISE_SECTION_SELECTION_LIST.random());
         }
     }
     
-    private static RiseSectionData getRiseSectionData(RiseSectionDescriptor riseSectionDescriptor) {
-        
-        if (riseSectionDescriptor.isMetadata()) {
-            String generatorType = riseSectionDescriptor.getGeneratorType();
-            int difficulty = riseSectionDescriptor.getDifficulty();
-            RiseSectionMetadata riseSectionMetadata =
-                    RISE_SECTIONS_METADATA.getRandomRiseSection(generatorType, difficulty, difficulty);
-            return RiseSectionGenerator.generateRiseSection(riseSectionMetadata);
+    private static RiseSectionData getRiseSectionData(RiseSectionDataBase riseSectionDataBase) {
+        if (riseSectionDataBase.isMetadata()) {
+            return RiseSectionGenerator.generateRiseSection((RiseSectionMetadata) riseSectionDataBase);
         } else {
-            return PREBUILT_RISE_SECTIONS.getRiseSection(riseSectionDescriptor.getName());
+            return (RiseSectionData) riseSectionDataBase;
         }
+    }
+    
+    private static int getDifficultyDistance(int difficulty, int minDifficulty, int maxDifficulty) {
+        if (difficulty < minDifficulty) {
+            return difficulty - minDifficulty;
+        } else if (difficulty > maxDifficulty) {
+            return difficulty - maxDifficulty;
+        } else {
+            return 0;
+        }
+    }
+    
+    private static boolean isNewDifficultyDistanceBetter(int currentDist, int newDist) {
+        return (currentDist < 0 && newDist < 0 && newDist > currentDist) ||
+                (currentDist > 0 && newDist > 0 && newDist < currentDist) ||
+                (newDist < 0 && currentDist > 0);
     }
     
     private static Array<RiseSection> getRiseSections(Array<RiseSectionData> riseSectionsData,
@@ -219,5 +383,15 @@ public final class RiseGenerator {
         }
         
         return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms, enemies);
+    }
+    
+    private static class MinMaxDifficulty {
+        public final int minDifficulty;
+        public final int maxDifficulty;
+        
+        public MinMaxDifficulty(int minDifficulty, int maxDifficulty) {
+            this.minDifficulty = minDifficulty;
+            this.maxDifficulty = maxDifficulty;
+        }
     }
 }

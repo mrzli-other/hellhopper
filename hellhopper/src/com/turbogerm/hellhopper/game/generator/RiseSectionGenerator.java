@@ -91,8 +91,13 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(filledSteps.size,
-                jumpBoostFraction, jumpBoostLowWeight, jumpBoostMediumWeight, jumpBoostHighWeight, 0);
+        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
+        jumpBoostWeights.add(jumpBoostLowWeight);
+        jumpBoostWeights.add(jumpBoostMediumWeight);
+        jumpBoostWeights.add(jumpBoostHighWeight);
+        
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+                filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
         
         float minMovingSpeed = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.MIN_MOVING_SPEED_PROPERTY));
@@ -154,8 +159,13 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(filledSteps.size,
-                jumpBoostFraction, jumpBoostLowWeight, jumpBoostMediumWeight, jumpBoostHighWeight, 0);
+        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
+        jumpBoostWeights.add(jumpBoostLowWeight);
+        jumpBoostWeights.add(jumpBoostMediumWeight);
+        jumpBoostWeights.add(jumpBoostHighWeight);
+        
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+                filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
         
         for (int i = 0; i < filledSteps.size; i++) {
             int step = filledSteps.get(i);
@@ -205,8 +215,13 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(jumpBoostCount,
-                1.0f, jumpBoostLowWeight, jumpBoostMediumWeight, jumpBoostHighWeight, numNonJumpBoostSteps);
+        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
+        jumpBoostWeights.add(jumpBoostLowWeight);
+        jumpBoostWeights.add(jumpBoostMediumWeight);
+        jumpBoostWeights.add(jumpBoostHighWeight);
+        
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+                jumpBoostCount, 1.0f, jumpBoostWeights, numNonJumpBoostSteps);
         
         for (int i = 0; i < filledSteps.size; i++) {
             int step = filledSteps.get(i);
@@ -281,16 +296,16 @@ final class RiseSectionGenerator {
     
     private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, Array<Float> weights, int offset) {
         
-        float totalPlatformWeight = 0.0f;
+        float totalWeight = 0.0f;
         for (Float weight : weights) {
-            totalPlatformWeight += weight;
+            totalWeight += weight;
         }
         
         Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.size);
         
         Array<Integer> takenIndexes = new Array<Integer>();
         for (int i = 0; i < weights.size; i++) {
-            float platformFraction = weights.get(i) / totalPlatformWeight;
+            float platformFraction = weights.get(i) / totalWeight;
             int platformCount = (int) (numIndexes * platformFraction);
             Array<Integer> platformIndexes = GameUtils.getRandomIndexes(numIndexes, platformCount, takenIndexes);
             takenIndexes.addAll(platformIndexes);
@@ -319,35 +334,31 @@ final class RiseSectionGenerator {
     }
     
     private static Array<Array<Integer>> getJumpBoostPlatformIndexes(int numIndexes, float jumpBoostFraction,
-            float jumpBoostLowWeight, float jumpBoostMediumWeight, float jumpBoostHighWeight, int offset) {
+            Array<Float> weights, int offset) {
         
-        float totalJumpBoostWeight = jumpBoostLowWeight + jumpBoostMediumWeight + jumpBoostHighWeight;
-        float jumpBoostLowFraction = jumpBoostLowWeight / totalJumpBoostWeight;
-        float jumpBoostMediumFraction = jumpBoostMediumWeight / totalJumpBoostWeight;
+        float totalWeight = 0.0f;
+        for (Float weight : weights) {
+            totalWeight += weight;
+        }
         
-        int jumpBoostCount = (int) (numIndexes * jumpBoostFraction);
-        int jumpBoostLowCount = (int) (jumpBoostCount * jumpBoostLowFraction);
-        int jumpBoostMediumCount = (int) (jumpBoostCount * jumpBoostMediumFraction);
-        int jumpBoostHighCount = jumpBoostCount - jumpBoostLowCount - jumpBoostMediumCount;
+        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.size);
         
-        Array<Integer> jumpBoostLowPlatformIndexes =
-                GameUtils.getRandomIndexes(numIndexes, jumpBoostLowCount);
-        Array<Integer> jumpBoostMediumPlatformIndexes =
-                GameUtils.getRandomIndexes(numIndexes, jumpBoostMediumCount, jumpBoostLowPlatformIndexes);
-        Array<Integer> jumpBoostLowAndMediumPlatformIndexes = new Array<Integer>(jumpBoostLowPlatformIndexes);
-        jumpBoostLowAndMediumPlatformIndexes.addAll(jumpBoostMediumPlatformIndexes);
-        Array<Integer> jumpBoostHighPlatformIndexes =
-                GameUtils.getRandomIndexes(numIndexes, jumpBoostHighCount, jumpBoostLowAndMediumPlatformIndexes);
+        Array<Integer> takenIndexes = new Array<Integer>();
+        for (int i = 0; i < weights.size; i++) {
+            float platformFraction = jumpBoostFraction * weights.get(i) / totalWeight;
+            int platformCount = (int) (numIndexes * platformFraction);
+            Array<Integer> platformIndexes = GameUtils.getRandomIndexes(numIndexes, platformCount, takenIndexes);
+            takenIndexes.addAll(platformIndexes);
+            allIndexes.add(platformIndexes);
+        }
         
-        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, 3);
         if (offset > 0) {
-            allIndexes.add(GameUtils.offsetValues(jumpBoostLowPlatformIndexes, offset));
-            allIndexes.add(GameUtils.offsetValues(jumpBoostMediumPlatformIndexes, offset));
-            allIndexes.add(GameUtils.offsetValues(jumpBoostHighPlatformIndexes, offset));
-        } else {
-            allIndexes.add(jumpBoostLowPlatformIndexes);
-            allIndexes.add(jumpBoostMediumPlatformIndexes);
-            allIndexes.add(jumpBoostHighPlatformIndexes);
+            Array<Array<Integer>> offsetedAllIndexes = new Array<Array<Integer>>(true, weights.size);
+            for (Array<Integer> platformIndexes : allIndexes) {
+                Array<Integer> offsetedPlatformIndexes = GameUtils.offsetValues(platformIndexes, offset);
+                offsetedAllIndexes.add(offsetedPlatformIndexes);
+            }
+            allIndexes = offsetedAllIndexes;
         }
         
         return allIndexes;

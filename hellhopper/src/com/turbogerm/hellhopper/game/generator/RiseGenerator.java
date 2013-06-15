@@ -47,8 +47,12 @@ import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 5000;
-    private static final float STANDARD_SECTION_WEIGHT = 2.0f;
+    private static final int RISE_HEIGHT_STEPS = 2000;
+    private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
+    private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
+    private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
+    
+    private static final float STANDARD_SECTION_WEIGHT = 1.0f;
     private static final float ENEMY_SECTION_WEIGHT = 1.0f;
     private static final float SPECIAL_SECTION_WEIGHT = 1.0f;
     private static final float STANDARD_SECTION_CUMULATIVE_FRACTION;
@@ -133,9 +137,9 @@ public final class RiseGenerator {
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
         
-        // currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("reposition10"));
-        // riseSectionsData.add(currRiseSection);
-        // stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("crumble"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
         
         // currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
         // riseSectionsData.add(currRiseSection);
@@ -217,12 +221,11 @@ public final class RiseGenerator {
     
     private static MinMaxDifficulty getRiseSectionMinMaxDifficulty(int sectionType, int stepsInRise) {
         
-        int treshold = 1000;
         int difficulty;
-        if (stepsInRise <= treshold) {
-            difficulty = MathUtils.clamp(stepsInRise / 250, 1, 4);
+        if (stepsInRise <= RISE_TRESHOLD) {
+            difficulty = MathUtils.clamp(stepsInRise / RISE_LOWER_DIFFICULTY_STEP, 1, 4);
         } else {
-            difficulty = Math.min(4 + (stepsInRise - treshold) / 500, 10);
+            difficulty = Math.min(5 + (stepsInRise - RISE_TRESHOLD) / RISE_HIGHER_DIFFICULTY_STEP, 10);
         }
         
         int minDifficulty;

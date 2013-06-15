@@ -23,6 +23,8 @@
  */
 package com.turbogerm.hellhopper.dataaccess;
 
+import com.turbogerm.hellhopper.game.platforms.CrumblePlatform;
+
 public abstract class RiseSectionDataBase {
     
     // private static final String INITIAL_TYPE = "initial";
@@ -36,8 +38,9 @@ public abstract class RiseSectionDataBase {
     
     private static final String ENEMY_TYPE = "enemy";
     
-    private static final String JUMP_BOOST_GENERATOR_TYPE = "jumpboost";
-    private static final String VISIBLE_ON_JUMP_GENERATOR_TYPE = "visibleonjump";
+    private static final String JUMP_BOOST_TYPE = "jumpboost";
+    private static final String VISIBLE_ON_JUMP_TYPE = "visibleonjump";
+    private static final String CRUMBLE_TYPE = "crumble";
     
     private final String mType;
     private final String mName;
@@ -76,6 +79,6 @@ public abstract class RiseSectionDataBase {
     }
     
     public static boolean isSpecialType(String type) {
-        return JUMP_BOOST_GENERATOR_TYPE.equals(type) || VISIBLE_ON_JUMP_GENERATOR_TYPE.equals(type);
+        return JUMP_BOOST_TYPE.equals(type) || VISIBLE_ON_JUMP_TYPE.equals(type) || CRUMBLE_TYPE.equals(type);
     }
 }

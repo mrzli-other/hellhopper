@@ -7,7 +7,7 @@
       <movement type="horizontal">
         <properties>
           <property name="range" value="9.25" />
-          <property name="speed" value="5" />
+          <property name="speed" value="4" />
           <property name="initialoffset" value="0" />
         </properties>
       </movement>

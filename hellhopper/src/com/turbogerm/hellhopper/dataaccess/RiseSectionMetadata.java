@@ -46,6 +46,7 @@ public final class RiseSectionMetadata extends RiseSectionDataBase {
     public static final String JUMP_BOOST_LOW_WEIGHT_PROPERTY = "jumpboostlowweight";
     public static final String JUMP_BOOST_MEDIUM_WEIGHT_PROPERTY = "jumpboostmediumweight";
     public static final String JUMP_BOOST_HIGH_WEIGHT_PROPERTY = "jumpboosthighweight";
+    public static final String CRUMBLE_PROPERTY = "crumble";
     public static final String CRUMBLE_FRACTION_PROPERTY = "crumblefraction";
     
     private final String mGeneratorType;

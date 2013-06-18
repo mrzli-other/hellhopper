@@ -28,7 +28,7 @@
   <enemies>
     <enemy type="imp" step="10" offset="0">
       <properties>
-        <property name="speed" value="4" />
+        <property name="speed" value="3" />
         <property name="range" value="9.45" />
       </properties>
     </enemy>

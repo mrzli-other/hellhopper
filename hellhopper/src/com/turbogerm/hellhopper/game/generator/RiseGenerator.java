@@ -137,13 +137,32 @@ public final class RiseGenerator {
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("crumble"));
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("visibleonjumpcrumble"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-        // currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knightmoving");
-        // riseSectionsData.add(currRiseSection);
-        // stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("saw03");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+//        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
+//            String name = riseSectionData.getName();
+//            if (!name.startsWith("knightmoving")) {
+//                continue;
+//            }
+//                
+//            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//            
+//            currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection(name);
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//        }
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);

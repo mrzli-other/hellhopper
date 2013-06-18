@@ -178,6 +178,7 @@ final class RiseSectionGenerator {
             
             String platformType = crumbleIndexes.contains(i, false) ?
                     PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
+            
             PlatformData padData = new PlatformData(platformType, step, offset, movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -223,6 +224,9 @@ final class RiseSectionGenerator {
         Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
                 jumpBoostCount, 1.0f, jumpBoostWeights, numNonJumpBoostSteps);
         
+        boolean isCrumble = Boolean.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.CRUMBLE_PROPERTY));
+        
         for (int i = 0; i < filledSteps.size; i++) {
             int step = filledSteps.get(i);
             
@@ -232,7 +236,10 @@ final class RiseSectionGenerator {
             
             Array<PlatformFeatureData> featuresData = getFeaturesData(i, allJumpBoostPlatformIndexes);
             
-            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
+            String platformType = i >= numNonJumpBoostSteps && isCrumble ?
+                    PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
+            
+            PlatformData padData = new PlatformData(platformType, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -265,6 +272,9 @@ final class RiseSectionGenerator {
         
         Array<Integer> visibleOnJumpPlatformIndexes = allPlatformIndexes.get(1);
         
+        boolean isCrumble = Boolean.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.CRUMBLE_PROPERTY));
+        
         for (int i = 0; i < filledSteps.size; i++) {
             int step = filledSteps.get(i);
             
@@ -274,7 +284,10 @@ final class RiseSectionGenerator {
             
             Array<PlatformFeatureData> featuresData = getFeaturesDataVisibleOnJump(i, visibleOnJumpPlatformIndexes);
             
-            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
+            String platformType = featuresData != null && isCrumble ?
+                    PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
+            
+            PlatformData padData = new PlatformData(platformType, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }

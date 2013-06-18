@@ -1,0 +1,39 @@
+<risesection steprange="40" difficulty="6">
+  <platforms>
+    <platform step="0" offset="26" type="normal" />
+    <platform step="5" offset="8" type="normal" />
+    <platform step="10" offset="0" type="normal" />
+    <platform step="10" offset="18" type="normal" />
+    <platform step="10" offset="36" type="normal" />
+    <platform step="15" offset="32" type="normal" />
+    <platform step="20" offset="0" type="normal" />
+    <platform step="20" offset="36" type="normal" />
+    <platform step="20" offset="18" type="normal" />
+    <platform step="25" offset="7" type="normal" />
+    <platform step="30" offset="0" type="normal" />
+    <platform step="30" offset="18" type="normal" />
+    <platform step="30" offset="36" type="normal" />
+    <platform step="35" offset="20" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="eviltwin" step="10.5" offset="2">
+      <properties>
+        <property name="speed" value="8" />
+        <property name="ranges" value="4.5,4.5" />
+      </properties>
+    </enemy>
+    <enemy type="eviltwin" step="20.5" offset="2">
+      <properties>
+        <property name="speed" value="8" />
+        <property name="ranges" value="4.5,4.5" />
+      </properties>
+    </enemy>
+    <enemy type="eviltwin" step="30.5" offset="2">
+      <properties>
+        <property name="speed" value="8" />
+        <property name="ranges" value="4.5,4.5" />
+      </properties>
+    </enemy>
+  </enemies>
+</risesection>

@@ -1,0 +1,22 @@
+<risesection steprange="40" difficulty="7">
+  <platforms>
+    <platform step="0" offset="3" type="normal" />
+    <platform step="5" offset="35" type="normal" />
+    <platform step="10" offset="0" type="normal" />
+    <platform step="15" offset="36" type="normal" />
+    <platform step="20" offset="7" type="normal" />
+    <platform step="25" offset="32" type="normal" />
+    <platform step="30" offset="0" type="normal" />
+    <platform step="35" offset="31" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="saw" step="5" offset="17.7" />
+    <enemy type="saw" step="10" offset="17.7" />
+    <enemy type="saw" step="15" offset="17.7" />
+    <enemy type="saw" step="20" offset="17.7" />
+    <enemy type="saw" step="25" offset="17.7" />
+    <enemy type="saw" step="30" offset="17.7" />
+    <enemy type="saw" step="35" offset="17.7" />
+  </enemies>
+</risesection>

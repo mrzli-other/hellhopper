@@ -1,4 +1,4 @@
-<risesection steprange="17" difficulty="6">
+<risesection steprange="17" difficulty="5">
   <platforms>
     <platform step="0" offset="22" type="normal" />
     <platform step="2" offset="12" type="normal" />
@@ -10,7 +10,7 @@
   <enemies>
     <enemy type="imp" step="10" offset="0">
       <properties>
-        <property name="speed" value="4" />
+        <property name="speed" value="3" />
         <property name="range" value="9.45" />
       </properties>
     </enemy>

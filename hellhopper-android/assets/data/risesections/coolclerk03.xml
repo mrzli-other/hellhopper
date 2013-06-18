@@ -1,0 +1,48 @@
+<risesection steprange="27" difficulty="6">
+  <platforms>
+    <platform step="0" offset="4" type="normal" />
+    <platform step="5" offset="20" type="normal" />
+    <platform step="9" offset="37" type="normal" />
+    <platform step="9" offset="29" type="normal" />
+    <platform step="10" offset="14" type="normal" />
+    <platform step="12" offset="29" type="normal" />
+    <platform step="13" offset="0" type="normal" />
+    <platform step="13" offset="8" type="normal" />
+    <platform step="17" offset="16" type="normal" />
+    <platform step="18" offset="37" type="normal" />
+    <platform step="18" offset="29" type="normal" />
+    <platform step="22" offset="24" type="normal" />
+    <platform step="23" offset="0" type="normal" />
+    <platform step="23" offset="8" type="normal" />
+  </platforms>
+  <enemies>
+    <enemy type="coolclerk" step="9.5" offset="29">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="2.5" />
+        <property name="initialoffset" value="0" />
+      </properties>
+    </enemy>
+    <enemy type="coolclerk" step="13.5" offset="0">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="2.5" />
+        <property name="initialoffset" value="0" />
+      </properties>
+    </enemy>
+    <enemy type="coolclerk" step="18.5" offset="29">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="2.5" />
+        <property name="initialoffset" value="0" />
+      </properties>
+    </enemy>
+    <enemy type="coolclerk" step="23.5" offset="0">
+      <properties>
+        <property name="speed" value="5" />
+        <property name="range" value="2.5" />
+        <property name="initialoffset" value="0" />
+      </properties>
+    </enemy>
+  </enemies>
+</risesection>

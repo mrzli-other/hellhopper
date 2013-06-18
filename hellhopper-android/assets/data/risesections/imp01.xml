@@ -1,0 +1,48 @@
+<risesection steprange="35" difficulty="8">
+  <platforms>
+    <platform step="0" offset="18" type="normal" />
+    <platform step="5" offset="9" type="normal" />
+    <platform step="10" offset="31" type="normal" />
+    <platform step="15" offset="3" type="normal" />
+    <platform step="20" offset="37" type="normal" />
+    <platform step="25" offset="18" type="normal" />
+    <platform step="30" offset="37" type="normal" />
+  </platforms>
+  
+  <enemies>
+    <enemy type="imp" step="6" offset="0">
+      <properties>
+        <property name="speed" value="3" />
+        <property name="range" value="9.45" />
+      </properties>
+    </enemy>
+    
+    <enemy type="imp" step="11" offset="0">
+      <properties>
+        <property name="speed" value="3" />
+        <property name="range" value="9.45" />
+      </properties>
+    </enemy>
+    
+    <enemy type="imp" step="16" offset="0">
+      <properties>
+        <property name="speed" value="3" />
+        <property name="range" value="9.45" />
+      </properties>
+    </enemy>
+    
+    <enemy type="imp" step="21" offset="0">
+      <properties>
+        <property name="speed" value="3" />
+        <property name="range" value="9.45" />
+      </properties>
+    </enemy>
+    
+    <enemy type="imp" step="26" offset="0">
+      <properties>
+        <property name="speed" value="3" />
+        <property name="range" value="9.45" />
+      </properties>
+    </enemy>
+  </enemies>
+</risesection>

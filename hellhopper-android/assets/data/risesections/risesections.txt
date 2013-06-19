@@ -7,7 +7,9 @@ saw00
 saw01
 saw02avoidleft
 saw02avoidright
-saw03
+saw03normal
+saw03crumble
+saw03moving
 imp00normal
 imp00moving
 imp01

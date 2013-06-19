@@ -39,29 +39,33 @@ public final class GameUtils {
         return ((value % mod) + mod) % mod;
     }
     
-    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes) {
-        return getRandomIndexes(range, numberOfIndexes, null);
+    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes, int offset) {
+        return getRandomIndexes(range, numberOfIndexes, offset, null);
     }
     
-    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes, Array<Integer> excludedIndexes) {
+    public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes, int offset,
+            Array<Integer> excludedIndexes) {
+        
         Array<Integer> selectedList = new Array<Integer>(numberOfIndexes);
         
-        Array<Integer> availableList = getRange(range);
-        
-        if (excludedIndexes != null) {
-            for (Integer excludedIndex : excludedIndexes) {
-                availableList.removeValue(excludedIndex, false);
+        if (numberOfIndexes > 0) {
+            Array<Integer> availableList = getRange(range);
+            
+            if (excludedIndexes != null) {
+                for (Integer excludedIndex : excludedIndexes) {
+                    availableList.removeValue(excludedIndex, false);
+                }
             }
+            
+            for (int i = 0; i < numberOfIndexes; i++) {
+                int selectedIndex = MathUtils.random(availableList.size - 1);
+                int selected = availableList.get(selectedIndex);
+                selectedList.add(selected + offset);
+                availableList.removeIndex(selectedIndex);
+            }
+            
+            selectedList.sort();
         }
-        
-        for (int i = 0; i < numberOfIndexes; i++) {
-            int selectedIndex = MathUtils.random(availableList.size - 1);
-            int selected = availableList.get(selectedIndex);
-            selectedList.add(selected);
-            availableList.removeIndex(selectedIndex);
-        }
-        
-        selectedList.sort();
         
         return selectedList;
     }
@@ -78,15 +82,6 @@ public final class GameUtils {
         }
         
         return rangeList;
-    }
-    
-    public static Array<Integer> offsetValues(Array<Integer> values, int offset) {
-        Array<Integer> offseted = new Array<Integer>(true, values.size);
-        for (Integer value : values) {
-            offseted.add(value + offset);
-        }
-        
-        return offseted;
     }
     
     /* Graphics */

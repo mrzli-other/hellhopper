@@ -128,8 +128,8 @@ public final class RiseGenerator {
         int stepsInRise = 0;
         RiseSectionData currRiseSection;
         
-//        String typePrefix = "reposition";
-//        for (int i = 1; i <= 10; i++) {
+//        String typePrefix = "normal";
+//        for (int i = 1; i <= 5; i++) {
 //            String sectionName = String.format(typePrefix + "%02d", i);
 //            currRiseSection = RiseSectionGenerator.generateRiseSection(
 //                    RISE_SECTIONS_METADATA.getByName(sectionName));
@@ -141,13 +141,13 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("saw03");
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+//        
+//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("saw03moving");
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
         
 //        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
 //            String name = riseSectionData.getName();

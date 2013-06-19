@@ -1,0 +1,86 @@
+<risesection steprange="40" difficulty="8">
+  <platforms>
+    <platform step="0" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.425" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="1" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="5" offset="28" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.25" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="0" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="10" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.425" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="1.7" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="15" offset="28" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.25" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="3" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="20" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.425" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="4" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="25" offset="28" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.25" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="1" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="30" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.425" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="0.5" />
+        </properties>
+      </movement>
+    </platform>
+    <platform step="35" offset="28" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="2.25" />
+          <property name="speed" value="2" />
+          <property name="initialoffset" value="2" />
+        </properties>
+      </movement>
+    </platform>
+  </platforms>
+  
+  <enemies>
+    <enemy type="saw" step="5" offset="17.7" />
+    <enemy type="saw" step="10" offset="17.7" />
+    <enemy type="saw" step="15" offset="17.7" />
+    <enemy type="saw" step="20" offset="17.7" />
+    <enemy type="saw" step="25" offset="17.7" />
+    <enemy type="saw" step="30" offset="17.7" />
+    <enemy type="saw" step="35" offset="17.7" />
+  </enemies>
+</risesection>

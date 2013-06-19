@@ -73,10 +73,11 @@ final class RiseSectionGenerator {
         float repositionPlatformWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.REPOSITION_PLATFORM_WEIGHT_PROPERTY));
         
-        Array<Float> weights = new Array<Float>(true, 3);
-        weights.add(normalPlatformWeight);
-        weights.add(movingPlatformWeight);
-        weights.add(repositionPlatformWeight);
+        float[] weights = new float[3];
+        weights[0] = normalPlatformWeight;
+        weights[1] = movingPlatformWeight;
+        weights[2] = repositionPlatformWeight;
+        
         Array<Array<Integer>> allPlatformIndexes = getPlatformIndexes(filledSteps.size, weights, 0);
         
         Array<Integer> movingPlatformIndexes = allPlatformIndexes.get(1);
@@ -91,12 +92,12 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
-        jumpBoostWeights.add(jumpBoostLowWeight);
-        jumpBoostWeights.add(jumpBoostMediumWeight);
-        jumpBoostWeights.add(jumpBoostHighWeight);
+        float[] jumpBoostWeights = new float[3];
+        jumpBoostWeights[0] = jumpBoostLowWeight;
+        jumpBoostWeights[1] = jumpBoostMediumWeight;
+        jumpBoostWeights[2] = jumpBoostHighWeight;
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getPlatformIndexes(
                 filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
         
         float minMovingSpeed = Float.valueOf(
@@ -148,7 +149,7 @@ final class RiseSectionGenerator {
                 riseSectionMetadata.getProperty(RiseSectionMetadata.CRUMBLE_FRACTION_PROPERTY));
         int crumbleCount = (int) (filledSteps.size * crumbleFraction);
         
-        Array<Integer> crumbleIndexes = GameUtils.getRandomIndexes(filledSteps.size, crumbleCount);
+        Array<Integer> crumbleIndexes = GameUtils.getRandomIndexes(filledSteps.size, crumbleCount, 0);
         
         float jumpBoostFraction = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_FRACTION_PROPERTY));
@@ -159,12 +160,12 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
-        jumpBoostWeights.add(jumpBoostLowWeight);
-        jumpBoostWeights.add(jumpBoostMediumWeight);
-        jumpBoostWeights.add(jumpBoostHighWeight);
+        float[] jumpBoostWeights = new float[3];
+        jumpBoostWeights[0] = jumpBoostLowWeight;
+        jumpBoostWeights[1] = jumpBoostMediumWeight;
+        jumpBoostWeights[2] = jumpBoostHighWeight;
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getPlatformIndexes(
                 filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
         
         for (int i = 0; i < filledSteps.size; i++) {
@@ -216,12 +217,12 @@ final class RiseSectionGenerator {
         float jumpBoostHighWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
         
-        Array<Float> jumpBoostWeights = new Array<Float>(true, 3);
-        jumpBoostWeights.add(jumpBoostLowWeight);
-        jumpBoostWeights.add(jumpBoostMediumWeight);
-        jumpBoostWeights.add(jumpBoostHighWeight);
+        float[] jumpBoostWeights = new float[3];
+        jumpBoostWeights[0] = jumpBoostLowWeight;
+        jumpBoostWeights[1] = jumpBoostMediumWeight;
+        jumpBoostWeights[2] = jumpBoostHighWeight;
         
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getJumpBoostPlatformIndexes(
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getPlatformIndexes(
                 jumpBoostCount, 1.0f, jumpBoostWeights, numNonJumpBoostSteps);
         
         boolean isCrumble = Boolean.valueOf(
@@ -265,9 +266,9 @@ final class RiseSectionGenerator {
         float visibleOnJumpPlatformWeight = Float.valueOf(
                 riseSectionMetadata.getProperty(RiseSectionMetadata.VISIBLE_ON_JUMP_PLATFORM_WEIGHT_PROPERTY));
         
-        Array<Float> weights = new Array<Float>(true, 2);
-        weights.add(normalPlatformWeight);
-        weights.add(visibleOnJumpPlatformWeight);
+        float[] weights = new float[2];
+        weights[0] = normalPlatformWeight;
+        weights[1] = visibleOnJumpPlatformWeight;
         Array<Array<Integer>> allPlatformIndexes = getPlatformIndexes(filledSteps.size - 1, weights, 1);
         
         Array<Integer> visibleOnJumpPlatformIndexes = allPlatformIndexes.get(1);
@@ -301,80 +302,86 @@ final class RiseSectionGenerator {
         while (currentStep < stepRange) {
             filledSteps.add(currentStep);
             currentStep += MathUtils.random(minStepDistance, maxStepDistance);
-            ;
         }
         
         return filledSteps;
     }
     
-    private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, Array<Float> weights, int offset) {
+    private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, float[] weights, int offset) {
+        return getPlatformIndexes(numIndexes, 1.0f, weights, offset);
+    }
+    
+    private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, float totalFraction,
+            float[] weights, int offset) {
         
-        float totalWeight = 0.0f;
-        for (Float weight : weights) {
-            totalWeight += weight;
-        }
+        int[] counts = getCounts(numIndexes, totalFraction, weights);
         
-        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.size);
+        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.length);
         
         Array<Integer> takenIndexes = new Array<Integer>();
-        for (int i = 0; i < weights.size; i++) {
-            float platformFraction = weights.get(i) / totalWeight;
-            int platformCount = (int) (numIndexes * platformFraction);
-            Array<Integer> platformIndexes = GameUtils.getRandomIndexes(numIndexes, platformCount, takenIndexes);
+        for (int i = 0; i < weights.length; i++) {
+            Array<Integer> platformIndexes = GameUtils.getRandomIndexes(
+                    numIndexes, counts[i], offset, takenIndexes);
             takenIndexes.addAll(platformIndexes);
             allIndexes.add(platformIndexes);
-        }
-        
-        Array<Integer> firstTypePlatformIndexes = allIndexes.get(0);
-        for (int i = 0; i < numIndexes; i++) {
-            if (!takenIndexes.contains(i, false)) {
-                firstTypePlatformIndexes.add(i);
-            }
-        }
-        
-        firstTypePlatformIndexes.sort();
-        
-        if (offset > 0) {
-            Array<Array<Integer>> offsetedAllIndexes = new Array<Array<Integer>>(true, weights.size);
-            for (Array<Integer> platformIndexes : allIndexes) {
-                Array<Integer> offsetedPlatformIndexes = GameUtils.offsetValues(platformIndexes, offset);
-                offsetedAllIndexes.add(offsetedPlatformIndexes);
-            }
-            allIndexes = offsetedAllIndexes;
         }
         
         return allIndexes;
     }
     
-    private static Array<Array<Integer>> getJumpBoostPlatformIndexes(int numIndexes, float jumpBoostFraction,
-            Array<Float> weights, int offset) {
-        
+    private static int[] getCounts(int numIndexes, float totalFraction, float[] weights) {
         float totalWeight = 0.0f;
-        for (Float weight : weights) {
+        for (float weight : weights) {
             totalWeight += weight;
         }
         
-        Array<Array<Integer>> allIndexes = new Array<Array<Integer>>(true, weights.size);
-        
-        Array<Integer> takenIndexes = new Array<Integer>();
-        for (int i = 0; i < weights.size; i++) {
-            float platformFraction = jumpBoostFraction * weights.get(i) / totalWeight;
-            int platformCount = (int) (numIndexes * platformFraction);
-            Array<Integer> platformIndexes = GameUtils.getRandomIndexes(numIndexes, platformCount, takenIndexes);
-            takenIndexes.addAll(platformIndexes);
-            allIndexes.add(platformIndexes);
+        float[] weightFractions = new float[weights.length];
+        for (int i = 0; i < weights.length; i++) {
+            weightFractions[i] = weights[i] / totalWeight;
         }
         
-        if (offset > 0) {
-            Array<Array<Integer>> offsetedAllIndexes = new Array<Array<Integer>>(true, weights.size);
-            for (Array<Integer> platformIndexes : allIndexes) {
-                Array<Integer> offsetedPlatformIndexes = GameUtils.offsetValues(platformIndexes, offset);
-                offsetedAllIndexes.add(offsetedPlatformIndexes);
+        int totalCount = MathUtils.roundPositive(totalFraction * numIndexes);
+        totalCount = MathUtils.clamp(totalCount, 0, numIndexes);
+        
+        int[] counts = new int[weights.length];
+        int currentTotalCount = 0;
+        for (int i = 0; i < weights.length; i++) {
+            counts[i] = MathUtils.roundPositive(weightFractions[i] * totalCount);
+            currentTotalCount += counts[i];
+        }
+        
+        int adjustmentRequired = totalCount - currentTotalCount;
+        if (adjustmentRequired > 0) {
+            float[] cumulativeWeightFractions = new float[weights.length];
+            for (int i = 0; i < weights.length - 1; i++) {
+                cumulativeWeightFractions[i] = weightFractions[i] + (i > 0 ? cumulativeWeightFractions[i - 1] : 0.0f);
             }
-            allIndexes = offsetedAllIndexes;
+            cumulativeWeightFractions[weights.length - 1] = 1.0f;
+            
+            while (adjustmentRequired > 0) {
+                float randomFloat = MathUtils.random();
+                for (int i = 0; i < cumulativeWeightFractions.length; i++) {
+                    if (randomFloat < cumulativeWeightFractions[i]) {
+                        counts[i]++;
+                        break;
+                    }
+                }
+                adjustmentRequired--;
+            }
+        } else if (adjustmentRequired < 0) {
+            while (adjustmentRequired < 0) {
+                int maxCountIndex = 0;
+                for (int i = 1; i < counts.length; i++) {
+                    if (counts[i] >= counts[maxCountIndex]) {
+                        maxCountIndex = i;
+                    }
+                }
+                counts[maxCountIndex]--;
+                adjustmentRequired++;
+            }
         }
         
-        return allIndexes;
+        return counts;
     }
     
     private static PlatformMovementData getMovementData(int index, Array<Integer> filledSteps,

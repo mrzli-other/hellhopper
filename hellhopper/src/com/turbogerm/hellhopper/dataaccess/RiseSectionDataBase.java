@@ -23,8 +23,6 @@
  */
 package com.turbogerm.hellhopper.dataaccess;
 
-import com.turbogerm.hellhopper.game.platforms.CrumblePlatform;
-
 public abstract class RiseSectionDataBase {
     
     // private static final String INITIAL_TYPE = "initial";

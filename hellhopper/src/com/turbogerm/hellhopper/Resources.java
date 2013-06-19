@@ -111,6 +111,9 @@ public final class Resources {
         mAssetManager.load(ResourceNames.ENEMY_EVIL_TWIN_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.ENEMY_COOL_CLERK_TEXTURE, Texture.class, textureParameterNearest);
         
+        // ITEMS
+        mAssetManager.load(ResourceNames.ITEM_BEANS_TEXTURE, Texture.class, textureParameterNearest);
+        
         // BACKGROUND
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);
         

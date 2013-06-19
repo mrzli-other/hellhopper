@@ -87,6 +87,9 @@ public final class ResourceNames {
     public static final String ENEMY_EVIL_TWIN_TEXTURE = ENEMIES_DIR + "eviltwin.png";
     public static final String ENEMY_COOL_CLERK_TEXTURE = ENEMIES_DIR + "coolclerk.png";
     
+    private static final String ITEMS_DIR = GAME_DIR + "items/";
+    public static final String ITEM_BEANS_TEXTURE = ITEMS_DIR + "beans.png";
+    
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
     private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";

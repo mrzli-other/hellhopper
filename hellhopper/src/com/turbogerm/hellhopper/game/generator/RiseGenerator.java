@@ -43,10 +43,10 @@ import com.turbogerm.hellhopper.game.Rise;
 import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.enemies.EnemyFactory;
+import com.turbogerm.hellhopper.game.items.ItemBase;
+import com.turbogerm.hellhopper.game.items.ItemFactory;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
-import com.turbogerm.hellhopper.items.ItemBase;
-import com.turbogerm.hellhopper.items.ItemFactory;
 
 public final class RiseGenerator {
     

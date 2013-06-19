@@ -21,46 +21,42 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.dataaccess;
+package com.turbogerm.hellhopper.game.items;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
 
-public final class ItemData {
+public abstract class ItemBase {
     
-    public static final String BEANS_TYPE = "beans";
-    public static final String SHIELD_TYPE = "shield";
+    protected final Sprite mSprite;
     
-    private final String mType;
-    private final float mStep;
-    private final float mOffset;
-    private final ObjectMap<String, String> mProperties;
-    
-    public ItemData(String type, float step, float offset, ObjectMap<String, String> properties) {
-        mType = type;
-        mStep = step;
-        mOffset = offset;
-        mProperties = properties;
+    public ItemBase(ItemData itemData, String texturePath, int startStep, AssetManager assetManager) {
+        
+        Texture texture = assetManager.get(texturePath);
+        Vector2 initialPosition = itemData.getPosition(startStep);
+        
+        mSprite = new Sprite(texture);
+        mSprite.setBounds(
+                initialPosition.x, initialPosition.y,
+                texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
+                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mSprite.setOrigin(mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
     }
     
-    public String getType() {
-        return mType;
+    public void update(float delta) {
     }
     
-    public float getStep() {
-        return mStep;
+    public void render(SpriteBatch batch) {
+        mSprite.draw(batch);
     }
     
-    public float getOffset() {
-        return mOffset;
-    }
-    
-    public String getProperty(String name) {
-        return mProperties.get(name);
-    }
-    
-    public Vector2 getPosition(int startStep) {
-        return GameAreaUtils.getPosition(startStep, mStep, mOffset);
+    public boolean isCollision(Rectangle rect) {
+        return false;
     }
 }

@@ -2,10 +2,12 @@
   <platforms>
     <platform step="0" offset="10" type="normal" />
     <platform step="5" offset="10" type="normal" />
+    <platform step="5" offset="23" type="normal" />
   </platforms>
   
   <items>
     <item step="5.5" offset="11" type="beans" />
+    <item step="5.5" offset="25" type="shield" />
   </items>
   
 </risesection>

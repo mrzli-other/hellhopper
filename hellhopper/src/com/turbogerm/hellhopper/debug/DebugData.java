@@ -25,8 +25,8 @@ package com.turbogerm.hellhopper.debug;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.turbogerm.hellhopper.game.GameCharacter;
 import com.turbogerm.hellhopper.game.RiseSection;
+import com.turbogerm.hellhopper.game.character.GameCharacter;
 
 public final class DebugData {
     

@@ -21,7 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.items;
+package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Intersector;
@@ -29,12 +29,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class BeansItem extends ItemBase {
+public final class ShieldItem extends ItemBase {
     
     private final Rectangle mCollisionRect;
     
-    public BeansItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_BEANS_TEXTURE, startStep, assetManager);
+    public ShieldItem(ItemData itemData, int startStep, AssetManager assetManager) {
+        super(itemData, ResourceNames.ITEM_SHIELD_TEXTURE, startStep, assetManager);
         
         float x = mSprite.getX();
         float y = mSprite.getY();

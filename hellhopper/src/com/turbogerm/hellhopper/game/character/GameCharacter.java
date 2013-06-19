@@ -21,7 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.game;
+package com.turbogerm.hellhopper.game.character;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -34,9 +34,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.game.CollisionEffects;
+import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
+import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
+import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-import com.turbogerm.hellhopper.items.ItemBase;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
@@ -92,6 +96,8 @@ public final class GameCharacter {
     private final Vector2 mSpeed;
     private final Rectangle mRect;
     
+    private final ShieldEffect mShieldEffect;
+    
     private float mRiseHeight;
     
     private boolean mIsEndReached;
@@ -141,6 +147,8 @@ public final class GameCharacter {
         
         mBodyColor = new Color();
         mHeadColor = new Color();
+        
+        mShieldEffect = new ShieldEffect(assetManager);
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
@@ -281,6 +289,8 @@ public final class GameCharacter {
             }
         }
         
+        mShieldEffect.update(delta);
+        
         mBlinkingStateMachine.update(delta);
     }
     
@@ -292,6 +302,7 @@ public final class GameCharacter {
             mBodyColor.set(mColorInterpolator.interpolateColor(DEFAULT_BODY_COLOR, deathColor, t));
             mHeadColor.set(mColorInterpolator.interpolateColor(DEFAULT_BODY_COLOR, deathColor, t));
         }
+        
         
         mBodySprite.setColor(mBodyColor);
         mHeadSprite.setColor(mHeadColor);
@@ -305,6 +316,8 @@ public final class GameCharacter {
         int eyesSpriteIndex = mBlinkingStateMachine.getTextureIndex();
         mEyesSprites[eyesSpriteIndex].setPosition(mPosition.x + EYES_OFFSET_X, mPosition.y + EYES_OFFSET_Y);
         mEyesSprites[eyesSpriteIndex].draw(batch);
+        
+        mShieldEffect.render(batch, mPosition);
     }
     
     private void processCollision(Array<RiseSection> activeRiseSections) {

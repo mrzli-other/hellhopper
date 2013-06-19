@@ -63,6 +63,7 @@ public final class ResourceNames {
     public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
     public static final int CHARACTER_EYES_TEXTURE_COUNT = 2;
     private static final String CHARACTER_EYES_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyes%02d.png";
+    public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
     
     private static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
     private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
@@ -89,6 +90,7 @@ public final class ResourceNames {
     
     private static final String ITEMS_DIR = GAME_DIR + "items/";
     public static final String ITEM_BEANS_TEXTURE = ITEMS_DIR + "beans.png";
+    public static final String ITEM_SHIELD_TEXTURE = ITEMS_DIR + "shield.png";
     
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";

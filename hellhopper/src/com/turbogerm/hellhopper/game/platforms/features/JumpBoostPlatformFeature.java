@@ -33,7 +33,7 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
-import com.turbogerm.hellhopper.game.GameCharacter;
+import com.turbogerm.hellhopper.game.character.GameCharacter;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     

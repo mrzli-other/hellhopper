@@ -25,8 +25,8 @@ package com.turbogerm.hellhopper.game;
 
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
+import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-import com.turbogerm.hellhopper.items.ItemBase;
 
 public final class RiseSection {
     

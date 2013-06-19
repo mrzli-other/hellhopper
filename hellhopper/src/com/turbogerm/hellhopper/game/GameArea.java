@@ -38,10 +38,11 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.background.BackgroundScene;
+import com.turbogerm.hellhopper.game.character.GameCharacter;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
+import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
-import com.turbogerm.hellhopper.items.ItemBase;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {

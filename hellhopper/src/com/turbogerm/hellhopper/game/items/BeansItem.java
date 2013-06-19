@@ -21,22 +21,30 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.turbogerm.hellhopper.items;
+package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
 
-public final class ItemFactory {
+public final class BeansItem extends ItemBase {
     
-    public static ItemBase create(ItemData itemData, int startStep, AssetManager assetManager) {
+    private final Rectangle mCollisionRect;
+    
+    public BeansItem(ItemData itemData, int startStep, AssetManager assetManager) {
+        super(itemData, ResourceNames.ITEM_BEANS_TEXTURE, startStep, assetManager);
         
-        String type = itemData.getType();
-        if (ItemData.BEANS_TYPE.equals(type)) {
-            return new BeansItem(itemData, startStep, assetManager);
-        } else {
-            ExceptionThrower.throwException("Invalid item type: %s", type);
-            return null;
-        }
+        float x = mSprite.getX();
+        float y = mSprite.getY();
+        float width = mSprite.getWidth();
+        float height = mSprite.getHeight();
+        mCollisionRect = new Rectangle(x, y, width, height);
+    }
+    
+    @Override
+    public boolean isCollision(Rectangle rect) {
+        return Intersector.overlapRectangles(rect, mCollisionRect);
     }
 }

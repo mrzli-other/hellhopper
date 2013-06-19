@@ -1,0 +1,11 @@
+<risesection steprange="10" difficulty="0">
+  <platforms>
+    <platform step="0" offset="10" type="normal" />
+    <platform step="5" offset="10" type="normal" />
+  </platforms>
+  
+  <items>
+    <item step="5.5" offset="11" type="beans" />
+  </items>
+  
+</risesection>

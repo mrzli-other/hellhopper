@@ -2,6 +2,7 @@
 test
 testenemies
 simpleflametransition
+testitems
 -enemy
 saw00
 saw01

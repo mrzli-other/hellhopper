@@ -41,6 +41,7 @@ import com.turbogerm.hellhopper.game.background.BackgroundScene;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.items.ItemBase;
 import com.turbogerm.hellhopper.util.Pools;
 
 public final class GameArea {
@@ -61,7 +62,8 @@ public final class GameArea {
     
     private static final int ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY = 5;
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
-    private static final int VISIBLE_ENEMIES_INITIAL_CAPACITY = 5;
+    private static final int VISIBLE_ENEMIES_INITIAL_CAPACITY = 10;
+    private static final int VISIBLE_ITEMS_INITIAL_CAPACITY = 5;
     
     private static final float VISIBLE_PLATFORMS_AREA_PADDING = 2.0f;
     
@@ -85,6 +87,7 @@ public final class GameArea {
     private final Array<RiseSection> mActiveRiseSections;
     private final Array<PlatformBase> mVisiblePlatforms;
     private final Array<EnemyBase> mVisibleEnemies;
+    private final Array<ItemBase> mVisibleItems;
     
     private boolean mIsGameOver;
     
@@ -107,6 +110,7 @@ public final class GameArea {
         mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
         mVisiblePlatforms = new Array<PlatformBase>(true, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
         mVisibleEnemies = new Array<EnemyBase>(true, VISIBLE_ENEMIES_INITIAL_CAPACITY);
+        mVisibleItems = new Array<ItemBase>(true, VISIBLE_ITEMS_INITIAL_CAPACITY);
         
         mBackgroundTexture = mAssetManager.get(ResourceNames.BACKGROUND_TEXTURE);
         mBackgroundScene = new BackgroundScene(mAssetManager);
@@ -182,6 +186,10 @@ public final class GameArea {
             enemy.render(mBatch);
         }
         
+        for (ItemBase item : mVisibleItems) {
+            item.render(mBatch);
+        }
+        
         mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
         mCharacter.render(mBatch);
@@ -198,6 +206,7 @@ public final class GameArea {
         
         updatePlatforms(delta);
         updateEnemies(delta);
+        updateItems(delta);
         
         mCharacter.updateStep(
                 horizontalSpeed,
@@ -205,6 +214,7 @@ public final class GameArea {
                 mActiveRiseSections,
                 mVisiblePlatforms,
                 mVisibleEnemies,
+                mVisibleItems,
                 delta);
         
         mVisibleAreaPosition = MathUtils.clamp(
@@ -232,6 +242,7 @@ public final class GameArea {
         mActiveRiseSections.clear();
         mVisiblePlatforms.clear();
         mVisibleEnemies.clear();
+        mVisibleItems.clear();
         
         Array<RiseSection> allRiseSections = mRise.getRiseSections();
         
@@ -250,6 +261,11 @@ public final class GameArea {
                 Array<EnemyBase> allEnemies = riseSection.getEnemies();
                 for (EnemyBase enemy : allEnemies) {
                     mVisibleEnemies.add(enemy);
+                }
+                
+                Array<ItemBase> allItems = riseSection.getItems();
+                for (ItemBase item : allItems) {
+                    mVisibleItems.add(item);
                 }
             }
         }
@@ -298,6 +314,15 @@ public final class GameArea {
             Array<EnemyBase> enemies = riseSection.getEnemies();
             for (EnemyBase enemy : enemies) {
                 enemy.update(delta);
+            }
+        }
+    }
+    
+    private void updateItems(float delta) {
+        for (RiseSection riseSection : mActiveRiseSections) {
+            Array<ItemBase> items = riseSection.getItems();
+            for (ItemBase item : items) {
+                item.update(delta);
             }
         }
     }

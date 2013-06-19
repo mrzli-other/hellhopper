@@ -58,7 +58,10 @@ public final class RiseSectionDataReader {
         Element enemiesNode = riseSectionNode.getChildByName("enemies");
         Array<EnemyData> enemyDataList = getEnemiesData(enemiesNode);
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, enemyDataList);
+        Element itemsNode = riseSectionNode.getChildByName("items");
+        Array<ItemData> itemDataList = getItemsData(itemsNode);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, enemyDataList, itemDataList);
     }
     
     private static Array<PlatformData> getPlatformsData(Element platformsNode) {
@@ -153,5 +156,35 @@ public final class RiseSectionDataReader {
                 enemyNode.getChildByName("properties"));
         
         return new EnemyData(type, step, offset, properties);
+    }
+    
+    private static Array<ItemData> getItemsData(Element itemsNode) {
+        if (itemsNode == null) {
+            return null;
+        }
+        
+        int numItems = itemsNode.getChildCount();
+        Array<ItemData> itemDataList = new Array<ItemData>(true, numItems);
+        for (int i = 0; i < numItems; i++) {
+            Element itemNode = itemsNode.getChild(i);
+            ItemData itemData = getItemData(itemNode);
+            itemDataList.add(itemData);
+        }
+        RiseGeneratorUtils.sortItems(itemDataList);
+        
+        return itemDataList;
+    }
+    
+    private static ItemData getItemData(Element itemNode) {
+        String type = itemNode.getAttribute("type");
+        String stepAttribute = itemNode.getAttribute("step");
+        float step = Float.parseFloat(stepAttribute);
+        String offsetAttribute = itemNode.getAttribute("offset");
+        float offset = Float.parseFloat(offsetAttribute);
+        
+        ObjectMap<String, String> properties = ReaderUtilities.getProperties(
+                itemNode.getChildByName("properties"));
+        
+        return new ItemData(type, step, offset, properties);
     }
 }

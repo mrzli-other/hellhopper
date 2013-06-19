@@ -29,6 +29,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
+import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionDataBase;
@@ -44,6 +45,8 @@ import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.enemies.EnemyFactory;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
+import com.turbogerm.hellhopper.items.ItemBase;
+import com.turbogerm.hellhopper.items.ItemFactory;
 
 public final class RiseGenerator {
     
@@ -141,13 +144,9 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
-//        
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("saw03moving");
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
         
 //        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
 //            String name = riseSectionData.getName();
@@ -397,7 +396,19 @@ public final class RiseGenerator {
             enemies = new Array<EnemyBase>(true, 0);
         }
         
-        return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms, enemies);
+        Array<ItemData> itemsData = riseSectionData.getItemsData();
+        Array<ItemBase> items;
+        if (itemsData != null) {
+            items = new Array<ItemBase>(true, itemsData.size);
+            for (ItemData itemData : itemsData) {
+                ItemBase item = ItemFactory.create(itemData, startStep, assetManager);
+                items.add(item);
+            }
+        } else {
+            items = new Array<ItemBase>(true, 0);
+        }
+        
+        return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms, enemies, items);
     }
     
     private static class MinMaxDifficulty {

@@ -36,6 +36,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.items.ItemBase;
 import com.turbogerm.hellhopper.util.ColorInterpolator;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
@@ -220,6 +221,7 @@ public final class GameCharacter {
             Array<RiseSection> activeRiseSections,
             Array<PlatformBase> visiblePlatforms,
             Array<EnemyBase> visibleEnemies,
+            Array<ItemBase> visibleItems,
             float delta) {
         
         if (isDying()) {

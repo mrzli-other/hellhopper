@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class ShieldEffect {
     
@@ -62,8 +63,9 @@ public final class ShieldEffect {
     
     public void render(SpriteBatch batch, Vector2 characterPosition) {
         float alpha = MID_ALPHA + ALPHA_HALF_RANGE * MathUtils.sinDeg(mTime / ALPHA_CHANGE_PERIOD * 360.0f);
+        GameUtils.setSpriteAlpha(mSprite, alpha);
         
         mSprite.setPosition(characterPosition.x + OFFSET_X, characterPosition.y + OFFSET_Y);
-        mSprite.draw(batch, alpha);
+        mSprite.draw(batch);
     }
 }

@@ -31,6 +31,7 @@ public final class RiseSectionMetadata extends RiseSectionDataBase {
     public static final String JUMP_BOOST_GENERATOR_TYPE = "jumpboost";
     public static final String VISIBLE_ON_JUMP_GENERATOR_TYPE = "visibleonjump";
     public static final String CRUMBLE_GENERATOR_TYPE = "crumble";
+    public static final String FLAME_GENERATOR_TYPE = "flame";
     
     public static final String NORMAL_PLATFORM_WEIGHT_PROPERTY = "normalplatformweight";
     public static final String MOVING_PLATFORM_WEIGHT_PROPERTY = "movingplatformweight";
@@ -48,6 +49,8 @@ public final class RiseSectionMetadata extends RiseSectionDataBase {
     public static final String JUMP_BOOST_HIGH_WEIGHT_PROPERTY = "jumpboosthighweight";
     public static final String CRUMBLE_PROPERTY = "crumble";
     public static final String CRUMBLE_FRACTION_PROPERTY = "crumblefraction";
+    public static final String PLATFORMS_PER_STEP_PROPERTY = "platformsperstep";
+    public static final String FLAME_CYCLE_TIME_SLICE_PROPERTY = "flamecycletimeslice";
     
     private final String mGeneratorType;
     private final int mMinStepRange;

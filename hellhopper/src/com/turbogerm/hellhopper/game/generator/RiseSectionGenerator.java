@@ -47,6 +47,8 @@ final class RiseSectionGenerator {
             return generateRiseSectionVisibleOnJump(riseSectionMetadata);
         } else if (RiseSectionMetadata.CRUMBLE_GENERATOR_TYPE.equals(generatorType)) {
             return generateRiseSectionCrumble(riseSectionMetadata);
+        } else if (RiseSectionMetadata.FLAME_GENERATOR_TYPE.equals(generatorType)) {
+            return generateRiseSectionFlame(riseSectionMetadata);
         } else {
             ExceptionThrower.throwException("Invalid rise section metadata generator type: %s", generatorType);
             return null;
@@ -122,65 +124,10 @@ final class RiseSectionGenerator {
             
             int offset = getOffset(movementData);
             
-            Array<PlatformFeatureData> featuresData = getFeaturesData(i, allJumpBoostPlatformIndexes);
+            Array<PlatformFeatureData> featuresData = getFeaturesDataJumpBoost(i, allJumpBoostPlatformIndexes);
             
             PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
                     movementData, featuresData, null);
-            platformDataList.add(padData);
-        }
-        
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
-    }
-    
-    private static RiseSectionData generateRiseSectionCrumble(RiseSectionMetadata riseSectionMetadata) {
-        
-        String type = riseSectionMetadata.getType();
-        String name = riseSectionMetadata.getName();
-        int stepRange = MathUtils.random(
-                riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
-        int minStepDistance = riseSectionMetadata.getMinStepDistance();
-        int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
-        int difficulty = riseSectionMetadata.getDifficulty();
-        
-        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
-        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
-        
-        float crumbleFraction = Float.valueOf(
-                riseSectionMetadata.getProperty(RiseSectionMetadata.CRUMBLE_FRACTION_PROPERTY));
-        int crumbleCount = (int) (filledSteps.size * crumbleFraction);
-        
-        Array<Integer> crumbleIndexes = GameUtils.getRandomIndexes(filledSteps.size, crumbleCount, 0);
-        
-        float jumpBoostFraction = Float.valueOf(
-                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_FRACTION_PROPERTY));
-        float jumpBoostLowWeight = Float.valueOf(
-                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_LOW_WEIGHT_PROPERTY));
-        float jumpBoostMediumWeight = Float.valueOf(
-                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_MEDIUM_WEIGHT_PROPERTY));
-        float jumpBoostHighWeight = Float.valueOf(
-                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
-        
-        float[] jumpBoostWeights = new float[3];
-        jumpBoostWeights[0] = jumpBoostLowWeight;
-        jumpBoostWeights[1] = jumpBoostMediumWeight;
-        jumpBoostWeights[2] = jumpBoostHighWeight;
-        
-        Array<Array<Integer>> allJumpBoostPlatformIndexes = getPlatformIndexes(
-                filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
-        
-        for (int i = 0; i < filledSteps.size; i++) {
-            int step = filledSteps.get(i);
-            
-            PlatformMovementData movementData = null;
-            
-            int offset = getOffset(movementData);
-            
-            Array<PlatformFeatureData> featuresData = getFeaturesData(i, allJumpBoostPlatformIndexes);
-            
-            String platformType = crumbleIndexes.contains(i, false) ?
-                    PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
-            
-            PlatformData padData = new PlatformData(platformType, step, offset, movementData, featuresData, null);
             platformDataList.add(padData);
         }
         
@@ -235,7 +182,7 @@ final class RiseSectionGenerator {
             
             int offset = getOffset(movementData);
             
-            Array<PlatformFeatureData> featuresData = getFeaturesData(i, allJumpBoostPlatformIndexes);
+            Array<PlatformFeatureData> featuresData = getFeaturesDataJumpBoost(i, allJumpBoostPlatformIndexes);
             
             String platformType = i >= numNonJumpBoostSteps && isCrumble ?
                     PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
@@ -296,6 +243,103 @@ final class RiseSectionGenerator {
         return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
     }
     
+    private static RiseSectionData generateRiseSectionCrumble(RiseSectionMetadata riseSectionMetadata) {
+        
+        String type = riseSectionMetadata.getType();
+        String name = riseSectionMetadata.getName();
+        int stepRange = MathUtils.random(
+                riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
+        int minStepDistance = riseSectionMetadata.getMinStepDistance();
+        int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
+        int difficulty = riseSectionMetadata.getDifficulty();
+        
+        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
+        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
+        
+        float crumbleFraction = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.CRUMBLE_FRACTION_PROPERTY));
+        int crumbleCount = (int) (filledSteps.size * crumbleFraction);
+        
+        Array<Integer> crumbleIndexes = GameUtils.getRandomIndexes(filledSteps.size, crumbleCount, 0);
+        
+        float jumpBoostFraction = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_FRACTION_PROPERTY));
+        float jumpBoostLowWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_LOW_WEIGHT_PROPERTY));
+        float jumpBoostMediumWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_MEDIUM_WEIGHT_PROPERTY));
+        float jumpBoostHighWeight = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.JUMP_BOOST_HIGH_WEIGHT_PROPERTY));
+        
+        float[] jumpBoostWeights = new float[3];
+        jumpBoostWeights[0] = jumpBoostLowWeight;
+        jumpBoostWeights[1] = jumpBoostMediumWeight;
+        jumpBoostWeights[2] = jumpBoostHighWeight;
+        
+        Array<Array<Integer>> allJumpBoostPlatformIndexes = getPlatformIndexes(
+                filledSteps.size, jumpBoostFraction, jumpBoostWeights, 0);
+        
+        for (int i = 0; i < filledSteps.size; i++) {
+            int step = filledSteps.get(i);
+            
+            PlatformMovementData movementData = null;
+            
+            int offset = getOffset(movementData);
+            
+            Array<PlatformFeatureData> featuresData = getFeaturesDataJumpBoost(i, allJumpBoostPlatformIndexes);
+            
+            String platformType = crumbleIndexes.contains(i, false) ?
+                    PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
+            
+            PlatformData padData = new PlatformData(platformType, step, offset, movementData, featuresData, null);
+            platformDataList.add(padData);
+        }
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+    }
+    
+    private static RiseSectionData generateRiseSectionFlame(RiseSectionMetadata riseSectionMetadata) {
+        
+        String type = riseSectionMetadata.getType();
+        String name = riseSectionMetadata.getName();
+        int stepRange = MathUtils.random(
+                riseSectionMetadata.getMinStepRange(), riseSectionMetadata.getMaxStepRange());
+        int minStepDistance = riseSectionMetadata.getMinStepDistance();
+        int maxStepDistance = riseSectionMetadata.getMaxStepDistance();
+        int difficulty = riseSectionMetadata.getDifficulty();
+        
+        Array<PlatformData> platformDataList = new Array<PlatformData>(stepRange);
+        Array<Integer> filledSteps = getFilledSteps(stepRange, minStepDistance, maxStepDistance);
+        
+        int platformsPerStep = Integer.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.PLATFORMS_PER_STEP_PROPERTY));
+        float flameCycleTimeSlice = Float.valueOf(
+                riseSectionMetadata.getProperty(RiseSectionMetadata.FLAME_CYCLE_TIME_SLICE_PROPERTY));
+        
+        Array<Integer> takenOffsets = new Array<Integer>(true, platformsPerStep);
+        
+        for (int i = 0; i < filledSteps.size; i++) {
+            int step = filledSteps.get(i);
+            
+            takenOffsets.clear();
+            
+            for (int j = 0; j < platformsPerStep; j++) {
+                int offset = getRandomAvailableOffset(takenOffsets);
+                
+                Array<PlatformFeatureData> featuresData = getFeaturesDataFlame(
+                        j, platformsPerStep, flameCycleTimeSlice);
+                
+                PlatformData padData = new PlatformData(
+                        PlatformData.NORMAL_TYPE, step, offset, null, featuresData, null);
+                platformDataList.add(padData);
+                
+                takenOffsets.add(offset);
+            }
+        }
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+    }
+    
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {
         Array<Integer> filledSteps = new Array<Integer>(true, stepRange);
         int currentStep = 0;
@@ -305,6 +349,21 @@ final class RiseSectionGenerator {
         }
         
         return filledSteps;
+    }
+    
+    private static int getRandomAvailableOffset(Array<Integer> takenOffsets) {
+        Array<Integer> availableOffsets = GameUtils.getRange(PlatformData.MAX_PLATFORM_OFFSET + 1);
+        
+        for (Integer takenOffset : takenOffsets) {
+            int firstInvalidatedOffset = takenOffset - PlatformData.PLATFORM_WIDTH_OFFSETS + 1;
+            int numInvalidatedOffsets = PlatformData.PLATFORM_WIDTH_OFFSETS * 2 - 1;
+            int lastInvalidatedOffset = firstInvalidatedOffset + numInvalidatedOffsets - 1;
+            for (int i = firstInvalidatedOffset; i <= lastInvalidatedOffset; i++) {
+                availableOffsets.removeValue(i, false);
+            }
+        }
+        
+        return availableOffsets.random();
     }
     
     private static Array<Array<Integer>> getPlatformIndexes(int numIndexes, float[] weights, int offset) {
@@ -431,7 +490,7 @@ final class RiseSectionGenerator {
         }
     }
     
-    private static Array<PlatformFeatureData> getFeaturesData(int index,
+    private static Array<PlatformFeatureData> getFeaturesDataJumpBoost(int index,
             Array<Array<Integer>> allJumpBoostPlatformIndexes) {
         
         String jumpBoostPowerString;
@@ -477,6 +536,28 @@ final class RiseSectionGenerator {
         } else {
             featuresData = null;
         }
+        
+        return featuresData;
+    }
+    
+    private static Array<PlatformFeatureData> getFeaturesDataFlame(int indexInStep, int platformsPerStep,
+            float flameCycleTimeSlice) {
+        
+        Array<PlatformFeatureData> featuresData = new Array<PlatformFeatureData>(true, 1);
+        
+        float cycleOffsetPerIndex = flameCycleTimeSlice * 2.0f;
+        String cycleOffsetString = String.valueOf(cycleOffsetPerIndex * indexInStep);
+        String stableStateDurationString = String.valueOf((platformsPerStep - 1) * flameCycleTimeSlice);
+        
+        ObjectMap<String, String> properties = new ObjectMap<String, String>(4);
+        properties.put(PlatformFeatureData.FLAME_CYCLE_OFFSET_PROPERTY, cycleOffsetString);
+        properties.put(PlatformFeatureData.FLAME_FLAME_DURATION_PROPERTY, stableStateDurationString);
+        properties.put(PlatformFeatureData.FLAME_DORMANT_DURATION_PROPERTY, stableStateDurationString);
+        properties.put(PlatformFeatureData.FLAME_TRANSITION_DURATION_PROPERTY, String.valueOf(flameCycleTimeSlice));
+        
+        PlatformFeatureData featureData = new PlatformFeatureData(
+                PlatformFeatureData.FLAME_FEATURE, properties);
+        featuresData.add(featureData);
         
         return featuresData;
     }

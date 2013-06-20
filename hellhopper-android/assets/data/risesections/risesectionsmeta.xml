@@ -652,5 +652,21 @@
       </properties>
     </risesection>
     <!-- END CRUMBLE -->
+    
+    <!-- FLAME -->
+    <risesection generatortype="flame" type="flame" name="flame2perstep" minsteprange="70" maxsteprange="100" minstepdistance="5" maxstepdistance="5" difficulty="8">
+      <properties>
+        <property name="platformsperstep" value="2" />
+        <property name="flamecycletimeslice" value="1.0" />
+      </properties>
+    </risesection>
+    
+    <risesection generatortype="flame" type="flame" name="flame3perstep" minsteprange="70" maxsteprange="100" minstepdistance="5" maxstepdistance="5" difficulty="7">
+      <properties>
+        <property name="platformsperstep" value="3" />
+        <property name="flamecycletimeslice" value="1.0" />
+      </properties>
+    </risesection>
+    <!-- END FLAME -->
   </risesections>
 </risesectionsmeta>

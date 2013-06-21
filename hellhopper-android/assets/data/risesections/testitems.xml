@@ -1,13 +1,44 @@
-<risesection steprange="10" difficulty="0">
+<risesection steprange="30" difficulty="0">
   <platforms>
     <platform step="0" offset="10" type="normal" />
     <platform step="5" offset="10" type="normal" />
     <platform step="5" offset="23" type="normal" />
+    <platform step="10" offset="10" type="normal" />
+    <platform step="10" offset="23" type="normal" />
+    <platform step="15" offset="10" type="normal" />
+    <platform step="15" offset="23" type="normal" />
+    <platform step="20" offset="10" type="normal" />
+    <platform step="20" offset="23" type="normal" />
+    <platform step="25" offset="10" type="normal" />
+    <platform step="25" offset="23" type="normal" />
   </platforms>
   
   <items>
     <item step="5.5" offset="11" type="beans" />
     <item step="5.5" offset="25" type="shield" />
+    <item step="10.5" offset="11" type="jumpsuit" />
+    <item step="10.5" offset="25" type="life" />
+    
+    <item step="15.5" offset="11" type="coin">
+      <properties>
+        <property name="cointype" value="copper" />
+      </properties>
+    </item>
+    
+    <item step="15.5" offset="25" type="coin">
+      <properties>
+        <property name="cointype" value="silver" />
+      </properties>
+    </item>
+    
+    <item step="20.5" offset="11" type="coin">
+      <properties>
+        <property name="cointype" value="gold" />
+      </properties>
+    </item>
+    
+    <item step="20.5" offset="25" type="ruby" />
+    <item step="25.5" offset="11" type="blackbox" />
   </items>
   
 </risesection>

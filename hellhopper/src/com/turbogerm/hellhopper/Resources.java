@@ -114,6 +114,13 @@ public final class Resources {
         // ITEMS
         mAssetManager.load(ResourceNames.ITEM_BEANS_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.ITEM_SHIELD_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_JUMP_SUIT_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_LIFE_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_COIN_COPPER_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_COIN_SILVER_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_COIN_GOLD_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_RUBY_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.ITEM_BLACK_BOX_TEXTURE, Texture.class, textureParameterNearest);
         
         // BACKGROUND
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);

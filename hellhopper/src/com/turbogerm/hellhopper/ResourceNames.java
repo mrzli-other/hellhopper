@@ -91,6 +91,13 @@ public final class ResourceNames {
     private static final String ITEMS_DIR = GAME_DIR + "items/";
     public static final String ITEM_BEANS_TEXTURE = ITEMS_DIR + "beans.png";
     public static final String ITEM_SHIELD_TEXTURE = ITEMS_DIR + "shield.png";
+    public static final String ITEM_JUMP_SUIT_TEXTURE = ITEMS_DIR + "jumpsuit.png";
+    public static final String ITEM_LIFE_TEXTURE = ITEMS_DIR + "life.png";
+    public static final String ITEM_COIN_COPPER_TEXTURE = ITEMS_DIR + "coincopper.png";
+    public static final String ITEM_COIN_SILVER_TEXTURE = ITEMS_DIR + "coinsilver.png";
+    public static final String ITEM_COIN_GOLD_TEXTURE = ITEMS_DIR + "coingold.png";
+    public static final String ITEM_RUBY_TEXTURE = ITEMS_DIR + "ruby.png";
+    public static final String ITEM_BLACK_BOX_TEXTURE = ITEMS_DIR + "blackbox.png";
     
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";

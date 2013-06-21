@@ -31,6 +31,17 @@ public final class ItemData {
     
     public static final String BEANS_TYPE = "beans";
     public static final String SHIELD_TYPE = "shield";
+    public static final String JUMP_SUIT_TYPE = "jumpsuit";
+    public static final String LIFE_TYPE = "life";
+    public static final String COIN_TYPE = "coin";
+    public static final String RUBY_TYPE = "ruby";
+    public static final String BLACK_BOX_TYPE = "blackbox";
+    
+    public static final String COIN_TYPE_PROPERTY = "cointype";
+    
+    public static final String COIN_TYPE_GOLD_PROPERTY_VALUE = "gold";
+    public static final String COIN_TYPE_SILVER_PROPERTY_VALUE = "silver";
+    public static final String COIN_TYPE_COPPER_PROPERTY_VALUE = "copper";
     
     private final String mType;
     private final float mStep;

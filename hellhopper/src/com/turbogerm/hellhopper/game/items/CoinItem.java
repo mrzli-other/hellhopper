@@ -24,31 +24,38 @@
 package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
 
-public final class ItemFactory {
+public final class CoinItem extends ItemBase {
     
-    public static ItemBase create(ItemData itemData, int startStep, AssetManager assetManager) {
+    private final Rectangle mCollisionRect;
+    
+    public CoinItem(ItemData itemData, int startStep, AssetManager assetManager) {
+        super(itemData, getTexturePath(itemData), startStep, assetManager);
         
-        String type = itemData.getType();
-        if (ItemData.BEANS_TYPE.equals(type)) {
-            return new BeansItem(itemData, startStep, assetManager);
-        } else if (ItemData.SHIELD_TYPE.equals(type)) {
-            return new ShieldItem(itemData, startStep, assetManager);
-        } else if (ItemData.JUMP_SUIT_TYPE.equals(type)) {
-            return new JumpSuitItem(itemData, startStep, assetManager);
-        } else if (ItemData.LIFE_TYPE.equals(type)) {
-            return new LifeItem(itemData, startStep, assetManager);
-        } else if (ItemData.COIN_TYPE.equals(type)) {
-            return new CoinItem(itemData, startStep, assetManager);
-        } else if (ItemData.RUBY_TYPE.equals(type)) {
-            return new RubyItem(itemData, startStep, assetManager);
-        } else if (ItemData.BLACK_BOX_TYPE.equals(type)) {
-            return new BlackBoxItem(itemData, startStep, assetManager);
+        float x = mSprite.getX();
+        float y = mSprite.getY();
+        float width = mSprite.getWidth();
+        float height = mSprite.getHeight();
+        mCollisionRect = new Rectangle(x, y, width, height);
+    }
+    
+    @Override
+    public boolean isCollision(Rectangle rect) {
+        return Intersector.overlapRectangles(rect, mCollisionRect);
+    }
+    
+    private static String getTexturePath(ItemData itemData) {
+        String coinType = itemData.getProperty(ItemData.COIN_TYPE_PROPERTY);
+        if (ItemData.COIN_TYPE_COPPER_PROPERTY_VALUE.equals(coinType)) {
+            return ResourceNames.ITEM_COIN_COPPER_TEXTURE;
+        } else if (ItemData.COIN_TYPE_SILVER_PROPERTY_VALUE.equals(coinType)) {
+            return ResourceNames.ITEM_COIN_SILVER_TEXTURE;
         } else {
-            ExceptionThrower.throwException("Invalid item type: %s", type);
-            return null;
+            return ResourceNames.ITEM_COIN_GOLD_TEXTURE;
         }
     }
 }

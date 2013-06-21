@@ -661,10 +661,10 @@
       </properties>
     </risesection>
     
-    <risesection generatortype="flame" type="flame" name="flame3perstep" minsteprange="70" maxsteprange="100" minstepdistance="5" maxstepdistance="5" difficulty="7">
+    <risesection generatortype="flame" type="flame" name="flame3perstep" minsteprange="70" maxsteprange="100" minstepdistance="5" maxstepdistance="5" difficulty="9">
       <properties>
         <property name="platformsperstep" value="3" />
-        <property name="flamecycletimeslice" value="1.0" />
+        <property name="flamecycletimeslice" value="0.75" />
       </properties>
     </risesection>
     <!-- END FLAME -->

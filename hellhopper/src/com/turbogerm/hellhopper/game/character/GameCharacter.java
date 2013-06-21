@@ -121,7 +121,8 @@ public final class GameCharacter {
     public int deathCount;
     
     static {
-        DEFAULT_BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
+        //DEFAULT_BODY_COLOR = new Color(0.14f, 0.36f, 0.43f, 1.0f);
+        DEFAULT_BODY_COLOR = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         DEFAULT_HEAD_COLOR = new Color(0.57f, 0.74f, 0.79f, 1.0f);
         DEFAULT_EYES_COLOR = new Color(1.0f, 0.5f, 0.0f, 1.0f);
         ENEMY_DEATH_COLOR = Color.RED;

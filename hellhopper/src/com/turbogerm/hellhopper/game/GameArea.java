@@ -121,7 +121,7 @@ public final class GameArea {
             delta = MAX_DELTA;
         }
         
-        mIsGameOver = !mCharacter.preUpdate(mVisibleAreaPosition, delta);
+        mIsGameOver = mCharacter.isFinished();
         if (mIsGameOver) {
             return;
         }
@@ -184,13 +184,14 @@ public final class GameArea {
         updateEnemies(delta);
         updateItems(delta);
         
-        mCharacter.updateStep(
+        mCharacter.update(
                 horizontalSpeed,
                 mPlatformToCharCollisionData,
                 mActiveRiseSections,
                 mVisiblePlatforms,
                 mVisibleEnemies,
                 mVisibleItems,
+                mVisibleAreaPosition,
                 delta);
         
         mVisibleAreaPosition = MathUtils.clamp(

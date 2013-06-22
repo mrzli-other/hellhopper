@@ -28,7 +28,8 @@ public final class DebugData {
             mRiseSectionName = "";
             mRiseSectionDifficulty = -1;
         }
-        mDeathCount = character.deathCount;
+        // TODO: remove
+        mDeathCount = 0;//character.deathCount;
     }
     
     @Override

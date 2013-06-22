@@ -29,14 +29,9 @@ public final class GameCharacter {
     public static final float JUMP_SPEED = 21.25f;
     private static final float GRAVITY = 35.0f;
     
-    private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
-    private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
-    private static final float END_REACHED_COUTDOWN_DURATION = 3.0f;
-    
-    private static final float DYING_ANIMATION_DURATION = 2.0f;
-    private static final float DYING_DURATION = DYING_ANIMATION_DURATION + 1.0f;
-    
     private final CharacterGraphics mCharacterGraphics;
+    private final CharacterEndEffect mCharacterEndEffect;
+    private final CharacterDeathEffect mCharacterDeathEffect;
     
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
@@ -46,25 +41,17 @@ public final class GameCharacter {
     
     private float mRiseHeight;
     
-    private boolean mIsEndReached;
-    private float mEndReachedCountdown;
-    private boolean mIsDead;
-    private boolean mIsDyingFromEnemy;
-    private boolean mIsDyingFromFire;
-    private float mDyingElapsed;
-    
     private final CharCollisionData mCharCollisionData;
     private final CollisionEffects mCollisionEffects;
     
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
     
-    // TODO: for testing
-    public int deathCount;
-    
     public GameCharacter(AssetManager assetManager) {
         
         mCharacterGraphics = new CharacterGraphics(assetManager);
+        mCharacterEndEffect = new CharacterEndEffect();
+        mCharacterDeathEffect = new CharacterDeathEffect();
         
         mShieldEffect = new ShieldEffect(assetManager);
         
@@ -83,90 +70,84 @@ public final class GameCharacter {
         mRiseHeight = riseHeight;
         
         mCharacterGraphics.reset();
-        
-        mIsEndReached = false;
-        mEndReachedCountdown = END_REACHED_COUTDOWN_DURATION;
+        mCharacterEndEffect.reset();
+        mCharacterDeathEffect.reset();
         
         mPosition.set(GameArea.GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
         mSpeed.set(0.0f, JUMP_SPEED);
-        
-        mIsDead = false;
-        mIsDyingFromEnemy = false;
-        mIsDyingFromFire = false;
-        mDyingElapsed = 0.0f;
-        
-        deathCount = 0;
     }
     
-    public boolean preUpdate(float visibleAreaPosition, float delta) {
-        
-        if (mIsDead) {
-            return false;
-        }
-        
-        if (isDying()) {
-            mDyingElapsed += delta;
-            if (mDyingElapsed >= DYING_DURATION) {
-                mIsDead = true;
-                return false;
-            }
-        }
-        
-        if (mIsEndReached) {
-            if (mEndReachedCountdown <= 0.0f) {
-                return false;
-            } else if (mPosition.y <= mRiseHeight) {
-                mPosition.y = mRiseHeight + GameUtils.EPSILON;
-                mSpeed.y = Math.abs(mSpeed.y * END_RESTITUTION_MULTIPLIER);
-                mSpeed.y = Math.max(mSpeed.y - END_RESTITUTION_SPEED_DECREASE, 0.0f);
-            }
-            
-            mEndReachedCountdown -= delta;
-        } else {
-            if (mPosition.y <= 0.0f) {
-                mPosition.y = 0.0f;
-                mSpeed.y = JUMP_SPEED;
-            } else if (mPosition.y < visibleAreaPosition) {
-                // TODO: only for testing; remove next line and uncomment following
-                mSpeed.y = JUMP_SPEED;
-                deathCount++;
-                //return false;
-            }
-        }
-        
-        return true;
-    }
-    
-    public void updateStep(float horizontalSpeed,
+    public void update(float horizontalSpeed,
             PlatformToCharCollisionData platformToCharCollisionData,
             Array<RiseSection> activeRiseSections,
             Array<PlatformBase> visiblePlatforms,
             Array<EnemyBase> visibleEnemies,
             Array<ItemBase> visibleItems,
+            float visibleAreaPosition,
             float delta) {
         
-        if (isDying()) {
-            return;
+        if (mCharacterEndEffect.isEndReached()) {
+            mCharacterEndEffect.update(mPosition, mSpeed, mRiseHeight, delta);
+        } else if (mCharacterDeathEffect.isDying()) {
+            mCharacterDeathEffect.update(delta);
         }
         
-        boolean isCollision = false;
-        if (!platformToCharCollisionData.isCollision) {
+        if (!isFinishing()) {
+            handleFall(visibleAreaPosition);
+        }
+        
+        handleCollisionWithPlatform(platformToCharCollisionData, activeRiseSections, visiblePlatforms,
+                isFinishing(), delta);
+        
+        mSpeed.x = horizontalSpeed;
+        mPosition.x = GameUtils.getPositiveModulus(
+                mPosition.x + CHARACTER_CENTER_X_OFFSET, GameArea.GAME_AREA_WIDTH) - CHARACTER_CENTER_X_OFFSET;
+        
+        if (!isFinishing()) {
+            handleCollisionWithEnemy(visibleEnemies);
+        }
+        
+        if (!isFinishing() && mPosition.y > mRiseHeight) {
+            mCharacterEndEffect.setEndReached();
+        }
+        
+        mCharacterGraphics.update(delta);
+        mShieldEffect.update(delta);
+    }
+    
+    public void render(SpriteBatch batch) {
+        mCharacterGraphics.render(batch, mPosition);
+        mShieldEffect.render(batch, mPosition);
+    }
+    
+    private void handleFall(float visibleAreaPosition) {
+        if (mPosition.y <= 0.0f) {
+            mPosition.y = 0.0f;
+            mSpeed.y = JUMP_SPEED;
+        } else if (mPosition.y < visibleAreaPosition) {
+            mCharacterDeathEffect.setDyingStatus(CharacterDeathEffect.DYING_STATUS_FALL);
+        }
+    }
+    
+    private void handleCollisionWithPlatform(
+            PlatformToCharCollisionData platformToCharCollisionData,
+            Array<RiseSection> activeRiseSections,
+            Array<PlatformBase> visiblePlatforms,
+            boolean ignorePlatformCollisions,
+            float delta) {
+        
+        if (!platformToCharCollisionData.isCollision || ignorePlatformCollisions) {
             Vector2 cpNext = Pools.obtainVector();
             cpNext.set(mPosition.x + mSpeed.x * delta, mPosition.y + mSpeed.y * delta);
             Vector2 intersection = Pools.obtainVector();
             
-            if (isCollisionWithPlatform(visiblePlatforms, mPosition, cpNext, intersection,
-                    mCharCollisionData)) {
+            if (!ignorePlatformCollisions &&
+                    isCollisionWithPlatform(visiblePlatforms, mPosition, cpNext, intersection, mCharCollisionData)) {
                 mPosition.set(intersection);
-                isCollision = true;
+                handleCollisionWithPlatform(activeRiseSections);
             } else {
                 mPosition.set(cpNext);
-                
-                // TODO: only for testing, revert
-                float speedY = Math.max(mSpeed.y - GRAVITY * delta, -JUMP_SPEED);
-                //float speedY = JUMP_SPEED;
-                
-                mSpeed.set(horizontalSpeed, speedY);
+                mSpeed.y = Math.max(mSpeed.y - GRAVITY * delta, -JUMP_SPEED);
             }
             
             Pools.freeVector(cpNext);
@@ -175,51 +156,17 @@ public final class GameCharacter {
             mPosition.y = platformToCharCollisionData.collisionPoint.y;
             mCharCollisionData.collisionPlatform = platformToCharCollisionData.collisionPlatform;
             mCharCollisionData.collisionPointX = platformToCharCollisionData.collisionPoint.x;
-            isCollision = true;
+            handleCollisionWithPlatform(activeRiseSections);
         }
-        
-        mSpeed.x = horizontalSpeed;
-        
-        if (isCollision) {
-            processCollision(activeRiseSections);
-        }
-        
-        mPosition.x = GameUtils.getPositiveModulus(
-                mPosition.x + CHARACTER_CENTER_X_OFFSET, GameArea.GAME_AREA_WIDTH) - CHARACTER_CENTER_X_OFFSET;
-        
-        if (mPosition.y > mRiseHeight) {
-            mIsEndReached = true;
-        }
-        
-        mRect.x = mPosition.x;
-        mRect.y = mPosition.y;
-        
-        for (EnemyBase enemyBase : visibleEnemies) {
-            if (enemyBase.isCollision(mRect)) {
-                mIsDyingFromEnemy = true;
-                deathCount++;
-                return;
-            }
-        }
-        
-        mShieldEffect.update(delta);
-        
-        mCharacterGraphics.update(delta);
     }
     
-    public void render(SpriteBatch batch) {
-        mCharacterGraphics.render(batch, mPosition);
-        mShieldEffect.render(batch, mPosition);
-    }
-    
-    private void processCollision(Array<RiseSection> activeRiseSections) {
+    private void handleCollisionWithPlatform(Array<RiseSection> activeRiseSections) {
         
         mCharCollisionData.collisionPlatform.getCollisionEffects(
                 mCharCollisionData.collisionPointX, mCollisionEffects);
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.BURN)) {
-            mIsDyingFromFire = true;
-            deathCount++;
+            mCharacterDeathEffect.setDyingStatus(CharacterDeathEffect.DYING_STATUS_FIRE);
             mCollisionEffects.clear();
             return;
         }
@@ -247,6 +194,19 @@ public final class GameCharacter {
         }
         
         mCollisionEffects.clear();
+    }
+    
+    private void handleCollisionWithEnemy(Array<EnemyBase> visibleEnemies) {
+        mRect.x = mPosition.x;
+        mRect.y = mPosition.y;
+        
+        for (EnemyBase enemyBase : visibleEnemies) {
+            if (enemyBase.isCollision(mRect)) {
+                mCharacterDeathEffect.setDyingStatus(CharacterDeathEffect.DYING_STATUS_ENEMY);
+                mSpeed.y = 0.0f;
+                return;
+            }
+        }
     }
     
     private static boolean isCollisionWithPlatform(
@@ -279,10 +239,12 @@ public final class GameCharacter {
         return null;
     }
     
-    private boolean isDying() {
-        // TODO: uncomment this after testing
-        //return mIsDyingFromEnemy || mIsDyingFromFire;
-        return false;
+    public boolean isFinished() {
+        return mCharacterEndEffect.isFinished() || mCharacterDeathEffect.isDead();
+    }
+    
+    private boolean isFinishing() {
+        return mCharacterEndEffect.isEndReached() || mCharacterDeathEffect.isDying();
     }
     
     public Vector2 getPosition() {

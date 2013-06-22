@@ -26,7 +26,6 @@ public final class GameCharacter {
     public static final float GRAVITY = 35.0f;
     
     private final CharacterGraphics mCharacterGraphics;
-    private final CharacterEndEffect mCharacterEndEffect;
     private final CharacterDeathEffect mCharacterDeathEffect;
     
     private final Vector2 mPosition;
@@ -42,7 +41,6 @@ public final class GameCharacter {
     public GameCharacter(AssetManager assetManager) {
         
         mCharacterGraphics = new CharacterGraphics(assetManager);
-        mCharacterEndEffect = new CharacterEndEffect();
         mCharacterDeathEffect = new CharacterDeathEffect();
         
         mShieldEffect = new ShieldEffect(assetManager);
@@ -58,7 +56,6 @@ public final class GameCharacter {
         mRiseHeight = riseHeight;
         
         mCharacterGraphics.reset();
-        mCharacterEndEffect.reset();
         mCharacterDeathEffect.reset();
         
         mPosition.set(GameArea.GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
@@ -100,11 +97,7 @@ public final class GameCharacter {
     }
     
     public boolean isFinished() {
-        return mCharacterEndEffect.isFinished() || mCharacterDeathEffect.isDead();
-    }
-    
-    private boolean isFinishing() {
-        return mCharacterEndEffect.isEndReached() || mCharacterDeathEffect.isDying();
+        return mCharacterStateManager.getCurrentState().isFinished();
     }
     
     public Vector2 getPosition() {

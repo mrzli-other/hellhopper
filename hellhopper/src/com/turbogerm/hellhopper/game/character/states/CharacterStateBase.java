@@ -9,7 +9,9 @@ public abstract class CharacterStateBase {
     }
     
     public void reset() {
-        
+    }
+    
+    public void update(CharacterStateUpdateData updateData) {
     }
     
     protected void changeState(String state) {

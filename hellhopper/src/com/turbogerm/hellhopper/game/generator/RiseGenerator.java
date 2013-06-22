@@ -162,7 +162,7 @@ public final class RiseGenerator {
         
 //        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
 //            String name = riseSectionData.getName();
-//            if (!name.startsWith("knightmoving")) {
+//            if (!name.startsWith("knight")) {
 //                continue;
 //            }
 //                

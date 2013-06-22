@@ -31,6 +31,8 @@ import com.badlogic.gdx.utils.Array;
 public final class GameUtils {
     
     /* Math */
+    public static final float EPSILON = 1e-5f;
+    
     public static float getPositiveModulus(float value, float mod) {
         return ((value % mod) + mod) % mod;
     }

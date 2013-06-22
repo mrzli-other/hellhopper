@@ -47,6 +47,16 @@
       </features>
     </platform>
     
+    <platform step="15" offset="0" type="normal">
+      <movement type="horizontal">
+        <properties>
+          <property name="range" value="9.25" />
+          <property name="speed" value="3.5" />
+          <property name="initialoffset" value="8" />
+        </properties>
+      </movement>
+    </platform>
+    
     <platform step="20" offset="18" type="normal" />
   </platforms>
   

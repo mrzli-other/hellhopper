@@ -2,7 +2,6 @@
   <platforms>
     <platform step="0" offset="7" type="normal" />
     <platform step="5" offset="12" type="normal" />
-    
     <platform step="10" offset="18" type="normal">
       <features>
         <feature type="jumpboost">
@@ -13,7 +12,6 @@
         </feature>
       </features>
     </platform>
-    
     <platform step="13" offset="8" type="normal">
       <features>
         <feature type="flame">
@@ -26,7 +24,6 @@
         </feature>
       </features>
     </platform>
-    
     <platform step="13" offset="29" type="normal">
       <features>
         <feature type="flame">
@@ -39,12 +36,10 @@
         </feature>
       </features>
     </platform>
-    
+    <platform step="15" offset="18" type="normal" />
     <platform step="20" offset="18" type="normal" />
   </platforms>
-  
   <enemies>
     <enemy type="knight" step="12.5" offset="0" />
   </enemies>
-  
 </risesection>

@@ -26,7 +26,6 @@ public final class GameCharacter {
     public static final float GRAVITY = 35.0f;
     
     private final CharacterGraphics mCharacterGraphics;
-    private final CharacterDeathEffect mCharacterDeathEffect;
     
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
@@ -41,7 +40,6 @@ public final class GameCharacter {
     public GameCharacter(AssetManager assetManager) {
         
         mCharacterGraphics = new CharacterGraphics(assetManager);
-        mCharacterDeathEffect = new CharacterDeathEffect();
         
         mShieldEffect = new ShieldEffect(assetManager);
         
@@ -56,7 +54,6 @@ public final class GameCharacter {
         mRiseHeight = riseHeight;
         
         mCharacterGraphics.reset();
-        mCharacterDeathEffect.reset();
         
         mPosition.set(GameArea.GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
         mSpeed.set(0.0f, JUMP_SPEED);

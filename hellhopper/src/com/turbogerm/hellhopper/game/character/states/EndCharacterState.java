@@ -7,9 +7,9 @@ final class EndCharacterState extends CharacterStateBase {
     
     private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
-    private static final float END_REACHED_DURATION = 4.0f;
+    private static final float END_DURATION = 4.0f;
     
-    private float mEndReachedCountdown;
+    private float mEndCountdown;
     
     public EndCharacterState(CharacterStateManager characterStateManager) {
         super(characterStateManager);
@@ -17,13 +17,13 @@ final class EndCharacterState extends CharacterStateBase {
     
     @Override
     public void reset() {
-        mEndReachedCountdown = END_REACHED_DURATION;
+        mEndCountdown = END_DURATION;
     }
     
     @Override
     public void update(CharacterStateUpdateData updateData) {
         
-        if (mEndReachedCountdown <= 0.0f) {
+        if (mEndCountdown <= 0.0f) {
             return;
         }
         
@@ -40,11 +40,11 @@ final class EndCharacterState extends CharacterStateBase {
         
         updatePositionAndSpeed(position, speed, updateData.horizontalSpeed, delta);
         
-        mEndReachedCountdown -= delta;
+        mEndCountdown -= delta;
     }
     
     @Override
     public boolean isFinished() {
-        return mEndReachedCountdown <= 0.0f;
+        return mEndCountdown <= 0.0f;
     }
 }

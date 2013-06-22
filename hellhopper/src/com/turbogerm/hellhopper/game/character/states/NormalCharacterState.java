@@ -129,6 +129,7 @@ final class NormalCharacterState extends CharacterStateBase {
             mIsDying = true;
             mCollisionEffects.clear();
             changeState(CharacterStateManager.DYING_FIRE_CHARACTER_STATE);
+            return;
         }
         
         if (mCollisionEffects.isEffectActive(CollisionEffects.JUMP_BOOST)) {

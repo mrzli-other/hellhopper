@@ -1,16 +1,23 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsStunned;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
+import com.turbogerm.hellhopper.util.ColorInterpolator;
 
 
 final class DyingFireCharacterState extends CharacterStateBase {
     
-    private static final float DYING_DURATION = 3.0f;
+    private static final float CHARRING_DURATION = 2.0f;
+    private static final float CHARRED_DURATION = 1.0f;
+    private static final float DYING_TOTAL_DURATION = CHARRING_DURATION + CHARRED_DURATION;
+    
+    private static final Color CHARRED_COLOR;
     
     private final CharacterBodyGraphics mCharacterBodyGraphics;
     private final CharacterHeadGraphics mCharacterHeadGraphics;
@@ -18,12 +25,20 @@ final class DyingFireCharacterState extends CharacterStateBase {
     
     private float mDyingElapsed;
     
+    private final ColorInterpolator mColorInterpolator;
+    
+    static {
+        CHARRED_COLOR = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+    
     public DyingFireCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
         
         mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
         mCharacterEyesGraphics = new CharacterEyesGraphicsStunned(assetManager);
+        
+        mColorInterpolator = new ColorInterpolator();
     }
     
     @Override
@@ -44,6 +59,12 @@ final class DyingFireCharacterState extends CharacterStateBase {
         
         mDyingElapsed += updateData.delta;
         
+        float charringFraction = MathUtils.clamp(mDyingElapsed / CHARRED_DURATION, 0.0f, 1.0f);
+        mCharacterBodyGraphics.setColor(mColorInterpolator.interpolateColor(
+                CharacterBodyGraphics.DEFAULT_COLOR, CHARRED_COLOR, charringFraction));
+        mCharacterHeadGraphics.setColor(mColorInterpolator.interpolateColor(
+                CharacterHeadGraphics.DEFAULT_COLOR, CHARRED_COLOR, charringFraction));
+        
         mCharacterEyesGraphics.update(updateData.delta);
     }
     
@@ -56,6 +77,6 @@ final class DyingFireCharacterState extends CharacterStateBase {
     
     @Override
     public boolean isFinished() {
-        return mDyingElapsed >= DYING_DURATION;
+        return mDyingElapsed >= DYING_TOTAL_DURATION;
     }
 }

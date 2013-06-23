@@ -15,7 +15,7 @@ public final class CharacterBodyGraphics extends CharacterGraphicsBase {
     private static final float WIDTH = 0.9f;
     private static final float HEIGHT = 0.8f;
     
-    private static final Color DEFAULT_COLOR;
+    public static final Color DEFAULT_COLOR;
     
     private final Sprite mSprite;
     private final Color mColor;
@@ -43,5 +43,9 @@ public final class CharacterBodyGraphics extends CharacterGraphicsBase {
         mSprite.setColor(mColor);
         mSprite.setPosition(characterPosition.x + OFFSET_X, characterPosition.y + OFFSET_Y);
         mSprite.draw(batch);
+    }
+    
+    public void setColor(Color color) {
+        mColor.set(color);
     }
 }

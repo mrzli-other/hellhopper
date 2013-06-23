@@ -1,5 +1,7 @@
 package com.turbogerm.hellhopper.game.character.states;
 
+import com.badlogic.gdx.assets.AssetManager;
+
 
 final class DyingFireCharacterState extends CharacterStateBase {
     
@@ -7,7 +9,7 @@ final class DyingFireCharacterState extends CharacterStateBase {
     
     private float mDyingElapsed;
     
-    public DyingFireCharacterState(CharacterStateManager characterStateManager) {
+    public DyingFireCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
     }
     

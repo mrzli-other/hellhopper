@@ -2,6 +2,7 @@ package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -11,12 +12,19 @@ import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.util.GameUtils;
 import com.turbogerm.hellhopper.util.Pools;
 
 final class NormalCharacterState extends CharacterStateBase {
+    
+    private final CharacterBodyGraphics mCharacterBodyGraphics;
+    private final CharacterHeadGraphics mCharacterHeadGraphics;
+    private final CharacterEyesGraphicsNormal mCharacterEyesGraphics;
     
     private boolean mIsDying;
     
@@ -31,6 +39,10 @@ final class NormalCharacterState extends CharacterStateBase {
     public NormalCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
         
+        mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
+        mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
+        mCharacterEyesGraphics = new CharacterEyesGraphicsNormal(assetManager);
+        
         mRect = new Rectangle(0.0f, 0.0f, GameCharacter.WIDTH, GameCharacter.HEIGHT);
         
         mCharCollisionData = new CharCollisionData();
@@ -42,6 +54,9 @@ final class NormalCharacterState extends CharacterStateBase {
     
     @Override
     public void reset() {
+        mCharacterBodyGraphics.reset();
+        mCharacterHeadGraphics.reset();
+        
         mIsDying = false;
     }
     
@@ -73,6 +88,15 @@ final class NormalCharacterState extends CharacterStateBase {
         if (position.y > updateData.riseHeight) {
             changeState(CharacterStateManager.END_CHARACTER_STATE);
         }
+        
+        mCharacterEyesGraphics.update(updateData.delta);
+    }
+    
+    @Override
+    public void render(SpriteBatch batch, Vector2 characterPosition) {
+        mCharacterBodyGraphics.render(batch, characterPosition);
+        mCharacterHeadGraphics.render(batch, characterPosition);
+        mCharacterEyesGraphics.render(batch, characterPosition);
     }
     
     private void handleFall(Vector2 position, Vector2 speed, float visibleAreaPosition) {

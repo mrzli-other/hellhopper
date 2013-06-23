@@ -1,5 +1,6 @@
 package com.turbogerm.hellhopper.game.character.states;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.util.GameUtils;
 
@@ -11,7 +12,7 @@ final class EndCharacterState extends CharacterStateBase {
     
     private float mEndCountdown;
     
-    public EndCharacterState(CharacterStateManager characterStateManager) {
+    public EndCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
     }
     

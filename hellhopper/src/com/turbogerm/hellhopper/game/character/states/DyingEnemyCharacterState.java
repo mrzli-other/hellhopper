@@ -1,5 +1,6 @@
 package com.turbogerm.hellhopper.game.character.states;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 
 final class DyingEnemyCharacterState extends CharacterStateBase {
@@ -13,7 +14,7 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     private boolean mIsMovingPhaseStarted;
     private float mHorizontalSpeed;
     
-    public DyingEnemyCharacterState(CharacterStateManager characterStateManager) {
+    public DyingEnemyCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
     }
     

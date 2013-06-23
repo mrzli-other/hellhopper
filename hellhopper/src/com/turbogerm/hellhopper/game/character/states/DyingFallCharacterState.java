@@ -1,5 +1,6 @@
 package com.turbogerm.hellhopper.game.character.states;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 
 final class DyingFallCharacterState extends CharacterStateBase {
@@ -9,7 +10,7 @@ final class DyingFallCharacterState extends CharacterStateBase {
     
     private float mDyingCountdown;
     
-    public DyingFallCharacterState(CharacterStateManager characterStateManager) {
+    public DyingFallCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
     }
     

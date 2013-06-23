@@ -25,8 +25,6 @@ public final class GameCharacter {
     public static final float JUMP_SPEED = 21.25f;
     public static final float GRAVITY = 35.0f;
     
-    private final CharacterGraphics mCharacterGraphics;
-    
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
     
@@ -39,8 +37,6 @@ public final class GameCharacter {
     
     public GameCharacter(AssetManager assetManager) {
         
-        mCharacterGraphics = new CharacterGraphics(assetManager);
-        
         mShieldEffect = new ShieldEffect(assetManager);
         
         mPosition = new Vector2();
@@ -52,8 +48,6 @@ public final class GameCharacter {
     
     public void reset(float riseHeight) {
         mRiseHeight = riseHeight;
-        
-        mCharacterGraphics.reset();
         
         mPosition.set(GameArea.GAME_AREA_WIDTH / 2.0f - CHARACTER_CENTER_X_OFFSET, 0.0f);
         mSpeed.set(0.0f, JUMP_SPEED);
@@ -84,12 +78,13 @@ public final class GameCharacter {
         
         mCharacterStateManager.getCurrentState().update(mCharacterStateUpdateData);
         
-        mCharacterGraphics.update(delta);
         mShieldEffect.update(delta);
     }
     
     public void render(SpriteBatch batch) {
-        mCharacterGraphics.render(batch, mPosition);
+        mCharacterStateManager.getCurrentState().render(batch, mPosition);
+        
+        //mCharacterGraphics.render(batch, mPosition);
         mShieldEffect.render(batch, mPosition);
     }
     

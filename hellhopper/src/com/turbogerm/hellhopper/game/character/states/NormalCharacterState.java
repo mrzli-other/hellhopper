@@ -56,6 +56,7 @@ final class NormalCharacterState extends CharacterStateBase {
     public void reset() {
         mCharacterBodyGraphics.reset();
         mCharacterHeadGraphics.reset();
+        mCharacterEyesGraphics.reset();
         
         mIsDying = false;
     }

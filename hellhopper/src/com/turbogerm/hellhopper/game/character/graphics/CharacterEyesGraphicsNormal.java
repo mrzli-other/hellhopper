@@ -28,9 +28,9 @@ public final class CharacterEyesGraphicsNormal extends CharacterGraphicsBase {
     
     public CharacterEyesGraphicsNormal(AssetManager assetManager) {
         
-        mSprites = new Sprite[ResourceNames.CHARACTER_EYES_TEXTURE_COUNT];
+        mSprites = new Sprite[ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_COUNT];
         for (int i = 0; i < mSprites.length; i++) {
-            mSprites[i] = new Sprite((Texture) assetManager.get(ResourceNames.getCharacterEyesTexture(i)));
+            mSprites[i] = new Sprite((Texture) assetManager.get(ResourceNames.getCharacterEyesNormalTexture(i)));
             mSprites[i].setSize(WIDTH, HEIGHT);
             mSprites[i].setColor(DEFAULT_COLOR);
         }

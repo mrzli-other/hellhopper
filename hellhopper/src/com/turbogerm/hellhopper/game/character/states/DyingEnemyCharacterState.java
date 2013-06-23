@@ -1,13 +1,21 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsStunned;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 
 final class DyingEnemyCharacterState extends CharacterStateBase {
     
     private static final float DYING_STATIC_DURATION = 0.6f;
     private static final float DYING_MOVING_DURATION = 3.0f;
     private static final float DYING_TOTAL_DURATION = DYING_STATIC_DURATION + DYING_MOVING_DURATION;
+    
+    private final CharacterBodyGraphics mCharacterBodyGraphics;
+    private final CharacterHeadGraphics mCharacterHeadGraphics;
+    private final CharacterEyesGraphicsStunned mCharacterEyesGraphics;
     
     private float mDyingElapsed;
     private boolean mIsStaticPhaseStarted;
@@ -16,10 +24,18 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     
     public DyingEnemyCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
+        
+        mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
+        mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
+        mCharacterEyesGraphics = new CharacterEyesGraphicsStunned(assetManager);
     }
     
     @Override
     public void reset() {
+        mCharacterBodyGraphics.reset();
+        mCharacterHeadGraphics.reset();
+        mCharacterEyesGraphics.reset();
+        
         mDyingElapsed = 0.0f;
         mIsStaticPhaseStarted = false;
         mIsMovingPhaseStarted = false;
@@ -52,6 +68,15 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
         }
         
         mDyingElapsed += delta;
+        
+        mCharacterEyesGraphics.update(updateData.delta);
+    }
+    
+    @Override
+    public void render(SpriteBatch batch, Vector2 characterPosition) {
+        mCharacterBodyGraphics.render(batch, characterPosition);
+        mCharacterHeadGraphics.render(batch, characterPosition);
+        mCharacterEyesGraphics.render(batch, characterPosition);
     }
     
     @Override

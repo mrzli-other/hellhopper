@@ -38,8 +38,9 @@ public final class ResourceNames {
     private static final String CHARACTER_DIR = GAME_DIR + "character/";
     public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";
     public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
-    public static final int CHARACTER_EYES_TEXTURE_COUNT = 2;
-    private static final String CHARACTER_EYES_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyes%02d.png";
+    public static final int CHARACTER_EYES_NORMAL_TEXTURE_COUNT = 2;
+    private static final String CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyesnormal%02d.png";
+    public static final String CHARACTER_EYES_STUNNED_TEXTURE = CHARACTER_DIR + "eyesstunned.png";
     public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
     
     private static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
@@ -95,8 +96,8 @@ public final class ResourceNames {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
     }
     
-    public static String getCharacterEyesTexture(int index) {
-        return String.format(ResourceNames.CHARACTER_EYES_TEXTURE_NAME_FORMAT, index);
+    public static String getCharacterEyesNormalTexture(int index) {
+        return String.format(ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT, index);
     }
     
     public static String getPlatformNormalTexture(int index) {

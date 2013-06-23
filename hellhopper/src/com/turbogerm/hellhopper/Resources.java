@@ -58,9 +58,10 @@ public final class Resources {
         // CHARACTER
         mAssetManager.load(ResourceNames.CHARACTER_BODY_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_HEAD_TEXTURE, Texture.class, textureParameterLinear);
-        for (int i = 0; i < ResourceNames.CHARACTER_EYES_TEXTURE_COUNT; i++) {
-            mAssetManager.load(ResourceNames.getCharacterEyesTexture(i), Texture.class, textureParameterLinear);
+        for (int i = 0; i < ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_COUNT; i++) {
+            mAssetManager.load(ResourceNames.getCharacterEyesNormalTexture(i), Texture.class, textureParameterLinear);
         }
+        mAssetManager.load(ResourceNames.CHARACTER_EYES_STUNNED_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_SHIELD_EFFECT_TEXTURE, Texture.class, textureParameterNearest);
         
         // PLATFORMS

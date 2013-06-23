@@ -1,7 +1,11 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 final class EndCharacterState extends CharacterStateBase {
@@ -10,14 +14,26 @@ final class EndCharacterState extends CharacterStateBase {
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     private static final float END_DURATION = 4.0f;
     
+    private final CharacterBodyGraphics mCharacterBodyGraphics;
+    private final CharacterHeadGraphics mCharacterHeadGraphics;
+    private final CharacterEyesGraphicsNormal mCharacterEyesGraphics;
+    
     private float mEndCountdown;
     
     public EndCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
+        
+        mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
+        mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
+        mCharacterEyesGraphics = new CharacterEyesGraphicsNormal(assetManager);
     }
     
     @Override
     public void reset() {
+        mCharacterBodyGraphics.reset();
+        mCharacterHeadGraphics.reset();
+        mCharacterEyesGraphics.reset();
+        
         mEndCountdown = END_DURATION;
     }
     
@@ -42,6 +58,15 @@ final class EndCharacterState extends CharacterStateBase {
         updatePositionAndSpeed(position, speed, updateData.horizontalSpeed, delta);
         
         mEndCountdown -= delta;
+        
+        mCharacterEyesGraphics.update(updateData.delta);
+    }
+    
+    @Override
+    public void render(SpriteBatch batch, Vector2 characterPosition) {
+        mCharacterBodyGraphics.render(batch, characterPosition);
+        mCharacterHeadGraphics.render(batch, characterPosition);
+        mCharacterEyesGraphics.render(batch, characterPosition);
     }
     
     @Override

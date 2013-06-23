@@ -1,21 +1,37 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
+import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 
 final class DyingFallCharacterState extends CharacterStateBase {
     
     private static final float FALL_STOP_LIMIT = 3.0f;
     private static final float DYING_DURATION = 2.0f;
     
+    private final CharacterBodyGraphics mCharacterBodyGraphics;
+    private final CharacterHeadGraphics mCharacterHeadGraphics;
+    private final CharacterEyesGraphicsNormal mCharacterEyesGraphics;
+    
     private float mDyingCountdown;
     
     public DyingFallCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
+        
+        mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
+        mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
+        mCharacterEyesGraphics = new CharacterEyesGraphicsNormal(assetManager);
     }
     
     @Override
     public void reset() {
+        mCharacterBodyGraphics.reset();
+        mCharacterHeadGraphics.reset();
+        mCharacterEyesGraphics.reset();
+        
         mDyingCountdown = DYING_DURATION;
     }
     
@@ -36,6 +52,15 @@ final class DyingFallCharacterState extends CharacterStateBase {
         }
         
         mDyingCountdown -= delta;
+        
+        mCharacterEyesGraphics.update(updateData.delta);
+    }
+    
+    @Override
+    public void render(SpriteBatch batch, Vector2 characterPosition) {
+        mCharacterBodyGraphics.render(batch, characterPosition);
+        mCharacterHeadGraphics.render(batch, characterPosition);
+        mCharacterEyesGraphics.render(batch, characterPosition);
     }
     
     @Override

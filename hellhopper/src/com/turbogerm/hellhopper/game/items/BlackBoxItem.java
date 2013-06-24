@@ -24,4 +24,16 @@ public final class BlackBoxItem extends ItemBase {
     public boolean isCollision(Rectangle rect) {
         return Intersector.overlapRectangles(rect, mCollisionRect);
     }
+    
+    @Override
+    public int getEffect() {
+        // TODO Auto-generated method stub
+        return -1;
+    }
+    
+    @Override
+    public Object getValue() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

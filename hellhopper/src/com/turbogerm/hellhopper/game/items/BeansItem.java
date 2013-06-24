@@ -8,6 +8,8 @@ import com.turbogerm.hellhopper.dataaccess.ItemData;
 
 public final class BeansItem extends ItemBase {
     
+    public static final int NUM_FARTS = 20;
+    
     private final Rectangle mCollisionRect;
     
     public BeansItem(ItemData itemData, int startStep, AssetManager assetManager) {
@@ -23,5 +25,15 @@ public final class BeansItem extends ItemBase {
     @Override
     public boolean isCollision(Rectangle rect) {
         return Intersector.overlapRectangles(rect, mCollisionRect);
+    }
+    
+    @Override
+    public int getEffect() {
+        return FART_EFFECT;
+    }
+    
+    @Override
+    public Object getValue() {
+        return NUM_FARTS;
     }
 }

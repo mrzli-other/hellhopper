@@ -11,7 +11,16 @@ import com.turbogerm.hellhopper.game.GameAreaUtils;
 
 public abstract class ItemBase {
     
+    public static final int FART_EFFECT = 0;
+    public static final int SHIELD_EFFECT = 1;
+    public static final int HIGH_JUMP_EFFECT = 2;
+    public static final int EXTRA_LIFE_EFFECT = 3;
+    public static final int SCORE_EFFECT = 4;
+    public static final int RUBY_EFFECT = 5;
+    
     protected final Sprite mSprite;
+    
+    private boolean mIsExisting;
     
     public ItemBase(ItemData itemData, String texturePath, int startStep, AssetManager assetManager) {
         
@@ -24,16 +33,38 @@ public abstract class ItemBase {
                 texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
                 texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
         mSprite.setOrigin(mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
+        
+        mIsExisting = true;
     }
     
-    public void update(float delta) {
+    public final void update(float delta) {
+        if (mIsExisting) {
+            updateImpl(delta);
+        }
     }
     
-    public void render(SpriteBatch batch) {
-        mSprite.draw(batch);
+    protected void updateImpl(float delta) {
+    }
+    
+    public final void render(SpriteBatch batch) {
+        if (mIsExisting) {
+            mSprite.draw(batch);
+        }
+    }
+    
+    public void pickUp() {
+        mIsExisting = false;
     }
     
     public boolean isCollision(Rectangle rect) {
         return false;
     }
+    
+    public boolean isExisting() {
+        return mIsExisting;
+    }
+    
+    public abstract int getEffect();
+    
+    public abstract Object getValue();
 }

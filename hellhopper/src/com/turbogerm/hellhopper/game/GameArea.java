@@ -54,7 +54,7 @@ public final class GameArea {
     private Rise mRise;
     private float mRiseHeight;
     
-    private int mScore;
+    private int mRiseScore;
     
     private float mVisibleAreaPosition;
     private final GameCharacter mCharacter;
@@ -104,7 +104,7 @@ public final class GameArea {
         mRise = RiseGenerator.generate(mAssetManager);
         mRiseHeight = mRise.getHeight();
         
-        mScore = 0;
+        mRiseScore = 0;
         
         mVisibleAreaPosition = 0.0f;
         mCharacter.reset(mRiseHeight);
@@ -136,7 +136,7 @@ public final class GameArea {
         }
         
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
-        mScore = Math.max(mScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
+        mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
         mBackgroundScene.update(mVisibleAreaPosition, delta);
@@ -305,7 +305,7 @@ public final class GameArea {
     }
     
     public int getScore() {
-        return mScore;
+        return mRiseScore + mCharacter.getScore();
     }
     
     public Color getBackgroundColor() {

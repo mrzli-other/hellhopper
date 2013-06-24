@@ -24,4 +24,14 @@ public final class RubyItem extends ItemBase {
     public boolean isCollision(Rectangle rect) {
         return Intersector.overlapRectangles(rect, mCollisionRect);
     }
+
+    @Override
+    public int getEffect() {
+        return RUBY_EFFECT;
+    }
+
+    @Override
+    public Object getValue() {
+        return null;
+    }
 }

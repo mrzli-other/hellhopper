@@ -1,6 +1,5 @@
 package com.turbogerm.hellhopper.game.character.states;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
@@ -20,7 +19,7 @@ public abstract class CharacterStateBase {
     public void update(CharacterStateUpdateData updateData) {
     }
     
-    public void render(SpriteBatch batch, Vector2 characterPosition) {
+    public void render(CharacterStateRenderData renderData) {
     }
     
     public boolean isFinished() {

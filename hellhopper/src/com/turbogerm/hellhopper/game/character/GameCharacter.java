@@ -8,6 +8,7 @@ import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.game.RiseSection;
 import com.turbogerm.hellhopper.game.character.states.CharacterStateManager;
+import com.turbogerm.hellhopper.game.character.states.CharacterStateRenderData;
 import com.turbogerm.hellhopper.game.character.states.CharacterStateUpdateData;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.items.ItemBase;
@@ -28,22 +29,24 @@ public final class GameCharacter {
     private final Vector2 mPosition;
     private final Vector2 mSpeed;
     
-    private final ShieldEffect mShieldEffect;
-    
     private float mRiseHeight;
     
     private final CharacterStateManager mCharacterStateManager;
+    private final CharacterEffects mCharacterEffects;
+    
     private final CharacterStateUpdateData mCharacterStateUpdateData;
+    private final CharacterStateRenderData mCharacterStateRenderData;
     
     public GameCharacter(AssetManager assetManager) {
-        
-        mShieldEffect = new ShieldEffect(assetManager);
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
         
         mCharacterStateManager = new CharacterStateManager(assetManager);
+        mCharacterEffects = new CharacterEffects();
+        
         mCharacterStateUpdateData = new CharacterStateUpdateData();
+        mCharacterStateRenderData = new CharacterStateRenderData();
     }
     
     public void reset(float riseHeight) {
@@ -53,6 +56,7 @@ public final class GameCharacter {
         mSpeed.set(0.0f, JUMP_SPEED);
         
         mCharacterStateManager.reset();
+        mCharacterEffects.reset();
     }
     
     public void update(float horizontalSpeed,
@@ -74,18 +78,18 @@ public final class GameCharacter {
         mCharacterStateUpdateData.visibleItems = visibleItems;
         mCharacterStateUpdateData.riseHeight = mRiseHeight;
         mCharacterStateUpdateData.visibleAreaPosition = visibleAreaPosition;
+        mCharacterStateUpdateData.characterEffects = mCharacterEffects;
         mCharacterStateUpdateData.delta = delta;
         
         mCharacterStateManager.getCurrentState().update(mCharacterStateUpdateData);
-        
-        mShieldEffect.update(delta);
     }
     
     public void render(SpriteBatch batch) {
-        mCharacterStateManager.getCurrentState().render(batch, mPosition);
+        mCharacterStateRenderData.batch = batch;
+        mCharacterStateRenderData.characterPosition = mPosition;
+        mCharacterStateRenderData.characterEffects = mCharacterEffects;
         
-        //mCharacterGraphics.render(batch, mPosition);
-        mShieldEffect.render(batch, mPosition);
+        mCharacterStateManager.getCurrentState().render(mCharacterStateRenderData);
     }
     
     public boolean isFinished() {
@@ -98,5 +102,9 @@ public final class GameCharacter {
     
     public Vector2 getSpeed() {
         return mSpeed;
+    }
+    
+    public int getScore() {
+        return mCharacterEffects.getScore();
     }
 }

@@ -57,10 +57,13 @@ final class DyingFallCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public void render(SpriteBatch batch, Vector2 characterPosition) {
-        mCharacterBodyGraphics.render(batch, characterPosition);
-        mCharacterHeadGraphics.render(batch, characterPosition);
-        mCharacterEyesGraphics.render(batch, characterPosition);
+    public void render(CharacterStateRenderData renderData) {
+        SpriteBatch batch = renderData.batch;
+        Vector2 position = renderData.characterPosition;
+        
+        mCharacterBodyGraphics.render(batch, position);
+        mCharacterHeadGraphics.render(batch, position);
+        mCharacterEyesGraphics.render(batch, position);
     }
     
     @Override

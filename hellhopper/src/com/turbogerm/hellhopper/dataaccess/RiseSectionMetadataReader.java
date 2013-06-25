@@ -36,18 +36,18 @@ public final class RiseSectionMetadataReader {
         return new RiseSectionsMetadata(riseSectionMetadataList);
     }
     
-    private static RiseSectionMetadata getRiseSectionMetadata(Element riseSection) {
-        String generatorType = riseSection.getAttribute("generatortype");
-        String type = riseSection.getAttribute("type");
-        String name = riseSection.getAttribute("name");
-        int minStepRange = Integer.parseInt(riseSection.getAttribute("minsteprange"));
-        int maxStepRange = Integer.parseInt(riseSection.getAttribute("maxsteprange"));
-        int minStepDistance = Integer.parseInt(riseSection.getAttribute("minstepdistance"));
-        int maxStepDistance = Integer.parseInt(riseSection.getAttribute("maxstepdistance"));
-        int difficulty = Integer.parseInt(riseSection.getAttribute("difficulty"));
+    private static RiseSectionMetadata getRiseSectionMetadata(Element riseSectionNode) {
+        String generatorType = riseSectionNode.getAttribute("generatortype");
+        String type = riseSectionNode.getAttribute("type");
+        String name = riseSectionNode.getAttribute("name");
+        int minStepRange = ReaderUtilities.getIntAttribute(riseSectionNode, "minsteprange");
+        int maxStepRange = ReaderUtilities.getIntAttribute(riseSectionNode, "maxsteprange");
+        int minStepDistance = ReaderUtilities.getIntAttribute(riseSectionNode, "minstepdistance");
+        int maxStepDistance = ReaderUtilities.getIntAttribute(riseSectionNode, "maxstepdistance");
+        int difficulty = ReaderUtilities.getIntAttribute(riseSectionNode, "difficulty");
         
         ObjectMap<String, String> properties =  ReaderUtilities.getProperties(
-                riseSection.getChildByName("properties"));
+                riseSectionNode.getChildByName("properties"));
         
         return new RiseSectionMetadata(generatorType, type, name,
                 minStepRange, maxStepRange, minStepDistance, maxStepDistance,

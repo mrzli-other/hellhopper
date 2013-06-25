@@ -22,4 +22,32 @@ final class ReaderUtilities {
         
         return properties;
     }
+    
+    public static int getIntAttribute(Element node, String attributeName) {
+        String attributeValue = node.getAttribute(attributeName);
+        return Integer.parseInt(attributeValue);
+    }
+    
+    public static int getIntAttribute(Element node, String attributeName, int defaultValue) {
+        String attributeValue = node.getAttribute(attributeName, null);
+        if (attributeValue != null) {
+            return Integer.parseInt(attributeValue);
+        } else {
+            return defaultValue;
+        }
+    }
+    
+    public static float getFloatAttribute(Element node, String attributeName) {
+        String attributeValue = node.getAttribute(attributeName);
+        return Float.parseFloat(attributeValue);
+    }
+    
+    public static float getFloatAttribute(Element node, String attributeName, float defaultValue) {
+        String attributeValue = node.getAttribute(attributeName, null);
+        if (attributeValue != null) {
+            return Float.parseFloat(attributeValue);
+        } else {
+            return defaultValue;
+        }
+    }
 }

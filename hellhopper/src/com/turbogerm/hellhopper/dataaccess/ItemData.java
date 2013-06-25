@@ -23,14 +23,16 @@ public final class ItemData {
     private final String mType;
     private final float mStep;
     private final float mOffset;
+    private final float mAppearanceChance;
     private final int mAttachedToPlatformId;
     private final ObjectMap<String, String> mProperties;
     
-    public ItemData(String type, float step, float offset,
+    public ItemData(String type, float step, float offset, float appearanceChance,
             int attachedToPlatformId, ObjectMap<String, String> properties) {
         mType = type;
         mStep = step;
         mOffset = offset;
+        mAppearanceChance = appearanceChance;
         mAttachedToPlatformId = attachedToPlatformId;
         mProperties = properties;
     }
@@ -45,6 +47,10 @@ public final class ItemData {
     
     public float getOffset() {
         return mOffset;
+    }
+    
+    public float getAppearanceChance() {
+        return mAppearanceChance;
     }
     
     public int getAttachedToPlatformId() {

@@ -24,10 +24,8 @@ public final class RiseSectionDataReader {
             return null;
         }
         
-        String stepRangeAttribute = riseSectionNode.getAttribute("steprange");
-        int stepRange = Integer.parseInt(stepRangeAttribute);
-        String difficultyAttribute = riseSectionNode.getAttribute("difficulty");
-        int difficulty = Integer.parseInt(difficultyAttribute);
+        int stepRange = ReaderUtilities.getIntAttribute(riseSectionNode, "steprange");
+        int difficulty = ReaderUtilities.getIntAttribute(riseSectionNode, "difficulty");
         
         NextGeneratedId nextGeneratedId = new NextGeneratedId();
         Element platformsNode = riseSectionNode.getChildByName("platforms");
@@ -57,18 +55,14 @@ public final class RiseSectionDataReader {
     
     private static PlatformData getPlatformData(NextGeneratedId nextGeneratedId, Element platformNode) {
         
-        int id;
-        if (platformNode.getAttribute("id", null) != null) {
-            id = Integer.parseInt(platformNode.getAttribute("id"));
-        } else {
+        int id = ReaderUtilities.getIntAttribute(platformNode, "id", -1);
+        if (id == -1) {
             id = nextGeneratedId.id;
             nextGeneratedId.id++;
         }
         
-        String stepAttribute = platformNode.getAttribute("step");
-        int step = Integer.parseInt(stepAttribute);
-        String offsetAttribute = platformNode.getAttribute("offset");
-        int offset = Integer.parseInt(offsetAttribute);
+        int step = ReaderUtilities.getIntAttribute(platformNode, "step");
+        int offset = ReaderUtilities.getIntAttribute(platformNode, "offset");
         String type = platformNode.getAttribute("type");
         
         PlatformMovementData movementData = getMovementData(platformNode.getChildByName("movement"));
@@ -134,10 +128,8 @@ public final class RiseSectionDataReader {
     
     private static EnemyData getEnemyData(Element enemyNode) {
         String type = enemyNode.getAttribute("type");
-        String stepAttribute = enemyNode.getAttribute("step");
-        float step = Float.parseFloat(stepAttribute);
-        String offsetAttribute = enemyNode.getAttribute("offset");
-        float offset = Float.parseFloat(offsetAttribute);
+        float step = ReaderUtilities.getFloatAttribute(enemyNode, "step");
+        float offset = ReaderUtilities.getFloatAttribute(enemyNode, "offset");
         
         ObjectMap<String, String> properties = ReaderUtilities.getProperties(
                 enemyNode.getChildByName("properties"));
@@ -164,23 +156,15 @@ public final class RiseSectionDataReader {
     
     private static ItemData getItemData(Element itemNode) {
         String type = itemNode.getAttribute("type");
-        String stepAttribute = itemNode.getAttribute("step");
-        float step = Float.parseFloat(stepAttribute);
-        String offsetAttribute = itemNode.getAttribute("offset");
-        float offset = Float.parseFloat(offsetAttribute);
-        
-        int attachedToPlatformId;
-        String attachedToPlatformIdAttribute = itemNode.getAttribute("attachedtoplatformid", null);
-        if (attachedToPlatformIdAttribute != null) {
-            attachedToPlatformId = Integer.parseInt(attachedToPlatformIdAttribute);
-        } else {
-            attachedToPlatformId = -1;
-        }
+        float step = ReaderUtilities.getFloatAttribute(itemNode, "step");
+        float offset = ReaderUtilities.getFloatAttribute(itemNode, "offset");
+        float appearanceChance = ReaderUtilities.getFloatAttribute(itemNode, "appearancechance", 1.0f);
+        int attachedToPlatformId = ReaderUtilities.getIntAttribute(itemNode, "attachedtoplatformid", -1);
         
         ObjectMap<String, String> properties = ReaderUtilities.getProperties(
                 itemNode.getChildByName("properties"));
         
-        return new ItemData(type, step, offset, attachedToPlatformId, properties);
+        return new ItemData(type, step, offset, appearanceChance, attachedToPlatformId, properties);
     }
     
     private static class NextGeneratedId {

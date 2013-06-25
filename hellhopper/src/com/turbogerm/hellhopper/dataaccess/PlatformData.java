@@ -21,6 +21,7 @@ public final class PlatformData {
     public static final int MAX_PLATFORM_OFFSET = (int) (GameArea.GAME_AREA_WIDTH / GameAreaUtils.OFFSET_WIDTH) -
             PLATFORM_WIDTH_OFFSETS;
     
+    private final int mId;
     private final String mPlatformType;
     private final int mStep;
     private final int mOffset;
@@ -28,14 +29,20 @@ public final class PlatformData {
     private final Array<PlatformFeatureData> mFeaturesData;
     private final ObjectMap<String, String> mProperties;
     
-    public PlatformData(String platformType, int step, int offset, PlatformMovementData movementData,
+    public PlatformData(int id, String platformType, int step, int offset, PlatformMovementData movementData,
             Array<PlatformFeatureData> featuresData, ObjectMap<String, String> properties) {
+        
+        mId = id;
         mPlatformType = platformType;
         mStep = step;
         mOffset = offset;
         mMovementData = movementData;
         mFeaturesData = featuresData;
         mProperties = properties;
+    }
+    
+    public int getId() {
+        return mId;
     }
     
     public String getPlatformType() {

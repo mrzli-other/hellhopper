@@ -103,7 +103,7 @@ final class RiseSectionGenerator {
             
             Array<PlatformFeatureData> featuresData = getFeaturesDataJumpBoost(i, allJumpBoostPlatformIndexes);
             
-            PlatformData padData = new PlatformData(PlatformData.NORMAL_TYPE, step, offset,
+            PlatformData padData = new PlatformData(i, PlatformData.NORMAL_TYPE, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -164,7 +164,7 @@ final class RiseSectionGenerator {
             String platformType = i >= numNonJumpBoostSteps && isCrumble ?
                     PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
             
-            PlatformData padData = new PlatformData(platformType, step, offset,
+            PlatformData padData = new PlatformData(i, platformType, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -212,7 +212,7 @@ final class RiseSectionGenerator {
             String platformType = featuresData != null && isCrumble ?
                     PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
             
-            PlatformData padData = new PlatformData(platformType, step, offset,
+            PlatformData padData = new PlatformData(i, platformType, step, offset,
                     movementData, featuresData, null);
             platformDataList.add(padData);
         }
@@ -268,7 +268,7 @@ final class RiseSectionGenerator {
             String platformType = crumbleIndexes.contains(i, false) ?
                     PlatformData.CRUMBLE_TYPE : PlatformData.NORMAL_TYPE;
             
-            PlatformData padData = new PlatformData(platformType, step, offset, movementData, featuresData, null);
+            PlatformData padData = new PlatformData(i, platformType, step, offset, movementData, featuresData, null);
             platformDataList.add(padData);
         }
         
@@ -307,7 +307,7 @@ final class RiseSectionGenerator {
                         j, platformsPerStep, flameCycleTimeSlice);
                 
                 PlatformData padData = new PlatformData(
-                        PlatformData.NORMAL_TYPE, step, offset, null, featuresData, null);
+                        i, PlatformData.NORMAL_TYPE, step, offset, null, featuresData, null);
                 platformDataList.add(padData);
                 
                 takenOffsets.add(offset);

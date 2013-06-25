@@ -13,11 +13,15 @@ public final class LifeItem extends ItemBase {
     public LifeItem(ItemData itemData, int startStep, AssetManager assetManager) {
         super(itemData, ResourceNames.ITEM_LIFE_TEXTURE, startStep, assetManager);
         
-        float x = mSprite.getX();
-        float y = mSprite.getY();
-        float width = mSprite.getWidth();
-        float height = mSprite.getHeight();
-        mCollisionRect = new Rectangle(x, y, width, height);
+        mCollisionRect = new Rectangle();
+        
+        updatePositionImpl();
+    }
+    
+    @Override
+    protected void updatePositionImpl() {
+        mSprite.setPosition(mPosition.x, mPosition.y);
+        mCollisionRect.set(mPosition.x, mPosition.y, mSize.x, mSize.y);
     }
     
     @Override

@@ -1,6 +1,7 @@
 package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
@@ -14,23 +15,27 @@ public final class CoinItem extends ItemBase {
     
     private final int mCoinScore;
     
-    private final Rectangle mCollisionRect;
+    private final Circle mCollisionCircle;
     
     public CoinItem(ItemData itemData, int startStep, AssetManager assetManager) {
         super(itemData, getTexturePath(itemData), startStep, assetManager);
         
         mCoinScore = getCoinScore(itemData);
         
-        float x = mSprite.getX();
-        float y = mSprite.getY();
-        float width = mSprite.getWidth();
-        float height = mSprite.getHeight();
-        mCollisionRect = new Rectangle(x, y, width, height);
+        mCollisionCircle = new Circle();
+        
+        updatePositionImpl();
+    }
+    
+    @Override
+    protected void updatePositionImpl() {
+        mSprite.setPosition(mPosition.x, mPosition.y);
+        mCollisionCircle.set(mPosition.x, mPosition.y, mRadius);
     }
     
     @Override
     public boolean isCollision(Rectangle rect) {
-        return Intersector.overlapRectangles(rect, mCollisionRect);
+        return Intersector.overlapCircleRectangle(mCollisionCircle, rect);
     }
     
     private static String getTexturePath(ItemData itemData) {

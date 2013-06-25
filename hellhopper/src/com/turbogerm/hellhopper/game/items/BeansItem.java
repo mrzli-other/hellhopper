@@ -15,11 +15,15 @@ public final class BeansItem extends ItemBase {
     public BeansItem(ItemData itemData, int startStep, AssetManager assetManager) {
         super(itemData, ResourceNames.ITEM_BEANS_TEXTURE, startStep, assetManager);
         
-        float x = mSprite.getX();
-        float y = mSprite.getY();
-        float width = mSprite.getWidth();
-        float height = mSprite.getHeight();
-        mCollisionRect = new Rectangle(x, y, width, height);
+        mCollisionRect = new Rectangle();
+        
+        updatePositionImpl();
+    }
+    
+    @Override
+    protected void updatePositionImpl() {
+        mSprite.setPosition(mPosition.x, mPosition.y);
+        mCollisionRect.set(mPosition.x, mPosition.y, mSize.x, mSize.y);
     }
     
     @Override

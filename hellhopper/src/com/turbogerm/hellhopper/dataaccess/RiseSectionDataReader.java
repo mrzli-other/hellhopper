@@ -29,8 +29,9 @@ public final class RiseSectionDataReader {
         String difficultyAttribute = riseSectionNode.getAttribute("difficulty");
         int difficulty = Integer.parseInt(difficultyAttribute);
         
+        NextGeneratedId nextGeneratedId = new NextGeneratedId();
         Element platformsNode = riseSectionNode.getChildByName("platforms");
-        Array<PlatformData> platformDataList = getPlatformsData(platformsNode);
+        Array<PlatformData> platformDataList = getPlatformsData(nextGeneratedId, platformsNode);
         
         Element enemiesNode = riseSectionNode.getChildByName("enemies");
         Array<EnemyData> enemyDataList = getEnemiesData(enemiesNode);
@@ -41,12 +42,12 @@ public final class RiseSectionDataReader {
         return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, enemyDataList, itemDataList);
     }
     
-    private static Array<PlatformData> getPlatformsData(Element platformsNode) {
+    private static Array<PlatformData> getPlatformsData(NextGeneratedId nextGeneratedId, Element platformsNode) {
         int numPlatforms = platformsNode.getChildCount();
         Array<PlatformData> platformDataList = new Array<PlatformData>(true, numPlatforms);
         for (int i = 0; i < numPlatforms; i++) {
             Element platformNode = platformsNode.getChild(i);
-            PlatformData platformData = getPlatformData(platformNode);
+            PlatformData platformData = getPlatformData(nextGeneratedId, platformNode);
             platformDataList.add(platformData);
         }
         RiseGeneratorUtils.sortPlatforms(platformDataList);
@@ -54,7 +55,16 @@ public final class RiseSectionDataReader {
         return platformDataList;
     }
     
-    private static PlatformData getPlatformData(Element platformNode) {
+    private static PlatformData getPlatformData(NextGeneratedId nextGeneratedId, Element platformNode) {
+        
+        int id;
+        if (platformNode.getAttribute("id", null) != null) {
+            id = Integer.parseInt(platformNode.getAttribute("id"));
+        } else {
+            id = nextGeneratedId.id;
+            nextGeneratedId.id++;
+        }
+        
         String stepAttribute = platformNode.getAttribute("step");
         int step = Integer.parseInt(stepAttribute);
         String offsetAttribute = platformNode.getAttribute("offset");
@@ -66,7 +76,7 @@ public final class RiseSectionDataReader {
         ObjectMap<String, String> properties = ReaderUtilities.getProperties(
                 platformNode.getChildByName("properties"));
         
-        return new PlatformData(type, step, offset, movementData, featuresData, properties);
+        return new PlatformData(id, type, step, offset, movementData, featuresData, properties);
     }
     
     private static PlatformMovementData getMovementData(Element movementNode) {
@@ -159,9 +169,27 @@ public final class RiseSectionDataReader {
         String offsetAttribute = itemNode.getAttribute("offset");
         float offset = Float.parseFloat(offsetAttribute);
         
+        int attachedToPlatformId;
+        String attachedToPlatformIdAttribute = itemNode.getAttribute("attachedtoplatformid", null);
+        if (attachedToPlatformIdAttribute != null) {
+            attachedToPlatformId = Integer.parseInt(attachedToPlatformIdAttribute);
+        } else {
+            attachedToPlatformId = -1;
+        }
+        
         ObjectMap<String, String> properties = ReaderUtilities.getProperties(
                 itemNode.getChildByName("properties"));
         
-        return new ItemData(type, step, offset, properties);
+        return new ItemData(type, step, offset, attachedToPlatformId, properties);
+    }
+    
+    private static class NextGeneratedId {
+        private static final int FIRST_GENERATED_ID = 1000;
+        
+        public int id;
+        
+        public NextGeneratedId() {
+            id = FIRST_GENERATED_ID;
+        }
     }
 }

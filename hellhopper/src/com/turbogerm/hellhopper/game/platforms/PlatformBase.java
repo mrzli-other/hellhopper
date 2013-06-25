@@ -17,6 +17,7 @@ import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
+import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureBase;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
@@ -25,6 +26,8 @@ import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {
+    
+    private static final int ATTACHED_ITEMS_INITIAL_CAPACITY = 2;
     
     private static final float DEFAULT_COLOR_VALUE = 0.5f;
     
@@ -46,6 +49,8 @@ public abstract class PlatformBase {
     }
     
     private final int mRiseSectionId;
+    private final int mPlatformId;
+    private final Vector2 mInitialPosition;
     
     protected final Sprite mSprite;
     protected final PlatformModifier mPlatformModifier;
@@ -56,20 +61,23 @@ public abstract class PlatformBase {
     private final Array<PlatformFeatureBase> mPlatformFeatures;
     private final Array<PlatformFeatureBase> mPlatformFeaturesForRendering;
     
+    private final Array<ItemBase> mAttachedItems;
+    
     public PlatformBase(int riseSectionId, PlatformData platformData, int startStep,
             AssetManager assetManager) {
         
         mRiseSectionId = riseSectionId;
+        mPlatformId = platformData.getId();
         
         Texture texture = assetManager.get(getTexturePath(platformData));
-        Vector2 initialPosition =  platformData.getPosition(startStep);
+        mInitialPosition =  platformData.getPosition(startStep);
         
         mSprite = new Sprite(texture);
-        mSprite.setBounds(initialPosition.x, initialPosition.y,
+        mSprite.setBounds(mInitialPosition.x, mInitialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
         mPlatformModifier = new PlatformModifier();
         
-        mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), initialPosition,
+        mPlatformMovement = PlatformMovementFactory.create(platformData.getMovementData(), mInitialPosition,
                 assetManager);
         mHasVerticalMovement = mPlatformMovement.hasVerticalMovement();
         
@@ -78,6 +86,8 @@ public abstract class PlatformBase {
         
         mPlatformFeaturesForRendering = new Array<PlatformFeatureBase>(mPlatformFeatures);
         mPlatformFeaturesForRendering.sort(PLATFORM_FEATURE_RENDER_COMPARATOR);
+        
+        mAttachedItems = new Array<ItemBase>(ATTACHED_ITEMS_INITIAL_CAPACITY);
     }
     
     public final void update(float delta, Vector2 c1, Vector2 c2, PlatformToCharCollisionData collisionData) {
@@ -117,6 +127,10 @@ public abstract class PlatformBase {
         
         if (isMovingInternal()) {
             mPlatformMovement.updatePosition(delta);
+            Vector2 position = getPosition();
+            for (ItemBase item : mAttachedItems) {
+                item.updatePosition(position);
+            }
         }
     }
     
@@ -179,6 +193,11 @@ public abstract class PlatformBase {
         }
     }
     
+    public void attachItem(ItemBase item) {
+        item.setOffsetFromPlatform(mInitialPosition);
+        mAttachedItems.add(item);
+    }
+    
     protected boolean isActiveInternal() {
         return true;
     }
@@ -210,6 +229,10 @@ public abstract class PlatformBase {
         }
         
         collisionEffects.set(CollisionEffects.VISIBLE_ON_JUMP);
+    }
+    
+    public int getPlatformId() {
+        return mPlatformId;
     }
     
     public int getRiseSectionId() {

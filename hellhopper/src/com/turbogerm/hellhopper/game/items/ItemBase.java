@@ -19,20 +19,31 @@ public abstract class ItemBase {
     public static final int RUBY_EFFECT = 5;
     
     protected final Sprite mSprite;
+    private final Vector2 mInitialPosition;
+    private final Vector2 mOffsetFromPlatform;
+    
+    protected final Vector2 mPosition;
+    protected final Vector2 mSize;
+    protected final float mRadius;
     
     private boolean mIsExisting;
     
     public ItemBase(ItemData itemData, String texturePath, int startStep, AssetManager assetManager) {
         
         Texture texture = assetManager.get(texturePath);
-        Vector2 initialPosition = itemData.getPosition(startStep);
         
-        mSprite = new Sprite(texture);
-        mSprite.setBounds(
-                initialPosition.x, initialPosition.y,
+        mInitialPosition = itemData.getPosition(startStep);
+        mOffsetFromPlatform = new Vector2();
+        
+        mPosition = new Vector2(mInitialPosition);
+        mSize = new Vector2(
                 texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
                 texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
-        mSprite.setOrigin(mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
+        
+        mRadius = mSize.x / 2.0f;
+        
+        mSprite = new Sprite(texture);
+        mSprite.setSize(mSize.x, mSize.y);
         
         mIsExisting = true;
     }
@@ -51,6 +62,22 @@ public abstract class ItemBase {
             mSprite.draw(batch);
         }
     }
+    
+    public void setOffsetFromPlatform(Vector2 platformInitialPosition) {
+        mOffsetFromPlatform.set(
+                mInitialPosition.x - platformInitialPosition.x,
+                mInitialPosition.y - platformInitialPosition.y);
+    }
+    
+    public final void updatePosition(Vector2 platformPosition) {
+        mPosition.set(
+                platformPosition.x + mOffsetFromPlatform.x,
+                platformPosition.y + mOffsetFromPlatform.y);
+        
+        updatePositionImpl();
+    }
+    
+    protected abstract void updatePositionImpl();
     
     public void pickUp() {
         mIsExisting = false;

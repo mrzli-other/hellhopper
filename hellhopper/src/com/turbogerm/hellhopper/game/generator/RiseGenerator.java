@@ -27,7 +27,7 @@ import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 200;
+    private static final int RISE_HEIGHT_STEPS = 2000;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
@@ -137,20 +137,20 @@ public final class RiseGenerator {
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
-            String name = riseSectionData.getName();
-            if (!name.startsWith("knight")) {
-                continue;
-            }
-                
-            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-            riseSectionsData.add(currRiseSection);
-            stepsInRise += currRiseSection.getStepRange();
-            
-            currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection(name);
-            riseSectionsData.add(currRiseSection);
-            stepsInRise += currRiseSection.getStepRange();
-        }
+//        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
+//            String name = riseSectionData.getName();
+//            if (!name.startsWith("knight")) {
+//                continue;
+//            }
+//                
+//            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//            
+//            currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection(name);
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//        }
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);
@@ -391,6 +391,11 @@ public final class RiseGenerator {
             items = new Array<ItemBase>(true, itemsData.size);
             for (ItemData itemData : itemsData) {
                 ItemBase item = ItemFactory.create(itemData, startStep, assetManager);
+                int attachedToPlatformId = itemData.getAttachedToPlatformId();
+                if (attachedToPlatformId >= 0) {
+                    PlatformBase attachedToPlatform = getPlatform(attachedToPlatformId, platforms);
+                    attachedToPlatform.attachItem(item);
+                }
                 items.add(item);
             }
         } else {
@@ -398,6 +403,16 @@ public final class RiseGenerator {
         }
         
         return new RiseSection(riseSectionId, riseSectionName, difficulty, startY, height, platforms, enemies, items);
+    }
+    
+    private static PlatformBase getPlatform(int platformId, Array<PlatformBase> platforms) {
+        for (PlatformBase platform : platforms) {
+            if (platform.getPlatformId() == platformId) {
+                return platform;
+            }
+        }
+        
+        return null;
     }
     
     private static class MinMaxDifficulty {

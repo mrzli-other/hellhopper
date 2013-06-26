@@ -11,7 +11,7 @@ public final class ItemData {
     public static final String JUMP_SUIT_TYPE = "jumpsuit";
     public static final String LIFE_TYPE = "life";
     public static final String COIN_TYPE = "coin";
-    public static final String RUBY_TYPE = "ruby";
+    public static final String SIGNET_TYPE = "signet";
     public static final String BLACK_BOX_TYPE = "blackbox";
     
     public static final String COIN_TYPE_PROPERTY = "cointype";

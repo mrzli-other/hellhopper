@@ -19,7 +19,7 @@ final class RiseSectionGenerator {
     private static final float COPPER_COIN_SCORE_ITEM_WEIGHT = 3.0f;
     private static final float SILVER_COIN_SCORE_ITEM_WEIGHT = 2.0f;
     private static final float GOLD_COIN_SCORE_ITEM_WEIGHT = 1.0f;
-    private static final float RUBY_SCORE_ITEM_WEIGHT = 1.0f;
+    private static final float SIGNET_SCORE_ITEM_WEIGHT = 1.0f;
     
     private static final float COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     private static final float SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
@@ -30,14 +30,13 @@ final class RiseSectionGenerator {
     private static final float SCORE_ITEM_DISTANCE_RANGE =
             MAX_SCORE_ITEM_DISTANCE_STEPS - MIN_SCORE_ITEM_DISTANCE_STEPS;
     
-    private static final float COIN_ITEM_WIDTH_OFFSETS = 4.0f;
-    private static final float RUBY_ITEM_WIDTH_OFFSETS = 4.0f;
+    private static final float SCORE_ITEM_WIDTH_OFFSETS = 4.0f;
     
     private static final int SCORE_ITEMS_INITIAL_CAPACITY = 10;
     
     static {
         float totalScoreItemWeigt = COPPER_COIN_SCORE_ITEM_WEIGHT + SILVER_COIN_SCORE_ITEM_WEIGHT +
-                GOLD_COIN_SCORE_ITEM_WEIGHT + RUBY_SCORE_ITEM_WEIGHT;
+                GOLD_COIN_SCORE_ITEM_WEIGHT + SIGNET_SCORE_ITEM_WEIGHT;
         
         COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION = COPPER_COIN_SCORE_ITEM_WEIGHT / totalScoreItemWeigt;
         SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION = COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION +
@@ -602,21 +601,21 @@ final class RiseSectionGenerator {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_COPPER_PROPERTY_VALUE);
-            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
         } else if (randomValue <= SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_SILVER_PROPERTY_VALUE);
-            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
         } else if (randomValue <= GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_GOLD_PROPERTY_VALUE);
-            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
         } else {
-            type = ItemData.RUBY_TYPE;
+            type = ItemData.SIGNET_TYPE;
             properties = null;
-            offset = getRandomOffset(RUBY_ITEM_WIDTH_OFFSETS);
+            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
         }
         
         return new ItemData(type, step, offset, 1.0f, -1, properties);

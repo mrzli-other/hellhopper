@@ -62,7 +62,8 @@ public final class Resources {
             mAssetManager.load(ResourceNames.getCharacterEyesNormalTexture(i), Texture.class, textureParameterLinear);
         }
         mAssetManager.load(ResourceNames.CHARACTER_EYES_STUNNED_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_OPENED_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_CLOSED_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_SHIELD_EFFECT_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.CHARACTER_FART_DISCHARGE_TEXTURE, Texture.class, textureParameterLinear);
         
@@ -99,7 +100,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.ITEM_COIN_COPPER_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.ITEM_COIN_SILVER_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.ITEM_COIN_GOLD_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_RUBY_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.ITEM_SIGNET_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.ITEM_BLACK_BOX_TEXTURE, Texture.class, textureParameterLinear);
         
         // BACKGROUND

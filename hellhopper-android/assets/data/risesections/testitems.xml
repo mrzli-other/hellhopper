@@ -47,10 +47,10 @@
       </properties>
     </item>
     
-    <item step="20.5" offset="25" type="ruby" />
+    <item step="20.5" offset="25" type="signet" />
     <item step="25.5" offset="11" type="blackbox" />
     
-    <item step="30.5" offset="0" type="ruby" attachedtoplatformid="0" />
+    <item step="30.5" offset="0" type="signet" attachedtoplatformid="0" />
   </items>
   
 </risesection>

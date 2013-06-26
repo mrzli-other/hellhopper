@@ -28,12 +28,15 @@ import com.turbogerm.hellhopper.util.Pools;
 
 final class NormalCharacterState extends CharacterStateBase {
     
-    private static final int RUBY_SCORE_INCREMENTS = 100;
-    private static final int FALL_DEATH_FARTS = 3;
+    private static final int SIGNET_SCORE_INCREMENT = 100;
+    private static final int FALL_DEATH_FARTS = 1;
     private static final float DEATH_SHIELD_DURATION = 3.0f;
     
-    private static final float JUMP_POWER_MULTIPLIER = 1.3f;
-    private static final float HIGH_JUMP_SPEED = GameCharacter.JUMP_SPEED * JUMP_POWER_MULTIPLIER;
+    private static final float HIGH_JUMP_POWER_MULTIPLIER = 1.3f;
+    private static final float HIGH_JUMP_SPEED = GameCharacter.JUMP_SPEED * HIGH_JUMP_POWER_MULTIPLIER;
+    
+    private static final float FART_POWER_MULTIPLIER = 1.3f;
+    private static final float FART_JUMP_SPEED = GameCharacter.JUMP_SPEED * FART_POWER_MULTIPLIER;
     
     private static final Color JUMP_SUIT_COLOR;
     
@@ -117,9 +120,10 @@ final class NormalCharacterState extends CharacterStateBase {
                         GameCharacter.CHARACTER_CENTER_X_OFFSET;
             } else {
                 if (speed.y <= 0.0f) {
-                    speed.y = GameCharacter.JUMP_SPEED;
+                    speed.y = FART_JUMP_SPEED;
                     characterEffects.subtractFart();
                     mFartDischargeGraphics.discharge();
+                    mCharacterEyesGraphicsFart.closeEyes();
                 }
                 updatePositionAndSpeed(position, speed, horizontalSpeed, delta);
             }
@@ -152,6 +156,8 @@ final class NormalCharacterState extends CharacterStateBase {
         
         if (!characterEffects.isFarting()) {
             mCharacterEyesGraphicsNormal.update(delta);
+        } else {
+            mCharacterEyesGraphicsFart.update(delta);
         }
         
         mShieldEffectGraphics.update(delta);
@@ -330,9 +336,9 @@ final class NormalCharacterState extends CharacterStateBase {
                 characterEffects.addScore((Integer) item.getValue());
                 break;
             
-            case ItemBase.RUBY_EFFECT:
-                characterEffects.addRuby();
-                characterEffects.addScore(RUBY_SCORE_INCREMENTS * characterEffects.getNumRubies());
+            case ItemBase.SIGNET_EFFECT:
+                characterEffects.addSignet();
+                characterEffects.addScore(SIGNET_SCORE_INCREMENT * characterEffects.getNumSignets());
                 break;
             
             default:

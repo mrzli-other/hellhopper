@@ -8,7 +8,7 @@ import com.turbogerm.hellhopper.dataaccess.ItemData;
 
 final class BeansItem extends ItemBase {
     
-    private static final int NUM_FARTS = 20;
+    private static final int NUM_FARTS = 10;
     
     private final Rectangle mCollisionRect;
     

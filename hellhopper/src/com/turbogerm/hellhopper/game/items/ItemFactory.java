@@ -19,8 +19,8 @@ public final class ItemFactory {
             return new LifeItem(itemData, startStep, assetManager);
         } else if (ItemData.COIN_TYPE.equals(type)) {
             return new CoinItem(itemData, startStep, assetManager);
-        } else if (ItemData.RUBY_TYPE.equals(type)) {
-            return new RubyItem(itemData, startStep, assetManager);
+        } else if (ItemData.SIGNET_TYPE.equals(type)) {
+            return new SignetItem(itemData, startStep, assetManager);
         } else if (ItemData.BLACK_BOX_TYPE.equals(type)) {
             return new BlackBoxItem(itemData, startStep, assetManager);
         } else {

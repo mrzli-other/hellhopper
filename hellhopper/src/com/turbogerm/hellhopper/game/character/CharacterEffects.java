@@ -4,7 +4,7 @@ public final class CharacterEffects {
     
     private int mLives;
     private int mScore;
-    private int mNumRubies;
+    private int mNumSignets;
     
     private float mShieldRemaining;
     private int mFartsRemaining;
@@ -16,7 +16,7 @@ public final class CharacterEffects {
     public void reset() {
         mLives = 0;
         mScore = 0;
-        mNumRubies = 0;
+        mNumSignets = 0;
         
         mShieldRemaining = 0.0f;
         mFartsRemaining = 0;
@@ -41,8 +41,8 @@ public final class CharacterEffects {
         return mScore;
     }
     
-    public int getNumRubies() {
-        return mNumRubies;
+    public int getNumSignets() {
+        return mNumSignets;
     }
     
     public boolean isShielded() {
@@ -73,8 +73,8 @@ public final class CharacterEffects {
         mScore += score;
     }
     
-    public void addRuby() {
-        mNumRubies++;
+    public void addSignet() {
+        mNumSignets++;
     }
     
     public void setShield(float duration) {

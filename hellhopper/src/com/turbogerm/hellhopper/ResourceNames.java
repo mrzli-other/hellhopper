@@ -41,7 +41,8 @@ public final class ResourceNames {
     public static final int CHARACTER_EYES_NORMAL_TEXTURE_COUNT = 2;
     private static final String CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyesnormal%02d.png";
     public static final String CHARACTER_EYES_STUNNED_TEXTURE = CHARACTER_DIR + "eyesstunned.png";
-    public static final String CHARACTER_EYES_FART_TEXTURE = CHARACTER_DIR + "eyesfart.png";
+    public static final String CHARACTER_EYES_FART_OPENED_TEXTURE = CHARACTER_DIR + "eyesfartopened.png";
+    public static final String CHARACTER_EYES_FART_CLOSED_TEXTURE = CHARACTER_DIR + "eyesfartclosed.png";
     public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
     public static final String CHARACTER_FART_DISCHARGE_TEXTURE = CHARACTER_DIR + "fartdischarge.png";
     
@@ -76,7 +77,7 @@ public final class ResourceNames {
     public static final String ITEM_COIN_COPPER_TEXTURE = ITEMS_DIR + "coincopper.png";
     public static final String ITEM_COIN_SILVER_TEXTURE = ITEMS_DIR + "coinsilver.png";
     public static final String ITEM_COIN_GOLD_TEXTURE = ITEMS_DIR + "coingold.png";
-    public static final String ITEM_RUBY_TEXTURE = ITEMS_DIR + "ruby.png";
+    public static final String ITEM_SIGNET_TEXTURE = ITEMS_DIR + "signet.png";
     public static final String ITEM_BLACK_BOX_TEXTURE = ITEMS_DIR + "blackbox.png";
     
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";

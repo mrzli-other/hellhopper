@@ -13,7 +13,7 @@ public final class CoinItem extends ItemBase {
     private static final int SILVER_COIN_SCORE = 1200;
     private static final int GOLD_COIN_SCORE = 3000;
     
-    private static final float ROTATION_SPEED = 180.0f;
+    private static final float ROTATION_SPEED = 90.0f;
     
     private final int mCoinScore;
     

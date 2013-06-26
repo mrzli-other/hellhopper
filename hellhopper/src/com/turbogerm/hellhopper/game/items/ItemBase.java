@@ -16,7 +16,7 @@ public abstract class ItemBase {
     public static final int HIGH_JUMP_EFFECT = 2;
     public static final int EXTRA_LIFE_EFFECT = 3;
     public static final int SCORE_EFFECT = 4;
-    public static final int RUBY_EFFECT = 5;
+    public static final int SIGNET_EFFECT = 5;
     
     protected final Sprite mSprite;
     private final Vector2 mInitialPosition;

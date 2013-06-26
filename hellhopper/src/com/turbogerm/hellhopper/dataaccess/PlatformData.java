@@ -18,8 +18,7 @@ public final class PlatformData {
     public static final float PLATFORM_HEIGHT = GameAreaUtils.STEP_HEIGHT * PLATFORM_HEIGHT_STEPS;
     
     public static final int MAX_PLATFORM_DISTANCE_STEPS = 5;
-    public static final int MAX_PLATFORM_OFFSET = (int) (GameArea.GAME_AREA_WIDTH / GameAreaUtils.OFFSET_WIDTH) -
-            PLATFORM_WIDTH_OFFSETS;
+    public static final int MAX_PLATFORM_OFFSET = (int) GameArea.GAME_AREA_WIDTH_OFFSETS - PLATFORM_WIDTH_OFFSETS;
     
     private final int mId;
     private final String mPlatformType;

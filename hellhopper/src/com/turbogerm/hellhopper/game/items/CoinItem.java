@@ -9,9 +9,11 @@ import com.turbogerm.hellhopper.dataaccess.ItemData;
 
 public final class CoinItem extends ItemBase {
     
-    private static final int COPPER_COIN_SCORE = 2000;
-    private static final int SILVER_COIN_SCORE = 5000;
-    private static final int GOLD_COIN_SCORE = 12000;
+    private static final int COPPER_COIN_SCORE = 500;
+    private static final int SILVER_COIN_SCORE = 1200;
+    private static final int GOLD_COIN_SCORE = 3000;
+    
+    private static final float ROTATION_SPEED = 180.0f;
     
     private final int mCoinScore;
     
@@ -28,9 +30,14 @@ public final class CoinItem extends ItemBase {
     }
     
     @Override
+    protected void updateImpl(float delta) {
+        mSprite.rotate(ROTATION_SPEED * delta);
+    }
+    
+    @Override
     protected void updatePositionImpl() {
         mSprite.setPosition(mPosition.x, mPosition.y);
-        mCollisionCircle.set(mPosition.x, mPosition.y, mRadius);
+        mCollisionCircle.set(mPosition.x + mRadius, mPosition.y + mRadius, mRadius);
     }
     
     @Override

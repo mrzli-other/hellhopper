@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class JumpSuitItem extends ItemBase {
+final class JumpSuitItem extends ItemBase {
     
     private static final float HIGH_JUMP_DURATION = 12.0f;
     

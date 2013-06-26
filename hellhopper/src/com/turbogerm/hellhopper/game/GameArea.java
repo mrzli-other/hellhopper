@@ -27,6 +27,8 @@ public final class GameArea {
     public static final float GAME_AREA_WIDTH = HellHopper.VIEWPORT_WIDTH * GameAreaUtils.PIXEL_TO_METER;
     public static final float GAME_AREA_HEIGHT = HellHopper.VIEWPORT_HEIGHT * GameAreaUtils.PIXEL_TO_METER;
     
+    public static final float GAME_AREA_WIDTH_OFFSETS = GAME_AREA_WIDTH / GameAreaUtils.OFFSET_WIDTH;
+    
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     
     private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;

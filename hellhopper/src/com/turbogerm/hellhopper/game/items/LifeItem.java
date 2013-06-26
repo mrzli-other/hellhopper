@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class LifeItem extends ItemBase {
+final class LifeItem extends ItemBase {
     
     private final Rectangle mCollisionRect;
     

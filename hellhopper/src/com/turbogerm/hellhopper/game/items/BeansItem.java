@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class BeansItem extends ItemBase {
+final class BeansItem extends ItemBase {
     
-    public static final int NUM_FARTS = 20;
+    private static final int NUM_FARTS = 20;
     
     private final Rectangle mCollisionRect;
     

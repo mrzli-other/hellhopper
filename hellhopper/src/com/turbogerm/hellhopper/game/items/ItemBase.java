@@ -44,6 +44,7 @@ public abstract class ItemBase {
         
         mSprite = new Sprite(texture);
         mSprite.setSize(mSize.x, mSize.y);
+        mSprite.setOrigin(mSize.x / 2.0f, mSize.y / 2.0f);
         
         mIsExisting = true;
     }

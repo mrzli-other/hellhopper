@@ -3,16 +3,48 @@ package com.turbogerm.hellhopper.game.generator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadata;
+import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
 import com.turbogerm.hellhopper.util.ExceptionThrower;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 final class RiseSectionGenerator {
+    
+    private static final float COPPER_COIN_SCORE_ITEM_WEIGHT = 3.0f;
+    private static final float SILVER_COIN_SCORE_ITEM_WEIGHT = 2.0f;
+    private static final float GOLD_COIN_SCORE_ITEM_WEIGHT = 1.0f;
+    private static final float RUBY_SCORE_ITEM_WEIGHT = 1.0f;
+    
+    private static final float COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
+    private static final float SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
+    private static final float GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
+    
+    private static final float MIN_SCORE_ITEM_DISTANCE_STEPS = 10.0f;
+    private static final float MAX_SCORE_ITEM_DISTANCE_STEPS = 40.0f;
+    private static final float SCORE_ITEM_DISTANCE_RANGE =
+            MAX_SCORE_ITEM_DISTANCE_STEPS - MIN_SCORE_ITEM_DISTANCE_STEPS;
+    
+    private static final float COIN_ITEM_WIDTH_OFFSETS = 4.0f;
+    private static final float RUBY_ITEM_WIDTH_OFFSETS = 4.0f;
+    
+    private static final int SCORE_ITEMS_INITIAL_CAPACITY = 10;
+    
+    static {
+        float totalScoreItemWeigt = COPPER_COIN_SCORE_ITEM_WEIGHT + SILVER_COIN_SCORE_ITEM_WEIGHT +
+                GOLD_COIN_SCORE_ITEM_WEIGHT + RUBY_SCORE_ITEM_WEIGHT;
+        
+        COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION = COPPER_COIN_SCORE_ITEM_WEIGHT / totalScoreItemWeigt;
+        SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION = COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION +
+                SILVER_COIN_SCORE_ITEM_WEIGHT / totalScoreItemWeigt;
+        GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION = SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION +
+                GOLD_COIN_SCORE_ITEM_WEIGHT / totalScoreItemWeigt;
+    }
     
     public static RiseSectionData generateRiseSection(RiseSectionMetadata riseSectionMetadata) {
         String generatorType = riseSectionMetadata.getGeneratorType();
@@ -108,7 +140,9 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+        Array<ItemData> itemDataList = getScoreItems(stepRange);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
     
     private static RiseSectionData generateRiseSectionJumpBoost(RiseSectionMetadata riseSectionMetadata) {
@@ -537,5 +571,58 @@ final class RiseSectionGenerator {
         featuresData.add(featureData);
         
         return featuresData;
+    }
+    
+    private static Array<ItemData> getScoreItems(int stepRange) {
+        Array<ItemData> itemDataList = new Array<ItemData>(true, SCORE_ITEMS_INITIAL_CAPACITY);
+        float lastItemStep = 0.0f;
+        while (lastItemStep < stepRange - 1) {
+            float itemStep = lastItemStep + getScoreItemDistanceSteps();
+            if (itemStep < stepRange - 1) {
+                ItemData itemData = getRandomScoreItem(itemStep);
+                itemDataList.add(itemData);
+            }
+            lastItemStep = itemStep;
+        }
+        
+        return itemDataList;
+    }
+    
+    private static float getScoreItemDistanceSteps() {
+        return MIN_SCORE_ITEM_DISTANCE_STEPS + MathUtils.random() * SCORE_ITEM_DISTANCE_RANGE;
+    }
+    
+    private static ItemData getRandomScoreItem(float step) {
+        
+        float randomValue = MathUtils.random();
+        String type;
+        float offset;
+        ObjectMap<String, String> properties;
+        if (randomValue <= COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+            type = ItemData.COIN_TYPE;
+            properties = new ObjectMap<String, String>(1);
+            properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_COPPER_PROPERTY_VALUE);
+            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+        } else if (randomValue <= SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+            type = ItemData.COIN_TYPE;
+            properties = new ObjectMap<String, String>(1);
+            properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_SILVER_PROPERTY_VALUE);
+            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+        } else if (randomValue <= GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+            type = ItemData.COIN_TYPE;
+            properties = new ObjectMap<String, String>(1);
+            properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_GOLD_PROPERTY_VALUE);
+            offset = getRandomOffset(COIN_ITEM_WIDTH_OFFSETS);
+        } else {
+            type = ItemData.RUBY_TYPE;
+            properties = null;
+            offset = getRandomOffset(RUBY_ITEM_WIDTH_OFFSETS);
+        }
+        
+        return new ItemData(type, step, offset, 1.0f, -1, properties);
+    }
+    
+    private static float getRandomOffset(float itemWidthOffsets) {
+        return MathUtils.random() * (GameArea.GAME_AREA_WIDTH_OFFSETS - itemWidthOffsets);
     }
 }

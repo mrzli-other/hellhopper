@@ -28,7 +28,7 @@ import com.turbogerm.hellhopper.util.Pools;
 
 final class NormalCharacterState extends CharacterStateBase {
     
-    private static final int RUBY_SCORE_INCREMENTS = 200;
+    private static final int RUBY_SCORE_INCREMENTS = 100;
     private static final int FALL_DEATH_FARTS = 3;
     private static final float DEATH_SHIELD_DURATION = 3.0f;
     
@@ -187,6 +187,7 @@ final class NormalCharacterState extends CharacterStateBase {
                 mIsDying = true;
                 changeState(CharacterStateManager.DYING_FALL_CHARACTER_STATE);
             } else {
+                position.y = visibleAreaPosition + GameUtils.EPSILON;
                 characterEffects.subtractLife();
                 characterEffects.setFarts(FALL_DEATH_FARTS);
                 characterEffects.setShield(DEATH_SHIELD_DURATION);

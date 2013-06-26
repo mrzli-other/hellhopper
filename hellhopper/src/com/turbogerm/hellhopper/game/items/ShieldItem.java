@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class ShieldItem extends ItemBase {
+final class ShieldItem extends ItemBase {
     
     private static final float SHIELD_DURATION = 15.0f;
     
@@ -24,7 +24,7 @@ public final class ShieldItem extends ItemBase {
     @Override
     protected void updatePositionImpl() {
         mSprite.setPosition(mPosition.x, mPosition.y);
-        mCollisionCircle.set(mPosition.x, mPosition.y, mRadius);
+        mCollisionCircle.set(mPosition.x + mRadius, mPosition.y + mRadius, mRadius);
     }
     
     @Override

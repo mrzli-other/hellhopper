@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 
-public final class RubyItem extends ItemBase {
+final class RubyItem extends ItemBase {
     
     private final Rectangle mCollisionRect;
     

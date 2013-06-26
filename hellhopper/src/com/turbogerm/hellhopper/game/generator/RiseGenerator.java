@@ -117,9 +117,9 @@ public final class RiseGenerator {
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
         
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
 //        
 //        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("flame2perstep"));
 //        riseSectionsData.add(currRiseSection);
@@ -133,7 +133,11 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems");
+//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems");
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("coolclerk04");
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
@@ -390,6 +394,10 @@ public final class RiseGenerator {
         if (itemsData != null) {
             items = new Array<ItemBase>(true, itemsData.size);
             for (ItemData itemData : itemsData) {
+                if (MathUtils.random() > itemData.getAppearanceChance()) {
+                    continue;
+                }
+                
                 ItemBase item = ItemFactory.create(itemData, startStep, assetManager);
                 int attachedToPlatformId = itemData.getAttachedToPlatformId();
                 if (attachedToPlatformId >= 0) {

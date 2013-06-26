@@ -21,6 +21,7 @@ coolclerk01
 coolclerk02normal
 coolclerk02moving
 coolclerk03
+coolclerk04
 eviltwin00
 eviltwin01
 eviltwin02

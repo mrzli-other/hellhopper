@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +17,7 @@ public final class Resources {
     
     private final AssetManager mAssetManager;
     private final Skin mGuiSkin;
+    private final BitmapFont mItemFont;
     
     public Resources() {
         mAssetManager = new AssetManager();
@@ -122,6 +124,11 @@ public final class Resources {
         mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_JUMP_BOOST, Sound.class);
         
+        // FONTS
+        mItemFont = new BitmapFont(Gdx.files.internal(ResourceNames.FONT_ITEM), false);
+        mItemFont.setUseIntegerPositions(false);
+        mItemFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        
         mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
@@ -142,8 +149,13 @@ public final class Resources {
         return mAssetManager;
     }
     
+    public BitmapFont getItemFont() {
+        return mItemFont;
+    }
+    
     public void dispose() {
         mGuiSkin.dispose();
         mAssetManager.dispose();
+        mItemFont.dispose();
     }
 }

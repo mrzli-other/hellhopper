@@ -15,6 +15,8 @@ final class BlackBoxItem extends ItemBase {
         
         mCollisionRect = new Rectangle();
         
+        setPickedUpText("");
+        
         updatePositionImpl();
     }
     

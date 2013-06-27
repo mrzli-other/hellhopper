@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -50,6 +51,7 @@ public final class GameArea {
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
     private final DebugData mDebugData;
+    private final BitmapFont mItemFont;
     
     private final Texture mEndLineTexture;
     
@@ -76,11 +78,12 @@ public final class GameArea {
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
-    public GameArea(AssetManager assetManager) {
+    public GameArea(AssetManager assetManager, BitmapFont itemFont) {
         
         mAssetManager = assetManager;
         mBatch = new SpriteBatch();
         mDebugData = new DebugData();
+        mItemFont = itemFont;
         
         mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
@@ -172,6 +175,14 @@ public final class GameArea {
         
         mCharacter.render(mBatch);
         
+        mBatch.end();
+        
+        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
+                HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        mBatch.begin();
+        for (ItemBase item : mVisibleItems) {
+            item.renderText(mBatch, mVisibleAreaPosition, mItemFont);
+        }
         mBatch.end();
         
         // TODO: for debugging, remove

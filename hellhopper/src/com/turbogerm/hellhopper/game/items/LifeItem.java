@@ -15,6 +15,8 @@ final class LifeItem extends ItemBase {
         
         mCollisionRect = new Rectangle();
         
+        setPickedUpText("+1 LIFE");
+        
         updatePositionImpl();
     }
     

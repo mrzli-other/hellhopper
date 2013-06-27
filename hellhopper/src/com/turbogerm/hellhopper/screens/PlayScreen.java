@@ -46,7 +46,7 @@ public final class PlayScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager);
+        mGameArea = new GameArea(mAssetManager, mResources.getItemFont());
         
         // labels
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));

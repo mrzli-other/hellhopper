@@ -17,6 +17,8 @@ final class BeansItem extends ItemBase {
         
         mCollisionRect = new Rectangle();
         
+        setPickedUpText("FARTING");
+        
         updatePositionImpl();
     }
     

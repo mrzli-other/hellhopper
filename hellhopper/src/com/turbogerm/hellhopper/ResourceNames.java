@@ -23,6 +23,9 @@ public final class ResourceNames {
     public static final String GUI_PLAY_UP_TEXTURE = GUI_DIR + "playup.png";
     public static final String GUI_PLAY_DOWN_TEXTURE = GUI_DIR + "playdown.png";
     
+    private static final String FONTS_DIR = GUI_DIR + "fonts/";
+    public static final String FONT_ITEM = FONTS_DIR + "arial-bold-18.fnt";
+    
     private static final String DATA_DIR = "data/";
     private static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
     public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";

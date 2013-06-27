@@ -18,6 +18,8 @@ final class SignetItem extends ItemBase {
         
         mCollisionCircle = new Circle();
         
+        setPickedUpText("");
+        
         updatePositionImpl();
     }
     

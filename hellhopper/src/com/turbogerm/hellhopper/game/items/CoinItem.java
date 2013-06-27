@@ -26,6 +26,8 @@ public final class CoinItem extends ItemBase {
         
         mCollisionCircle = new Circle();
         
+        setPickedUpText(String.format("+%d PTS", mCoinScore));
+        
         updatePositionImpl();
     }
     

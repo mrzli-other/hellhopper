@@ -18,6 +18,8 @@ final class ShieldItem extends ItemBase {
         
         mCollisionCircle = new Circle();
         
+        setPickedUpText("SHIELD");
+        
         updatePositionImpl();
     }
     

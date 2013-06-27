@@ -326,6 +326,7 @@ final class NormalCharacterState extends CharacterStateBase {
     private void handleItemPickUp(ItemBase item, CharacterEffects characterEffects) {
         int effect = item.getEffect();
         
+        int score = 0;
         switch (effect) {
             case ItemBase.FART_EFFECT:
                 characterEffects.setFarts((Integer) item.getValue());
@@ -349,7 +350,9 @@ final class NormalCharacterState extends CharacterStateBase {
             
             case ItemBase.SIGNET_EFFECT:
                 characterEffects.addSignet();
-                characterEffects.addScore(SIGNET_SCORE_INCREMENT * characterEffects.getNumSignets());
+                score = SIGNET_SCORE_INCREMENT * characterEffects.getNumSignets();
+                characterEffects.addScore(score);
+                item.setPickedUpText(String.format("+%d PTS", score));;
                 break;
             
             default:

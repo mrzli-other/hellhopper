@@ -1,7 +1,10 @@
 package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,6 +21,12 @@ public abstract class ItemBase {
     public static final int SCORE_EFFECT = 4;
     public static final int SIGNET_EFFECT = 5;
     
+    private static final int EXISTING_STATE = 0;
+    private static final int TEXT_STATE = 1;
+    private static final int GONE_STATE = 2;
+    
+    private static final float TEXT_COUNTDOWN_DURATION = 3.0f;
+    
     protected final Sprite mSprite;
     private final Vector2 mInitialPosition;
     private final Vector2 mOffsetFromPlatform;
@@ -26,7 +35,13 @@ public abstract class ItemBase {
     protected final Vector2 mSize;
     protected final float mRadius;
     
-    private boolean mIsExisting;
+    private int mItemState;
+    
+    private float mTextCountdown;
+    
+    private String mPickedUpText;
+    private boolean mIsPickedUpTextBoundsDirty;
+    private final Vector2 mPickedUpTextBounds;
     
     public ItemBase(ItemData itemData, String texturePath, int startStep, AssetManager assetManager) {
         
@@ -46,12 +61,22 @@ public abstract class ItemBase {
         mSprite.setSize(mSize.x, mSize.y);
         mSprite.setOrigin(mSize.x / 2.0f, mSize.y / 2.0f);
         
-        mIsExisting = true;
+        mItemState = EXISTING_STATE;
+        
+        mTextCountdown = TEXT_COUNTDOWN_DURATION;
+        
+        mPickedUpTextBounds = new Vector2();
     }
     
     public final void update(float delta) {
-        if (mIsExisting) {
+        if (mItemState == EXISTING_STATE) {
             updateImpl(delta);
+        } else if (mItemState == TEXT_STATE) {
+            mTextCountdown -= delta;
+            if (mTextCountdown <= 0.0f) {
+                mTextCountdown = 0.0f;
+                mItemState = GONE_STATE;
+            }
         }
     }
     
@@ -59,8 +84,26 @@ public abstract class ItemBase {
     }
     
     public final void render(SpriteBatch batch) {
-        if (mIsExisting) {
+        if (mItemState == EXISTING_STATE) {
             mSprite.draw(batch);
+        }
+    }
+    
+    public final void renderText(SpriteBatch batch, float visibleAreaPosition, BitmapFont itemFont) {
+        if (mItemState == TEXT_STATE) {
+            if (mIsPickedUpTextBoundsDirty ) {
+                TextBounds textBounds = itemFont.getBounds(mPickedUpText);
+                mPickedUpTextBounds.set(textBounds.width, textBounds.height);
+                mIsPickedUpTextBoundsDirty = false;
+            }
+            float alpha = mTextCountdown / TEXT_COUNTDOWN_DURATION;
+            Color c = itemFont.getColor();
+            itemFont.setColor(c.r, c.g, c.b, alpha);
+            float textX = (mPosition.x + mSize.x / 2.0f) * GameAreaUtils.METER_TO_PIXEL -
+                    mPickedUpTextBounds.x / 2.0f;
+            float textY = (mPosition.y + mSize.y / 2.0f - visibleAreaPosition) * GameAreaUtils.METER_TO_PIXEL +
+                    mPickedUpTextBounds.y / 2.0f;
+            itemFont.draw(batch, mPickedUpText, textX, textY);
         }
     }
     
@@ -81,7 +124,7 @@ public abstract class ItemBase {
     protected abstract void updatePositionImpl();
     
     public void pickUp() {
-        mIsExisting = false;
+        mItemState = TEXT_STATE;
     }
     
     public boolean isCollision(Rectangle rect) {
@@ -89,10 +132,15 @@ public abstract class ItemBase {
     }
     
     public boolean isExisting() {
-        return mIsExisting;
+        return mItemState == EXISTING_STATE;
     }
     
     public abstract int getEffect();
     
     public abstract Object getValue();
+    
+    public void setPickedUpText(String pickedUpText) {
+        mPickedUpText = pickedUpText;
+        mIsPickedUpTextBoundsDirty = true;
+    }
 }

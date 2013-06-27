@@ -133,9 +133,9 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems");
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
 //        
 //        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("coolclerk04");
 //        riseSectionsData.add(currRiseSection);

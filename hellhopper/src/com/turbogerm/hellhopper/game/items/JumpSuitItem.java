@@ -17,6 +17,8 @@ final class JumpSuitItem extends ItemBase {
         
         mCollisionRect = new Rectangle();
         
+        setPickedUpText("HIGH JUMP");
+        
         updatePositionImpl();
     }
     

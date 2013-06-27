@@ -16,6 +16,15 @@ import com.turbogerm.hellhopper.util.GameUtils;
 
 final class RiseSectionGenerator {
     
+    private static final float POWER_UP_ITEM_CHANCE = 1.0f;
+    
+    private static final float LIFE_POWER_UP_ITEM_WEIGHT = 2.0f;
+    private static final float BEANS_POWER_UP_ITEM_WEIGHT = 2.0f;
+    private static final float JUMP_SUIT_POWER_UP_ITEM_WEIGHT = 3.0f;
+    
+    private static final float LIFE_POWER_UP_ITEM_CUMULATIVE_FRACTION;
+    private static final float BEANS_POWER_UP_ITEM_CUMULATIVE_FRACTION;
+    
     private static final float COPPER_COIN_SCORE_ITEM_WEIGHT = 3.0f;
     private static final float SILVER_COIN_SCORE_ITEM_WEIGHT = 2.0f;
     private static final float GOLD_COIN_SCORE_ITEM_WEIGHT = 1.0f;
@@ -25,16 +34,26 @@ final class RiseSectionGenerator {
     private static final float SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     private static final float GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     
-    private static final float MIN_SCORE_ITEM_DISTANCE_STEPS = 10.0f;
-    private static final float MAX_SCORE_ITEM_DISTANCE_STEPS = 40.0f;
-    private static final float SCORE_ITEM_DISTANCE_RANGE =
-            MAX_SCORE_ITEM_DISTANCE_STEPS - MIN_SCORE_ITEM_DISTANCE_STEPS;
+    private static final int MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 10;
+    private static final int MAX_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 40;
+    private static final float SCORE_ITEM_DISTANCE_POSSIBLE_STEPS_RANGE =
+            MAX_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS - MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS;
     
+    private static final float LIFE_ITEM_WIDTH_OFFSETS = 4.0f;
+    private static final float BEANS_ITEM_WIDTH_OFFSETS = 4.0f;
+    private static final float JUMP_SUIT_ITEM_WIDTH_OFFSETS = 3.4f;
     private static final float SCORE_ITEM_WIDTH_OFFSETS = 4.0f;
     
     private static final int SCORE_ITEMS_INITIAL_CAPACITY = 10;
     
     static {
+        float totalPowerUpItemWeight = LIFE_POWER_UP_ITEM_WEIGHT + BEANS_POWER_UP_ITEM_WEIGHT +
+                JUMP_SUIT_POWER_UP_ITEM_WEIGHT;
+        
+        LIFE_POWER_UP_ITEM_CUMULATIVE_FRACTION = LIFE_POWER_UP_ITEM_WEIGHT / totalPowerUpItemWeight;
+        BEANS_POWER_UP_ITEM_CUMULATIVE_FRACTION = LIFE_POWER_UP_ITEM_CUMULATIVE_FRACTION +
+                BEANS_POWER_UP_ITEM_WEIGHT / totalPowerUpItemWeight;
+        
         float totalScoreItemWeigt = COPPER_COIN_SCORE_ITEM_WEIGHT + SILVER_COIN_SCORE_ITEM_WEIGHT +
                 GOLD_COIN_SCORE_ITEM_WEIGHT + SIGNET_SCORE_ITEM_WEIGHT;
         
@@ -139,7 +158,12 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        Array<ItemData> itemDataList = getScoreItems(stepRange);
+        ItemData powerUpItem = getPowerUpItem(platformDataList, minStepDistance);
+        
+        Array<ItemData> itemDataList = getScoreItems(stepRange, platformDataList, powerUpItem);
+        if (powerUpItem != null) {
+            itemDataList.add(powerUpItem);
+        }
         
         return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
@@ -572,56 +596,99 @@ final class RiseSectionGenerator {
         return featuresData;
     }
     
-    private static Array<ItemData> getScoreItems(int stepRange) {
+    private static ItemData getPowerUpItem(Array<PlatformData> platformDataList, int minStepDistance) {
+        if (minStepDistance > 1 && platformDataList.size > 1 && MathUtils.random() <= POWER_UP_ITEM_CHANCE) {
+            int randomPlatformIndex = MathUtils.random(0, platformDataList.size - 2);
+            PlatformData platformData = platformDataList.get(randomPlatformIndex);
+            
+            float itemTypeRandomValue = MathUtils.random();
+            String type;
+            float offset;
+            if (itemTypeRandomValue <= LIFE_POWER_UP_ITEM_CUMULATIVE_FRACTION) {
+                type = ItemData.LIFE_TYPE;
+                offset = getRandomPowerUpItemOffset(platformData.getOffset(), LIFE_ITEM_WIDTH_OFFSETS);
+            } else if (itemTypeRandomValue <= BEANS_POWER_UP_ITEM_CUMULATIVE_FRACTION) {
+                type = ItemData.BEANS_TYPE;
+                offset = getRandomPowerUpItemOffset(platformData.getOffset(), BEANS_ITEM_WIDTH_OFFSETS);
+            } else {
+                type = ItemData.JUMP_SUIT_TYPE;
+                offset = getRandomPowerUpItemOffset(platformData.getOffset(), JUMP_SUIT_ITEM_WIDTH_OFFSETS);
+            }
+            
+            float step = platformData.getStep() + 0.5f;
+            
+            return new ItemData(type, step, offset, 1.0f, platformData.getId(), null);
+        } else {
+            return null;
+        }
+    }
+    
+    private static float getRandomPowerUpItemOffset(int platformOffset, float itemWidthOffsets) {
+        return platformOffset + MathUtils.random() * (PlatformData.PLATFORM_WIDTH_OFFSETS - itemWidthOffsets);
+    }
+    
+    private static Array<ItemData> getScoreItems(int stepRange, Array<PlatformData> platformDataList,
+            ItemData powerUpItem) {
         Array<ItemData> itemDataList = new Array<ItemData>(true, SCORE_ITEMS_INITIAL_CAPACITY);
-        float lastItemStep = 0.0f;
-        while (lastItemStep < stepRange - 1) {
-            float itemStep = lastItemStep + getScoreItemDistanceSteps();
-            if (itemStep < stepRange - 1) {
-                ItemData itemData = getRandomScoreItem(itemStep);
+        
+        Array<Integer> possibleSteps = GameUtils.getRange(stepRange);
+        for (PlatformData platformData : platformDataList) {
+            possibleSteps.removeValue(platformData.getStep(), false);
+        }
+        
+        if (powerUpItem != null) {
+            possibleSteps.removeValue((int) powerUpItem.getOffset() + 1, false);
+        }
+        
+        int lastItemStepIndex = 0;
+        while (lastItemStepIndex < possibleSteps.size) {
+            int itemStepIndex = lastItemStepIndex + getScoreItemDistancePossibleSteps();
+            if (itemStepIndex < possibleSteps.size) {
+                ItemData itemData = getRandomScoreItem(possibleSteps.get(itemStepIndex));
                 itemDataList.add(itemData);
             }
-            lastItemStep = itemStep;
+            lastItemStepIndex = itemStepIndex;
         }
         
         return itemDataList;
     }
     
-    private static float getScoreItemDistanceSteps() {
-        return MIN_SCORE_ITEM_DISTANCE_STEPS + MathUtils.random() * SCORE_ITEM_DISTANCE_RANGE;
+    private static int getScoreItemDistancePossibleSteps() {
+        return MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS +
+                (int) (MathUtils.random() * (SCORE_ITEM_DISTANCE_POSSIBLE_STEPS_RANGE + 1));
     }
     
     private static ItemData getRandomScoreItem(float step) {
         
-        float randomValue = MathUtils.random();
+        float itemTypeRandomValue = MathUtils.random();
         String type;
         float offset;
         ObjectMap<String, String> properties;
-        if (randomValue <= COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+        if (itemTypeRandomValue <= COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_COPPER_PROPERTY_VALUE);
-            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
-        } else if (randomValue <= SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+            offset = getRandomScoreItemOffset(SCORE_ITEM_WIDTH_OFFSETS);
+        } else if (itemTypeRandomValue <= SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_SILVER_PROPERTY_VALUE);
-            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
-        } else if (randomValue <= GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
+            offset = getRandomScoreItemOffset(SCORE_ITEM_WIDTH_OFFSETS);
+        } else if (itemTypeRandomValue <= GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION) {
             type = ItemData.COIN_TYPE;
             properties = new ObjectMap<String, String>(1);
             properties.put(ItemData.COIN_TYPE_PROPERTY, ItemData.COIN_TYPE_GOLD_PROPERTY_VALUE);
-            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
+            offset = getRandomScoreItemOffset(SCORE_ITEM_WIDTH_OFFSETS);
         } else {
             type = ItemData.SIGNET_TYPE;
             properties = null;
-            offset = getRandomOffset(SCORE_ITEM_WIDTH_OFFSETS);
+            offset = getRandomScoreItemOffset(SCORE_ITEM_WIDTH_OFFSETS);
         }
         
         return new ItemData(type, step, offset, 1.0f, -1, properties);
     }
     
-    private static float getRandomOffset(float itemWidthOffsets) {
+    private static float getRandomScoreItemOffset(float itemWidthOffsets) {
         return MathUtils.random() * (GameArea.GAME_AREA_WIDTH_OFFSETS - itemWidthOffsets);
     }
 }

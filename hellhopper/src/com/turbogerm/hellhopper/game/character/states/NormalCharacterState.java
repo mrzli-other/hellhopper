@@ -124,6 +124,8 @@ final class NormalCharacterState extends CharacterStateBase {
                     characterEffects.subtractFart();
                     mFartDischargeGraphics.discharge();
                     mCharacterEyesGraphicsFart.closeEyes();
+                    
+                    applyRiseSectionEffects(updateData.activeRiseSections, false, true);
                 }
                 updatePositionAndSpeed(position, speed, horizontalSpeed, delta);
             }
@@ -266,18 +268,27 @@ final class NormalCharacterState extends CharacterStateBase {
             mJumpSound.play();
         }
         
-        RiseSection riseSection = getRiseSection(
-                mCharCollisionData.collisionPlatform.getRiseSectionId(), activeRiseSections);
-        
-        if (mCollisionEffects.isEffectActive(CollisionEffects.REPOSITION_PLATFORMS)) {
-            riseSection.applyEffect(CollisionEffects.REPOSITION_PLATFORMS);
-        }
-        
-        if (mCollisionEffects.isEffectActive(CollisionEffects.VISIBLE_ON_JUMP)) {
-            riseSection.applyEffect(CollisionEffects.VISIBLE_ON_JUMP);
-        }
+        applyRiseSectionEffects(activeRiseSections,
+                mCollisionEffects.isEffectActive(CollisionEffects.REPOSITION_PLATFORMS),
+                mCollisionEffects.isEffectActive(CollisionEffects.VISIBLE_ON_JUMP));
         
         mCollisionEffects.clear();
+    }
+    
+    private void applyRiseSectionEffects(Array<RiseSection> activeRiseSections,
+            boolean isReposition, boolean isVisibleOnJump) {
+        
+        if (isReposition) {
+            for (RiseSection riseSection : activeRiseSections) {
+                riseSection.applyEffect(CollisionEffects.REPOSITION_PLATFORMS);
+            }
+        }
+        
+        if (isVisibleOnJump) {
+            for (RiseSection riseSection : activeRiseSections) {
+                riseSection.applyEffect(CollisionEffects.VISIBLE_ON_JUMP);
+            }
+        }
     }
     
     private void handleCollisionWithEnemies(Vector2 position, Array<EnemyBase> visibleEnemies,
@@ -364,16 +375,6 @@ final class NormalCharacterState extends CharacterStateBase {
         }
         
         return false;
-    }
-    
-    private static RiseSection getRiseSection(int id, Array<RiseSection> riseSections) {
-        for (RiseSection riseSection : riseSections) {
-            if (riseSection.getId() == id) {
-                return riseSection;
-            }
-        }
-        
-        return null;
     }
     
     private static float getJumpSpeed(CharacterEffects characterEffects) {

@@ -16,7 +16,7 @@ import com.turbogerm.hellhopper.util.GameUtils;
 
 final class RiseSectionGenerator {
     
-    private static final float POWER_UP_ITEM_CHANCE = 1.0f;
+    private static final float POWER_UP_ITEM_CHANCE = 0.2f;
     
     private static final float LIFE_POWER_UP_ITEM_WEIGHT = 2.0f;
     private static final float BEANS_POWER_UP_ITEM_WEIGHT = 2.0f;
@@ -158,12 +158,7 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        ItemData powerUpItem = getPowerUpItem(platformDataList, minStepDistance);
-        
-        Array<ItemData> itemDataList = getScoreItems(stepRange, platformDataList, powerUpItem);
-        if (powerUpItem != null) {
-            itemDataList.add(powerUpItem);
-        }
+        Array<ItemData> itemDataList = getAllItems(platformDataList, stepRange, minStepDistance);
         
         return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
@@ -226,7 +221,9 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+        Array<ItemData> itemDataList = getAllItems(platformDataList, stepRange, minStepDistance);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
     
     private static RiseSectionData generateRiseSectionVisibleOnJump(RiseSectionMetadata riseSectionMetadata) {
@@ -274,7 +271,9 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+        Array<ItemData> itemDataList = getAllItems(platformDataList, stepRange, minStepDistance);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
     
     private static RiseSectionData generateRiseSectionCrumble(RiseSectionMetadata riseSectionMetadata) {
@@ -329,7 +328,9 @@ final class RiseSectionGenerator {
             platformDataList.add(padData);
         }
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+        Array<ItemData> itemDataList = getAllItems(platformDataList, stepRange, minStepDistance);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
     
     private static RiseSectionData generateRiseSectionFlame(RiseSectionMetadata riseSectionMetadata) {
@@ -371,7 +372,9 @@ final class RiseSectionGenerator {
             }
         }
         
-        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, null);
+        Array<ItemData> itemDataList = getAllItems(platformDataList, stepRange, minStepDistance);
+        
+        return new RiseSectionData(type, name, stepRange, difficulty, platformDataList, null, itemDataList);
     }
     
     private static Array<Integer> getFilledSteps(int stepRange, int minStepDistance, int maxStepDistance) {
@@ -594,6 +597,18 @@ final class RiseSectionGenerator {
         featuresData.add(featureData);
         
         return featuresData;
+    }
+    
+    private static Array<ItemData> getAllItems(Array<PlatformData> platformDataList,
+            int stepRange, int minStepDistance) {
+        
+        ItemData powerUpItem = getPowerUpItem(platformDataList, minStepDistance);
+        Array<ItemData> itemDataList = getScoreItems(stepRange, platformDataList, powerUpItem);
+        if (powerUpItem != null) {
+            itemDataList.add(powerUpItem);
+        }
+        
+        return itemDataList;
     }
     
     private static ItemData getPowerUpItem(Array<PlatformData> platformDataList, int minStepDistance) {

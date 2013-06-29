@@ -68,4 +68,8 @@ public final class GameUtils {
         Color c = sprite.getColor();
         sprite.setColor(c.r, c.g, c.b, alpha);
     }
+    
+    public static void setSpriteOriginCenter(Sprite sprite) {
+        sprite.setOrigin(sprite.getWidth() / 2.0f, sprite.getHeight() / 2.0f);
+    }
 }

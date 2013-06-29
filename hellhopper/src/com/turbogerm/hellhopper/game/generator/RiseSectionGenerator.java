@@ -16,7 +16,7 @@ import com.turbogerm.hellhopper.util.GameUtils;
 
 final class RiseSectionGenerator {
     
-    private static final float POWER_UP_ITEM_CHANCE = 0.2f;
+    private static final float POWER_UP_ITEM_CHANCE = 0.1f;
     
     private static final float LIFE_POWER_UP_ITEM_WEIGHT = 2.0f;
     private static final float BEANS_POWER_UP_ITEM_WEIGHT = 2.0f;

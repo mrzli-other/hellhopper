@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class ItemBase {
     
@@ -59,7 +60,7 @@ public abstract class ItemBase {
         
         mSprite = new Sprite(texture);
         mSprite.setSize(mSize.x, mSize.y);
-        mSprite.setOrigin(mSize.x / 2.0f, mSize.y / 2.0f);
+        GameUtils.setSpriteOriginCenter(mSprite);
         
         mItemState = EXISTING_STATE;
         

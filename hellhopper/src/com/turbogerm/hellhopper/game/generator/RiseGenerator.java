@@ -27,7 +27,7 @@ import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 5000;
+    private static final int RISE_HEIGHT_STEPS = 50;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
@@ -133,9 +133,9 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
 //        
 //        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("coolclerk04");
 //        riseSectionsData.add(currRiseSection);
@@ -160,13 +160,13 @@ public final class RiseGenerator {
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+//        
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
         
         boolean isTransitionSection = true;
         while (stepsInRise < RISE_HEIGHT_STEPS) {
@@ -175,6 +175,8 @@ public final class RiseGenerator {
             stepsInRise += currRiseSection.getStepRange();
             isTransitionSection = !isTransitionSection;
         }
+        
+        adjustLastRiseSection(riseSectionsData);
         
         // TODO: only for debugging
         String[] riseSectionNames = new String[riseSectionsData.size];
@@ -343,6 +345,26 @@ public final class RiseGenerator {
         return (currentDist < 0 && newDist < 0 && newDist > currentDist) ||
                 (currentDist > 0 && newDist > 0 && newDist < currentDist) ||
                 (newDist < 0 && currentDist > 0);
+    }
+    
+    private static void adjustLastRiseSection(Array<RiseSectionData> riseSectionsData) {
+        RiseSectionData lastRiseSectionData = riseSectionsData.pop();
+        
+        int lastPlatformStep = lastRiseSectionData.getPlatformsData().peek().getStep();
+        int newStepRange = lastPlatformStep + PlatformData.MAX_PLATFORM_DISTANCE_STEPS;
+        
+        // make sure there is maximum platform distance between last platform and end line
+        // this way no platforms will be seen on end background texture
+        RiseSectionData newLastRiseSectionData = new RiseSectionData(
+                lastRiseSectionData.getType(),
+                lastRiseSectionData.getName(),
+                newStepRange,
+                lastRiseSectionData.getDifficulty(),
+                lastRiseSectionData.getPlatformsData(),
+                lastRiseSectionData.getEnemiesData(),
+                lastRiseSectionData.getItemsData());
+        
+        riseSectionsData.add(newLastRiseSectionData);
     }
     
     private static Array<RiseSection> getRiseSections(Array<RiseSectionData> riseSectionsData,

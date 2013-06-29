@@ -66,6 +66,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.CHARACTER_EYES_STUNNED_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_OPENED_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_CLOSED_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_MOUTH_SMILE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.CHARACTER_SHIELD_EFFECT_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.CHARACTER_FART_DISCHARGE_TEXTURE, Texture.class, textureParameterLinear);
         
@@ -107,6 +108,11 @@ public final class Resources {
         
         // BACKGROUND
         mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_SKY_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_SUN_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_CLOUDS_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_MOUNTAINS_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_GROUND_TEXTURE, Texture.class, textureParameterNearest);
         
         for (int i = 0; i < ResourceNames.BACKGROUND_CLOUD_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getBackgroundCloudTexture(i), Texture.class, textureParameterNearest);

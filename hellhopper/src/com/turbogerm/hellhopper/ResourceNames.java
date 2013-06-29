@@ -46,6 +46,7 @@ public final class ResourceNames {
     public static final String CHARACTER_EYES_STUNNED_TEXTURE = CHARACTER_DIR + "eyesstunned.png";
     public static final String CHARACTER_EYES_FART_OPENED_TEXTURE = CHARACTER_DIR + "eyesfartopened.png";
     public static final String CHARACTER_EYES_FART_CLOSED_TEXTURE = CHARACTER_DIR + "eyesfartclosed.png";
+    public static final String CHARACTER_MOUTH_SMILE_TEXTURE = CHARACTER_DIR + "mouthsmile.png";
     public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
     public static final String CHARACTER_FART_DISCHARGE_TEXTURE = CHARACTER_DIR + "fartdischarge.png";
     
@@ -85,6 +86,11 @@ public final class ResourceNames {
     
     private static final String BACKGROUND_DIR = GAME_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
+    public static final String BACKGROUND_END_SKY_TEXTURE = BACKGROUND_DIR + "endsky.png";
+    public static final String BACKGROUND_END_SUN_TEXTURE = BACKGROUND_DIR + "endsun.png";
+    public static final String BACKGROUND_END_CLOUDS_TEXTURE = BACKGROUND_DIR + "endclouds.png";
+    public static final String BACKGROUND_END_MOUNTAINS_TEXTURE = BACKGROUND_DIR + "endmountains.png";
+    public static final String BACKGROUND_END_GROUND_TEXTURE = BACKGROUND_DIR + "endground.png";
     private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
     public static final int BACKGROUND_CLOUD_TEXTURE_COUNT = 3;
     private static final String BACKGROUND_ROCK_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "rock%02d.png";

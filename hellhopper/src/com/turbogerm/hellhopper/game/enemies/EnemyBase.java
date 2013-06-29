@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class EnemyBase {
     
@@ -23,7 +24,7 @@ public abstract class EnemyBase {
                 initialPosition.x, initialPosition.y,
                 texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
                 texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
-        mSprite.setOrigin(mSprite.getWidth() / 2.0f, mSprite.getHeight() / 2.0f);
+        GameUtils.setSpriteOriginCenter(mSprite);
     }
     
     public void update(float delta) {

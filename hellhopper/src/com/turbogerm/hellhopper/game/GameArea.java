@@ -16,6 +16,7 @@ import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.background.BackgroundScene;
+import com.turbogerm.hellhopper.game.background.EndBackgroundScene;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
@@ -31,6 +32,7 @@ public final class GameArea {
     public static final float GAME_AREA_WIDTH_OFFSETS = GAME_AREA_WIDTH / GameAreaUtils.OFFSET_WIDTH;
     
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
+    private static final float VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE = 2.0f;
     
     private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
     private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
@@ -40,6 +42,8 @@ public final class GameArea {
     private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
     private static final float END_LINE_HEIGHT = 0.1f;
+    private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END =
+            500.0f * GameAreaUtils.PIXEL_TO_METER + GAME_AREA_HEIGHT;
     
     private static final int ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY = 5;
     private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
@@ -74,6 +78,10 @@ public final class GameArea {
     private boolean mIsGameOver;
     
     private final Texture mBackgroundTexture;
+    private final Vector2 mBackgroundTextureSize;
+    
+    private final EndBackgroundScene mEndBackgroundScene;
+    
     private final BackgroundScene mBackgroundScene;
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
@@ -96,6 +104,12 @@ public final class GameArea {
         mVisibleItems = new Array<ItemBase>(true, VISIBLE_ITEMS_INITIAL_CAPACITY);
         
         mBackgroundTexture = mAssetManager.get(ResourceNames.BACKGROUND_TEXTURE);
+        mBackgroundTextureSize = new Vector2(
+                mBackgroundTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
+                mBackgroundTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        
+        mEndBackgroundScene = new EndBackgroundScene(assetManager);
+        
         mBackgroundScene = new BackgroundScene(mAssetManager);
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
@@ -115,6 +129,8 @@ public final class GameArea {
         mCharacter.reset(mRiseHeight);
         
         mDeltaAccumulator = 0.0f;
+        
+        mEndBackgroundScene.reset(mRiseHeight);
         
         mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
@@ -145,19 +161,31 @@ public final class GameArea {
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
         mBackgroundScene.update(mVisibleAreaPosition, delta);
+        
+        if (isEndBackgroundVisible()) {
+            mEndBackgroundScene.update(delta);
+        }
     }
     
     public void render(float delta) {
         
-        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
-        mBatch.begin();
-        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
-        mBatch.end();
-        
-        mBackgroundScene.render();
+        // mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        // mBatch.begin();
+        // mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        // if (mVisibleAreaPosition >= mRiseHeight - END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END) {
+        // mBatch.draw(mBackgroundEndTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        // }
+        // mBatch.end();
+        //
+        // mBackgroundScene.render();
         
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
+        
+        mBatch.draw(mBackgroundTexture, 0.0f, mVisibleAreaPosition, mBackgroundTextureSize.x, mBackgroundTextureSize.y);
+        if (isEndBackgroundVisible()) {
+            mEndBackgroundScene.render(mBatch);
+        }
         
         for (PlatformBase platform : mVisiblePlatforms) {
             platform.render(mBatch, delta);
@@ -171,7 +199,7 @@ public final class GameArea {
             item.render(mBatch);
         }
         
-        mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
+        //mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
         mCharacter.render(mBatch);
         
@@ -209,7 +237,7 @@ public final class GameArea {
         
         mVisibleAreaPosition = MathUtils.clamp(
                 mCharacter.getPosition().y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION,
-                mVisibleAreaPosition, mRiseHeight - 1.0f);
+                mVisibleAreaPosition, mRiseHeight - VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE);
     }
     
     private float getHorizontalSpeed() {
@@ -259,6 +287,10 @@ public final class GameArea {
                 }
             }
         }
+    }
+    
+    private boolean isEndBackgroundVisible() {
+        return mVisibleAreaPosition >= mRiseHeight - END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END;
     }
     
     // TODO: only for debugging

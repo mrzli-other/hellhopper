@@ -91,6 +91,7 @@ public final class ResourceNames {
     public static final String BACKGROUND_END_CLOUDS_TEXTURE = BACKGROUND_DIR + "endclouds.png";
     public static final String BACKGROUND_END_MOUNTAINS_TEXTURE = BACKGROUND_DIR + "endmountains.png";
     public static final String BACKGROUND_END_GROUND_TEXTURE = BACKGROUND_DIR + "endground.png";
+    public static final String BACKGROUND_END_SHEEP_TEXTURE = BACKGROUND_DIR + "sheep.png";
     private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
     public static final int BACKGROUND_CLOUD_TEXTURE_COUNT = 3;
     private static final String BACKGROUND_ROCK_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "rock%02d.png";

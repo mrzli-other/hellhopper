@@ -113,6 +113,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.BACKGROUND_END_CLOUDS_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.BACKGROUND_END_MOUNTAINS_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.BACKGROUND_END_GROUND_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.BACKGROUND_END_SHEEP_TEXTURE, Texture.class, textureParameterNearest);
         
         for (int i = 0; i < ResourceNames.BACKGROUND_CLOUD_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getBackgroundCloudTexture(i), Texture.class, textureParameterNearest);

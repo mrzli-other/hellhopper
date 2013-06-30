@@ -15,7 +15,6 @@ import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
-import com.turbogerm.hellhopper.game.background.BackgroundScene;
 import com.turbogerm.hellhopper.game.background.EndBackgroundScene;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
 import com.turbogerm.hellhopper.game.enemies.EnemyBase;
@@ -41,7 +40,6 @@ public final class GameArea {
     private static final float UPDATE_RATE = 60.0f;
     private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
     
-    private static final float END_LINE_HEIGHT = 0.1f;
     private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END =
             500.0f * GameAreaUtils.PIXEL_TO_METER + GAME_AREA_HEIGHT;
     
@@ -56,8 +54,6 @@ public final class GameArea {
     private final SpriteBatch mBatch;
     private final DebugData mDebugData;
     private final BitmapFont mItemFont;
-    
-    private final Texture mEndLineTexture;
     
     private Rise mRise;
     private float mRiseHeight;
@@ -82,7 +78,6 @@ public final class GameArea {
     
     private final EndBackgroundScene mEndBackgroundScene;
     
-    private final BackgroundScene mBackgroundScene;
     private final BackgroundColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
@@ -92,8 +87,6 @@ public final class GameArea {
         mBatch = new SpriteBatch();
         mDebugData = new DebugData();
         mItemFont = itemFont;
-        
-        mEndLineTexture = mAssetManager.get(ResourceNames.GAME_END_LINE_TEXTURE);
         
         mCharacter = new GameCharacter(mAssetManager);
         mPlatformToCharCollisionData = new PlatformToCharCollisionData();
@@ -110,7 +103,6 @@ public final class GameArea {
         
         mEndBackgroundScene = new EndBackgroundScene(assetManager);
         
-        mBackgroundScene = new BackgroundScene(mAssetManager);
         mBackgroundColorInterpolator = new BackgroundColorInterpolator();
         mBackgroundColor = new Color();
         
@@ -160,7 +152,6 @@ public final class GameArea {
         mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
         mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
-        mBackgroundScene.update(mVisibleAreaPosition, delta);
         
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.update(delta);
@@ -168,16 +159,6 @@ public final class GameArea {
     }
     
     public void render(float delta) {
-        
-        // mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
-        // mBatch.begin();
-        // mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
-        // if (mVisibleAreaPosition >= mRiseHeight - END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END) {
-        // mBatch.draw(mBackgroundEndTexture, 0.0f, 0.0f, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
-        // }
-        // mBatch.end();
-        //
-        // mBackgroundScene.render();
         
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
@@ -198,8 +179,6 @@ public final class GameArea {
         for (ItemBase item : mVisibleItems) {
             item.render(mBatch);
         }
-        
-        //mBatch.draw(mEndLineTexture, 0.0f, mRiseHeight - END_LINE_HEIGHT, GAME_AREA_WIDTH, END_LINE_HEIGHT);
         
         mCharacter.render(mBatch);
         

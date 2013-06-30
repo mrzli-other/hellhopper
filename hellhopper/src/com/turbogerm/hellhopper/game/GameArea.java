@@ -21,7 +21,9 @@ import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.util.ColorPositionPair;
 import com.turbogerm.hellhopper.util.Pools;
+import com.turbogerm.hellhopper.util.SpectrumColorInterpolator;
 
 public final class GameArea {
     
@@ -78,7 +80,7 @@ public final class GameArea {
     
     private final EndBackgroundScene mEndBackgroundScene;
     
-    private final BackgroundColorInterpolator mBackgroundColorInterpolator;
+    private final SpectrumColorInterpolator mBackgroundColorInterpolator;
     private final Color mBackgroundColor;
     
     public GameArea(AssetManager assetManager, BitmapFont itemFont) {
@@ -103,7 +105,8 @@ public final class GameArea {
         
         mEndBackgroundScene = new EndBackgroundScene(assetManager);
         
-        mBackgroundColorInterpolator = new BackgroundColorInterpolator();
+        Array<ColorPositionPair> backgroundColorSpectrum = GameAreaUtils.getBackgroundColorSpectrum();
+        mBackgroundColorInterpolator = new SpectrumColorInterpolator(backgroundColorSpectrum);
         mBackgroundColor = new Color();
         
         reset();
@@ -124,7 +127,6 @@ public final class GameArea {
         
         mEndBackgroundScene.reset(mRiseHeight);
         
-        mBackgroundColorInterpolator.setRiseHeight(mRiseHeight);
         mBackgroundColor.set(Color.BLACK);
     }
     
@@ -151,7 +153,7 @@ public final class GameArea {
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
         mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
-        mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition));
+        mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition / mRiseHeight));
         
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.update(delta);

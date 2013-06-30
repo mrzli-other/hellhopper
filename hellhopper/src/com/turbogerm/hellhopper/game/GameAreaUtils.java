@@ -1,6 +1,9 @@
 package com.turbogerm.hellhopper.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.util.ColorPositionPair;
 
 public final class GameAreaUtils {
     
@@ -15,5 +18,17 @@ public final class GameAreaUtils {
         float x = offset *  OFFSET_WIDTH;
         float y = (step + startStep) * STEP_HEIGHT;
         return new Vector2(x, y);
+    }
+    
+    public static Array<ColorPositionPair> getBackgroundColorSpectrum() {
+        Array<ColorPositionPair> colorPositionPairs = new Array<ColorPositionPair>(true, 5);
+        
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.1f, 0.0f, 0.0f, 1.0f), 0.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.6f, 0.0f, 0.0f, 1.0f), 5.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.91f, 0.6f, 0.09f, 1.0f), 10.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.91f, 0.6f, 0.09f, 1.0f), 18.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.0f, 0.6f, 0.0f, 1.0f), 20.0f));
+        
+        return colorPositionPairs;
     }
 }

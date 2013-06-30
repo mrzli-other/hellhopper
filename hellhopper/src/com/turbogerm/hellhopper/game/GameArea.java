@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.background.EndBackgroundScene;
@@ -21,6 +20,7 @@ import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 import com.turbogerm.hellhopper.util.ColorPositionPair;
 import com.turbogerm.hellhopper.util.Pools;
 import com.turbogerm.hellhopper.util.SpectrumColorInterpolator;
@@ -80,7 +80,7 @@ public final class GameArea {
     
     private final EndBackgroundScene mEndBackgroundScene;
     
-    private final SpectrumColorInterpolator mBackgroundColorInterpolator;
+    private final SpectrumColorInterpolator mSpectrumColorInterpolator;
     private final Color mBackgroundColor;
     
     public GameArea(AssetManager assetManager, BitmapFont itemFont) {
@@ -106,7 +106,7 @@ public final class GameArea {
         mEndBackgroundScene = new EndBackgroundScene(assetManager);
         
         Array<ColorPositionPair> backgroundColorSpectrum = GameAreaUtils.getBackgroundColorSpectrum();
-        mBackgroundColorInterpolator = new SpectrumColorInterpolator(backgroundColorSpectrum);
+        mSpectrumColorInterpolator = new SpectrumColorInterpolator(backgroundColorSpectrum);
         mBackgroundColor = new Color();
         
         reset();
@@ -153,7 +153,7 @@ public final class GameArea {
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
         mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
-        mBackgroundColor.set(mBackgroundColorInterpolator.getBackgroundColor(mVisibleAreaPosition / mRiseHeight));
+        mBackgroundColor.set(mSpectrumColorInterpolator.getBackgroundColor(mVisibleAreaPosition / mRiseHeight));
         
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.update(delta);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class CharacterEyesGraphicsNormal extends CharacterGraphicsBase {
     

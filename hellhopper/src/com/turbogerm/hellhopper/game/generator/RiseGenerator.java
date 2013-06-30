@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
@@ -24,10 +23,11 @@ import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.items.ItemFactory;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformFactory;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 5000;
+    private static final int RISE_HEIGHT_STEPS = 500;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;

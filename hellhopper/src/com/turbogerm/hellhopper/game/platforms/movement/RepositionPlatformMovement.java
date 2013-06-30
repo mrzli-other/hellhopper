@@ -3,10 +3,10 @@ package com.turbogerm.hellhopper.game.platforms.movement;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class RepositionPlatformMovement extends PlatformMovementBase {
     

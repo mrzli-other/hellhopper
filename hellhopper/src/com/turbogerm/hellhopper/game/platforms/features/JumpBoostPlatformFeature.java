@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     

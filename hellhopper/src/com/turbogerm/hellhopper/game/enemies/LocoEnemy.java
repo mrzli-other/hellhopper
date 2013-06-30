@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.game.GameArea;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class LocoEnemy extends EnemyBase {
     

@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper;
+package com.turbogerm.hellhopper.gamedata;
 
 public final class GameData {
     

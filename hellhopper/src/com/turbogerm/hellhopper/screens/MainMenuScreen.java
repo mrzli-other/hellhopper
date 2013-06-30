@@ -2,6 +2,7 @@ package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,19 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.general.ScreenBackground;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class MainMenuScreen extends ScreenBase {
     
-    private final Texture mBackgroundTexture;
+    private final ScreenBackground mScreenBackground;
     
     public MainMenuScreen(HellHopper game) {
         super(game);
         
         mGuiStage.addListener(getStageInputListener());
         
-        mBackgroundTexture = mAssetManager.get(ResourceNames.GUI_BACKGROUND_TEXTURE);
+        mScreenBackground = new ScreenBackground(mAssetManager);
         
         TextButtonStyle menuTextButtonStyle = new TextButtonStyle(mGuiSkin.get(TextButtonStyle.class));
         menuTextButtonStyle.font = mGuiSkin.getFont("xxxl-font");
@@ -72,9 +74,31 @@ public final class MainMenuScreen extends ScreenBase {
     }
     
     @Override
+    public void show() {
+        super.show();
+        
+        mScreenBackground.reset();
+    }
+    
+    @Override
+    public void render(float delta) {
+        renderImpl(delta);
+        
+        mGuiStage.act(delta);
+        mGuiStage.draw();
+    }
+    
+    @Override
     public void renderImpl(float delta) {
+        
+        mScreenBackground.update(delta);
+        
+        mClearColor = mScreenBackground.getBackgroundColor();
+        Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
         mBatch.begin();
-        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        mScreenBackground.render(mBatch);
         mBatch.end();
     }
     

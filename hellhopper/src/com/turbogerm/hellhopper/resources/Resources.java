@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper;
+package com.turbogerm.hellhopper.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -34,8 +34,9 @@ public final class Resources {
         textureParameterNearest.genMipMaps = false;
         
         // GUI
-        mAssetManager.load(ResourceNames.GUI_BLACK_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_BACKGROUND_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_SPLASH_BLACK_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_SPLASH_TITLE_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GUI_SPLASH_PLATFORM_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_HIGH_SCORE_UP_TEXTURE, Texture.class, textureParameterLinear);

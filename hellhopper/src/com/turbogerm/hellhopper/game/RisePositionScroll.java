@@ -4,7 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.turbogerm.hellhopper.HellHopper;
-import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class RisePositionScroll {
     

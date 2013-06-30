@@ -1,64 +1,87 @@
 package com.turbogerm.hellhopper.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.general.ScreenBackground;
+import com.turbogerm.hellhopper.resources.ResourceNames;
+import com.turbogerm.hellhopper.screens.splash.SplashFade;
+import com.turbogerm.hellhopper.screens.splash.SplashTitle;
 
 public final class SplashScreen extends ScreenBase {
     
-    private final Texture mBackgroundTexture;
-    private final Image mBlackImage;
+    private static final float PLATFORM_Y = 200.0f;
+    
+    private final ScreenBackground mScreenBackground;
+    private final Sprite mPlatformSprite;
+    private final SplashTitle mSplashTitle;
+    
+    private final SplashFade mSplashFade;
     
     public SplashScreen(HellHopper game) {
         super(game);
         
         mGuiStage.addListener(getStageInputListener());
         
-        mBackgroundTexture = mAssetManager.get(ResourceNames.GUI_BACKGROUND_TEXTURE);
+        mScreenBackground = new ScreenBackground(mAssetManager);
         
-        Texture splashTexture = mAssetManager.get(ResourceNames.GUI_BLACK_TEXTURE);
-        mBlackImage = new Image(splashTexture);
-        mBlackImage.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
-        mBlackImage.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        Texture platformTexture = mAssetManager.get(ResourceNames.GUI_SPLASH_PLATFORM_TEXTURE);
+        mPlatformSprite = new Sprite(platformTexture);
+        float platformX = (HellHopper.VIEWPORT_WIDTH - mPlatformSprite.getWidth()) / 2.0f;
+        mPlatformSprite.setPosition(platformX, PLATFORM_Y);
         
+        mSplashTitle = new SplashTitle(mAssetManager);
         
-        mGuiStage.addActor(mBlackImage);
+        mSplashFade = new SplashFade(mAssetManager);
     }
     
     @Override
     public void show() {
         super.show();
         
-        mBlackImage.clearActions();
-        SequenceAction action = Actions.sequence(
-                Actions.fadeOut(2.5f), Actions.delay(2.5f), Actions.fadeIn(1.5f), getCompletedAction());
-        mBlackImage.addAction(action);
+        mScreenBackground.reset();
+        mSplashTitle.reset(PLATFORM_Y + mPlatformSprite.getHeight());
+        mSplashFade.reset();
+    }
+    
+    @Override
+    public void render(float delta) {
+        update(delta);
+        renderImpl(delta);
+        
+        mGuiStage.act(delta);
+        mGuiStage.draw();
     }
     
     @Override
     public void renderImpl(float delta) {
+        
+        mClearColor = mScreenBackground.getBackgroundColor();
+        Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
         mBatch.begin();
-        mBatch.draw(mBackgroundTexture, 0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        mScreenBackground.render(mBatch);
+        mPlatformSprite.draw(mBatch);
+        mSplashTitle.render(mBatch);
+        mSplashFade.render(mBatch);
         mBatch.end();
     }
     
-    private Action getCompletedAction() {
-        return new Action() {
-            
-            @Override
-            public boolean act(float delta) {
-                mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
-                return true;
-            }
-        };
+    public void update(float delta) {
+        if (mSplashFade.isFinished()) {
+            mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
+        }
+        
+        mScreenBackground.update(delta);
+        mSplashTitle.update(delta);
+        mSplashFade.update(delta);
     }
     
     private InputListener getStageInputListener() {

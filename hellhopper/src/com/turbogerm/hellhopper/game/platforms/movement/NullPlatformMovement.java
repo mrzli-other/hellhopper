@@ -3,7 +3,7 @@ package com.turbogerm.hellhopper.game.platforms.movement;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.ResourceNames;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class NullPlatformMovement extends PlatformMovementBase {
     

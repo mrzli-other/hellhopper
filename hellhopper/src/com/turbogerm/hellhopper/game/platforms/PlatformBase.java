@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
@@ -23,6 +22,7 @@ import com.turbogerm.hellhopper.game.platforms.features.PlatformFeatureFactory;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementBase;
 import com.turbogerm.hellhopper.game.platforms.movement.PlatformMovementFactory;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 import com.turbogerm.hellhopper.util.Pools;
 
 public abstract class PlatformBase {

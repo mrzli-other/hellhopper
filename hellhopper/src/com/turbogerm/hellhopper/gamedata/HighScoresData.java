@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper;
+package com.turbogerm.hellhopper.gamedata;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;

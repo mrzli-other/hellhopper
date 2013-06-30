@@ -1,13 +1,17 @@
-package com.turbogerm.hellhopper;
+package com.turbogerm.hellhopper.resources;
 
 import com.badlogic.gdx.math.MathUtils;
 
 public final class ResourceNames {
     
-    public static final String GUI_DIR = "gui/";
+    private static final String GUI_DIR = "gui/";
     public static final String GUI_SKIN = GUI_DIR + "uiskin.json";
-    public static final String GUI_BLACK_TEXTURE = GUI_DIR + "black.png";
-    public static final String GUI_BACKGROUND_TEXTURE = GUI_DIR + "background.png";
+    
+    private static final String GUI_SPLASH_DIR = GUI_DIR + "splash/";
+    public static final String GUI_SPLASH_BLACK_TEXTURE = GUI_SPLASH_DIR + "black.png";
+    public static final String GUI_SPLASH_TITLE_TEXTURE = GUI_SPLASH_DIR + "title.png";
+    public static final String GUI_SPLASH_PLATFORM_TEXTURE = GUI_SPLASH_DIR + "platform.png";
+    
     public static final String GUI_MAIN_MENU_START_UP_TEXTURE = GUI_DIR + "mainmenustartup.png";
     public static final String GUI_MAIN_MENU_START_DOWN_TEXTURE = GUI_DIR + "mainmenustartdown.png";
     public static final String GUI_MAIN_MENU_HIGH_SCORE_UP_TEXTURE = GUI_DIR + "mainmenuhighscoreup.png";

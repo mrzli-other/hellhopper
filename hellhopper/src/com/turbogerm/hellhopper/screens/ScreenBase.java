@@ -25,10 +25,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.turbogerm.hellhopper.GameData;
-import com.turbogerm.hellhopper.Resources;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.gamedata.GameData;
 import com.turbogerm.hellhopper.init.InitData;
+import com.turbogerm.hellhopper.resources.Resources;
 
 public abstract class ScreenBase implements Screen {
     

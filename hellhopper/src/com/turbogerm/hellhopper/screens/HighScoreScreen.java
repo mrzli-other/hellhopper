@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.HighScoreData;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.gamedata.HighScoreData;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class HighScoreScreen extends ScreenBase {
     

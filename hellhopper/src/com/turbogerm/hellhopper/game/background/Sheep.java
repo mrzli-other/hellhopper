@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 import com.turbogerm.hellhopper.util.GameUtils;
 
 final class Sheep {
@@ -49,9 +49,7 @@ final class Sheep {
                 texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
         mSpeed = new Vector2();
         
-        mSprite.setSize(
-                texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mSprite.setSize(mSize.x, mSize.y);
         GameUtils.setSpriteOriginCenter(mSprite);
         
         mMaxPositionX = GameArea.GAME_AREA_WIDTH - mSize.x;

@@ -4,8 +4,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.turbogerm.hellhopper.ResourceNames;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class CoinItem extends ItemBase {
     

@@ -3,6 +3,7 @@ package com.turbogerm.hellhopper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class HighScoresData {
     
@@ -11,20 +12,34 @@ public final class HighScoresData {
     private static final int HIGH_SCORES_CAPACITY = 24;
     private static final int NUM_HIGH_SCORES = 20;
     
+    private static final String LAST_ENTERED_NAME_KEY = "LastEnteredName";
+    
     private static final String DEFAULT_NAME = "<No_Name>";
+    private static final String DEFAULT_ENTER_NAME_TEXT = "Enter Name";
     
     private final Array<HighScoreData> mHighScores;
+    private String mLastEnteredName;
+    
     private final Preferences mPreferences;
     
     public HighScoresData() {
         mHighScores = new Array<HighScoreData>(true, HIGH_SCORES_CAPACITY);
         
         mPreferences = Gdx.app.getPreferences(PREFERENCES_NAME);
+        load();
+    }
+    
+    private void load() {
+        mLastEnteredName = mPreferences.getString(LAST_ENTERED_NAME_KEY);
+        if (GameUtils.isNullOrEmpty(mLastEnteredName)) {
+            mLastEnteredName = DEFAULT_ENTER_NAME_TEXT;
+        }
         loadHighScores();
     }
     
     public void save() {
         saveHighScores();
+        mPreferences.putString(LAST_ENTERED_NAME_KEY, mLastEnteredName);
         mPreferences.flush();
     }
     
@@ -47,6 +62,7 @@ public final class HighScoresData {
         HighScoreData highScore = new HighScoreData(name, score, 0l);
         mHighScores.insert(scorePlace, highScore);
         mHighScores.truncate(NUM_HIGH_SCORES);
+        mLastEnteredName = name;
         save();
         
         return true;
@@ -105,5 +121,9 @@ public final class HighScoresData {
     
     public Array<HighScoreData> getHighScores() {
         return mHighScores;
+    }
+    
+    public String getLastEnteredName() {
+        return mLastEnteredName;
     }
 }

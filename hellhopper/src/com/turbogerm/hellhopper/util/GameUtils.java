@@ -72,4 +72,9 @@ public final class GameUtils {
     public static void setSpriteOriginCenter(Sprite sprite) {
         sprite.setOrigin(sprite.getWidth() / 2.0f, sprite.getHeight() / 2.0f);
     }
+    
+    /* String */
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 }

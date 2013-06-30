@@ -58,7 +58,7 @@ public final class GameOverScreen extends ScreenBase {
         final float nameTextFieldHeight = 50.0f;
         final float nameTextFieldX = (HellHopper.VIEWPORT_WIDTH - nameTextFieldWidth) / 2.0f;
         
-        mNameTextField = new TextField("Enter Name", mGuiSkin);
+        mNameTextField = new TextField("", mGuiSkin);
         mNameTextField.setBounds(nameTextFieldX, nameTextFieldY, nameTextFieldWidth, nameTextFieldHeight);
         // mNameTextField.setStyle(textFieldStyle);
         mNameTextField.setMaxLength(NAME_MAX_LENGTH);
@@ -94,6 +94,7 @@ public final class GameOverScreen extends ScreenBase {
         if (scorePlace >= 0) {
             String placementText = String.format("You place %d.\non high score list.", scorePlace + 1);
             mPlacementLabel.setText(placementText);
+            mNameTextField.setText(mGameData.getHighScoresData().getLastEnteredName());
             mNameTextField.setVisible(true);
         } else {
             mPlacementLabel.setText("");

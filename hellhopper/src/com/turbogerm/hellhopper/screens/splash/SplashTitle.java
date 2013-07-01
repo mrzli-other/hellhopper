@@ -17,8 +17,8 @@ public final class SplashTitle {
     private static final float INITIAL_POSITION_Y = 1000.0f;
     private static final float COLLISION_OFFSET_Y = 45.0f;
     
-    private static final float RESTITUTION_MULTIPLIER = 1.0f / 1.25f;
-    private static final float RESTITUTION_SPEED_DECREASE = 15.0f;
+    private static final float RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
+    private static final float RESTITUTION_SPEED_DECREASE = 10.0f;
     
     private final Sprite mSprite;
     

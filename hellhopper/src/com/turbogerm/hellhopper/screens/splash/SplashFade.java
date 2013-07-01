@@ -12,7 +12,7 @@ import com.turbogerm.hellhopper.util.GameUtils;
 public final class SplashFade {
     
     private static final float FADE_IN_DURATION = 1.5f;
-    private static final float DELAY_DURATION = 5.0f;
+    private static final float DELAY_DURATION = 2.5f;
     private static final float FADE_OUT_DURATION = 1.5f;
     
     private static final float DELAY_START = FADE_IN_DURATION;

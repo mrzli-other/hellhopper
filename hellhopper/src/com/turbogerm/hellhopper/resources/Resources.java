@@ -36,6 +36,8 @@ public final class Resources {
         // GENERAL
         mAssetManager.load(ResourceNames.GENERAL_BLACK_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GENERAL_WHITE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GENERAL_TURBO_GERM_LOGO_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GENERAL_LIBGDX_LOGO_TEXTURE, Texture.class, textureParameterNearest);
         
         // GUI
         mAssetManager.load(ResourceNames.GUI_SPLASH_TITLE_TEXTURE, Texture.class, textureParameterNearest);

@@ -12,12 +12,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.general.LibGdxLogo;
 import com.turbogerm.hellhopper.general.ScreenBackground;
+import com.turbogerm.hellhopper.general.TurboGermLogo;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class MainMenuScreen extends ScreenBase {
     
     private final ScreenBackground mScreenBackground;
+    
+    private final TurboGermLogo mTurboGermLogo;
+    private final LibGdxLogo mLibGdxLogo;
     
     public MainMenuScreen(HellHopper game) {
         super(game);
@@ -25,6 +30,9 @@ public final class MainMenuScreen extends ScreenBase {
         mGuiStage.addListener(getStageInputListener());
         
         mScreenBackground = new ScreenBackground(mAssetManager);
+        
+        mTurboGermLogo = new TurboGermLogo(mAssetManager);
+        mLibGdxLogo = new LibGdxLogo(mAssetManager);
         
         TextButtonStyle menuTextButtonStyle = new TextButtonStyle(mGuiSkin.get(TextButtonStyle.class));
         menuTextButtonStyle.font = mGuiSkin.getFont("xxxl-font");
@@ -86,6 +94,8 @@ public final class MainMenuScreen extends ScreenBase {
         
         mBatch.begin();
         mScreenBackground.render(mBatch);
+        mTurboGermLogo.render(mBatch);
+        mLibGdxLogo.render(mBatch);
         mBatch.end();
     }
     

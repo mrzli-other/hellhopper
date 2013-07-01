@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.turbogerm.hellhopper.HellHopper;
+import com.turbogerm.hellhopper.general.LibGdxLogo;
 import com.turbogerm.hellhopper.general.ScreenBackground;
+import com.turbogerm.hellhopper.general.TurboGermLogo;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 import com.turbogerm.hellhopper.screens.splash.SplashFade;
 import com.turbogerm.hellhopper.screens.splash.SplashTitle;
@@ -19,6 +21,8 @@ public final class SplashScreen extends ScreenBase {
     private final ScreenBackground mScreenBackground;
     private final Sprite mPlatformSprite;
     private final SplashTitle mSplashTitle;
+    private final TurboGermLogo mTurboGermLogo;
+    private final LibGdxLogo mLibGdxLogo;
     
     private final SplashFade mSplashFade;
     
@@ -35,6 +39,8 @@ public final class SplashScreen extends ScreenBase {
         mPlatformSprite.setPosition(platformX, PLATFORM_Y);
         
         mSplashTitle = new SplashTitle(mAssetManager);
+        mTurboGermLogo = new TurboGermLogo(mAssetManager);
+        mLibGdxLogo = new LibGdxLogo(mAssetManager);
         
         mSplashFade = new SplashFade(mAssetManager);
     }
@@ -57,6 +63,8 @@ public final class SplashScreen extends ScreenBase {
         mScreenBackground.render(mBatch);
         mPlatformSprite.draw(mBatch);
         mSplashTitle.render(mBatch);
+        mTurboGermLogo.render(mBatch);
+        mLibGdxLogo.render(mBatch);
         mSplashFade.render(mBatch);
         mBatch.end();
     }

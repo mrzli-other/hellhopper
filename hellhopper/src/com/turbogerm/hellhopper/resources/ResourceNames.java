@@ -4,11 +4,14 @@ import com.badlogic.gdx.math.MathUtils;
 
 public final class ResourceNames {
     
+    private static final String GENERAL_DIR = "general/";
+    public static final String GENERAL_BLACK_TEXTURE = GENERAL_DIR + "black.png";
+    public static final String GENERAL_WHITE_TEXTURE = GENERAL_DIR + "white.png";
+    
     private static final String GUI_DIR = "gui/";
     public static final String GUI_SKIN = GUI_DIR + "uiskin.json";
     
     private static final String GUI_SPLASH_DIR = GUI_DIR + "splash/";
-    public static final String GUI_SPLASH_BLACK_TEXTURE = GUI_SPLASH_DIR + "black.png";
     public static final String GUI_SPLASH_TITLE_TEXTURE = GUI_SPLASH_DIR + "title.png";
     public static final String GUI_SPLASH_PLATFORM_TEXTURE = GUI_SPLASH_DIR + "platform.png";
     

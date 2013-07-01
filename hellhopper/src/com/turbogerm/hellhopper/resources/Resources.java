@@ -33,8 +33,11 @@ public final class Resources {
         textureParameterNearest.magFilter = TextureFilter.Nearest;
         textureParameterNearest.genMipMaps = false;
         
+        // GENERAL
+        mAssetManager.load(ResourceNames.GENERAL_BLACK_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GENERAL_WHITE_TEXTURE, Texture.class, textureParameterLinear);
+        
         // GUI
-        mAssetManager.load(ResourceNames.GUI_SPLASH_BLACK_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_SPLASH_TITLE_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_SPLASH_PLATFORM_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_UP_TEXTURE, Texture.class, textureParameterLinear);

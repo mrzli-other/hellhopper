@@ -1,9 +1,7 @@
 package com.turbogerm.hellhopper.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -51,20 +49,9 @@ public final class SplashScreen extends ScreenBase {
     }
     
     @Override
-    public void render(float delta) {
-        update(delta);
-        renderImpl(delta);
-        
-        mGuiStage.act(delta);
-        mGuiStage.draw();
-    }
-    
-    @Override
     public void renderImpl(float delta) {
         
-        mClearColor = mScreenBackground.getBackgroundColor();
-        Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        update(delta);
         
         mBatch.begin();
         mScreenBackground.render(mBatch);

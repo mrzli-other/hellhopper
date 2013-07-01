@@ -12,10 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.turbogerm.hellhopper.HellHopper;
-import com.turbogerm.hellhopper.general.LibGdxLogo;
-import com.turbogerm.hellhopper.general.ScreenBackground;
-import com.turbogerm.hellhopper.general.TurboGermLogo;
 import com.turbogerm.hellhopper.resources.ResourceNames;
+import com.turbogerm.hellhopper.screens.general.LibGdxLogo;
+import com.turbogerm.hellhopper.screens.general.ScreenBackground;
+import com.turbogerm.hellhopper.screens.general.TurboGermLogo;
 
 public final class MainMenuScreen extends ScreenBase {
     

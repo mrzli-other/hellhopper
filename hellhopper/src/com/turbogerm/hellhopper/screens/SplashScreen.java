@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.turbogerm.hellhopper.HellHopper;
-import com.turbogerm.hellhopper.general.LibGdxLogo;
-import com.turbogerm.hellhopper.general.ScreenBackground;
-import com.turbogerm.hellhopper.general.TurboGermLogo;
 import com.turbogerm.hellhopper.resources.ResourceNames;
+import com.turbogerm.hellhopper.screens.general.LibGdxLogo;
+import com.turbogerm.hellhopper.screens.general.ScreenBackground;
+import com.turbogerm.hellhopper.screens.general.TurboGermLogo;
 import com.turbogerm.hellhopper.screens.splash.SplashFade;
 import com.turbogerm.hellhopper.screens.splash.SplashTitle;
 

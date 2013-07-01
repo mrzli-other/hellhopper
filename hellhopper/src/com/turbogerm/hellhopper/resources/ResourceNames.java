@@ -17,12 +17,15 @@ public final class ResourceNames {
     public static final String GUI_SPLASH_TITLE_TEXTURE = GUI_SPLASH_DIR + "title.png";
     public static final String GUI_SPLASH_PLATFORM_TEXTURE = GUI_SPLASH_DIR + "platform.png";
     
-    public static final String GUI_MAIN_MENU_START_UP_TEXTURE = GUI_DIR + "mainmenustartup.png";
-    public static final String GUI_MAIN_MENU_START_DOWN_TEXTURE = GUI_DIR + "mainmenustartdown.png";
-    public static final String GUI_MAIN_MENU_HIGH_SCORE_UP_TEXTURE = GUI_DIR + "mainmenuhighscoreup.png";
-    public static final String GUI_MAIN_MENU_HIGH_SCORE_DOWN_TEXTURE = GUI_DIR + "mainmenuhighscoredown.png";
-    public static final String GUI_MAIN_MENU_INFO_UP_TEXTURE = GUI_DIR + "mainmenuinfoup.png";
-    public static final String GUI_MAIN_MENU_INFO_DOWN_TEXTURE = GUI_DIR + "mainmenuinfodown.png";
+    private static final String GUI_MAIN_MENU_DIR = GUI_DIR + "mainmenu/";
+    public static final String GUI_MAIN_MENU_TITLE_TEXTURE = GUI_MAIN_MENU_DIR + "title.png";
+    public static final String GUI_MAIN_MENU_BUTTON_START_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartup.png";
+    public static final String GUI_MAIN_MENU_BUTTON_START_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartdown.png";
+    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttonhighscoreup.png";
+    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttonhighscoredown.png";
+    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsup.png";
+    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsdown.png";
+    
     public static final String GUI_BUTTON_BACK_UP_TEXTURE = GUI_DIR + "buttonbackup.png";
     public static final String GUI_BUTTON_BACK_DOWN_TEXTURE = GUI_DIR + "buttonbackdown.png";
     public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GUI_DIR + "buttoncontinueup.png";

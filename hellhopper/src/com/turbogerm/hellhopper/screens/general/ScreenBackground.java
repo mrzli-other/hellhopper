@@ -55,11 +55,12 @@ public final class ScreenBackground {
     }
     
     private static Array<ColorPositionPair> getBackgroundColorSpectrum() {
-        Array<ColorPositionPair> colorPositionPairs = new Array<ColorPositionPair>(true, 3);
+        Array<ColorPositionPair> colorPositionPairs = new Array<ColorPositionPair>(true, 4);
         
-        colorPositionPairs.add(new ColorPositionPair(new Color(0.0f, 0.0f, 0.0f, 1.0f), 0.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.3f, 0.0f, 0.0f, 1.0f), 0.0f));
         colorPositionPairs.add(new ColorPositionPair(new Color(0.6f, 0.0f, 0.0f, 1.0f), 5.0f));
         colorPositionPairs.add(new ColorPositionPair(new Color(0.91f, 0.6f, 0.09f, 1.0f), 10.0f));
+        colorPositionPairs.add(new ColorPositionPair(new Color(0.1f, 1.0f, 0.00f, 1.0f), 15.0f));
         
         return colorPositionPairs;
     }

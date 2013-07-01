@@ -42,12 +42,13 @@ public final class Resources {
         // GUI
         mAssetManager.load(ResourceNames.GUI_SPLASH_TITLE_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_SPLASH_PLATFORM_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_UP_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_START_DOWN_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_HIGH_SCORE_UP_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_HIGH_SCORE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_INFO_UP_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_INFO_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_TITLE_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_START_UP_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_START_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_HIGH_SCORE_UP_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_UP_TEXTURE, Texture.class, textureParameterLinear);

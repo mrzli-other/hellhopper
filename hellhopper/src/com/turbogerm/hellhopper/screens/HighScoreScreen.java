@@ -1,22 +1,18 @@
 package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.gamedata.HighScoreData;
 import com.turbogerm.hellhopper.resources.ResourceNames;
+import com.turbogerm.hellhopper.screens.general.CustomButtonAction;
+import com.turbogerm.hellhopper.screens.general.CustomImageButton;
+import com.turbogerm.hellhopper.screens.general.ScreenBackground;
 
 public final class HighScoreScreen extends ScreenBase {
     
@@ -32,17 +28,24 @@ public final class HighScoreScreen extends ScreenBase {
     private static final float HIGH_SCORE_VALUE_X =
             HIGH_SCORE_NAME_X + HIGH_SCORE_NAME_WIDTH + HIGH_SCORE_PADDING;
     
+    private static final float BUTTON_X = 105.0f;
+    private static final float BUTTON_Y = 20.0f;
+    
+    private final ScreenBackground mScreenBackground;
+    
     public HighScoreScreen(HellHopper game) {
         super(game);
         
-        mClearColor = Color.DARK_GRAY;
-        
         mGuiStage.addListener(getStageInputListener(this));
+        
+        mScreenBackground = new ScreenBackground(mAssetManager);
     }
     
     @Override
     public void show() {
         super.show();
+        
+        mScreenBackground.reset();
         
         mGuiStage.clear();
         
@@ -73,21 +76,22 @@ public final class HighScoreScreen extends ScreenBase {
             mGuiStage.addActor(highScoreValueLabel);
         }
         
-        final float buttonWidth = 360.0f; 
-        final float buttonHeight = 80.0f; 
-        final float buttonX = (HellHopper.VIEWPORT_WIDTH - buttonWidth) / 2.0f;
-        final float buttonY = 10.0f;
+        CustomImageButton button = new CustomImageButton(
+                BUTTON_X, BUTTON_Y,
+                ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE,
+                ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE,
+                getBackAction(),
+                mAssetManager);
+        button.addToStage(mGuiStage);
+    }
+    
+    @Override
+    public void renderImpl(float delta) {
+        mScreenBackground.update(delta);
         
-        TextureRegion backUpTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE));
-        Drawable backUpDrawable = new TextureRegionDrawable(backUpTextureRegion);
-        TextureRegion backDownTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE));
-        Drawable backDownDrawable = new TextureRegionDrawable(backDownTextureRegion);
-        ImageButton backButton = new ImageButton(backUpDrawable, backDownDrawable);
-        backButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
-        backButton.addListener(getBackInputListener(backButton));
-        mGuiStage.addActor(backButton);
+        mBatch.begin();
+        mScreenBackground.render(mBatch);
+        mBatch.end();
     }
     
     private static InputListener getStageInputListener(final HighScoreScreen screen) {
@@ -106,19 +110,12 @@ public final class HighScoreScreen extends ScreenBase {
         };
     }
     
-    private InputListener getBackInputListener(final Actor actor) {
-        return new InputListener() {
+    private CustomButtonAction getBackAction() {
+        return new CustomButtonAction() {
             
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (actor.hit(x, y, true) != null) {
-                    mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
-                }
+            public void invoke() {
+                mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
             }
         };
     }

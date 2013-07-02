@@ -8,9 +8,9 @@ import com.badlogic.gdx.utils.Logger;
 import com.turbogerm.hellhopper.gamedata.GameData;
 import com.turbogerm.hellhopper.init.InitData;
 import com.turbogerm.hellhopper.resources.Resources;
+import com.turbogerm.hellhopper.screens.CreditsScreen;
 import com.turbogerm.hellhopper.screens.GameOverScreen;
 import com.turbogerm.hellhopper.screens.HighScoreScreen;
-import com.turbogerm.hellhopper.screens.InfoScreen;
 import com.turbogerm.hellhopper.screens.MainMenuScreen;
 import com.turbogerm.hellhopper.screens.PlayScreen;
 import com.turbogerm.hellhopper.screens.SplashScreen;
@@ -23,7 +23,7 @@ public class HellHopper extends Game {
     public static final String MAIN_MENU_SCREEN_NAME = "MainMenu";
     public static final String PLAY_SCREEN_NAME = "Play";
     public static final String HIGH_SCORE_SCREEN_NAME = "HighScore";
-    public static final String INFO_SCREEN_NAME = "Info";
+    public static final String CREDITS_SCREEN_NAME = "Credits";
     public static final String GAME_OVER_SCREEN_NAME = "GameOver";
     
     public static final float VIEWPORT_WIDTH = 450.0f;
@@ -97,7 +97,7 @@ public class HellHopper extends Game {
         mScreens.put(MAIN_MENU_SCREEN_NAME, new MainMenuScreen(this));
         mScreens.put(PLAY_SCREEN_NAME, new PlayScreen(this));
         mScreens.put(HIGH_SCORE_SCREEN_NAME, new HighScoreScreen(this));
-        mScreens.put(INFO_SCREEN_NAME, new InfoScreen(this));
+        mScreens.put(CREDITS_SCREEN_NAME, new CreditsScreen(this));
         mScreens.put(GAME_OVER_SCREEN_NAME, new GameOverScreen(this));
         
         setScreen(SPLASH_SCREEN_NAME);

@@ -46,7 +46,7 @@ public final class MainMenuScreen extends ScreenBase {
                 BUTTON_X, START_BUTTON_Y,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_START_UP_TEXTURE,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_START_DOWN_TEXTURE,
-                getStartInputListener(),
+                getStartAction(),
                 mAssetManager);
         startButton.addToStage(mGuiStage);
         
@@ -54,7 +54,7 @@ public final class MainMenuScreen extends ScreenBase {
                 BUTTON_X, HIGH_SCORE_BUTTON_Y,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_HIGH_SCORE_UP_TEXTURE,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_TEXTURE,
-                getHighScoreInputListener(),
+                getHighScoreAction(),
                 mAssetManager);
         highScoreButton.addToStage(mGuiStage);
         
@@ -62,7 +62,7 @@ public final class MainMenuScreen extends ScreenBase {
                 BUTTON_X, CREDITS_BUTTON_Y,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE,
                 ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE,
-                getCreditsInputListener(),
+                getCreditsAction(),
                 mAssetManager);
         creditsButton.addToStage(mGuiStage);
     }
@@ -102,7 +102,7 @@ public final class MainMenuScreen extends ScreenBase {
         };
     }
     
-    private CustomButtonAction getStartInputListener() {
+    private CustomButtonAction getStartAction() {
         return new CustomButtonAction() {
             
             @Override
@@ -112,7 +112,7 @@ public final class MainMenuScreen extends ScreenBase {
         };
     }
     
-    private CustomButtonAction getHighScoreInputListener() {
+    private CustomButtonAction getHighScoreAction() {
         return new CustomButtonAction() {
             
             @Override
@@ -122,12 +122,12 @@ public final class MainMenuScreen extends ScreenBase {
         };
     }
     
-    private CustomButtonAction getCreditsInputListener() {
+    private CustomButtonAction getCreditsAction() {
         return new CustomButtonAction() {
             
             @Override
             public void invoke() {
-                mGame.setScreen(HellHopper.INFO_SCREEN_NAME);
+                mGame.setScreen(HellHopper.CREDITS_SCREEN_NAME);
             }
         };
     }

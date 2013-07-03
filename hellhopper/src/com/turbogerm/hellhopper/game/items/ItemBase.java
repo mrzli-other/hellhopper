@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
+import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
 
@@ -102,6 +104,7 @@ public abstract class ItemBase {
             itemFont.setColor(c.r, c.g, c.b, alpha);
             float textX = (mPosition.x + mSize.x / 2.0f) * GameAreaUtils.METER_TO_PIXEL -
                     mPickedUpTextBounds.x / 2.0f;
+            textX = MathUtils.clamp(textX, 0.0f, HellHopper.VIEWPORT_WIDTH - mPickedUpTextBounds.x);
             float textY = (mPosition.y + mSize.y / 2.0f - visibleAreaPosition) * GameAreaUtils.METER_TO_PIXEL +
                     mPickedUpTextBounds.y / 2.0f;
             itemFont.draw(batch, mPickedUpText, textX, textY);

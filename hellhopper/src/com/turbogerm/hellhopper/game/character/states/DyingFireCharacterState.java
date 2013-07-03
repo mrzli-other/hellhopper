@@ -1,6 +1,7 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,6 +10,7 @@ import com.turbogerm.germlibrary.util.ColorInterpolator;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsStunned;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 
 final class DyingFireCharacterState extends CharacterStateBase {
@@ -27,6 +29,8 @@ final class DyingFireCharacterState extends CharacterStateBase {
     
     private final ColorInterpolator mColorInterpolator;
     
+    private final Sound mFireSound;
+    
     static {
         CHARRED_COLOR = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     }
@@ -39,6 +43,8 @@ final class DyingFireCharacterState extends CharacterStateBase {
         mCharacterEyesGraphics = new CharacterEyesGraphicsStunned(assetManager);
         
         mColorInterpolator = new ColorInterpolator();
+        
+        mFireSound = assetManager.get(ResourceNames.SOUND_FIRE);
     }
     
     @Override
@@ -53,7 +59,8 @@ final class DyingFireCharacterState extends CharacterStateBase {
     @Override
     public void update(CharacterStateUpdateData updateData) {
         
-        if (isFinished()) {
+        if (mDyingElapsed >= DYING_TOTAL_DURATION) {
+            changeState(CharacterStateManager.FINISHED_CHARACTER_STATE);
             return;
         }
         
@@ -79,7 +86,12 @@ final class DyingFireCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public boolean isFinished() {
-        return mDyingElapsed >= DYING_TOTAL_DURATION;
+    public void start() {
+        mFireSound.play();
+    }
+    
+    @Override
+    public void end() {
+        mFireSound.stop();
     }
 }

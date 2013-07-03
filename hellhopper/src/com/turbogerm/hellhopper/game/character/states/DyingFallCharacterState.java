@@ -1,11 +1,13 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class DyingFallCharacterState extends CharacterStateBase {
     
@@ -18,12 +20,16 @@ final class DyingFallCharacterState extends CharacterStateBase {
     
     private float mDyingCountdown;
     
+    private final Sound mFallSound;
+    
     public DyingFallCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
         
         mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
         mCharacterEyesGraphics = new CharacterEyesGraphicsNormal(assetManager);
+        
+        mFallSound = assetManager.get(ResourceNames.SOUND_FALL);
     }
     
     @Override
@@ -38,7 +44,8 @@ final class DyingFallCharacterState extends CharacterStateBase {
     @Override
     public void update(CharacterStateUpdateData updateData) {
         
-        if (isFinished()) {
+        if (mDyingCountdown <= 0.0f) {
+            changeState(CharacterStateManager.FINISHED_CHARACTER_STATE);
             return;
         }
         
@@ -67,7 +74,12 @@ final class DyingFallCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public boolean isFinished() {
-        return mDyingCountdown <= 0.0f;
+    public void start() {
+        mFallSound.play();
+    }
+    
+    @Override
+    public void end() {
+        mFallSound.stop();
     }
 }

@@ -22,6 +22,12 @@ public abstract class CharacterStateBase {
     public void render(CharacterStateRenderData renderData) {
     }
     
+    public void start() {
+    }
+    
+    public void end() {
+    }
+    
     public boolean isFinished() {
         return false;
     }

@@ -56,6 +56,8 @@ final class NormalCharacterState extends CharacterStateBase {
     
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
+    private final Sound mCoinSound;
+    private final Sound mItemSound;
     private final Sound mFartSound;
     
     static {
@@ -79,6 +81,8 @@ final class NormalCharacterState extends CharacterStateBase {
         
         mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
         mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
+        mCoinSound = assetManager.get(ResourceNames.SOUND_COIN);
+        mItemSound = assetManager.get(ResourceNames.SOUND_ITEM);
         mFartSound = assetManager.get(ResourceNames.SOUND_FART);
     }
     
@@ -334,29 +338,35 @@ final class NormalCharacterState extends CharacterStateBase {
         switch (effect) {
             case ItemBase.FART_EFFECT:
                 characterEffects.setFarts((Integer) item.getValue());
+                mItemSound.play();
                 break;
             
             case ItemBase.SHIELD_EFFECT:
                 characterEffects.setShield((Float) item.getValue());
+                mItemSound.play();
                 break;
             
             case ItemBase.HIGH_JUMP_EFFECT:
                 characterEffects.setHighJump((Float) item.getValue());
+                mItemSound.play();
                 break;
             
             case ItemBase.EXTRA_LIFE_EFFECT:
                 characterEffects.addLife();
+                mItemSound.play();
                 break;
             
             case ItemBase.SCORE_EFFECT:
                 characterEffects.addScore((Integer) item.getValue());
+                mCoinSound.play();
                 break;
             
             case ItemBase.SIGNET_EFFECT:
                 characterEffects.addSignet();
                 score = SIGNET_SCORE_INCREMENT * characterEffects.getNumSignets();
                 characterEffects.addScore(score);
-                item.setPickedUpText(String.format("+%d PTS", score));;
+                item.setPickedUpText(String.format("+%d PTS", score));
+                mCoinSound.play();
                 break;
             
             default:

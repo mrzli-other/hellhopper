@@ -120,6 +120,11 @@ public final class ResourceNames {
     public static final String SOUND_JUMP = SOUNDS_DIR + "jump.mp3";
     public static final String SOUND_JUMP_BOOST = SOUNDS_DIR + "jumpboost.mp3";
     public static final String SOUND_FART = SOUNDS_DIR + "fart.mp3";
+    public static final String SOUND_COIN = SOUNDS_DIR + "coin.mp3";
+    public static final String SOUND_ITEM = SOUNDS_DIR + "item.mp3";
+    public static final String SOUND_ENEMY = SOUNDS_DIR + "enemy.mp3";
+    public static final String SOUND_FIRE = SOUNDS_DIR + "fire.mp3";
+    public static final String SOUND_FALL = SOUNDS_DIR + "fall.mp3";
     private static final String SOUND_SHEEP_NAME_FORMAT = SOUNDS_DIR + "sheep%02d.mp3";
     public static final int SOUND_SHEEP_COUNT = 7;
     

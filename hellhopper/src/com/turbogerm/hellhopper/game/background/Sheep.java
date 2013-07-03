@@ -15,11 +15,11 @@ final class Sheep {
     
     private static final float GRAVITY = 20.0f;
     
-    private static final float MIN_JUMP_SPEED = 6.0f;
-    private static final float MAX_JUMP_SPEED = 9.0f;
+    private static final float MIN_JUMP_SPEED = 3.0f;
+    private static final float MAX_JUMP_SPEED = 6.0f;
     
-    private static final float MIN_HORIZONTAL_SPEED = 1.0f;
-    private static final float MAX_HORIZONTAL_SPEED = 3.5f;
+    private static final float MIN_HORIZONTAL_SPEED = 0.5f;
+    private static final float MAX_HORIZONTAL_SPEED = 2.0f;
     
     private static final float ROTATION_MULTIPLIER = 1.0f;
     

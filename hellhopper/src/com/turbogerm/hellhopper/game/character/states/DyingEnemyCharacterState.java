@@ -1,11 +1,13 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsStunned;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class DyingEnemyCharacterState extends CharacterStateBase {
     
@@ -22,12 +24,16 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     private boolean mIsMovingPhaseStarted;
     private float mHorizontalSpeed;
     
+    private final Sound mEnemySound;
+    
     public DyingEnemyCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
         
         mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
         mCharacterEyesGraphics = new CharacterEyesGraphicsStunned(assetManager);
+        
+        mEnemySound = assetManager.get(ResourceNames.SOUND_ENEMY);
     }
     
     @Override
@@ -45,7 +51,8 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     @Override
     public void update(CharacterStateUpdateData updateData) {
         
-        if (isFinished()) {
+        if (mDyingElapsed >= DYING_TOTAL_DURATION) {
+            changeState(CharacterStateManager.FINISHED_CHARACTER_STATE);
             return;
         }
         
@@ -83,7 +90,12 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public boolean isFinished() {
-        return mDyingElapsed >= DYING_TOTAL_DURATION;
+    public void start() {
+        mEnemySound.play();
+    }
+    
+    @Override
+    public void end() {
+        mEnemySound.stop();
     }
 }

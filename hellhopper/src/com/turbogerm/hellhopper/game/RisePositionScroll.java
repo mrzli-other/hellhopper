@@ -24,10 +24,10 @@ public final class RisePositionScroll {
     private float mEffectivePositionScrollLineHeight;
     
     public RisePositionScroll(AssetManager assetManager) {
-        mPositionScrollLineTexture = assetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE);
-        mPositionScrollLineAboveTexture = assetManager.get(ResourceNames.GAME_POSITION_SCROLL_LINE_ABOVE_TEXTURE);
-        mPositionScrollBoxTexture = assetManager.get(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE);
-        mPositionScrollEndLineTexture = assetManager.get(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE);
+        mPositionScrollLineTexture = assetManager.get(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE);
+        mPositionScrollLineAboveTexture = assetManager.get(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE);
+        mPositionScrollBoxTexture = assetManager.get(ResourceNames.GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE);
+        mPositionScrollEndLineTexture = assetManager.get(ResourceNames.GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE);
     }
     
     public void setRiseHeight(float riseHeight) {

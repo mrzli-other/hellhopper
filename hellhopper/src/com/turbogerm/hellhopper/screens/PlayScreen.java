@@ -163,18 +163,18 @@ public final class PlayScreen extends ScreenBase {
     
     private void createPlayPauseButton() {
         TextureRegion pauseUpTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PAUSE_UP_TEXTURE));
+                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PAUSE_UP_TEXTURE));
         Drawable pauseUpDrawable = new TextureRegionDrawable(pauseUpTextureRegion);
         TextureRegion pauseDownTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PAUSE_DOWN_TEXTURE));
+                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE));
         Drawable pauseDownDrawable = new TextureRegionDrawable(pauseDownTextureRegion);
         mPauseButtonStyle = new ImageButtonStyle(null, null, null, pauseUpDrawable, pauseDownDrawable, null);
         
         TextureRegion playUpTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_UP_TEXTURE));
+                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE));
         Drawable playUpDrawable = new TextureRegionDrawable(playUpTextureRegion);
         TextureRegion playDownTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_DOWN_TEXTURE));
+                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE));
         Drawable playDownDrawable = new TextureRegionDrawable(playDownTextureRegion);
         mPlayButtonStyle = new ImageButtonStyle(null, null, null, playUpDrawable, playDownDrawable, null);
         

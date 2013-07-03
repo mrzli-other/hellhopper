@@ -1,3 +1,6 @@
 http://opengameart.org/content/camp-fire-animation-for-rpgs-finished - fire animation
 libgdx logo - libgdx site, svg file from http://bioboblog.blogspot.com/2012/08/vector-libgdx-logo.html
 sounds
+knock - http://www.freesound.org/people/XxBirdoxX/sounds/52290/
+gravel - http://www.freesound.org/people/jorickhoofd/sounds/169551/
+steam - http://www.freesound.org/people/jesabat/sounds/119741/

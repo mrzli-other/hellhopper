@@ -17,6 +17,8 @@
     - add class for selecting fonts - for example you want font that is 5% screen height,
       then take height, multiply by 0.05 and return font that is closest to that size
       
+
+      
 - fire composition:
 0 3 2 1 4
 1 4 3 2 0

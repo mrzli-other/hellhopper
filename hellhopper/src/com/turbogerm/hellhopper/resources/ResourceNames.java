@@ -26,14 +26,21 @@ public final class ResourceNames {
     public static final String GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsup.png";
     public static final String GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsdown.png";
     
+    private static final String GUI_PLAY_DIR = GUI_DIR + "play/";
+    public static final String GUI_PLAY_PAUSE_UP_TEXTURE = GUI_PLAY_DIR + "pauseup.png";
+    public static final String GUI_PLAY_PAUSE_DOWN_TEXTURE = GUI_PLAY_DIR + "pausedown.png";
+    public static final String GUI_PLAY_PLAY_UP_TEXTURE = GUI_PLAY_DIR + "playup.png";
+    public static final String GUI_PLAY_PLAY_DOWN_TEXTURE = GUI_PLAY_DIR + "playdown.png";
+    public static final String GUI_PLAY_END_LINE_TEXTURE = GUI_PLAY_DIR + "endline.png";
+    public static final String GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollline.png";
+    public static final String GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE = GUI_PLAY_DIR + "positionscrolllineabove.png";
+    public static final String GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE = GUI_PLAY_DIR + "positionscrollbox.png";
+    public static final String GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollendline.png";
+    
     public static final String GUI_BUTTON_BACK_UP_TEXTURE = GUI_DIR + "buttonbackup.png";
     public static final String GUI_BUTTON_BACK_DOWN_TEXTURE = GUI_DIR + "buttonbackdown.png";
     public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GUI_DIR + "buttoncontinueup.png";
     public static final String GUI_BUTTON_CONTINUE_DOWN_TEXTURE = GUI_DIR + "buttoncontinuedown.png";
-    public static final String GUI_PAUSE_UP_TEXTURE = GUI_DIR + "pauseup.png";
-    public static final String GUI_PAUSE_DOWN_TEXTURE = GUI_DIR + "pausedown.png";
-    public static final String GUI_PLAY_UP_TEXTURE = GUI_DIR + "playup.png";
-    public static final String GUI_PLAY_DOWN_TEXTURE = GUI_DIR + "playdown.png";
     
     private static final String FONTS_DIR = GUI_DIR + "fonts/";
     public static final String FONT_ITEM = FONTS_DIR + "arial-bold-18.fnt";
@@ -44,11 +51,6 @@ public final class ResourceNames {
     public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
     
     private static final String GAME_DIR = "game/";
-    public static final String GAME_END_LINE_TEXTURE = GAME_DIR + "endline.png";
-    public static final String GAME_POSITION_SCROLL_LINE_TEXTURE = GAME_DIR + "positionscrollline.png";
-    public static final String GAME_POSITION_SCROLL_LINE_ABOVE_TEXTURE = GAME_DIR + "positionscrolllineabove.png";
-    public static final String GAME_POSITION_SCROLL_BOX_TEXTURE = GAME_DIR + "positionscrollbox.png";
-    public static final String GAME_POSITION_SCROLL_END_LINE_TEXTURE = GAME_DIR + "positionscrollendline.png";
     
     private static final String CHARACTER_DIR = GAME_DIR + "character/";
     public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";

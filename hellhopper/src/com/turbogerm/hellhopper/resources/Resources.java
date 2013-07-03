@@ -49,20 +49,20 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_PAUSE_UP_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
+        
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_UP_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_PAUSE_UP_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_PAUSE_DOWN_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_PLAY_UP_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GUI_PLAY_DOWN_TEXTURE, Texture.class, textureParameterLinear);
-        
-        mAssetManager.load(ResourceNames.GAME_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_LINE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_LINE_ABOVE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GAME_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
         
         // CHARACTER
         mAssetManager.load(ResourceNames.CHARACTER_BODY_TEXTURE, Texture.class, textureParameterLinear);

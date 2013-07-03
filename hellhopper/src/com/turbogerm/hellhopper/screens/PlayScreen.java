@@ -4,33 +4,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.RisePositionScroll;
 import com.turbogerm.hellhopper.resources.ResourceNames;
+import com.turbogerm.hellhopper.screens.general.CustomButtonAction;
+import com.turbogerm.hellhopper.screens.general.CustomImageButton;
+import com.turbogerm.hellhopper.screens.general.CustomImageButtonStyleData;
 
 public final class PlayScreen extends ScreenBase {
+    
+    private static final int BUTTON_STYLE_PAUSE = 0;
+    private static final int BUTTON_STYLE_PLAY = 1;
     
     private final GameArea mGameArea;
     
     private final Label mScoreLabel;
     
-    private ImageButton mPlayPauseButton;
-    private ImageButtonStyle mPlayButtonStyle;
-    private ImageButtonStyle mPauseButtonStyle;
+    private CustomImageButton mPlayPauseButton;
     private boolean mIsPaused;
     
     // TODO: remove, only for testing
@@ -64,7 +62,6 @@ public final class PlayScreen extends ScreenBase {
         mGuiStage.addActor(mScoreLabel);
         
         createPlayPauseButton();
-        mGuiStage.addActor(mPlayPauseButton);
         
         // TODO: remove, only for testing
         LabelStyle fpsLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
@@ -155,36 +152,33 @@ public final class PlayScreen extends ScreenBase {
     private void setPaused(boolean isPaused) {
         mIsPaused = isPaused;
         if (mIsPaused) {
-            mPlayPauseButton.setStyle(mPlayButtonStyle);
+            mPlayPauseButton.setStyle(BUTTON_STYLE_PLAY);
         } else {
-            mPlayPauseButton.setStyle(mPauseButtonStyle);
+            mPlayPauseButton.setStyle(BUTTON_STYLE_PAUSE);
         }
     }
     
     private void createPlayPauseButton() {
-        TextureRegion pauseUpTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PAUSE_UP_TEXTURE));
-        Drawable pauseUpDrawable = new TextureRegionDrawable(pauseUpTextureRegion);
-        TextureRegion pauseDownTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE));
-        Drawable pauseDownDrawable = new TextureRegionDrawable(pauseDownTextureRegion);
-        mPauseButtonStyle = new ImageButtonStyle(null, null, null, pauseUpDrawable, pauseDownDrawable, null);
-        
-        TextureRegion playUpTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE));
-        Drawable playUpDrawable = new TextureRegionDrawable(playUpTextureRegion);
-        TextureRegion playDownTextureRegion = new TextureRegion(
-                (Texture) mAssetManager.get(ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE));
-        Drawable playDownDrawable = new TextureRegionDrawable(playDownTextureRegion);
-        mPlayButtonStyle = new ImageButtonStyle(null, null, null, playUpDrawable, playDownDrawable, null);
-        
-        mPlayPauseButton = new ImageButton(mPauseButtonStyle);
-        
         final float pauseButtonSize = 64.0f;
         final float pauseButtonY = HellHopper.VIEWPORT_HEIGHT - pauseButtonSize;
-        mPlayPauseButton.setBounds(0.0f, pauseButtonY, pauseButtonSize, pauseButtonSize);
         
-        mPlayPauseButton.addListener(getPlayPauseInputListener(mPlayPauseButton));
+        Array<CustomImageButtonStyleData> stylesData = new Array<CustomImageButtonStyleData>(true, 2);
+        stylesData.add(new CustomImageButtonStyleData(
+                BUTTON_STYLE_PAUSE,
+                ResourceNames.GUI_PLAY_PAUSE_UP_TEXTURE,
+                ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE));
+        stylesData.add(new CustomImageButtonStyleData(
+                BUTTON_STYLE_PLAY,
+                ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE,
+                ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE));
+        
+        mPlayPauseButton = new CustomImageButton(
+                0.0f, pauseButtonY,
+                stylesData,
+                getPlayPauseAction(),
+                mAssetManager);
+        
+        mPlayPauseButton.addToStage(mGuiStage);
     }
     
     private InputListener getStageInputListener() {
@@ -212,20 +206,13 @@ public final class PlayScreen extends ScreenBase {
         };
     }
     
-    private InputListener getPlayPauseInputListener(final Actor actor) {
+    private CustomButtonAction getPlayPauseAction() {
         
-        return new InputListener() {
+        return new CustomButtonAction() {
             
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (actor.hit(x, y, true) != null) {
-                    togglePause();
-                }
+            public void invoke() {
+                togglePause();
             }
         };
     }

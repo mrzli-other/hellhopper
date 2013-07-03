@@ -27,7 +27,7 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 5000;
+    private static final int RISE_HEIGHT_STEPS = 10;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
@@ -117,9 +117,9 @@ public final class RiseGenerator {
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
         
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
 //        
 //        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("flame2perstep"));
 //        riseSectionsData.add(currRiseSection);
@@ -156,17 +156,17 @@ public final class RiseGenerator {
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
         
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
-        
-        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
-        riseSectionsData.add(currRiseSection);
-        stepsInRise += currRiseSection.getStepRange();
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+//        
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
+//        
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
+//        riseSectionsData.add(currRiseSection);
+//        stepsInRise += currRiseSection.getStepRange();
         
         boolean isTransitionSection = true;
         while (stepsInRise < RISE_HEIGHT_STEPS) {

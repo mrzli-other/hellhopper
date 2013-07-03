@@ -56,6 +56,7 @@ final class NormalCharacterState extends CharacterStateBase {
     
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
+    private final Sound mFartSound;
     
     static {
         JUMP_SUIT_COLOR = Color.RED;
@@ -78,6 +79,7 @@ final class NormalCharacterState extends CharacterStateBase {
         
         mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
         mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
+        mFartSound = assetManager.get(ResourceNames.SOUND_FART);
     }
     
     @Override
@@ -126,6 +128,8 @@ final class NormalCharacterState extends CharacterStateBase {
                     mCharacterEyesGraphicsFart.closeEyes();
                     
                     applyRiseSectionEffects(updateData.activeRiseSections, false, true);
+                    
+                    mFartSound.play();
                 }
                 updatePositionAndSpeed(position, speed, horizontalSpeed, delta);
             }

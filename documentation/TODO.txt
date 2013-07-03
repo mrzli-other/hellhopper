@@ -1,10 +1,5 @@
 - black box:
   - random powerup or disability
-- powerups:
-  - beans
-    - causes n farts that continuously propel player
-    - make sure that farts don't stop on a place where there is no platform between player and bottom of the screen (jump boost sections)
-  - 
        
 - implement a mechanic where you need to jump on specific platforms in specific order
   (which can be random) to generate a platform above to jump on and continue going up

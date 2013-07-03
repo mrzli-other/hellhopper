@@ -122,11 +122,9 @@ public final class Resources {
         mAssetManager.load(ResourceNames.BACKGROUND_END_MOUNTAINS_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.BACKGROUND_END_GROUND_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.BACKGROUND_END_SHEEP_TEXTURE, Texture.class, textureParameterNearest);
-        
         for (int i = 0; i < ResourceNames.BACKGROUND_CLOUD_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getBackgroundCloudTexture(i), Texture.class, textureParameterNearest);
         }
-        
         for (int i = 0; i < ResourceNames.BACKGROUND_ROCK_TEXTURE_COUNT; i++) {
             mAssetManager.load(ResourceNames.getBackgroundRockTexture(i), Texture.class, textureParameterNearest);
         }
@@ -138,6 +136,10 @@ public final class Resources {
         // SOUNDS
         mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_JUMP_BOOST, Sound.class);
+        mAssetManager.load(ResourceNames.SOUND_FART, Sound.class);
+        for (int i = 0; i < ResourceNames.SOUND_SHEEP_COUNT; i++) {
+            mAssetManager.load(ResourceNames.getSoundSheep(i), Sound.class);
+        }
         
         // FONTS
         mItemFont = new BitmapFont(Gdx.files.internal(ResourceNames.FONT_ITEM), false);

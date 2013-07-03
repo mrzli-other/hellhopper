@@ -9,9 +9,9 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class CoinItem extends ItemBase {
     
-    private static final int COPPER_COIN_SCORE = 500;
-    private static final int SILVER_COIN_SCORE = 1200;
-    private static final int GOLD_COIN_SCORE = 3000;
+    private static final int COPPER_COIN_SCORE = 400;
+    private static final int SILVER_COIN_SCORE = 1000;
+    private static final int GOLD_COIN_SCORE = 2000;
     
     private static final float ROTATION_SPEED = 90.0f;
     

@@ -1,7 +1,9 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
@@ -9,6 +11,7 @@ import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterMouthGraphicsSmile;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 final class EndCharacterState extends CharacterStateBase {
     
@@ -18,7 +21,10 @@ final class EndCharacterState extends CharacterStateBase {
     private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     
-    private static final float CHARACTER_STOPPED_DURATION = 3.0f;
+    private static final float CHARACTER_STOPPED_DURATION = 4.0f;
+    
+    private static final float MIN_SHEEP_SOUND_INTERVAL = 0.5f;
+    private static final float MAX_SHEEP_SOUND_INTERVAL = 3.0f;
     
     private final CharacterBodyGraphics mCharacterBodyGraphics;
     private final CharacterHeadGraphics mCharacterHeadGraphics;
@@ -29,6 +35,11 @@ final class EndCharacterState extends CharacterStateBase {
     private boolean mIsCharacterStopped;
     private float mCharacterStoppedCountdown;
     
+    private final Sound[] mSheepSounds;
+    
+    private float mNextSheepSoundInteval;
+    private float mElapsedSinceLastSheepSound;
+    
     public EndCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
         
@@ -36,6 +47,11 @@ final class EndCharacterState extends CharacterStateBase {
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
         mCharacterEyesGraphics = new CharacterEyesGraphicsNormal(assetManager);
         mCharacterMouthGraphics = new CharacterMouthGraphicsSmile(assetManager);
+        
+        mSheepSounds = new Sound[ResourceNames.SOUND_SHEEP_COUNT];
+        for (int i = 0; i < mSheepSounds.length; i++) {
+            mSheepSounds[i] = assetManager.get(ResourceNames.getSoundSheep(i));
+        }
     }
     
     @Override
@@ -48,6 +64,8 @@ final class EndCharacterState extends CharacterStateBase {
         mIsFirstEndJump = true;
         mIsCharacterStopped = false;
         mCharacterStoppedCountdown = CHARACTER_STOPPED_DURATION;
+        mNextSheepSoundInteval = MathUtils.random(MIN_SHEEP_SOUND_INTERVAL, MAX_SHEEP_SOUND_INTERVAL);
+        mElapsedSinceLastSheepSound = 0.0f;
     }
     
     @Override
@@ -85,7 +103,14 @@ final class EndCharacterState extends CharacterStateBase {
             mCharacterStoppedCountdown -= delta;
         }
         
-        mCharacterEyesGraphics.update(updateData.delta);
+        mCharacterEyesGraphics.update(delta);
+        
+        mElapsedSinceLastSheepSound += delta;
+        if (mElapsedSinceLastSheepSound >= mNextSheepSoundInteval) {
+            mSheepSounds[MathUtils.random(ResourceNames.SOUND_SHEEP_COUNT - 1)].play();
+            mNextSheepSoundInteval = MathUtils.random(MIN_SHEEP_SOUND_INTERVAL, MAX_SHEEP_SOUND_INTERVAL);
+            mElapsedSinceLastSheepSound = 0.0f;
+        }
     }
     
     @Override

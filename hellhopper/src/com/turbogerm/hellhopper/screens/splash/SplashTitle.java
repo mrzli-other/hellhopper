@@ -1,6 +1,7 @@
 package com.turbogerm.hellhopper.screens.splash;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,14 +13,14 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class SplashTitle {
     
-    private static final float GRAVITY = 1400.0f;
+    private static final float GRAVITY = 1100.0f;
     private static final float JUMP_SPEED = 850.0f;
     
     private static final float INITIAL_POSITION_Y = 1000.0f;
     private static final float COLLISION_OFFSET_Y = 45.0f;
     
     private static final float RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
-    private static final float RESTITUTION_SPEED_DECREASE = 10.0f;
+    private static final float RESTITUTION_SPEED_DECREASE = 50.0f;
     
     private final Sprite mSprite;
     
@@ -31,6 +32,8 @@ public final class SplashTitle {
     
     private boolean mIsFinished;
     
+    private final Sound mJumpSound;
+    
     public SplashTitle(AssetManager assetManager) {
         
         Texture texture = assetManager.get(ResourceNames.GUI_SPLASH_TITLE_TEXTURE);
@@ -38,6 +41,8 @@ public final class SplashTitle {
         
         mPosition = new Vector2();
         mPosition.x = (HellHopper.VIEWPORT_WIDTH - mSprite.getWidth()) / 2.0f;
+        
+        mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
     }
     
     public void reset(float minPositionY) {
@@ -59,6 +64,10 @@ public final class SplashTitle {
             mSpeedY = Math.max(mSpeedY - RESTITUTION_SPEED_DECREASE, 0.0f);
             if (mSpeedY <= GameUtils.EPSILON) {
                 mIsFinished = true;
+            }
+            
+            if (!mIsFinished) {
+                mJumpSound.play();
             }
         } else {
             mSpeedY = MathUtils.clamp(mSpeedY - GRAVITY * delta, -mCurrentMaxJumpSpeed, mCurrentMaxJumpSpeed);

@@ -119,6 +119,9 @@ public final class ResourceNames {
     private static final String SOUNDS_DIR = "sounds/";
     public static final String SOUND_JUMP = SOUNDS_DIR + "jump.mp3";
     public static final String SOUND_JUMP_BOOST = SOUNDS_DIR + "jumpboost.mp3";
+    public static final String SOUND_FART = SOUNDS_DIR + "fart.mp3";
+    private static final String SOUND_SHEEP_NAME_FORMAT = SOUNDS_DIR + "sheep%02d.mp3";
+    public static final int SOUND_SHEEP_COUNT = 7;
     
     public static String getRiseSectionPath(String name) {
         return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
@@ -153,5 +156,9 @@ public final class ResourceNames {
     public static String getRandomBackgroundRockTexture() {
         int index = MathUtils.random(BACKGROUND_ROCK_TEXTURE_COUNT - 1);
         return getBackgroundRockTexture(index);
+    }
+    
+    public static String getSoundSheep(int index) {
+        return String.format(ResourceNames.SOUND_SHEEP_NAME_FORMAT, index);
     }
 }

@@ -28,14 +28,14 @@ final class RiseSectionGenerator {
     private static final float COPPER_COIN_SCORE_ITEM_WEIGHT = 3.0f;
     private static final float SILVER_COIN_SCORE_ITEM_WEIGHT = 2.0f;
     private static final float GOLD_COIN_SCORE_ITEM_WEIGHT = 1.0f;
-    private static final float SIGNET_SCORE_ITEM_WEIGHT = 1.0f;
+    private static final float SIGNET_SCORE_ITEM_WEIGHT = 1.5f;
     
     private static final float COPPER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     private static final float SILVER_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     private static final float GOLD_COIN_SCORE_ITEM_CUMULATIVE_FRACTION;
     
-    private static final int MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 10;
-    private static final int MAX_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 40;
+    private static final int MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 5;
+    private static final int MAX_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS = 25;
     private static final float SCORE_ITEM_DISTANCE_POSSIBLE_STEPS_RANGE =
             MAX_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS - MIN_SCORE_ITEM_DISTANCE_POSSIBLE_STEPS;
     

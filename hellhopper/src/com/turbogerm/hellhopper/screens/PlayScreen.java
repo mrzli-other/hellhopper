@@ -64,11 +64,11 @@ public final class PlayScreen extends ScreenBase {
         mScoreLabel.setAlignment(Align.right);
         mGuiStage.addActor(mScoreLabel);
         
-        final float livesImageX = 100.0f;
+        final float livesImageX = 74.0f;
         
         Texture livesTexture = mAssetManager.get(ResourceNames.GUI_PLAY_LIVES_TEXTURE);
         Image livesImage = new Image(livesTexture);
-        livesImage.setPosition(livesImageX, HellHopper.VIEWPORT_HEIGHT - livesImage.getHeight());
+        livesImage.setPosition(livesImageX, HellHopper.VIEWPORT_HEIGHT - livesImage.getHeight() - 10.0f);
         mGuiStage.addActor(livesImage);
         
         LabelStyle livesLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
@@ -80,7 +80,7 @@ public final class PlayScreen extends ScreenBase {
         final float livesLabelY = HellHopper.VIEWPORT_HEIGHT - scoreLabelHeight;
         
         mLivesLabel = new Label("", mGuiSkin);
-        mLivesLabel.setBounds(livesLabelX, livesLabelY, livesLabelWidth, livesLabelHeight);
+        mLivesLabel.setBounds(livesLabelX, livesLabelY, livesLabelWidth, livesLabelHeight - 10.0f);
         mLivesLabel.setStyle(livesLabelStyle);
         mLivesLabel.setAlignment(Align.left);
         mGuiStage.addActor(mLivesLabel);

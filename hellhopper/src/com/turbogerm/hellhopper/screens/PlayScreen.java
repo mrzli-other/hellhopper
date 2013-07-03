@@ -178,9 +178,9 @@ public final class PlayScreen extends ScreenBase {
         Drawable playDownDrawable = new TextureRegionDrawable(playDownTextureRegion);
         mPlayButtonStyle = new ImageButtonStyle(null, null, null, playUpDrawable, playDownDrawable, null);
         
-        mPlayPauseButton = new ImageButton(pauseUpDrawable, pauseDownDrawable);
+        mPlayPauseButton = new ImageButton(mPauseButtonStyle);
         
-        final float pauseButtonSize = 48.0f;
+        final float pauseButtonSize = 64.0f;
         final float pauseButtonY = HellHopper.VIEWPORT_HEIGHT - pauseButtonSize;
         mPlayPauseButton.setBounds(0.0f, pauseButtonY, pauseButtonSize, pauseButtonSize);
         

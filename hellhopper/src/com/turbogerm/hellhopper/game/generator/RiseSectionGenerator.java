@@ -3,6 +3,8 @@ package com.turbogerm.hellhopper.game.generator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.turbogerm.germlibrary.util.ExceptionThrower;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
@@ -11,8 +13,6 @@ import com.turbogerm.hellhopper.dataaccess.RiseSectionData;
 import com.turbogerm.hellhopper.dataaccess.RiseSectionMetadata;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 final class RiseSectionGenerator {
     

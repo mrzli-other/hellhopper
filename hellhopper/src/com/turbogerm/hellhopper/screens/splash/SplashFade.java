@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class SplashFade {
     
     private static final float FADE_IN_DURATION = 1.5f;
-    private static final float DELAY_DURATION = 2.5f;
+    private static final float DELAY_DURATION = 1.0f;
     private static final float FADE_OUT_DURATION = 1.5f;
     
     private static final float DELAY_START = FADE_IN_DURATION;
@@ -23,6 +23,8 @@ public final class SplashFade {
     
     private float mInternalTime;
     
+    private boolean mIsFadeOutStarted;
+    
     public SplashFade(AssetManager assetManager) {
         Texture blackTexture = assetManager.get(ResourceNames.GENERAL_BLACK_TEXTURE);
         mBlackSprite = new Sprite(blackTexture);
@@ -31,11 +33,20 @@ public final class SplashFade {
     
     public void reset() {
         mInternalTime = 0.0f;
+        mIsFadeOutStarted = false;
     }
     
     public void update(float delta) {
         if (mInternalTime < TOTAL_DURATION) {
-            mInternalTime += delta;
+            if (mInternalTime >= FADE_OUT_START) {
+                if (mIsFadeOutStarted) {
+                    mInternalTime += delta;
+                } else {
+                    mInternalTime = FADE_OUT_START;
+                }
+            } else {
+                mInternalTime += delta;
+            }
         } else {
             mInternalTime = TOTAL_DURATION;
         }
@@ -61,5 +72,13 @@ public final class SplashFade {
     
     public boolean isFinished() {
         return mInternalTime >= TOTAL_DURATION;
+    }
+    
+    public boolean isFadeOut() {
+        return mIsFadeOutStarted;
+    }
+    
+    public void fadeOut() {
+        mIsFadeOutStarted = true;
     }
 }

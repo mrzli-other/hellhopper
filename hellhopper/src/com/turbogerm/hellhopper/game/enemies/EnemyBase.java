@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class EnemyBase {
     

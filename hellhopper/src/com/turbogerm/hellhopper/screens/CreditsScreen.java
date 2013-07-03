@@ -40,6 +40,13 @@ public final class CreditsScreen extends ScreenBase {
     }
     
     @Override
+    public void show() {
+        super.show();
+        
+        mScreenBackground.reset();
+    }
+    
+    @Override
     public void renderImpl(float delta) {
         mScreenBackground.update(delta);
         

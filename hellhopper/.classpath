@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-freetype.jar" sourcepath="libs/gdx-freetype-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/germlibrary"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

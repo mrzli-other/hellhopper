@@ -1,6 +1,6 @@
 // color conversion methods taken from:
 //   http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-package com.turbogerm.hellhopper.util;
+package com.turbogerm.germlibrary.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;

@@ -3,10 +3,10 @@ package com.turbogerm.hellhopper.game.platforms.movement;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class CircularPlatformMovement extends PlatformMovementBase {
     

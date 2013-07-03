@@ -4,10 +4,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 public final class SplashTitle {
     
@@ -24,8 +25,11 @@ public final class SplashTitle {
     
     private final Vector2 mPosition;
     private float mSpeedY;
+    private float mCurrentMaxJumpSpeed;
     
     private float mMinPositionY;
+    
+    private boolean mIsFinished;
     
     public SplashTitle(AssetManager assetManager) {
         
@@ -40,6 +44,8 @@ public final class SplashTitle {
         mPosition.y = INITIAL_POSITION_Y;
         mMinPositionY = minPositionY - COLLISION_OFFSET_Y;
         mSpeedY = 0.0f;
+        mCurrentMaxJumpSpeed = JUMP_SPEED; 
+        mIsFinished = false;
     }
     
     public void update(float delta) {
@@ -48,14 +54,23 @@ public final class SplashTitle {
         
         if (mPosition.y <= mMinPositionY) {
             mPosition.y = mMinPositionY + GameUtils.EPSILON;
-            mSpeedY = Math.max(-mSpeedY * RESTITUTION_MULTIPLIER - RESTITUTION_SPEED_DECREASE, 0.0f);
+            mSpeedY = Math.min(-mSpeedY * RESTITUTION_MULTIPLIER, mCurrentMaxJumpSpeed);
+            mCurrentMaxJumpSpeed = Math.min(mCurrentMaxJumpSpeed, mSpeedY);
+            mSpeedY = Math.max(mSpeedY - RESTITUTION_SPEED_DECREASE, 0.0f);
+            if (mSpeedY <= GameUtils.EPSILON) {
+                mIsFinished = true;
+            }
         } else {
-            mSpeedY = Math.max(mSpeedY - GRAVITY * delta, -JUMP_SPEED);
+            mSpeedY = MathUtils.clamp(mSpeedY - GRAVITY * delta, -mCurrentMaxJumpSpeed, mCurrentMaxJumpSpeed);
         }
     }
     
     public void render(SpriteBatch batch) {
         mSprite.setPosition(mPosition.x, mPosition.y);
         mSprite.draw(batch);
+    }
+    
+    public boolean isFinished() {
+        return mIsFinished;
     }
 }

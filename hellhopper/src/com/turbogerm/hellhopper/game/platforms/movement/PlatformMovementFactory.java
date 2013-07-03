@@ -2,8 +2,8 @@ package com.turbogerm.hellhopper.game.platforms.movement;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.ExceptionThrower;
 import com.turbogerm.hellhopper.dataaccess.PlatformMovementData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
 
 public final class PlatformMovementFactory {
     

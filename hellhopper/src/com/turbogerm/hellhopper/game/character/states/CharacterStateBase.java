@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.game.character.states;
 
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 public abstract class CharacterStateBase {
     

@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper.util;
+package com.turbogerm.germlibrary.util;
 
 public final class HslColor {
     

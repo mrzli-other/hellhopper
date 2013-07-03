@@ -3,7 +3,7 @@ package com.turbogerm.hellhopper.gamedata;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.util.GameUtils;
+import com.turbogerm.germlibrary.util.GameUtils;
 
 public final class HighScoresData {
     

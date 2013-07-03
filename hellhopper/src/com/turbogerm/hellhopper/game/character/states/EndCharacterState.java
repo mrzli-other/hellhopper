@@ -3,12 +3,12 @@ package com.turbogerm.hellhopper.game.character.states;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.game.character.GameCharacter;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterEyesGraphicsNormal;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterHeadGraphics;
 import com.turbogerm.hellhopper.game.character.graphics.CharacterMouthGraphicsSmile;
-import com.turbogerm.hellhopper.util.GameUtils;
 
 final class EndCharacterState extends CharacterStateBase {
     

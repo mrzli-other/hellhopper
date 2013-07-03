@@ -1,5 +1,5 @@
 // taken from http://stackoverflow.com/questions/12261439/assetmanager-particleeffectloader-of-libgdx-android
-package com.turbogerm.hellhopper.util;
+package com.turbogerm.germlibrary.util;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;

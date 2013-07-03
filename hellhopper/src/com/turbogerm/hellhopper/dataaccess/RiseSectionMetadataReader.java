@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
-import com.turbogerm.hellhopper.util.Logger;
+import com.turbogerm.germlibrary.util.Logger;
 
 public final class RiseSectionMetadataReader {
     

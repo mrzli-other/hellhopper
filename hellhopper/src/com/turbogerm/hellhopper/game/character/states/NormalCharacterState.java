@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.germlibrary.util.GameUtils;
+import com.turbogerm.germlibrary.util.Pools;
 import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
@@ -23,8 +25,6 @@ import com.turbogerm.hellhopper.game.enemies.EnemyBase;
 import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.GameUtils;
-import com.turbogerm.hellhopper.util.Pools;
 
 final class NormalCharacterState extends CharacterStateBase {
     

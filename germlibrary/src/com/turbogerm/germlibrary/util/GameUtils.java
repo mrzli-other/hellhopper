@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper.util;
+package com.turbogerm.germlibrary.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;

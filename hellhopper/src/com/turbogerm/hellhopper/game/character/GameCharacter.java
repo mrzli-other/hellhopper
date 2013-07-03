@@ -107,4 +107,8 @@ public final class GameCharacter {
     public int getScore() {
         return mCharacterEffects.getScore();
     }
+    
+    public int getLives() {
+        return mCharacterEffects.getLives();
+    }
 }

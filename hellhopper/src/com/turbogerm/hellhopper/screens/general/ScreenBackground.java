@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.germlibrary.util.ColorPositionPair;
+import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.ColorPositionPair;
-import com.turbogerm.hellhopper.util.SpectrumColorInterpolator;
 
 public final class ScreenBackground {
     

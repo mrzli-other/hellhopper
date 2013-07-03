@@ -31,6 +31,7 @@ public final class ResourceNames {
     public static final String GUI_PLAY_PAUSE_DOWN_TEXTURE = GUI_PLAY_DIR + "pausedown.png";
     public static final String GUI_PLAY_PLAY_UP_TEXTURE = GUI_PLAY_DIR + "playup.png";
     public static final String GUI_PLAY_PLAY_DOWN_TEXTURE = GUI_PLAY_DIR + "playdown.png";
+    public static final String GUI_PLAY_LIVES_TEXTURE = GUI_PLAY_DIR + "lives.png";
     public static final String GUI_PLAY_END_LINE_TEXTURE = GUI_PLAY_DIR + "endline.png";
     public static final String GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollline.png";
     public static final String GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE = GUI_PLAY_DIR + "positionscrolllineabove.png";

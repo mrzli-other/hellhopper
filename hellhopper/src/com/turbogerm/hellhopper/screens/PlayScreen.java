@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -28,6 +30,8 @@ public final class PlayScreen extends ScreenBase {
     
     private final Label mScoreLabel;
     
+    private final Label mLivesLabel;
+    
     private CustomImageButton mPlayPauseButton;
     private boolean mIsPaused;
     
@@ -46,9 +50,8 @@ public final class PlayScreen extends ScreenBase {
         
         mGameArea = new GameArea(mAssetManager, mResources.getItemFont());
         
-        // labels
-        LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
-        labelStyle.font = mGuiSkin.getFont("xxxl-font");
+        LabelStyle scoreLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
+        scoreLabelStyle.font = mGuiSkin.getFont("xxxl-font");
         
         final float scoreLabelWidth = 60.0f;
         final float scoreLabelHeight = 42.0f;
@@ -57,9 +60,30 @@ public final class PlayScreen extends ScreenBase {
         
         mScoreLabel = new Label("", mGuiSkin);
         mScoreLabel.setBounds(scoreLabelX, scoreLabelY, scoreLabelWidth, scoreLabelHeight);
-        mScoreLabel.setStyle(labelStyle);
+        mScoreLabel.setStyle(scoreLabelStyle);
         mScoreLabel.setAlignment(Align.right);
         mGuiStage.addActor(mScoreLabel);
+        
+        final float livesImageX = 100.0f;
+        
+        Texture livesTexture = mAssetManager.get(ResourceNames.GUI_PLAY_LIVES_TEXTURE);
+        Image livesImage = new Image(livesTexture);
+        livesImage.setPosition(livesImageX, HellHopper.VIEWPORT_HEIGHT - livesImage.getHeight());
+        mGuiStage.addActor(livesImage);
+        
+        LabelStyle livesLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
+        livesLabelStyle.font = mGuiSkin.getFont("xl-font");
+        
+        final float livesLabelWidth = 40.0f;
+        final float livesLabelHeight = 42.0f;
+        final float livesLabelX = livesImageX + livesImage.getWidth() + 10.0f;
+        final float livesLabelY = HellHopper.VIEWPORT_HEIGHT - scoreLabelHeight;
+        
+        mLivesLabel = new Label("", mGuiSkin);
+        mLivesLabel.setBounds(livesLabelX, livesLabelY, livesLabelWidth, livesLabelHeight);
+        mLivesLabel.setStyle(livesLabelStyle);
+        mLivesLabel.setAlignment(Align.left);
+        mGuiStage.addActor(mLivesLabel);
         
         createPlayPauseButton();
         
@@ -107,6 +131,7 @@ public final class PlayScreen extends ScreenBase {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
+        mLivesLabel.setText("x" + String.valueOf(mGameArea.getLives()));
         
         // if (!mIsPaused) {
         mGameArea.render(delta);

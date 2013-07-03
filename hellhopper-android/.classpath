@@ -7,5 +7,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="lib" path="/hellhopper/libs/gdx.jar" sourcepath="/hellhopper/libs/gdx-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/germlibrary"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.germlibrary.util.ColorPositionPair;
+import com.turbogerm.germlibrary.util.Pools;
+import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.debug.DebugData;
@@ -21,9 +24,6 @@ import com.turbogerm.hellhopper.game.generator.RiseGenerator;
 import com.turbogerm.hellhopper.game.items.ItemBase;
 import com.turbogerm.hellhopper.game.platforms.PlatformBase;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.util.ColorPositionPair;
-import com.turbogerm.hellhopper.util.Pools;
-import com.turbogerm.hellhopper.util.SpectrumColorInterpolator;
 
 public final class GameArea {
     
@@ -332,6 +332,10 @@ public final class GameArea {
     
     public int getScore() {
         return mRiseScore + mCharacter.getScore();
+    }
+    
+    public int getLives() {
+        return mCharacter.getLives();
     }
     
     public Color getBackgroundColor() {

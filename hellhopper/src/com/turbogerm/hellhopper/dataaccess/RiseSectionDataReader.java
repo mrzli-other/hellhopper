@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
+import com.turbogerm.germlibrary.util.Logger;
 import com.turbogerm.hellhopper.game.generator.RiseGeneratorUtils;
-import com.turbogerm.hellhopper.util.Logger;
 
 public final class RiseSectionDataReader {
     

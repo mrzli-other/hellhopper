@@ -1,8 +1,8 @@
 package com.turbogerm.hellhopper.game.platforms;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.turbogerm.germlibrary.util.ExceptionThrower;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
-import com.turbogerm.hellhopper.util.ExceptionThrower;
 
 public final class PlatformFactory {
     

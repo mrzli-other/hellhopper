@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper.util;
+package com.turbogerm.germlibrary.util;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

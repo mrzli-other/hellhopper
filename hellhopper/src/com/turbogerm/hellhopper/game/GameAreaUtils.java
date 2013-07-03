@@ -3,7 +3,7 @@ package com.turbogerm.hellhopper.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.hellhopper.util.ColorPositionPair;
+import com.turbogerm.germlibrary.util.ColorPositionPair;
 
 public final class GameAreaUtils {
     

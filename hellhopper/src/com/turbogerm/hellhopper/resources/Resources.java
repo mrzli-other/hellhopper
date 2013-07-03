@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.turbogerm.hellhopper.util.ParticleEffectLoader;
+import com.turbogerm.germlibrary.util.ParticleEffectLoader;
 
 public final class Resources {
     
@@ -53,6 +53,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GUI_PLAY_LIVES_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_PLAY_END_LINE_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE, Texture.class, textureParameterLinear);

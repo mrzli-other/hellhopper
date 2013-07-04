@@ -47,7 +47,7 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
     }
     
     @Override
-    public void updatePosition(float delta) {
+    protected void updateImpl(float delta) {
         if (mTargetPosition == mPosition.x) {
             return;
         }

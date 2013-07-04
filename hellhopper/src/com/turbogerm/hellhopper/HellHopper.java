@@ -1,10 +1,10 @@
 package com.turbogerm.hellhopper;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Logger;
+import com.turbogerm.germlibrary.game.GameBase;
+import com.turbogerm.germlibrary.game.Screen;
 import com.turbogerm.hellhopper.gamedata.GameData;
 import com.turbogerm.hellhopper.init.InitData;
 import com.turbogerm.hellhopper.resources.Resources;
@@ -15,7 +15,7 @@ import com.turbogerm.hellhopper.screens.MainMenuScreen;
 import com.turbogerm.hellhopper.screens.PlayScreen;
 import com.turbogerm.hellhopper.screens.SplashScreen;
     
-public class HellHopper extends Game {
+public class HellHopper extends GameBase {
     
     public static final String LOG = HellHopper.class.getSimpleName();
     

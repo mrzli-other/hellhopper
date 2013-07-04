@@ -38,7 +38,7 @@ public final class HorizontalPlatformMovement extends PlatformMovementBase {
     }
     
     @Override
-    public void updatePosition(float delta) {
+    protected void updateImpl(float delta) {
         float travelled = mSpeed * delta;
         if (!mIsRightMovement) {
             travelled = -travelled;

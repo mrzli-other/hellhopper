@@ -18,13 +18,13 @@
 package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.turbogerm.germlibrary.game.Screen;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.gamedata.GameData;
 import com.turbogerm.hellhopper.init.InitData;
@@ -73,7 +73,13 @@ public abstract class ScreenBase implements Screen {
     }
     
     @Override
-    public void render(float delta) {
+    public final void update(float delta) {
+        updateImpl(delta);
+        mGuiStage.act(delta);
+    }
+    
+    @Override
+    public final void render() {
         
         if (mClearColor != null) {
             Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
@@ -83,13 +89,15 @@ public abstract class ScreenBase implements Screen {
         
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        renderImpl(delta);
+        renderImpl();
         
-        mGuiStage.act(delta);
         mGuiStage.draw();
     }
     
-    public void renderImpl(float delta) {
+    protected void updateImpl(float delta) {
+    }
+    
+    protected void renderImpl() {
     }
     
     @Override

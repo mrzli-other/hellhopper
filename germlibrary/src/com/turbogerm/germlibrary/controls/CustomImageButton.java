@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper.screens.general;
+package com.turbogerm.germlibrary.controls;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;

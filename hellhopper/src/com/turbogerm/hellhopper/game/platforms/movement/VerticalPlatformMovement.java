@@ -38,7 +38,7 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
     }
     
     @Override
-    public void updatePosition(float delta) {
+    protected void updateImpl(float delta) {
         float travelled = mSpeed * delta;
         if (!mIsUpMovement) {
             travelled = -travelled;

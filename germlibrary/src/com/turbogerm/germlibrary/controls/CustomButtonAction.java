@@ -1,4 +1,4 @@
-package com.turbogerm.hellhopper.screens.general;
+package com.turbogerm.germlibrary.controls;
 
 public interface CustomButtonAction {
     void invoke();

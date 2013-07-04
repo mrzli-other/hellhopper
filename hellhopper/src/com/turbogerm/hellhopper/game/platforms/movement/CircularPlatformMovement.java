@@ -40,7 +40,7 @@ public final class CircularPlatformMovement extends PlatformMovementBase {
     }
     
     @Override
-    public void updatePosition(float delta) {
+    protected void updateImpl(float delta) {
         float travelledAngle = mAngleSpeed * delta;
         if (!mIsCcw) {
             travelledAngle = -travelledAngle;

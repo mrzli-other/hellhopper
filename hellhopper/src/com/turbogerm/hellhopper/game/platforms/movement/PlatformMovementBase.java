@@ -36,33 +36,28 @@ public abstract class PlatformMovementBase {
         mEngineSprite = new Sprite(engineTexture);
         mEngineSprite.setSize(ENGINE_WIDTH, ENGINE_HEIGHT);
         
-        // TextureAtlas engineAtlas = assetManager.get(ResourceNames.PLATFORM_ENGINE_CIRCULAR_TEXTURE_ATLAS);
-        // Array<AtlasRegion> engineAtlasRegions = engineAtlas.findRegions(ENGINE_ATLAS_IMAGE_NAME);
-        // mEngineAnimation = new Animation(ENGINE_FRAME_DURATION, engineAtlasRegions, Animation.LOOP_PINGPONG);
-        // mEngineAnimationTime = 0.0f;
-        
         mEngineEffect = new ParticleEffect((ParticleEffect) assetManager.get(particleName));
         
         mPosition = new Vector2(initialPosition);
     }
     
-    public void updatePosition(float delta) {
-        // mEngineAnimationTime += delta;
+    public final void update(float delta) {
+        mEngineEffect.update(delta);
+        updateImpl(delta);
     }
     
-    public void render(SpriteBatch batch, float alpha, float delta) {
+    protected void updateImpl(float delta) {
+    }
+    
+    public void render(SpriteBatch batch, float alpha) {
         mEngineSprite.setPosition(mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET);
         mEngineSprite.draw(batch);
         
         GameUtils.setSpriteAlpha(mEngineSprite, alpha);
         
-        // TextureRegion engineAnimationFrame = mEngineAnimation.getKeyFrame(mEngineAnimationTime);
-        // batch.draw(engineAnimationFrame, mPosition.x + ENGINE_X_OFFSET, mPosition.y + ENGINE_Y_OFFSET,
-        // ENGINE_WIDTH, ENGINE_HEIGHT);
-        
         mEngineEffect.setPosition(
                 mEngineSprite.getX() + ENGINE_WIDTH / 2.0f, mEngineSprite.getY() + ENGINE_HEIGHT / 2.0f);
-        mEngineEffect.draw(batch, delta);
+        mEngineEffect.draw(batch);
     }
     
     public void applyModifier(PlatformModifier modifier) {

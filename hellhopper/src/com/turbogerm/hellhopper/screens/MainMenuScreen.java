@@ -5,10 +5,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.turbogerm.germlibrary.controls.CustomButtonAction;
+import com.turbogerm.germlibrary.controls.CustomImageButton;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.screens.general.CustomButtonAction;
-import com.turbogerm.hellhopper.screens.general.CustomImageButton;
 import com.turbogerm.hellhopper.screens.general.LibGdxLogo;
 import com.turbogerm.hellhopper.screens.general.ScreenBackground;
 import com.turbogerm.hellhopper.screens.general.TurboGermLogo;
@@ -75,10 +75,12 @@ public final class MainMenuScreen extends ScreenBase {
     }
     
     @Override
-    public void renderImpl(float delta) {
-        
+    protected void updateImpl(float delta) {
         mScreenBackground.update(delta);
-        
+    }
+    
+    @Override
+    public void renderImpl() {
         mBatch.begin();
         mScreenBackground.render(mBatch);
         mBatch.draw(mTitleTexture, TITLE_X, TITLE_Y);

@@ -55,21 +55,7 @@ public final class SplashScreen extends ScreenBase {
     }
     
     @Override
-    public void renderImpl(float delta) {
-        
-        update(delta);
-        
-        mBatch.begin();
-        mScreenBackground.render(mBatch);
-        mPlatformSprite.draw(mBatch);
-        mSplashTitle.render(mBatch);
-        mTurboGermLogo.render(mBatch);
-        mLibGdxLogo.render(mBatch);
-        mSplashFade.render(mBatch);
-        mBatch.end();
-    }
-    
-    public void update(float delta) {
+    public void updateImpl(float delta) {
         if (mSplashFade.isFinished()) {
             mGame.setScreen(HellHopper.MAIN_MENU_SCREEN_NAME);
         } else if (!mSplashFade.isFadeOut()) {
@@ -81,6 +67,18 @@ public final class SplashScreen extends ScreenBase {
         mScreenBackground.update(delta);
         mSplashTitle.update(delta);
         mSplashFade.update(delta);
+    }
+    
+    @Override
+    protected void renderImpl() {
+        mBatch.begin();
+        mScreenBackground.render(mBatch);
+        mPlatformSprite.draw(mBatch);
+        mSplashTitle.render(mBatch);
+        mTurboGermLogo.render(mBatch);
+        mLibGdxLogo.render(mBatch);
+        mSplashFade.render(mBatch);
+        mBatch.end();
     }
     
     private InputListener getStageInputListener() {

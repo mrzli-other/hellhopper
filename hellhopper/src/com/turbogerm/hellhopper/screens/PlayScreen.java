@@ -12,14 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.germlibrary.controls.CustomButtonAction;
+import com.turbogerm.germlibrary.controls.CustomImageButton;
+import com.turbogerm.germlibrary.controls.CustomImageButtonStyleData;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.debug.DebugData;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.RisePositionScroll;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.screens.general.CustomButtonAction;
-import com.turbogerm.hellhopper.screens.general.CustomImageButton;
-import com.turbogerm.hellhopper.screens.general.CustomImageButtonStyleData;
 
 public final class PlayScreen extends ScreenBase {
     
@@ -107,16 +107,7 @@ public final class PlayScreen extends ScreenBase {
     }
     
     @Override
-    public void render(float delta) {
-        renderImpl(delta);
-        
-        mGuiStage.act(delta);
-        mGuiStage.draw();
-    }
-    
-    @Override
-    public void renderImpl(float delta) {
-        
+    protected void updateImpl(float delta) {
         if (mGameArea.isGameOver()) {
             mGameData.setScore(mGameArea.getScore());
             mGame.setScreen(HellHopper.GAME_OVER_SCREEN_NAME);
@@ -125,6 +116,10 @@ public final class PlayScreen extends ScreenBase {
         if (!mIsPaused) {
             mGameArea.update(delta);
         }
+    }
+    
+    @Override
+    public void renderImpl() {
         
         mClearColor = mGameArea.getBackgroundColor();
         Gdx.gl.glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a);
@@ -133,9 +128,7 @@ public final class PlayScreen extends ScreenBase {
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         mLivesLabel.setText("x" + String.valueOf(mGameArea.getLives()));
         
-        // if (!mIsPaused) {
-        mGameArea.render(delta);
-        // }
+        mGameArea.render();
         
         mBatch.begin();
         mRisePositionScroll.setRiseHeight(mGameArea.getRiseHeight());
@@ -145,8 +138,8 @@ public final class PlayScreen extends ScreenBase {
         // TODO: remove, only for testing
         if (System.currentTimeMillis() - startTime > 100) {
             DebugData debugData = mGameArea.getDebugData();
-            //mDebugLabel.setText(debugData.toString());
-            mDebugLabel.setText("");
+            mDebugLabel.setText(debugData.toString());
+            //mDebugLabel.setText("");
             startTime = System.currentTimeMillis();
         }
     }

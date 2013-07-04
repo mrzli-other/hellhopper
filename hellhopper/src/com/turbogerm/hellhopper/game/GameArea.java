@@ -38,10 +38,6 @@ public final class GameArea {
     private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
     private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
     
-    private static final float MAX_DELTA = 0.1f;
-    private static final float UPDATE_RATE = 60.0f;
-    private static final float UPDATE_STEP = 1.0f / UPDATE_RATE;
-    
     private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END =
             500.0f * GameAreaUtils.PIXEL_TO_METER + GAME_AREA_HEIGHT;
     
@@ -65,8 +61,6 @@ public final class GameArea {
     private float mVisibleAreaPosition;
     private final GameCharacter mCharacter;
     private final PlatformToCharCollisionData mPlatformToCharCollisionData;
-    
-    private float mDeltaAccumulator;
     
     private final Array<RiseSection> mActiveRiseSections;
     private final Array<PlatformBase> mVisiblePlatforms;
@@ -123,18 +117,12 @@ public final class GameArea {
         mVisibleAreaPosition = 0.0f;
         mCharacter.reset(mRiseHeight);
         
-        mDeltaAccumulator = 0.0f;
-        
         mEndBackgroundScene.reset(mRiseHeight);
         
         mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
-        
-        if (delta > MAX_DELTA) {
-            delta = MAX_DELTA;
-        }
         
         mIsGameOver = mCharacter.isFinished();
         if (mIsGameOver) {
@@ -143,12 +131,7 @@ public final class GameArea {
         
         float horizontalSpeed = getHorizontalSpeed();
         
-        mDeltaAccumulator += delta;
-        while (mDeltaAccumulator > 0.0f) {
-            float step = Math.min(mDeltaAccumulator, UPDATE_STEP);
-            updateStep(horizontalSpeed, step);
-            mDeltaAccumulator -= step;
-        }
+        updateGameArea(horizontalSpeed, delta);
         
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
         mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
@@ -160,7 +143,7 @@ public final class GameArea {
         }
     }
     
-    public void render(float delta) {
+    public void render() {
         
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
@@ -171,7 +154,7 @@ public final class GameArea {
         }
         
         for (PlatformBase platform : mVisiblePlatforms) {
-            platform.render(mBatch, delta);
+            platform.render(mBatch);
         }
         
         for (EnemyBase enemy : mVisibleEnemies) {
@@ -198,7 +181,7 @@ public final class GameArea {
         mDebugData.update(mBatch, getCurrentRiseSection(), mCharacter);
     }
     
-    private void updateStep(float horizontalSpeed, float delta) {
+    private void updateGameArea(float horizontalSpeed, float delta) {
         
         updateActiveAndVisiblePlatforms();
         

@@ -126,34 +126,31 @@ public abstract class PlatformBase {
         }
         
         if (isMovingInternal()) {
-            mPlatformMovement.updatePosition(delta);
+            mPlatformMovement.update(delta);
             Vector2 position = getPosition();
             for (ItemBase item : mAttachedItems) {
                 item.updatePosition(position);
             }
         }
-    }
-    
-    public final void render(SpriteBatch batch, float delta) {
         
         updatePlatformModifier();
+    }
+    
+    public final void render(SpriteBatch batch) {
         
         Color spriteColor = mPlatformModifier.spriteColor;
         for (PlatformFeatureBase platformFeature : mPlatformFeaturesForRendering) {
             platformFeature.render(batch, getPosition(), spriteColor);
         }
         
-        renderImpl(batch, delta);
-        mPlatformMovement.render(batch, spriteColor.a, isMovingInternal() ? delta : 0.0f);
-    }
-    
-    protected void renderImpl(SpriteBatch batch, float delta) {
         if (mPlatformModifier.isPlatformVisible) {
             Vector2 position = getPosition();
             mSprite.setPosition(position.x, position.y);
             mSprite.setColor(mPlatformModifier.spriteColor);
             mSprite.draw(batch);
         }
+        
+        mPlatformMovement.render(batch, spriteColor.a);
     }
     
     public boolean isCollision(Vector2 c1, Vector2 c2, Vector2 intersection) {

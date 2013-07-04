@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.germlibrary.controls.CustomButtonAction;
+import com.turbogerm.germlibrary.controls.CustomImageButton;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.gamedata.HighScoreData;
 import com.turbogerm.hellhopper.resources.ResourceNames;
-import com.turbogerm.hellhopper.screens.general.CustomButtonAction;
-import com.turbogerm.hellhopper.screens.general.CustomImageButton;
 import com.turbogerm.hellhopper.screens.general.ScreenBackground;
 
 public final class HighScoreScreen extends ScreenBase {
@@ -86,9 +86,12 @@ public final class HighScoreScreen extends ScreenBase {
     }
     
     @Override
-    public void renderImpl(float delta) {
+    protected void updateImpl(float delta) {
         mScreenBackground.update(delta);
-        
+    }
+    
+    @Override
+    public void renderImpl() {
         mBatch.begin();
         mScreenBackground.render(mBatch);
         mBatch.end();

@@ -86,10 +86,24 @@ public final class CreditsScreen extends ScreenBase {
         sb.append("  (I modified most of them):\n");
         sb.append("Flame on platform animation -\n");
         sb.append("  Zabin and Jetrel (opengameart.com)\n");
-        sb.append("Jump sound -\n");
-        sb.append("  jorickhoofd (freesound.org; id: 169551)\n");
-        sb.append("Jump Boost sound -\n");
-        sb.append("  jesabat (freesound.org; id: 119741)");
+        sb.append("Jump sound - jorickhoofd\n");
+        sb.append("  (freesound.org; id: 169551)\n");
+        sb.append("Jump Boost sound - jesabat\n");
+        sb.append("  (freesound.org; id: 119741)\n");
+        sb.append("Coin sound - fins\n");
+        sb.append("  (freesound.org; id: 146723)\n");
+        sb.append("Item sound - cameronmusic\n");
+        sb.append("  (freesound.org; id: 138410)\n");
+        sb.append("Fart sound - smokenweewALT\n");
+        sb.append("  (freesound.org; id: 177050)\n");
+        sb.append("Enemy sound - anwul\n");
+        sb.append("  (freesound.org; id: 185366)\n");
+        sb.append("Fire sound - urupin\n");
+        sb.append("  (freesound.org; id: 178813)\n");
+        sb.append("Fall sound - silversatyr\n");
+        sb.append("  (freesound.org; id: 113366)\n");
+        sb.append("Sheep sound - reinsamba\n");
+        sb.append("  (freesound.org; id: 57796)\n");
         
         String text = sb.toString();
         

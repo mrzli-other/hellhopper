@@ -1,6 +1,13 @@
 http://opengameart.org/content/camp-fire-animation-for-rpgs-finished - fire animation
 libgdx logo - libgdx site, svg file from http://bioboblog.blogspot.com/2012/08/vector-libgdx-logo.html
+
 sounds
-knock - http://www.freesound.org/people/XxBirdoxX/sounds/52290/
-gravel - http://www.freesound.org/people/jorickhoofd/sounds/169551/
-steam - http://www.freesound.org/people/jesabat/sounds/119741/
+jump - http://www.freesound.org/people/jorickhoofd/sounds/169551/ A
+jump boost - http://www.freesound.org/people/jesabat/sounds/119741/ A
+coin - http://www.freesound.org/people/fins/sounds/146723/ 0
+item - http://www.freesound.org/people/cameronmusic/sounds/138410/ A
+fart - http://www.freesound.org/people/smokenweewALT/sounds/177050/ 0
+enemy - http://www.freesound.org/people/anwul/sounds/185366/ 0
+fire - http://www.freesound.org/people/urupin/sounds/178813/ 0 
+fall - http://www.freesound.org/people/silversatyr/sounds/113366/ A
+sheep - http://www.freesound.org/people/reinsamba/sounds/57796/ A

@@ -107,10 +107,6 @@ public final class ResourceNames {
     public static final String BACKGROUND_END_MOUNTAINS_TEXTURE = BACKGROUND_DIR + "endmountains.png";
     public static final String BACKGROUND_END_GROUND_TEXTURE = BACKGROUND_DIR + "endground.png";
     public static final String BACKGROUND_END_SHEEP_TEXTURE = BACKGROUND_DIR + "sheep.png";
-    private static final String BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "cloud%02d.png";
-    public static final int BACKGROUND_CLOUD_TEXTURE_COUNT = 3;
-    private static final String BACKGROUND_ROCK_TEXTURE_NAME_FORMAT = BACKGROUND_DIR + "rock%02d.png";
-    public static final int BACKGROUND_ROCK_TEXTURE_COUNT = 4;
     
     private static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE_NORMAL = PARTICLES_DIR + "enginenormal.p";
@@ -143,24 +139,6 @@ public final class ResourceNames {
     public static String getRandomPlatformNormalTexture() {
         int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
         return getPlatformNormalTexture(index);
-    }
-    
-    public static String getBackgroundCloudTexture(int index) {
-        return String.format(ResourceNames.BACKGROUND_CLOUD_TEXTURE_NAME_FORMAT, index);
-    }
-    
-    public static String getRandomBackgroundCloudTexture() {
-        int index = MathUtils.random(BACKGROUND_CLOUD_TEXTURE_COUNT - 1);
-        return getBackgroundCloudTexture(index);
-    }
-    
-    public static String getBackgroundRockTexture(int index) {
-        return String.format(ResourceNames.BACKGROUND_ROCK_TEXTURE_NAME_FORMAT, index);
-    }
-    
-    public static String getRandomBackgroundRockTexture() {
-        int index = MathUtils.random(BACKGROUND_ROCK_TEXTURE_COUNT - 1);
-        return getBackgroundRockTexture(index);
     }
     
     public static String getSoundSheep(int index) {

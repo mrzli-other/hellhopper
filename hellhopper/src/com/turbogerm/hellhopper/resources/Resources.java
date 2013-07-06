@@ -26,7 +26,7 @@ public final class Resources {
         TextureParameter textureParameterLinear = new TextureParameter();
         textureParameterLinear.minFilter = TextureFilter.Linear;
         textureParameterLinear.magFilter = TextureFilter.Linear;
-        textureParameterLinear.genMipMaps = false;
+        textureParameterLinear.genMipMaps = true;
         
         TextureParameter textureParameterNearest = new TextureParameter();
         textureParameterNearest.minFilter = TextureFilter.Nearest;
@@ -59,7 +59,6 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE, Texture.class, textureParameterLinear);
-        
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_UP_TEXTURE, Texture.class, textureParameterNearest);
@@ -140,12 +139,12 @@ public final class Resources {
             mAssetManager.load(ResourceNames.getSoundSheep(i), Sound.class);
         }
         
+        mAssetManager.finishLoading();
+        
         // FONTS
         mItemFont = new BitmapFont(Gdx.files.internal(ResourceNames.FONT_ITEM), false);
         mItemFont.setUseIntegerPositions(false);
         mItemFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        
-        mAssetManager.finishLoading();
         
         mGuiSkin = new Skin(Gdx.files.internal(ResourceNames.GUI_SKIN));
         mGuiSkin.getFont("default-font").getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);

@@ -4,20 +4,32 @@ import com.badlogic.gdx.math.MathUtils;
 
 public final class ResourceNames {
     
-    private static final String GENERAL_DIR = "general/";
-    public static final String GENERAL_BLACK_TEXTURE = GENERAL_DIR + "black.png";
-    public static final String GENERAL_WHITE_TEXTURE = GENERAL_DIR + "white.png";
-    public static final String GENERAL_TURBO_GERM_LOGO_TEXTURE = GENERAL_DIR + "turbogermlogo.png";
-    public static final String GENERAL_LIBGDX_LOGO_TEXTURE = GENERAL_DIR + "libgdxlogo.png";
+    // data
+    private static final String DATA_DIR = "data/";
+    private static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
+    public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
+    public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
     
-    private static final String GUI_DIR = "gui/";
-    public static final String GUI_SKIN = GUI_DIR + "uiskin.json";
+    public static String getRiseSectionPath(String name) {
+        return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
+    }
     
-    private static final String GUI_SPLASH_DIR = GUI_DIR + "splash/";
+    // graphics
+    private static final String GRAPHICS_DIR = "graphics/";
+    
+    private static final String GRAPHICS_GENERAL_DIR = GRAPHICS_DIR + "general/";
+    public static final String GENERAL_BLACK_TEXTURE = GRAPHICS_GENERAL_DIR + "black.png";
+    public static final String GENERAL_WHITE_TEXTURE = GRAPHICS_GENERAL_DIR + "white.png";
+    public static final String GENERAL_TURBO_GERM_LOGO_TEXTURE = GRAPHICS_GENERAL_DIR + "turbogermlogo.png";
+    public static final String GENERAL_LIBGDX_LOGO_TEXTURE = GRAPHICS_GENERAL_DIR + "libgdxlogo.png";
+    
+    private static final String GRAPHICS_GUI_DIR = GRAPHICS_DIR + "gui/";
+    
+    private static final String GUI_SPLASH_DIR = GRAPHICS_GUI_DIR + "splash/";
     public static final String GUI_SPLASH_TITLE_TEXTURE = GUI_SPLASH_DIR + "title.png";
     public static final String GUI_SPLASH_PLATFORM_TEXTURE = GUI_SPLASH_DIR + "platform.png";
     
-    private static final String GUI_MAIN_MENU_DIR = GUI_DIR + "mainmenu/";
+    private static final String GUI_MAIN_MENU_DIR = GRAPHICS_GUI_DIR + "mainmenu/";
     public static final String GUI_MAIN_MENU_TITLE_TEXTURE = GUI_MAIN_MENU_DIR + "title.png";
     public static final String GUI_MAIN_MENU_BUTTON_START_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartup.png";
     public static final String GUI_MAIN_MENU_BUTTON_START_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartdown.png";
@@ -26,7 +38,7 @@ public final class ResourceNames {
     public static final String GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsup.png";
     public static final String GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsdown.png";
     
-    private static final String GUI_PLAY_DIR = GUI_DIR + "play/";
+    private static final String GUI_PLAY_DIR = GRAPHICS_GUI_DIR + "play/";
     public static final String GUI_PLAY_PAUSE_UP_TEXTURE = GUI_PLAY_DIR + "pauseup.png";
     public static final String GUI_PLAY_PAUSE_DOWN_TEXTURE = GUI_PLAY_DIR + "pausedown.png";
     public static final String GUI_PLAY_PLAY_UP_TEXTURE = GUI_PLAY_DIR + "playup.png";
@@ -38,26 +50,14 @@ public final class ResourceNames {
     public static final String GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE = GUI_PLAY_DIR + "positionscrollbox.png";
     public static final String GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollendline.png";
     
-    public static final String GUI_BUTTON_BACK_UP_TEXTURE = GUI_DIR + "buttonbackup.png";
-    public static final String GUI_BUTTON_BACK_DOWN_TEXTURE = GUI_DIR + "buttonbackdown.png";
-    public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GUI_DIR + "buttoncontinueup.png";
-    public static final String GUI_BUTTON_CONTINUE_DOWN_TEXTURE = GUI_DIR + "buttoncontinuedown.png";
+    public static final String GUI_BUTTON_BACK_UP_TEXTURE = GRAPHICS_GUI_DIR + "buttonbackup.png";
+    public static final String GUI_BUTTON_BACK_DOWN_TEXTURE = GRAPHICS_GUI_DIR + "buttonbackdown.png";
+    public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinueup.png";
+    public static final String GUI_BUTTON_CONTINUE_DOWN_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinuedown.png";
     
-    private static final String FONTS_DIR = GUI_DIR + "fonts/";
-    public static final String FONT_ITEM = FONTS_DIR + "arial-bold-18.fnt";
-    
-    private static final String DATA_DIR = "data/";
-    private static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
-    public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
-    public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
-    
-    private static final String GAME_DIR = "game/";
-    
-    private static final String CHARACTER_DIR = GAME_DIR + "character/";
+    private static final String CHARACTER_DIR = GRAPHICS_DIR + "character/";
     public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";
     public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
-    public static final int CHARACTER_EYES_NORMAL_TEXTURE_COUNT = 2;
-    private static final String CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyesnormal%02d.png";
     public static final String CHARACTER_EYES_STUNNED_TEXTURE = CHARACTER_DIR + "eyesstunned.png";
     public static final String CHARACTER_EYES_FART_OPENED_TEXTURE = CHARACTER_DIR + "eyesfartopened.png";
     public static final String CHARACTER_EYES_FART_CLOSED_TEXTURE = CHARACTER_DIR + "eyesfartclosed.png";
@@ -65,11 +65,15 @@ public final class ResourceNames {
     public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
     public static final String CHARACTER_FART_DISCHARGE_TEXTURE = CHARACTER_DIR + "fartdischarge.png";
     
-    private static final String PLATFORMS_DIR = GAME_DIR + "platforms/";
-    private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
-    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
-    public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
+    private static final String CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyesnormal%02d.png";
+    public static final int CHARACTER_EYES_NORMAL_TEXTURE_COUNT = 2;
     
+    public static String getCharacterEyesNormalTexture(int index) {
+        return String.format(ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT, index);
+    }
+    
+    private static final String PLATFORMS_DIR = GRAPHICS_DIR + "platforms/";
+    public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
     public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
     public static final String PLATFORM_ENGINE_NORMAL_TEXTURE = PLATFORMS_DIR + "enginenormal.png";
     public static final String PLATFORM_ENGINE_REPOSITION_TEXTURE = PLATFORMS_DIR + "enginereposition.png";
@@ -80,7 +84,19 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
     
-    private static final String ENEMIES_DIR = GAME_DIR + "enemies/";
+    private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
+    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
+    
+    public static String getPlatformNormalTexture(int index) {
+        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, index);
+    }
+    
+    public static String getRandomPlatformNormalTexture() {
+        int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
+        return getPlatformNormalTexture(index);
+    }
+    
+    private static final String ENEMIES_DIR = GRAPHICS_DIR + "enemies/";
     public static final String ENEMY_SAW_TEXTURE = ENEMIES_DIR + "saw.png";
     public static final String ENEMY_IMP_TEXTURE = ENEMIES_DIR + "imp.png";
     public static final String ENEMY_LOCO_TEXTURE = ENEMIES_DIR + "loco.png";
@@ -88,7 +104,7 @@ public final class ResourceNames {
     public static final String ENEMY_EVIL_TWIN_TEXTURE = ENEMIES_DIR + "eviltwin.png";
     public static final String ENEMY_COOL_CLERK_TEXTURE = ENEMIES_DIR + "coolclerk.png";
     
-    private static final String ITEMS_DIR = GAME_DIR + "items/";
+    private static final String ITEMS_DIR = GRAPHICS_DIR + "items/";
     public static final String ITEM_BEANS_TEXTURE = ITEMS_DIR + "beans.png";
     public static final String ITEM_SHIELD_TEXTURE = ITEMS_DIR + "shield.png";
     public static final String ITEM_JUMP_SUIT_TEXTURE = ITEMS_DIR + "jumpsuit.png";
@@ -99,7 +115,7 @@ public final class ResourceNames {
     public static final String ITEM_SIGNET_TEXTURE = ITEMS_DIR + "signet.png";
     public static final String ITEM_BLACK_BOX_TEXTURE = ITEMS_DIR + "blackbox.png";
     
-    private static final String BACKGROUND_DIR = GAME_DIR + "background/";
+    private static final String BACKGROUND_DIR = GRAPHICS_DIR + "background/";
     public static final String BACKGROUND_TEXTURE = BACKGROUND_DIR + "background.png";
     public static final String BACKGROUND_END_SKY_TEXTURE = BACKGROUND_DIR + "endsky.png";
     public static final String BACKGROUND_END_SUN_TEXTURE = BACKGROUND_DIR + "endsun.png";
@@ -108,10 +124,19 @@ public final class ResourceNames {
     public static final String BACKGROUND_END_GROUND_TEXTURE = BACKGROUND_DIR + "endground.png";
     public static final String BACKGROUND_END_SHEEP_TEXTURE = BACKGROUND_DIR + "sheep.png";
     
+    // fonts
+    private static final String GUI_DIR = "gui/";
+    public static final String GUI_SKIN = GUI_DIR + "uiskin.json";
+    
+    private static final String FONTS_DIR = GUI_DIR + "fonts/";
+    public static final String FONT_ITEM = FONTS_DIR + "arial-bold-18.fnt";
+    
+    // particles
     private static final String PARTICLES_DIR = "particles/";
     public static final String PARTICLE_ENGINE_NORMAL = PARTICLES_DIR + "enginenormal.p";
     public static final String PARTICLE_ENGINE_REPOSITION = PARTICLES_DIR + "enginereposition.p";
     
+    // sounds
     private static final String SOUNDS_DIR = "sounds/";
     public static final String SOUND_JUMP = SOUNDS_DIR + "jump.mp3";
     public static final String SOUND_JUMP_BOOST = SOUNDS_DIR + "jumpboost.mp3";
@@ -121,25 +146,9 @@ public final class ResourceNames {
     public static final String SOUND_ENEMY = SOUNDS_DIR + "enemy.mp3";
     public static final String SOUND_FIRE = SOUNDS_DIR + "fire.mp3";
     public static final String SOUND_FALL = SOUNDS_DIR + "fall.mp3";
+    
     private static final String SOUND_SHEEP_NAME_FORMAT = SOUNDS_DIR + "sheep%02d.mp3";
     public static final int SOUND_SHEEP_COUNT = 7;
-    
-    public static String getRiseSectionPath(String name) {
-        return String.format("%s%s.xml", RISE_SECTIONS_DIR, name);
-    }
-    
-    public static String getCharacterEyesNormalTexture(int index) {
-        return String.format(ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT, index);
-    }
-    
-    public static String getPlatformNormalTexture(int index) {
-        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, index);
-    }
-    
-    public static String getRandomPlatformNormalTexture() {
-        int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
-        return getPlatformNormalTexture(index);
-    }
     
     public static String getSoundSheep(int index) {
         return String.format(ResourceNames.SOUND_SHEEP_NAME_FORMAT, index);

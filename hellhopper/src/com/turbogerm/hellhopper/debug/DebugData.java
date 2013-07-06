@@ -12,7 +12,6 @@ public final class DebugData {
     private int mMaxSpritesInBatch;
     private String mRiseSectionName;
     private int mRiseSectionDifficulty;
-    private int mDeathCount;
     
     public DebugData() {
     }
@@ -28,13 +27,11 @@ public final class DebugData {
             mRiseSectionName = "";
             mRiseSectionDifficulty = -1;
         }
-        // TODO: remove
-        mDeathCount = 0;//character.deathCount;
     }
     
     @Override
     public String toString() {
-        return String.format("Fps: %d; Calls: %d; Max Batch: %d\nSection: %s\nDiffic: %d; Deaths: %d",
-                mFps, mRenderCalls, mMaxSpritesInBatch, mRiseSectionName, mRiseSectionDifficulty, mDeathCount);
+        return String.format("Fps: %d; Calls: %d; Max Batch: %d\nSection: %s\nDiffic: %d",
+                mFps, mRenderCalls, mMaxSpritesInBatch, mRiseSectionName, mRiseSectionDifficulty);
     }
 }

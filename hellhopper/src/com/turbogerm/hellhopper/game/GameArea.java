@@ -169,6 +169,9 @@ public final class GameArea {
         
         mBatch.end();
         
+        // TODO: for debugging, remove
+        mDebugData.update(mBatch, getCurrentRiseSection(), mCharacter);
+        
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
                 HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         mBatch.begin();
@@ -176,9 +179,6 @@ public final class GameArea {
             item.renderText(mBatch, mVisibleAreaPosition, mItemFont);
         }
         mBatch.end();
-        
-        // TODO: for debugging, remove
-        mDebugData.update(mBatch, getCurrentRiseSection(), mCharacter);
     }
     
     private void updateGameArea(float horizontalSpeed, float delta) {

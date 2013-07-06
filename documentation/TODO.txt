@@ -1,3 +1,6 @@
+- bug:
+  - goes into fall state and does another jump (or jumps and then goes into fall state while going up instead of falling)
+
 - black box:
   - random powerup or disability
        

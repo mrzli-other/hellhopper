@@ -2,9 +2,9 @@ package com.turbogerm.hellhopper.game.character.graphics;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.resources.ResourceNames;
@@ -28,9 +28,11 @@ public final class CharacterEyesGraphicsNormal extends CharacterGraphicsBase {
     
     public CharacterEyesGraphicsNormal(AssetManager assetManager) {
         
-        mSprites = new Sprite[ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_COUNT];
+        TextureAtlas atlas = assetManager.get(ResourceNames.CHARACTER_ATLAS);
+        
+        mSprites = new Sprite[ResourceNames.CHARACTER_EYES_NORMAL_IMAGE_COUNT];
         for (int i = 0; i < mSprites.length; i++) {
-            mSprites[i] = new Sprite((Texture) assetManager.get(ResourceNames.getCharacterEyesNormalTexture(i)));
+            mSprites[i] = atlas.createSprite(ResourceNames.getCharacterEyesNormalImageName(i));
             mSprites[i].setSize(WIDTH, HEIGHT);
             mSprites[i].setColor(DEFAULT_COLOR);
         }

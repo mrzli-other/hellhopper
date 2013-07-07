@@ -1,7 +1,7 @@
 
 platforms.png
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 platformfire
   rotate: false
@@ -122,7 +122,7 @@ jumpboostcraterlow
   orig: 20, 9
   offset: 0, 0
   index: -1
-particlemoving
+particlenormal
   rotate: false
   xy: 439, 47
   size: 32, 32

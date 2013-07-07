@@ -57,7 +57,7 @@ final class FlamePlatformFeature extends PlatformFeatureBase {
         mFlameStateMachine = new FlameStateMachine(flameDuration, dormantDuration, transitionDuration);
         mIsFlameActive = false;
         
-        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_TEXTURE_ATLAS);
+        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_ATLAS);
         Array<AtlasRegion> fireAtlasRegions = platformsAtlas.findRegions(ResourceNames.PLATFORM_FIRE_IMAGE_NAME);
         mFireAnimation = new Animation(FIRE_FRAME_DURATION, fireAtlasRegions, Animation.LOOP);
         mFireAnimationTime = 0.0f;

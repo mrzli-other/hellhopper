@@ -2,6 +2,7 @@ package com.turbogerm.hellhopper;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2.Settings;
 import com.turbogerm.hellhopper.HellHopper;
@@ -29,8 +30,12 @@ public class Main {
     private static void packTextures() {
         Settings settings = new Settings();
         settings.pot = false;
+        settings.filterMin = TextureFilter.Linear;
+        settings.filterMag = TextureFilter.Linear;
         
         TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/platforms",
                 "../hellhopper-android/assets/graphics/packed", "platforms");
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/character",
+                "../hellhopper-android/assets/graphics/packed", "character");
     }
 }

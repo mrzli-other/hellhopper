@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.turbogerm.germlibrary.util.ParticleEffectLoader;
+import com.turbogerm.germlibrary.util.ParticleEffectLoader.ParticleEffectParameter;
 
 public final class Resources {
     
@@ -65,29 +66,10 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_DOWN_TEXTURE, Texture.class, textureParameterNearest);
         
         // CHARACTER
-        mAssetManager.load(ResourceNames.CHARACTER_BODY_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_HEAD_TEXTURE, Texture.class, textureParameterLinear);
-        for (int i = 0; i < ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_COUNT; i++) {
-            mAssetManager.load(ResourceNames.getCharacterEyesNormalTexture(i), Texture.class, textureParameterLinear);
-        }
-        mAssetManager.load(ResourceNames.CHARACTER_EYES_STUNNED_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_OPENED_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_EYES_FART_CLOSED_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_MOUTH_SMILE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.CHARACTER_SHIELD_EFFECT_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.CHARACTER_FART_DISCHARGE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.CHARACTER_ATLAS, TextureAtlas.class);
         
         // PLATFORMS
-        mAssetManager.load(ResourceNames.PLATFORMS_TEXTURE_ATLAS, TextureAtlas.class);
-        
-        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_ENGINE_REPOSITION_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.PLATFORMS_ATLAS, TextureAtlas.class);
         
         // ENEMIES
         mAssetManager.load(ResourceNames.ENEMY_SAW_TEXTURE, Texture.class, textureParameterNearest);
@@ -118,8 +100,11 @@ public final class Resources {
         mAssetManager.load(ResourceNames.BACKGROUND_END_SHEEP_TEXTURE, Texture.class, textureParameterNearest);
         
         // PARTICLES
-        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class);
-        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class);
+        ParticleEffectParameter particleEffectParameter = new ParticleEffectParameter();
+        particleEffectParameter.assetManager = mAssetManager;
+        particleEffectParameter.atlasName = ResourceNames.PLATFORMS_ATLAS;
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_NORMAL, ParticleEffect.class, particleEffectParameter);
+        mAssetManager.load(ResourceNames.PARTICLE_ENGINE_REPOSITION, ParticleEffect.class, particleEffectParameter);
         
         // SOUNDS
         mAssetManager.load(ResourceNames.SOUND_JUMP, Sound.class);

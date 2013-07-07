@@ -8,7 +8,7 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 public final class NullPlatformMovement extends PlatformMovementBase {
     
     public NullPlatformMovement(Vector2 initialPosition, AssetManager assetManager) {
-        super(initialPosition, ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE,
+        super(initialPosition, ResourceNames.PLATFORM_ENGINE_NORMAL_IMAGE_NAME,
                 ResourceNames.PARTICLE_ENGINE_NORMAL, assetManager);
     }
     

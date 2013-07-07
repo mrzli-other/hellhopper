@@ -57,36 +57,34 @@ public final class ResourceNames {
     public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinueup.png";
     public static final String GUI_BUTTON_CONTINUE_DOWN_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinuedown.png";
     
-    private static final String CHARACTER_DIR = GRAPHICS_DIR + "character/";
-    public static final String CHARACTER_BODY_TEXTURE = CHARACTER_DIR + "body.png";
-    public static final String CHARACTER_HEAD_TEXTURE = CHARACTER_DIR + "head.png";
-    public static final String CHARACTER_EYES_STUNNED_TEXTURE = CHARACTER_DIR + "eyesstunned.png";
-    public static final String CHARACTER_EYES_FART_OPENED_TEXTURE = CHARACTER_DIR + "eyesfartopened.png";
-    public static final String CHARACTER_EYES_FART_CLOSED_TEXTURE = CHARACTER_DIR + "eyesfartclosed.png";
-    public static final String CHARACTER_MOUTH_SMILE_TEXTURE = CHARACTER_DIR + "mouthsmile.png";
-    public static final String CHARACTER_SHIELD_EFFECT_TEXTURE = CHARACTER_DIR + "shieldeffect.png";
-    public static final String CHARACTER_FART_DISCHARGE_TEXTURE = CHARACTER_DIR + "fartdischarge.png";
+    public static final String CHARACTER_ATLAS = GRAPHICS_PACKED_DIR + "character.atlas";
+    public static final String CHARACTER_BODY_IMAGE_NAME = "body";
+    public static final String CHARACTER_HEAD_IMAGE_NAME = "head";
+    public static final String CHARACTER_EYES_STUNNED_IMAGE_NAME = "eyesstunned";
+    public static final String CHARACTER_EYES_FART_OPENED_IMAGE_NAME = "eyesfartopened";
+    public static final String CHARACTER_EYES_FART_CLOSED_IMAGE_NAME = "eyesfartclosed";
+    public static final String CHARACTER_MOUTH_SMILE_IMAGE_NAME = "mouthsmile";
+    public static final String CHARACTER_SHIELD_EFFECT_IMAGE_NAME = "shieldeffect";
+    public static final String CHARACTER_FART_DISCHARGE_IMAGE_NAME = "fartdischarge";
     
-    private static final String CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT = CHARACTER_DIR + "eyesnormal%02d.png";
-    public static final int CHARACTER_EYES_NORMAL_TEXTURE_COUNT = 2;
+    private static final String CHARACTER_EYES_NORMAL_IMAGE_NAME_FORMAT = "eyesnormal%02d";
+    public static final int CHARACTER_EYES_NORMAL_IMAGE_COUNT = 2;
     
-    public static String getCharacterEyesNormalTexture(int index) {
-        return String.format(ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT, index);
+    public static String getCharacterEyesNormalImageName(int index) {
+        return String.format(ResourceNames.CHARACTER_EYES_NORMAL_IMAGE_NAME_FORMAT, index);
     }
     
-    public static final String PLATFORMS_TEXTURE_ATLAS = GRAPHICS_PACKED_DIR + "platforms.atlas";
+    public static final String PLATFORMS_ATLAS = GRAPHICS_PACKED_DIR + "platforms.atlas";
     public static final String PLATFORM_FIRE_IMAGE_NAME = "platformfire";
     public static final String PLATFORM_CRUMBLE_IMAGE_NAME = "crumbleplatform";
-    
-    private static final String PLATFORMS_DIR = GRAPHICS_DIR + "platforms/";
-    public static final String PLATFORM_ENGINE_NORMAL_TEXTURE = PLATFORMS_DIR + "enginenormal.png";
-    public static final String PLATFORM_ENGINE_REPOSITION_TEXTURE = PLATFORMS_DIR + "enginereposition.png";
-    public static final String PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE = PLATFORMS_DIR + "jumpboostcraterlow.png";
-    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE = PLATFORMS_DIR + "jumpboostdischargelow.png";
-    public static final String PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE = PLATFORMS_DIR + "jumpboostcratermedium.png";
-    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE = PLATFORMS_DIR + "jumpboostdischargemedium.png";
-    public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
-    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
+    public static final String PLATFORM_ENGINE_NORMAL_IMAGE_NAME = "enginenormal";
+    public static final String PLATFORM_ENGINE_REPOSITION_IMAGE_NAME = "enginereposition";
+    public static final String PLATFORM_JUMP_BOOST_CRATER_LOW_IMAGE_NAME = "jumpboostcraterlow";
+    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_LOW_IMAGE_NAME = "jumpboostdischargelow";
+    public static final String PLATFORM_JUMP_BOOST_CRATER_MEDIUM_IMAGE_NAME = "jumpboostcratermedium";
+    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_IMAGE_NAME = "jumpboostdischargemedium";
+    public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_IMAGE_NAME = "jumpboostcraterhigh";
+    public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_IMAGE_NAME = "jumpboostdischargehigh";
     
     private static final String PLATFORM_NORMAL_IMAGE_NAME_FORMAT = "normalplatform%02d";
     public static final int PLATFORM_NORMAL_IMAGE_COUNT = 5;

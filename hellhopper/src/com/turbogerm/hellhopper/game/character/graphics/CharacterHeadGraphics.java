@@ -2,9 +2,9 @@ package com.turbogerm.hellhopper.game.character.graphics;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 
@@ -26,8 +26,8 @@ public final class CharacterHeadGraphics extends CharacterGraphicsBase {
     
     public CharacterHeadGraphics(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.CHARACTER_HEAD_TEXTURE);
-        mSprite = new Sprite(texture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.CHARACTER_ATLAS);
+        mSprite = atlas.createSprite(ResourceNames.CHARACTER_HEAD_IMAGE_NAME);
         mSprite.setSize(WIDTH, HEIGHT);
         
         mColor = new Color();

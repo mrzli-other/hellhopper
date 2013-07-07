@@ -17,7 +17,7 @@ public final class VerticalPlatformMovement extends PlatformMovementBase {
     private boolean mIsUpMovement;
     
     public VerticalPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition, AssetManager assetManager) {
-        super(initialPosition, ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE,
+        super(initialPosition, ResourceNames.PLATFORM_ENGINE_NORMAL_IMAGE_NAME,
                 ResourceNames.PARTICLE_ENGINE_NORMAL, assetManager);
         
         mRange = Float.parseFloat(movementData.getProperty(PlatformMovementData.RANGE_PROPERTY));

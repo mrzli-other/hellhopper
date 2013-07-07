@@ -24,7 +24,7 @@ final class RepositionPlatformMovement extends PlatformMovementBase {
     
     public RepositionPlatformMovement(PlatformMovementData movementData, Vector2 initialPosition,
             AssetManager assetManager) {
-        super(initialPosition, ResourceNames.PLATFORM_ENGINE_REPOSITION_TEXTURE,
+        super(initialPosition, ResourceNames.PLATFORM_ENGINE_REPOSITION_IMAGE_NAME,
                 ResourceNames.PARTICLE_ENGINE_REPOSITION, assetManager);
         
         mRange = Float.parseFloat(movementData.getProperty(PlatformMovementData.RANGE_PROPERTY));

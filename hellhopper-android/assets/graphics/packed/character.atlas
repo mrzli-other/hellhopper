@@ -1,0 +1,75 @@
+
+character.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shieldeffect
+  rotate: false
+  xy: 1, 5
+  size: 50, 72
+  orig: 50, 72
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 53, 31
+  size: 40, 46
+  orig: 40, 46
+  offset: 0, 0
+  index: -1
+fartdischarge
+  rotate: false
+  xy: 53, 3
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+eyesnormal00
+  rotate: false
+  xy: 73, 11
+  size: 34, 18
+  orig: 34, 18
+  offset: 0, 0
+  index: -1
+mouthsmile
+  rotate: false
+  xy: 73, 5
+  size: 16, 4
+  orig: 16, 4
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 109, 45
+  size: 36, 32
+  orig: 36, 32
+  offset: 0, 0
+  index: -1
+eyesfartopened
+  rotate: false
+  xy: 95, 31
+  size: 28, 12
+  orig: 28, 12
+  offset: 0, 0
+  index: -1
+eyesstunned
+  rotate: false
+  xy: 125, 29
+  size: 32, 14
+  orig: 32, 14
+  offset: 0, 0
+  index: -1
+eyesnormal01
+  rotate: false
+  xy: 109, 13
+  size: 34, 14
+  orig: 34, 14
+  offset: 0, 0
+  index: -1
+eyesfartclosed
+  rotate: false
+  xy: 109, 1
+  size: 28, 10
+  orig: 28, 10
+  offset: 0, 0
+  index: -1

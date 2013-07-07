@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 
 public class ParticleEffectLoader extends
@@ -22,8 +23,12 @@ public class ParticleEffectLoader extends
             ParticleEffectParameter parameter) {
         ParticleEffect effect = new ParticleEffect();
         FileHandle effectFile = resolve(fileName);
-        FileHandle imgDir = effectFile.parent();
-        effect.load(effectFile, imgDir);
+        if (parameter.atlasName != null) {
+            effect.load(effectFile, (TextureAtlas) parameter.assetManager.get(parameter.atlasName));
+        } else {
+            FileHandle imgDir = effectFile.parent();
+            effect.load(effectFile, imgDir);
+        }
         return effect;
     }
     
@@ -35,8 +40,7 @@ public class ParticleEffectLoader extends
     }
     
     static public class ParticleEffectParameter extends AssetLoaderParameters<ParticleEffect> {
-        public ParticleEffectParameter() {
-        }
+        public AssetManager assetManager = null;
+        public String atlasName = null;
     }
-    
 }

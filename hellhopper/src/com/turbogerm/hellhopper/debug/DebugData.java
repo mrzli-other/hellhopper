@@ -20,6 +20,7 @@ public final class DebugData {
         mFps = Gdx.graphics.getFramesPerSecond();
         mRenderCalls = batch.renderCalls;
         mMaxSpritesInBatch = batch.maxSpritesInBatch;
+        batch.maxSpritesInBatch = 0;
         if (riseSection != null) {
             mRiseSectionName = riseSection.getName();
             mRiseSectionDifficulty = riseSection.getDifficulty();

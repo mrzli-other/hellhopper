@@ -2,9 +2,9 @@ package com.turbogerm.hellhopper.game.platforms.features;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.dataaccess.PlatformFeatureData;
@@ -58,12 +58,12 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         
         mCraterWidth = powerData.craterWidth;
         
-        Texture craterTexture = assetManager.get(powerData.craterTextureName);
-        mCraterSprite = new Sprite(craterTexture);
+        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_ATLAS);
+        
+        mCraterSprite = platformsAtlas.createSprite(powerData.craterImageName);
         mCraterSprite.setSize(mCraterWidth, CRATER_HEIGHT);
         
-        Texture dischargeTexture = assetManager.get(powerData.dischargeTextureName);
-        mDischargeSprite = new Sprite(dischargeTexture);
+        mDischargeSprite = platformsAtlas.createSprite(powerData.dischargeImageName);
         mDischargeSprite.setSize(powerData.dischargeWidth, powerData.dischargeHeight);
         
         mJumpBoostSpeed = powerData.speed;
@@ -140,8 +140,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         
         if (PlatformFeatureData.JUMP_BOOST_POWER_LOW_PROPERTY_VALUE.equals(powerString)) {
             return new JumpPowerData(
-                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE,
-                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_IMAGE_NAME,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_LOW_IMAGE_NAME,
                     CRATER_LOW_WIDTH,
                     DISCHARGE_LOW_WIDTH,
                     DISCHARGE_LOW_HEIGHT,
@@ -149,8 +149,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                     LOW_POWER_SOUND_VOLUME);
         } else if (PlatformFeatureData.JUMP_BOOST_POWER_MEDIUM_PROPERTY_VALUE.equals(powerString)) {
             return new JumpPowerData(
-                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_TEXTURE,
-                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_MEDIUM_IMAGE_NAME,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_MEDIUM_IMAGE_NAME,
                     CRATER_MEDIUM_WIDTH,
                     DISCHARGE_MEDIUM_WIDTH,
                     DISCHARGE_MEDIUM_HEIGHT,
@@ -158,8 +158,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
                     MEDIUM_POWER_SOUND_VOLUME);
         } else {
             return new JumpPowerData(
-                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE,
-                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE,
+                    ResourceNames.PLATFORM_JUMP_BOOST_CRATER_HIGH_IMAGE_NAME,
+                    ResourceNames.PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_IMAGE_NAME,
                     CRATER_HIGH_WIDTH,
                     DISCHARGE_HIGH_WIDTH,
                     DISCHARGE_HIGH_HEIGHT,
@@ -169,8 +169,8 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
     }
     
     private static class JumpPowerData {
-        final String craterTextureName;
-        final String dischargeTextureName;
+        final String craterImageName;
+        final String dischargeImageName;
         final float craterWidth;
         final float dischargeWidth;
         final float dischargeHeight;
@@ -178,16 +178,16 @@ final class JumpBoostPlatformFeature extends PlatformFeatureBase {
         final float soundVolume;
         
         public JumpPowerData(
-                String craterTextureName,
-                String dischargeTextureName,
+                String craterImageName,
+                String dischargeImageName,
                 float craterWidth,
                 float dischargeWidth,
                 float dischargeHeight,
                 float speed,
                 float soundVolume) {
             
-            this.craterTextureName = craterTextureName;
-            this.dischargeTextureName = dischargeTextureName;
+            this.craterImageName = craterImageName;
+            this.dischargeImageName = dischargeImageName;
             this.craterWidth = craterWidth;
             this.dischargeWidth = dischargeWidth;
             this.dischargeHeight = dischargeHeight;

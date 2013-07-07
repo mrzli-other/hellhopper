@@ -1,15 +1,16 @@
 package com.turbogerm.hellhopper.game.platforms.movement;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.dataaccess.PlatformData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.platforms.features.PlatformModifier;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public abstract class PlatformMovementBase {
     
@@ -29,11 +30,11 @@ public abstract class PlatformMovementBase {
         PLATFORM_CENTER_OFFSET = new Vector2(PlatformData.PLATFORM_WIDTH / 2.0f, PlatformData.PLATFORM_HEIGHT / 2.0f);
     }
     
-    public PlatformMovementBase(Vector2 initialPosition, String engineTextureName, String particleName,
+    public PlatformMovementBase(Vector2 initialPosition, String engineImageName, String particleName,
             AssetManager assetManager) {
         
-        Texture engineTexture = assetManager.get(engineTextureName);
-        mEngineSprite = new Sprite(engineTexture);
+        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_ATLAS);
+        mEngineSprite = platformsAtlas.createSprite(engineImageName);
         mEngineSprite.setSize(ENGINE_WIDTH, ENGINE_HEIGHT);
         
         mEngineEffect = new ParticleEffect((ParticleEffect) assetManager.get(particleName));

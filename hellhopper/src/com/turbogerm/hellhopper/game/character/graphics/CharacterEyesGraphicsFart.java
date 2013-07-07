@@ -2,9 +2,9 @@ package com.turbogerm.hellhopper.game.character.graphics;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 
@@ -35,13 +35,13 @@ public final class CharacterEyesGraphicsFart extends CharacterGraphicsBase {
     
     public CharacterEyesGraphicsFart(AssetManager assetManager) {
         
-        Texture textureOpened = assetManager.get(ResourceNames.CHARACTER_EYES_FART_OPENED_TEXTURE);
-        mOpenedSprite = new Sprite(textureOpened);
+        TextureAtlas atlas = assetManager.get(ResourceNames.CHARACTER_ATLAS);
+        
+        mOpenedSprite = atlas.createSprite(ResourceNames.CHARACTER_EYES_FART_OPENED_IMAGE_NAME);
         mOpenedSprite.setSize(OPENED_WIDTH, OPENED_HEIGHT);
         mOpenedSprite.setColor(DEFAULT_COLOR);
         
-        Texture textureClosed = assetManager.get(ResourceNames.CHARACTER_EYES_FART_CLOSED_TEXTURE);
-        mClosedSprite = new Sprite(textureClosed);
+        mClosedSprite = atlas.createSprite(ResourceNames.CHARACTER_EYES_FART_OPENED_IMAGE_NAME);
         mClosedSprite.setSize(CLOSED_WIDTH, CLOSED_HEIGHT);
         mClosedSprite.setColor(DEFAULT_COLOR);
     }

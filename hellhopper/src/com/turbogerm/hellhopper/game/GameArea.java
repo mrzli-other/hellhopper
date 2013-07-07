@@ -48,6 +48,8 @@ public final class GameArea {
     
     private static final float VISIBLE_PLATFORMS_AREA_PADDING = 2.0f;
     
+    private static final int SPRITE_BATCH_SIZE = 100;
+    
     private final AssetManager mAssetManager;
     private final SpriteBatch mBatch;
     private final DebugData mDebugData;
@@ -80,7 +82,7 @@ public final class GameArea {
     public GameArea(AssetManager assetManager, BitmapFont itemFont) {
         
         mAssetManager = assetManager;
-        mBatch = new SpriteBatch();
+        mBatch = new SpriteBatch(SPRITE_BATCH_SIZE);
         mDebugData = new DebugData();
         mItemFont = itemFont;
         

@@ -2,9 +2,9 @@ package com.turbogerm.hellhopper.screens.splash;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
@@ -36,8 +36,8 @@ public final class SplashTitle {
     
     public SplashTitle(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.GUI_SPLASH_TITLE_TEXTURE);
-        mSprite = new Sprite(texture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mSprite = atlas.createSprite(ResourceNames.GUI_SPLASH_TITLE_IMAGE_NAME);
         
         mPosition = new Vector2();
         mPosition.x = (HellHopper.VIEWPORT_WIDTH - mSprite.getWidth()) / 2.0f;

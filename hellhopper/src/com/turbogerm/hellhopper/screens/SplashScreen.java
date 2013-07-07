@@ -2,8 +2,8 @@ package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.turbogerm.hellhopper.HellHopper;
@@ -33,8 +33,8 @@ public final class SplashScreen extends ScreenBase {
         
         mScreenBackground = new ScreenBackground(mAssetManager);
         
-        Texture platformTexture = mAssetManager.get(ResourceNames.GUI_SPLASH_PLATFORM_TEXTURE);
-        mPlatformSprite = new Sprite(platformTexture);
+        TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mPlatformSprite = atlas.createSprite(ResourceNames.GUI_SPLASH_PLATFORM_IMAGE_NAME);
         float platformX = (HellHopper.VIEWPORT_WIDTH - mPlatformSprite.getWidth()) / 2.0f;
         mPlatformSprite.setPosition(platformX, PLATFORM_Y);
         

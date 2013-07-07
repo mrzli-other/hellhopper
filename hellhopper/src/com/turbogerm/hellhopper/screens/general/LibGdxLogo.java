@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.screens.general;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 
@@ -16,8 +16,8 @@ public final class LibGdxLogo {
     
     public LibGdxLogo(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.GUI_GENERAL_LIBGDX_LOGO_TEXTURE);
-        mSprite = new Sprite(texture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mSprite = atlas.createSprite(ResourceNames.GUI_GENERAL_LIBGDX_LOGO_IMAGE_NAME);
         
         float offsetX = HellHopper.VIEWPORT_WIDTH - mSprite.getWidth() - RIGHT_OFFSET_X;
         mSprite.setPosition(offsetX, OFFSET_Y);

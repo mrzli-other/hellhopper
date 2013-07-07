@@ -1,6 +1,7 @@
 package com.turbogerm.hellhopper.screens;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -76,10 +77,13 @@ public final class HighScoreScreen extends ScreenBase {
             mGuiStage.addActor(highScoreValueLabel);
         }
         
+        TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        
         CustomImageButton button = new CustomImageButton(
                 BUTTON_X, BUTTON_Y,
-                ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE,
-                ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE,
+                atlas,
+                ResourceNames.GUI_BUTTON_BACK_UP_IMAGE_NAME,
+                ResourceNames.GUI_BUTTON_BACK_DOWN_IMAGE_NAME,
                 getBackAction(),
                 mAssetManager);
         button.addToStage(mGuiStage);

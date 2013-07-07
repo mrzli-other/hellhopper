@@ -4,13 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.controls.CustomButtonAction;
 import com.turbogerm.germlibrary.controls.CustomImageButton;
@@ -66,8 +68,9 @@ public final class PlayScreen extends ScreenBase {
         
         final float livesImageX = 74.0f;
         
-        Texture livesTexture = mAssetManager.get(ResourceNames.GUI_PLAY_LIVES_TEXTURE);
-        Image livesImage = new Image(livesTexture);
+        TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        TextureRegion livesRegion = atlas.findRegion(ResourceNames.GUI_PLAY_LIVES_IMAGE_NAME);
+        Image livesImage = new Image(new TextureRegionDrawable(livesRegion));
         livesImage.setPosition(livesImageX, HellHopper.VIEWPORT_HEIGHT - livesImage.getHeight() - 10.0f);
         mGuiStage.addActor(livesImage);
         
@@ -180,18 +183,21 @@ public final class PlayScreen extends ScreenBase {
         final float pauseButtonSize = 64.0f;
         final float pauseButtonY = HellHopper.VIEWPORT_HEIGHT - pauseButtonSize;
         
+        TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        
         Array<CustomImageButtonStyleData> stylesData = new Array<CustomImageButtonStyleData>(true, 2);
         stylesData.add(new CustomImageButtonStyleData(
                 BUTTON_STYLE_PAUSE,
-                ResourceNames.GUI_PLAY_PAUSE_UP_TEXTURE,
-                ResourceNames.GUI_PLAY_PAUSE_DOWN_TEXTURE));
+                ResourceNames.GUI_PLAY_PAUSE_UP_IMAGE_NAME,
+                ResourceNames.GUI_PLAY_PAUSE_DOWN_IMAGE_NAME));
         stylesData.add(new CustomImageButtonStyleData(
                 BUTTON_STYLE_PLAY,
-                ResourceNames.GUI_PLAY_PLAY_UP_TEXTURE,
-                ResourceNames.GUI_PLAY_PLAY_DOWN_TEXTURE));
+                ResourceNames.GUI_PLAY_PLAY_UP_IMAGE_NAME,
+                ResourceNames.GUI_PLAY_PLAY_DOWN_IMAGE_NAME));
         
         mPlayPauseButton = new CustomImageButton(
                 0.0f, pauseButtonY,
+                atlas,
                 stylesData,
                 getPlayPauseAction(),
                 mAssetManager);

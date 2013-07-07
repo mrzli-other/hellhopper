@@ -17,49 +17,45 @@ public final class ResourceNames {
     }
     
     // graphics
-    private static final String GRAPHICS_DIR = "graphics/raw/";
+    private static final String GRAPHICS_PACKED_DIR = "graphics/packed/";
     
-    // TODO
-    private static final String GRAPHICS_PACKED_DIR = "graphics/packed/"; //GRAPHICS_DIR + "packed/";
+    public static final String GRAPHICS_GUI_ATLAS = GRAPHICS_PACKED_DIR + "gui.atlas"; 
     
+    private static final String GUI_GENERAL_IMAGE_NAME_PREFIX = "general/";
+    public static final String GUI_GENERAL_BLACK_IMAGE_NAME = GUI_GENERAL_IMAGE_NAME_PREFIX + "black";
+    public static final String GUI_GENERAL_WHITE_IMAGE_NAME = GUI_GENERAL_IMAGE_NAME_PREFIX + "white";
+    public static final String GUI_GENERAL_TURBO_GERM_LOGO_IMAGE_NAME = GUI_GENERAL_IMAGE_NAME_PREFIX + "turbogermlogo";
+    public static final String GUI_GENERAL_LIBGDX_LOGO_IMAGE_NAME = GUI_GENERAL_IMAGE_NAME_PREFIX + "libgdxlogo";
     
-    private static final String GRAPHICS_GUI_DIR = GRAPHICS_DIR + "gui/";
+    private static final String GUI_SPLASH_IMAGE_NAME_PREFIX = "splash/";
+    public static final String GUI_SPLASH_TITLE_IMAGE_NAME = GUI_SPLASH_IMAGE_NAME_PREFIX + "title";
+    public static final String GUI_SPLASH_PLATFORM_IMAGE_NAME = GUI_SPLASH_IMAGE_NAME_PREFIX + "platform";
     
-    private static final String GUI_SPLASH_DIR = GRAPHICS_GUI_DIR + "splash/";
-    public static final String GUI_SPLASH_TITLE_TEXTURE = GUI_SPLASH_DIR + "title.png";
-    public static final String GUI_SPLASH_PLATFORM_TEXTURE = GUI_SPLASH_DIR + "platform.png";
+    private static final String GUI_MAIN_MENU_IMAGE_NAME_PREFIX = "mainmenu/";
+    public static final String GUI_MAIN_MENU_TITLE_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "title";
+    public static final String GUI_MAIN_MENU_BUTTON_START_UP_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttonstartup";
+    public static final String GUI_MAIN_MENU_BUTTON_START_DOWN_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttonstartdown";
+    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_UP_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttonhighscoreup";
+    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttonhighscoredown";
+    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_UP_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttoncreditsup";
+    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_IMAGE_NAME = GUI_MAIN_MENU_IMAGE_NAME_PREFIX + "buttoncreditsdown";
     
-    private static final String GUI_MAIN_MENU_DIR = GRAPHICS_GUI_DIR + "mainmenu/";
-    public static final String GUI_MAIN_MENU_TITLE_TEXTURE = GUI_MAIN_MENU_DIR + "title.png";
-    public static final String GUI_MAIN_MENU_BUTTON_START_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartup.png";
-    public static final String GUI_MAIN_MENU_BUTTON_START_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttonstartdown.png";
-    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttonhighscoreup.png";
-    public static final String GUI_MAIN_MENU_BUTTON_HIGH_SCORE_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttonhighscoredown.png";
-    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_UP_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsup.png";
-    public static final String GUI_MAIN_MENU_BUTTON_CREDITS_DOWN_TEXTURE = GUI_MAIN_MENU_DIR + "buttoncreditsdown.png";
+    private static final String GUI_PLAY_IMAGE_NAME_PREFIX = "play/";
+    public static final String GUI_PLAY_PAUSE_UP_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "pauseup";
+    public static final String GUI_PLAY_PAUSE_DOWN_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "pausedown";
+    public static final String GUI_PLAY_PLAY_UP_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "playup";
+    public static final String GUI_PLAY_PLAY_DOWN_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "playdown";
+    public static final String GUI_PLAY_LIVES_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "lives";
+    public static final String GUI_PLAY_END_LINE_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "endline";
+    public static final String GUI_PLAY_POSITION_SCROLL_LINE_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "positionscrollline";
+    public static final String GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "positionscrolllineabove";
+    public static final String GUI_PLAY_POSITION_SCROLL_BOX_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "positionscrollbox";
+    public static final String GUI_PLAY_POSITION_SCROLL_END_LINE_IMAGE_NAME = GUI_PLAY_IMAGE_NAME_PREFIX + "positionscrollendline";
     
-    private static final String GUI_GENERAL_DIR = GRAPHICS_GUI_DIR + "general/";
-    public static final String GUI_GENERAL_BLACK_TEXTURE = GUI_GENERAL_DIR + "black.png";
-    public static final String GUI_GENERAL_WHITE_TEXTURE = GUI_GENERAL_DIR + "white.png";
-    public static final String GUI_GENERAL_TURBO_GERM_LOGO_TEXTURE = GUI_GENERAL_DIR + "turbogermlogo.png";
-    public static final String GUI_GENERAL_LIBGDX_LOGO_TEXTURE = GUI_GENERAL_DIR + "libgdxlogo.png";
-    
-    private static final String GUI_PLAY_DIR = GRAPHICS_GUI_DIR + "play/";
-    public static final String GUI_PLAY_PAUSE_UP_TEXTURE = GUI_PLAY_DIR + "pauseup.png";
-    public static final String GUI_PLAY_PAUSE_DOWN_TEXTURE = GUI_PLAY_DIR + "pausedown.png";
-    public static final String GUI_PLAY_PLAY_UP_TEXTURE = GUI_PLAY_DIR + "playup.png";
-    public static final String GUI_PLAY_PLAY_DOWN_TEXTURE = GUI_PLAY_DIR + "playdown.png";
-    public static final String GUI_PLAY_LIVES_TEXTURE = GUI_PLAY_DIR + "lives.png";
-    public static final String GUI_PLAY_END_LINE_TEXTURE = GUI_PLAY_DIR + "endline.png";
-    public static final String GUI_PLAY_POSITION_SCROLL_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollline.png";
-    public static final String GUI_PLAY_POSITION_SCROLL_LINE_ABOVE_TEXTURE = GUI_PLAY_DIR + "positionscrolllineabove.png";
-    public static final String GUI_PLAY_POSITION_SCROLL_BOX_TEXTURE = GUI_PLAY_DIR + "positionscrollbox.png";
-    public static final String GUI_PLAY_POSITION_SCROLL_END_LINE_TEXTURE = GUI_PLAY_DIR + "positionscrollendline.png";
-    
-    public static final String GUI_BUTTON_BACK_UP_TEXTURE = GRAPHICS_GUI_DIR + "buttonbackup.png";
-    public static final String GUI_BUTTON_BACK_DOWN_TEXTURE = GRAPHICS_GUI_DIR + "buttonbackdown.png";
-    public static final String GUI_BUTTON_CONTINUE_UP_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinueup.png";
-    public static final String GUI_BUTTON_CONTINUE_DOWN_TEXTURE = GRAPHICS_GUI_DIR + "buttoncontinuedown.png";
+    public static final String GUI_BUTTON_BACK_UP_IMAGE_NAME = "buttonbackup";
+    public static final String GUI_BUTTON_BACK_DOWN_IMAGE_NAME = "buttonbackdown";
+    public static final String GUI_BUTTON_CONTINUE_UP_IMAGE_NAME = "buttoncontinueup";
+    public static final String GUI_BUTTON_CONTINUE_DOWN_IMAGE_NAME = "buttoncontinuedown";
     
     public static final String PLATFORMS_ATLAS = GRAPHICS_PACKED_DIR + "platforms.atlas";
     public static final String PLATFORM_FIRE_IMAGE_NAME = "platformfire";

@@ -3,6 +3,7 @@ package com.turbogerm.hellhopper.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -32,10 +33,13 @@ public final class CreditsScreen extends ScreenBase {
         float offsetFromTop = addTitleLabel();
         addTextLabel(offsetFromTop);
         
+        TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        
         CustomImageButton button = new CustomImageButton(
                 BUTTON_X, BUTTON_Y,
-                ResourceNames.GUI_BUTTON_BACK_UP_TEXTURE,
-                ResourceNames.GUI_BUTTON_BACK_DOWN_TEXTURE,
+                atlas,
+                ResourceNames.GUI_BUTTON_BACK_UP_IMAGE_NAME,
+                ResourceNames.GUI_BUTTON_BACK_DOWN_IMAGE_NAME,
                 getBackAction(),
                 mAssetManager);
         button.addToStage(mGuiStage);

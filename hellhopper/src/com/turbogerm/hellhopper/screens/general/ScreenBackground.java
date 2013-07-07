@@ -2,7 +2,6 @@ package com.turbogerm.hellhopper.screens.general;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -27,12 +26,12 @@ public final class ScreenBackground {
     public ScreenBackground(AssetManager assetManager) {
         mSpectrumColorInterpolator = new SpectrumColorInterpolator(getBackgroundColorSpectrum());
         
-        Texture whiteTexture = assetManager.get(ResourceNames.GUI_GENERAL_WHITE_TEXTURE);
-        mBackgroundColorSprite = new Sprite(whiteTexture);
+        TextureAtlas graphicsGuiAtlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mBackgroundColorSprite = graphicsGuiAtlas.createSprite(ResourceNames.GUI_GENERAL_WHITE_IMAGE_NAME);
         mBackgroundColorSprite.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         
-        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
-        mBackgroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
+        TextureAtlas backgroundAtlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
+        mBackgroundSprite = backgroundAtlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
     }
     
     public void reset() {

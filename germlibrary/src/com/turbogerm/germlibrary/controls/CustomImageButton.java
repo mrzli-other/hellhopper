@@ -1,7 +1,8 @@
 package com.turbogerm.germlibrary.controls;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,23 +21,26 @@ public final class CustomImageButton {
     private final ObjectMap<Integer, ImageButtonStyle> mStyles;
     
     public CustomImageButton(float positionX, float positionY,
+            TextureAtlas textureAtlas,
             String upTexturePath, String downTexturePath, CustomButtonAction action,
             AssetManager assetManager) {
         
         this(positionX, positionY,
+                textureAtlas,
                 createSingleStyleData(upTexturePath, downTexturePath),
                 action, assetManager);
     }
     
     public CustomImageButton(float positionX, float positionY,
+            TextureAtlas textureAtlas,
             Array<CustomImageButtonStyleData> stylesData, CustomButtonAction action,
             AssetManager assetManager) {
         
-        mStyles = getStyles(stylesData, assetManager);
+        mStyles = getStyles(textureAtlas, stylesData, assetManager);
         
-        Texture texture = assetManager.get(stylesData.get(0).getUpTexturePath());
-        float width = texture.getWidth();
-        float height = texture.getHeight();
+        AtlasRegion region = textureAtlas.findRegion(stylesData.get(0).getUpImageName());
+        float width = region.getRegionWidth();
+        float height = region.getRegionHeight();
         
         mButton = new ImageButton(mStyles.values().next());
         
@@ -62,27 +66,28 @@ public final class CustomImageButton {
     }
     
     private static ObjectMap<Integer, ImageButtonStyle> getStyles(
+            TextureAtlas textureAtlas,
             Array<CustomImageButtonStyleData> stylesData, AssetManager assetManager) {
         
         ObjectMap<Integer, ImageButtonStyle> styles = new ObjectMap<Integer, ImageButtonStyle>(stylesData.size);
         for (CustomImageButtonStyleData styleData : stylesData) {
-            ImageButtonStyle style = getStyle(
-                    styleData.getUpTexturePath(), styleData.getDownTexturePath(), assetManager);
+            ImageButtonStyle style = getStyle(textureAtlas,
+                    styleData.getUpImageName(), styleData.getDownImageName(), assetManager);
             styles.put(styleData.getId(), style);
         }
         
         return styles;
     }
     
-    private static ImageButtonStyle getStyle(String upTexturePath, String downTexturePath, AssetManager assetManager) {
-        Drawable upDrawable = getDrawable(upTexturePath, assetManager);
-        Drawable downDrawable = getDrawable(downTexturePath, assetManager);
+    private static ImageButtonStyle getStyle(TextureAtlas textureAtlas,
+            String upImageName, String downImageName, AssetManager assetManager) {
+        Drawable upDrawable = getDrawable(textureAtlas, upImageName, assetManager);
+        Drawable downDrawable = getDrawable(textureAtlas, downImageName, assetManager);
         return new ImageButtonStyle(null, null, null, upDrawable, downDrawable, null);
     }
     
-    private static Drawable getDrawable(String texturePath, AssetManager assetManager) {
-        Texture texture = assetManager.get(texturePath);
-        TextureRegion textureRegion = new TextureRegion(texture);
+    private static Drawable getDrawable(TextureAtlas textureAtlas, String imageName, AssetManager assetManager) {
+        TextureRegion textureRegion = textureAtlas.findRegion(imageName);
         return new TextureRegionDrawable(textureRegion);
     }
     

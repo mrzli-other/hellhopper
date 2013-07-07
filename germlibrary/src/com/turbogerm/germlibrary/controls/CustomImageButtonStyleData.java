@@ -3,24 +3,24 @@ package com.turbogerm.germlibrary.controls;
 public final class CustomImageButtonStyleData {
     
     private final int mId;
-    private final String mUpTexturePath;
-    private final String mDownTexturePath;
+    private final String mUpImageName;
+    private final String mDownImageName;
     
-    public CustomImageButtonStyleData(int id, String upTexturePath, String downTexturePath) {
+    public CustomImageButtonStyleData(int id, String upImageName, String downImageName) {
         mId = id;
-        mUpTexturePath = upTexturePath;
-        mDownTexturePath = downTexturePath;
+        mUpImageName = upImageName;
+        mDownImageName = downImageName;
     }
     
     public int getId() {
         return mId;
     }
     
-    public String getUpTexturePath() {
-        return mUpTexturePath;
+    public String getUpImageName() {
+        return mUpImageName;
     }
     
-    public String getDownTexturePath() {
-        return mDownTexturePath;
+    public String getDownImageName() {
+        return mDownImageName;
     }
 }

@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.screens.splash;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.HellHopper;
@@ -26,8 +26,8 @@ public final class SplashFade {
     private boolean mIsFadeOutStarted;
     
     public SplashFade(AssetManager assetManager) {
-        Texture blackTexture = assetManager.get(ResourceNames.GUI_GENERAL_BLACK_TEXTURE);
-        mBlackSprite = new Sprite(blackTexture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mBlackSprite = atlas.createSprite(ResourceNames.GUI_GENERAL_BLACK_IMAGE_NAME);
         mBlackSprite.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
     }
     

@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.screens.general;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class TurboGermLogo {
@@ -15,8 +15,8 @@ public final class TurboGermLogo {
     
     public TurboGermLogo(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.GUI_GENERAL_TURBO_GERM_LOGO_TEXTURE);
-        mSprite = new Sprite(texture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
+        mSprite = atlas.createSprite(ResourceNames.GUI_GENERAL_TURBO_GERM_LOGO_IMAGE_NAME);
         mSprite.setPosition(OFFSET_X, OFFSET_Y);
     }
     

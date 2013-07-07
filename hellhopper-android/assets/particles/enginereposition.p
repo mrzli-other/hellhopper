@@ -105,4 +105,4 @@ aligned: false
 additive: true
 behind: false
 - Image Path -
-D:\Programming\Java\Games\HellHopper\hellhopper-android\assets\particles\particlediamond.png
+particlereposition.png

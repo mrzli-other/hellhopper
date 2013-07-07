@@ -4,9 +4,9 @@ import java.util.Comparator;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -69,10 +69,12 @@ public abstract class PlatformBase {
         mRiseSectionId = riseSectionId;
         mPlatformId = platformData.getId();
         
-        Texture texture = assetManager.get(getTexturePath(platformData));
         mInitialPosition =  platformData.getPosition(startStep);
         
-        mSprite = new Sprite(texture);
+        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_TEXTURE_ATLAS);
+        
+        String imageName = getImageName(platformData);
+        mSprite = platformsAtlas.createSprite(imageName);
         mSprite.setBounds(mInitialPosition.x, mInitialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
         mPlatformModifier = new PlatformModifier();
@@ -240,12 +242,12 @@ public abstract class PlatformBase {
         return mPlatformMovement.getPosition();
     }
     
-    private static String getTexturePath(PlatformData platformData) {
+    private static String getImageName(PlatformData platformData) {
         String platformType = platformData.getPlatformType();
         if (PlatformData.CRUMBLE_TYPE.equals(platformType)) {
-            return ResourceNames.PLATFORM_CRUMBLE_TEXTURE;
+            return ResourceNames.PLATFORM_CRUMBLE_IMAGE_NAME;
         } else {
-            return ResourceNames.getRandomPlatformNormalTexture();
+            return ResourceNames.getRandomPlatformNormalImageName();
         }
     }
     

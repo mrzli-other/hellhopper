@@ -78,13 +78,8 @@ public final class Resources {
         mAssetManager.load(ResourceNames.CHARACTER_FART_DISCHARGE_TEXTURE, Texture.class, textureParameterLinear);
         
         // PLATFORMS
-        for (int i = 0; i < ResourceNames.PLATFORM_NORMAL_TEXTURE_COUNT; i++) {
-            mAssetManager.load(ResourceNames.getPlatformNormalTexture(i), Texture.class, textureParameterLinear);
-        }
+        mAssetManager.load(ResourceNames.PLATFORMS_TEXTURE_ATLAS, TextureAtlas.class);
         
-        mAssetManager.load(ResourceNames.PLATFORM_CRUMBLE_TEXTURE, Texture.class, textureParameterLinear);
-        
-        mAssetManager.load(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS, TextureAtlas.class);
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_NORMAL_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.PLATFORM_ENGINE_REPOSITION_TEXTURE, Texture.class, textureParameterLinear);
         mAssetManager.load(ResourceNames.PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE, Texture.class, textureParameterLinear);

@@ -20,7 +20,6 @@ final class FlamePlatformFeature extends PlatformFeatureBase {
     private static final float RENDER_PRECEDENCE = 2.0f;
     private static final float CONTACT_PRECEDENCE = 2.0f;
     
-    private static final String FIRE_IMAGE_NAME = "platformfire";
     private static final float FIRE_FRAME_DURATION = 0.15f;
     private static final float FIRE_SPRITE_WIDTH = 2.0f;
     private static final float FIRE_SPRITE_HEIGHT = 0.6f;
@@ -58,8 +57,8 @@ final class FlamePlatformFeature extends PlatformFeatureBase {
         mFlameStateMachine = new FlameStateMachine(flameDuration, dormantDuration, transitionDuration);
         mIsFlameActive = false;
         
-        TextureAtlas fireAtlas = assetManager.get(ResourceNames.PLATFORM_FIRE_TEXTURE_ATLAS);
-        Array<AtlasRegion> fireAtlasRegions = fireAtlas.findRegions(FIRE_IMAGE_NAME);
+        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_TEXTURE_ATLAS);
+        Array<AtlasRegion> fireAtlasRegions = platformsAtlas.findRegions(ResourceNames.PLATFORM_FIRE_IMAGE_NAME);
         mFireAnimation = new Animation(FIRE_FRAME_DURATION, fireAtlasRegions, Animation.LOOP);
         mFireAnimationTime = 0.0f;
         

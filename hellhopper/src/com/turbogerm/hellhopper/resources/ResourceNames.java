@@ -17,6 +17,8 @@ public final class ResourceNames {
     // graphics
     private static final String GRAPHICS_DIR = "graphics/";
     
+    private static final String GRAPHICS_PACKED_DIR = GRAPHICS_DIR + "packed/";
+    
     private static final String GRAPHICS_GENERAL_DIR = GRAPHICS_DIR + "general/";
     public static final String GENERAL_BLACK_TEXTURE = GRAPHICS_GENERAL_DIR + "black.png";
     public static final String GENERAL_WHITE_TEXTURE = GRAPHICS_GENERAL_DIR + "white.png";
@@ -72,9 +74,11 @@ public final class ResourceNames {
         return String.format(ResourceNames.CHARACTER_EYES_NORMAL_TEXTURE_NAME_FORMAT, index);
     }
     
+    public static final String PLATFORMS_TEXTURE_ATLAS = GRAPHICS_PACKED_DIR + "platforms.atlas";
+    public static final String PLATFORM_FIRE_IMAGE_NAME = "platformfire";
+    public static final String PLATFORM_CRUMBLE_IMAGE_NAME = "crumbleplatform";
+    
     private static final String PLATFORMS_DIR = GRAPHICS_DIR + "platforms/";
-    public static final String PLATFORM_CRUMBLE_TEXTURE = PLATFORMS_DIR + "crumbleplatform.png";
-    public static final String PLATFORM_FIRE_TEXTURE_ATLAS = PLATFORMS_DIR + "platformfire.atlas";
     public static final String PLATFORM_ENGINE_NORMAL_TEXTURE = PLATFORMS_DIR + "enginenormal.png";
     public static final String PLATFORM_ENGINE_REPOSITION_TEXTURE = PLATFORMS_DIR + "enginereposition.png";
     public static final String PLATFORM_JUMP_BOOST_CRATER_LOW_TEXTURE = PLATFORMS_DIR + "jumpboostcraterlow.png";
@@ -84,16 +88,16 @@ public final class ResourceNames {
     public static final String PLATFORM_JUMP_BOOST_CRATER_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostcraterhigh.png";
     public static final String PLATFORM_JUMP_BOOST_DISCHARGE_HIGH_TEXTURE = PLATFORMS_DIR + "jumpboostdischargehigh.png";
     
-    private static final String PLATFORM_NORMAL_TEXTURE_NAME_FORMAT = PLATFORMS_DIR + "normalplatform%02d.png";
-    public static final int PLATFORM_NORMAL_TEXTURE_COUNT = 5;
+    private static final String PLATFORM_NORMAL_IMAGE_NAME_FORMAT = "normalplatform%02d";
+    public static final int PLATFORM_NORMAL_IMAGE_COUNT = 5;
     
-    public static String getPlatformNormalTexture(int index) {
-        return String.format(ResourceNames.PLATFORM_NORMAL_TEXTURE_NAME_FORMAT, index);
+    private static String getPlatformNormalImageName(int index) {
+        return String.format(ResourceNames.PLATFORM_NORMAL_IMAGE_NAME_FORMAT, index);
     }
     
-    public static String getRandomPlatformNormalTexture() {
-        int index = MathUtils.random(PLATFORM_NORMAL_TEXTURE_COUNT - 1);
-        return getPlatformNormalTexture(index);
+    public static String getRandomPlatformNormalImageName() {
+        int index = MathUtils.random(PLATFORM_NORMAL_IMAGE_COUNT - 1);
+        return getPlatformNormalImageName(index);
     }
     
     private static final String ENEMIES_DIR = GRAPHICS_DIR + "enemies/";

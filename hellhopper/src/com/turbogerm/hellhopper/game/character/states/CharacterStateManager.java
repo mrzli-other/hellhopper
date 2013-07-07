@@ -34,13 +34,17 @@ public final class CharacterStateManager {
         }
         
         mCurrentState = mCharacterStates.get(NORMAL_CHARACTER_STATE);
-        mCurrentState.start();
+        mCurrentState.start(null);
     }
     
     public void changeState(String state) {
+        changeState(state, null);
+    }
+    
+    public void changeState(String state, CharacterStateChangeData changeData) {
         mCurrentState.end();
         mCurrentState = mCharacterStates.get(state);
-        mCurrentState.start();
+        mCurrentState.start(changeData);
     }
     
     public CharacterStateBase getCurrentState() {

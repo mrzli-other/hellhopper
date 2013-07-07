@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.germlibrary.util.Pools;
+import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.game.CollisionEffects;
 import com.turbogerm.hellhopper.game.GameArea;
 import com.turbogerm.hellhopper.game.PlatformToCharCollisionData;
@@ -54,6 +55,8 @@ final class NormalCharacterState extends CharacterStateBase {
     private final CharCollisionData mCharCollisionData;
     private final CollisionEffects mCollisionEffects;
     
+    private final CharacterStateChangeData mCharacterStateChangeData;
+    
     private final Sound mJumpSound;
     private final Sound mJumpBoostSound;
     private final Sound mCoinSound;
@@ -78,6 +81,8 @@ final class NormalCharacterState extends CharacterStateBase {
         
         mCharCollisionData = new CharCollisionData();
         mCollisionEffects = new CollisionEffects();
+        
+        mCharacterStateChangeData = new CharacterStateChangeData();
         
         mJumpSound = assetManager.get(ResourceNames.SOUND_JUMP);
         mJumpBoostSound = assetManager.get(ResourceNames.SOUND_JUMP_BOOST);
@@ -322,7 +327,10 @@ final class NormalCharacterState extends CharacterStateBase {
             if (enemy.isCollision(mRect)) {
                 if (characterEffects.getLives() <= 0) {
                     mIsDying = true;
-                    changeState(CharacterStateManager.DYING_ENEMY_CHARACTER_STATE);
+                    mCharacterStateChangeData.clear();
+                    mCharacterStateChangeData.setData(
+                            CharacterStateChangeData.IS_SAW_KEY, EnemyData.SAW_TYPE.equals(enemy.getType()));
+                    changeState(CharacterStateManager.DYING_ENEMY_CHARACTER_STATE, mCharacterStateChangeData);
                 } else {
                     characterEffects.subtractLife();
                     characterEffects.setShield(DEATH_SHIELD_DURATION);

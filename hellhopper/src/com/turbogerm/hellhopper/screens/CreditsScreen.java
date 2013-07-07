@@ -1,6 +1,8 @@
 package com.turbogerm.hellhopper.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -82,39 +84,14 @@ public final class CreditsScreen extends ScreenBase {
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         labelStyle.font = mGuiSkin.getFont("medium-font");
         
-        StringBuilder sb = new StringBuilder();
-        sb.append("Created by: Goran Mrzljak\n");
-        sb.append("  (goran.mrzljak@gmail.com)\n\n");
-        sb.append("Credits for original resources\n");
-        sb.append("  (I modified most of them):\n");
-        sb.append("Flame on platform animation -\n");
-        sb.append("  Zabin and Jetrel (opengameart.com)\n");
-        sb.append("Jump sound - jorickhoofd\n");
-        sb.append("  (freesound.org; id: 169551)\n");
-        sb.append("Jump Boost sound - jesabat\n");
-        sb.append("  (freesound.org; id: 119741)\n");
-        sb.append("Coin sound - fins\n");
-        sb.append("  (freesound.org; id: 146723)\n");
-        sb.append("Item sound - cameronmusic\n");
-        sb.append("  (freesound.org; id: 138410)\n");
-        sb.append("Fart sound - smokenweewALT\n");
-        sb.append("  (freesound.org; id: 177050)\n");
-        sb.append("Enemy sound - anwul\n");
-        sb.append("  (freesound.org; id: 185366)\n");
-        sb.append("Fire sound - urupin\n");
-        sb.append("  (freesound.org; id: 178813)\n");
-        sb.append("Fall sound - silversatyr\n");
-        sb.append("  (freesound.org; id: 113366)\n");
-        sb.append("Sheep sound - reinsamba\n");
-        sb.append("  (freesound.org; id: 57796)\n");
+        FileHandle creditsFileHandle = Gdx.files.internal(ResourceNames.CREDITS);
+        String creditsText = creditsFileHandle.readString();
         
-        String text = sb.toString();
-        
-        TextBounds textBounds = labelStyle.font.getMultiLineBounds(text);
+        TextBounds textBounds = labelStyle.font.getMultiLineBounds(creditsText);
         final float padding = 5.0f;
         final float labelHeight = textBounds.height + padding;
         
-        Label textLabel = new Label(text, mGuiSkin);
+        Label textLabel = new Label(creditsText, mGuiSkin);
         textLabel.setBounds(padding, HellHopper.VIEWPORT_HEIGHT - offsetFromTop - labelHeight,
                 HellHopper.VIEWPORT_WIDTH, labelHeight);
         textLabel.setStyle(labelStyle);

@@ -15,9 +15,12 @@ public abstract class EnemyBase {
     
     protected final Sprite mSprite;
     
+    private final String mType;
+    
     public EnemyBase(EnemyData enemyData, String imageName, int startStep, AssetManager assetManager) {
         
         Vector2 initialPosition = enemyData.getPosition(startStep);
+        mType = enemyData.getType();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.ENEMIES_ATLAS);
         mSprite = atlas.createSprite(imageName);
@@ -35,5 +38,9 @@ public abstract class EnemyBase {
     
     public boolean isCollision(Rectangle rect) {
         return false;
+    }
+    
+    public String getType() {
+        return mType;
     }
 }

@@ -27,7 +27,7 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 50;
+    private static final int RISE_HEIGHT_STEPS = 5000;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
@@ -133,28 +133,28 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testfall");
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
 //        
 //        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knight00normal");
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-//        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
-//            String name = riseSectionData.getName();
+        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
+            String name = riseSectionData.getName();
 //            if (!name.startsWith("knight")) {
 //                continue;
 //            }
-//                
-//            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
-//            riseSectionsData.add(currRiseSection);
-//            stepsInRise += currRiseSection.getStepRange();
-//            
-//            currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection(name);
-//            riseSectionsData.add(currRiseSection);
-//            stepsInRise += currRiseSection.getStepRange();
-//        }
+                
+            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+            riseSectionsData.add(currRiseSection);
+            stepsInRise += currRiseSection.getStepRange();
+            
+            currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection(name);
+            riseSectionsData.add(currRiseSection);
+            stepsInRise += currRiseSection.getStepRange();
+        }
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);

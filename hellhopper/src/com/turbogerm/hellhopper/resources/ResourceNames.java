@@ -6,6 +6,8 @@ public final class ResourceNames {
     
     // data
     private static final String DATA_DIR = "data/";
+    public static final String CREDITS = DATA_DIR + "credits.txt";
+    
     private static final String RISE_SECTIONS_DIR = DATA_DIR + "risesections/";
     public static final String RISE_SECTIONS_DATA = RISE_SECTIONS_DIR + "risesections.txt";
     public static final String RISE_SECTIONS_METADATA = RISE_SECTIONS_DIR + "risesectionsmeta.xml";
@@ -148,6 +150,7 @@ public final class ResourceNames {
     public static final String SOUND_COIN = SOUNDS_DIR + "coin.mp3";
     public static final String SOUND_ITEM = SOUNDS_DIR + "item.mp3";
     public static final String SOUND_ENEMY = SOUNDS_DIR + "enemy.mp3";
+    public static final String SOUND_SAW = SOUNDS_DIR + "saw.mp3";
     public static final String SOUND_FIRE = SOUNDS_DIR + "fire.mp3";
     public static final String SOUND_FALL = SOUNDS_DIR + "fall.mp3";
     

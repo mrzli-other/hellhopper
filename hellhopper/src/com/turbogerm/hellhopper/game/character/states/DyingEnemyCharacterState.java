@@ -24,7 +24,10 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     private boolean mIsMovingPhaseStarted;
     private float mHorizontalSpeed;
     
+    private final Sound mSawSound;
     private final Sound mEnemySound;
+    
+    private boolean mIsSawDeath;
     
     public DyingEnemyCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
         super(characterStateManager);
@@ -33,6 +36,7 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
         mCharacterEyesGraphics = new CharacterEyesGraphicsStunned(assetManager);
         
+        mSawSound = assetManager.get(ResourceNames.SOUND_SAW);
         mEnemySound = assetManager.get(ResourceNames.SOUND_ENEMY);
     }
     
@@ -90,12 +94,21 @@ final class DyingEnemyCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public void start() {
-        mEnemySound.play();
+    public void start(CharacterStateChangeData changeData) {
+        mIsSawDeath = changeData.getData(CharacterStateChangeData.IS_SAW_KEY);
+        if (mIsSawDeath) {
+            mSawSound.play();
+        } else {
+            mEnemySound.play();
+        }
     }
     
     @Override
     public void end() {
-        mEnemySound.stop();
+        if (mIsSawDeath) {
+            mSawSound.stop();
+        } else {
+            mEnemySound.stop();
+        }
     }
 }

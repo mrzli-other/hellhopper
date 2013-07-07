@@ -85,6 +85,7 @@ public final class Resources {
         mAssetManager.load(ResourceNames.SOUND_COIN, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_ITEM, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_ENEMY, Sound.class);
+        mAssetManager.load(ResourceNames.SOUND_SAW, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_FIRE, Sound.class);
         mAssetManager.load(ResourceNames.SOUND_FALL, Sound.class);
         for (int i = 0; i < ResourceNames.SOUND_SHEEP_COUNT; i++) {

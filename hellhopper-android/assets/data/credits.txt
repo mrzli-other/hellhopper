@@ -1,0 +1,27 @@
+Created by: Goran Mrzljak
+  (goran.mrzljak@gmail.com)
+  
+Credits for original resources
+  (I modified most of them):
+Flame on platform animation -
+  Zabin and Jetrel (opengameart.com)
+Jump sound - jorickhoofd
+  (freesound.org; id: 169551)
+Jump Boost sound - jesabat
+  (freesound.org; id: 119741)
+Coin sound - fins
+  (freesound.org; id: 146723)
+Item sound - cameronmusic
+  (freesound.org; id: 138410
+Fart sound - smokenweewALT
+  (freesound.org; id: 177050
+Enemy sound - anwul
+  (freesound.org; id: 185366
+Saw sound - Benboncan
+  (freesound.org; id: 60178)
+Fire sound - urupin
+  (freesound.org; id: 178813)
+Fall sound - silversatyr
+  (freesound.org; id: 113366)
+Sheep sound - reinsamba
+  (freesound.org; id: 57796)

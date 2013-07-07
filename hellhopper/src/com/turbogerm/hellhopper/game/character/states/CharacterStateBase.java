@@ -22,7 +22,7 @@ public abstract class CharacterStateBase {
     public void render(CharacterStateRenderData renderData) {
     }
     
-    public void start() {
+    public void start(CharacterStateChangeData changeData) {
     }
     
     public void end() {
@@ -34,6 +34,10 @@ public abstract class CharacterStateBase {
     
     protected void changeState(String state) {
         mCharacterStateManager.changeState(state);
+    }
+    
+    protected void changeState(String state, CharacterStateChangeData changeData) {
+        mCharacterStateManager.changeState(state, changeData);
     }
     
     protected static void updatePositionAndSpeed(

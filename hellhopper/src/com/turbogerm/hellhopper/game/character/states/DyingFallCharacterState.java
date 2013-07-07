@@ -74,7 +74,7 @@ final class DyingFallCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public void start() {
+    public void start(CharacterStateChangeData changeData) {
         mFallSound.play();
     }
     

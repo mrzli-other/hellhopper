@@ -86,7 +86,7 @@ final class DyingFireCharacterState extends CharacterStateBase {
     }
     
     @Override
-    public void start() {
+    public void start(CharacterStateChangeData changeData) {
         mFireSound.play();
     }
     

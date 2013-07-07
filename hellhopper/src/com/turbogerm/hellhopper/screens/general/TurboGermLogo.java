@@ -15,7 +15,7 @@ public final class TurboGermLogo {
     
     public TurboGermLogo(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.GENERAL_TURBO_GERM_LOGO_TEXTURE);
+        Texture texture = assetManager.get(ResourceNames.GUI_GENERAL_TURBO_GERM_LOGO_TEXTURE);
         mSprite = new Sprite(texture);
         mSprite.setPosition(OFFSET_X, OFFSET_Y);
     }

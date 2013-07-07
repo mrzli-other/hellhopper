@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.ColorPositionPair;
 import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
@@ -19,18 +20,19 @@ public final class ScreenBackground {
     private final SpectrumColorInterpolator mSpectrumColorInterpolator;
     
     private final Sprite mBackgroundColorSprite;
-    private final Texture mBackgroundTexture;
+    private final Sprite mBackgroundSprite;
     
     private float mInternalTime;
     
     public ScreenBackground(AssetManager assetManager) {
         mSpectrumColorInterpolator = new SpectrumColorInterpolator(getBackgroundColorSpectrum());
         
-        Texture whiteTexture = assetManager.get(ResourceNames.GENERAL_WHITE_TEXTURE);
+        Texture whiteTexture = assetManager.get(ResourceNames.GUI_GENERAL_WHITE_TEXTURE);
         mBackgroundColorSprite = new Sprite(whiteTexture);
         mBackgroundColorSprite.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
         
-        mBackgroundTexture = assetManager.get(ResourceNames.BACKGROUND_TEXTURE);
+        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
+        mBackgroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
     }
     
     public void reset() {
@@ -51,7 +53,7 @@ public final class ScreenBackground {
     
     public void render(SpriteBatch batch) {
         mBackgroundColorSprite.draw(batch);
-        batch.draw(mBackgroundTexture, 0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
+        mBackgroundSprite.draw(batch);
     }
     
     private static Array<ColorPositionPair> getBackgroundColorSpectrum() {

@@ -14,7 +14,7 @@ final class SignetItem extends ItemBase {
     private final Circle mCollisionCircle;
     
     public SignetItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_SIGNET_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_SIGNET_IMAGE_NAME, startStep, assetManager);
         
         mCollisionCircle = new Circle();
         

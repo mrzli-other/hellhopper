@@ -13,7 +13,7 @@ final class BeansItem extends ItemBase {
     private final Rectangle mCollisionRect;
     
     public BeansItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_BEANS_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_BEANS_IMAGE_NAME, startStep, assetManager);
         
         mCollisionRect = new Rectangle();
         

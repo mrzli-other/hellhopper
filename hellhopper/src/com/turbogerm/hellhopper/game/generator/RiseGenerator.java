@@ -27,7 +27,7 @@ import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 5000;
+    private static final int RISE_HEIGHT_STEPS = 50;
     private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
     private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
@@ -133,7 +133,7 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
+//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testfall");
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
 //        

@@ -35,10 +35,10 @@ public final class Resources {
         textureParameterNearest.genMipMaps = false;
         
         // GENERAL
-        mAssetManager.load(ResourceNames.GENERAL_BLACK_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GENERAL_WHITE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.GENERAL_TURBO_GERM_LOGO_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.GENERAL_LIBGDX_LOGO_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GUI_GENERAL_BLACK_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_GENERAL_WHITE_TEXTURE, Texture.class, textureParameterLinear);
+        mAssetManager.load(ResourceNames.GUI_GENERAL_TURBO_GERM_LOGO_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.GUI_GENERAL_LIBGDX_LOGO_TEXTURE, Texture.class, textureParameterNearest);
         
         // GUI
         mAssetManager.load(ResourceNames.GUI_SPLASH_TITLE_TEXTURE, Texture.class, textureParameterNearest);
@@ -65,39 +65,11 @@ public final class Resources {
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_UP_TEXTURE, Texture.class, textureParameterNearest);
         mAssetManager.load(ResourceNames.GUI_BUTTON_CONTINUE_DOWN_TEXTURE, Texture.class, textureParameterNearest);
         
-        // CHARACTER
-        mAssetManager.load(ResourceNames.CHARACTER_ATLAS, TextureAtlas.class);
-        
-        // PLATFORMS
         mAssetManager.load(ResourceNames.PLATFORMS_ATLAS, TextureAtlas.class);
-        
-        // ENEMIES
-        mAssetManager.load(ResourceNames.ENEMY_SAW_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.ENEMY_IMP_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.ENEMY_LOCO_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.ENEMY_KNIGHT_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.ENEMY_EVIL_TWIN_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.ENEMY_COOL_CLERK_TEXTURE, Texture.class, textureParameterNearest);
-        
-        // ITEMS
-        mAssetManager.load(ResourceNames.ITEM_BEANS_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_SHIELD_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_JUMP_SUIT_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_LIFE_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_COIN_COPPER_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_COIN_SILVER_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_COIN_GOLD_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_SIGNET_TEXTURE, Texture.class, textureParameterLinear);
-        mAssetManager.load(ResourceNames.ITEM_BLACK_BOX_TEXTURE, Texture.class, textureParameterLinear);
-        
-        // BACKGROUND
-        mAssetManager.load(ResourceNames.BACKGROUND_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_SKY_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_SUN_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_CLOUDS_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_MOUNTAINS_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_GROUND_TEXTURE, Texture.class, textureParameterNearest);
-        mAssetManager.load(ResourceNames.BACKGROUND_END_SHEEP_TEXTURE, Texture.class, textureParameterNearest);
+        mAssetManager.load(ResourceNames.CHARACTER_ATLAS, TextureAtlas.class);
+        mAssetManager.load(ResourceNames.ENEMIES_ATLAS, TextureAtlas.class);
+        mAssetManager.load(ResourceNames.ITEMS_ATLAS, TextureAtlas.class);
+        mAssetManager.load(ResourceNames.BACKGROUND_ATLAS, TextureAtlas.class);
         
         // PARTICLES
         ParticleEffectParameter particleEffectParameter = new ParticleEffectParameter();

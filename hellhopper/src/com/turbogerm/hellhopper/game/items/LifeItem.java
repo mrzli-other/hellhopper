@@ -11,7 +11,7 @@ final class LifeItem extends ItemBase {
     private final Rectangle mCollisionRect;
     
     public LifeItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_LIFE_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_LIFE_IMAGE_NAME, startStep, assetManager);
         
         mCollisionRect = new Rectangle();
         

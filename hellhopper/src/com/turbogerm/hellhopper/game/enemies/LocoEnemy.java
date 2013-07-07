@@ -21,7 +21,7 @@ final class LocoEnemy extends EnemyBase {
     private final Rectangle mCollisionRect;
     
     public LocoEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_LOCO_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_LOCO_IMAGE_NAME, startStep, assetManager);
         
         mTravelPeriod = Float.parseFloat(enemyData.getProperty(EnemyData.TRAVEL_PERIOD_PROPERTY));
         mTravelHalfPeriod = mTravelPeriod / 2.0f;

@@ -16,7 +16,7 @@ public final class LibGdxLogo {
     
     public LibGdxLogo(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.GENERAL_LIBGDX_LOGO_TEXTURE);
+        Texture texture = assetManager.get(ResourceNames.GUI_GENERAL_LIBGDX_LOGO_TEXTURE);
         mSprite = new Sprite(texture);
         
         float offsetX = HellHopper.VIEWPORT_WIDTH - mSprite.getWidth() - RIGHT_OFFSET_X;

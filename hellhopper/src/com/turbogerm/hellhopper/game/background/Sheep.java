@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.game.background;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
@@ -40,13 +40,12 @@ final class Sheep {
     
     public Sheep(AssetManager assetManager) {
         
-        Texture texture = assetManager.get(ResourceNames.BACKGROUND_END_SHEEP_TEXTURE);
-        mSprite = new Sprite(texture);
+        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
+        mSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_SHEEP_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mSprite, GameAreaUtils.PIXEL_TO_METER);
         
         mPosition = new Vector2();
-        mSize = new Vector2(
-                texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mSize = new Vector2(mSprite.getWidth(), mSprite.getHeight());
         mSpeed = new Vector2();
         
         mSprite.setSize(mSize.x, mSize.y);

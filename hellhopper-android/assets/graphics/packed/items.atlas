@@ -1,0 +1,68 @@
+
+items.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beans
+  rotate: false
+  xy: 1, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+blackbox
+  rotate: false
+  xy: 43, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+coincopper
+  rotate: false
+  xy: 85, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+coingold
+  rotate: false
+  xy: 127, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+coinsilver
+  rotate: false
+  xy: 169, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+life
+  rotate: false
+  xy: 211, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+shield
+  rotate: false
+  xy: 253, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+signet
+  rotate: false
+  xy: 295, 1
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+jumpsuit
+  rotate: false
+  xy: 337, 11
+  size: 34, 30
+  orig: 34, 30
+  offset: 0, 0
+  index: -1

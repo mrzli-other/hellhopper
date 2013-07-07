@@ -2,11 +2,11 @@ package com.turbogerm.hellhopper.game.items;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +14,7 @@ import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.HellHopper;
 import com.turbogerm.hellhopper.dataaccess.ItemData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public abstract class ItemBase {
     
@@ -46,23 +47,20 @@ public abstract class ItemBase {
     private boolean mIsPickedUpTextBoundsDirty;
     private final Vector2 mPickedUpTextBounds;
     
-    public ItemBase(ItemData itemData, String texturePath, int startStep, AssetManager assetManager) {
-        
-        Texture texture = assetManager.get(texturePath);
+    public ItemBase(ItemData itemData, String imageName, int startStep, AssetManager assetManager) {
         
         mInitialPosition = itemData.getPosition(startStep);
         mOffsetFromPlatform = new Vector2();
         
         mPosition = new Vector2(mInitialPosition);
-        mSize = new Vector2(
-                texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
         
-        mRadius = mSize.x / 2.0f;
-        
-        mSprite = new Sprite(texture);
-        mSprite.setSize(mSize.x, mSize.y);
+        TextureAtlas atlas = assetManager.get(ResourceNames.ITEMS_ATLAS);
+        mSprite = atlas.createSprite(imageName);
+        GameUtils.multiplySpriteSize(mSprite, GameAreaUtils.PIXEL_TO_METER);
         GameUtils.setSpriteOriginCenter(mSprite);
+        
+        mSize = new Vector2(mSprite.getWidth(), mSprite.getHeight());
+        mRadius = mSize.x / 2.0f;
         
         mItemState = EXISTING_STATE;
         
@@ -94,7 +92,7 @@ public abstract class ItemBase {
     
     public final void renderText(SpriteBatch batch, float visibleAreaPosition, BitmapFont itemFont) {
         if (mItemState == TEXT_STATE) {
-            if (mIsPickedUpTextBoundsDirty ) {
+            if (mIsPickedUpTextBoundsDirty) {
                 TextBounds textBounds = itemFont.getBounds(mPickedUpText);
                 mPickedUpTextBounds.set(textBounds.width, textBounds.height);
                 mIsPickedUpTextBoundsDirty = false;

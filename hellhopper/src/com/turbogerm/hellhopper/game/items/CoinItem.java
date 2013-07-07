@@ -20,7 +20,7 @@ public final class CoinItem extends ItemBase {
     private final Circle mCollisionCircle;
     
     public CoinItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, getTexturePath(itemData), startStep, assetManager);
+        super(itemData, getImageName(itemData), startStep, assetManager);
         
         mCoinScore = getCoinScore(itemData);
         
@@ -47,14 +47,14 @@ public final class CoinItem extends ItemBase {
         return Intersector.overlapCircleRectangle(mCollisionCircle, rect);
     }
     
-    private static String getTexturePath(ItemData itemData) {
+    private static String getImageName(ItemData itemData) {
         String coinType = itemData.getProperty(ItemData.COIN_TYPE_PROPERTY);
         if (ItemData.COIN_TYPE_COPPER_PROPERTY_VALUE.equals(coinType)) {
-            return ResourceNames.ITEM_COIN_COPPER_TEXTURE;
+            return ResourceNames.ITEM_COIN_COPPER_IMAGE_NAME;
         } else if (ItemData.COIN_TYPE_SILVER_PROPERTY_VALUE.equals(coinType)) {
-            return ResourceNames.ITEM_COIN_SILVER_TEXTURE;
+            return ResourceNames.ITEM_COIN_SILVER_IMAGE_NAME;
         } else {
-            return ResourceNames.ITEM_COIN_GOLD_TEXTURE;
+            return ResourceNames.ITEM_COIN_GOLD_IMAGE_NAME;
         }
     }
     

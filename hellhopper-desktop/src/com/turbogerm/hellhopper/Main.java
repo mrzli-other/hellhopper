@@ -17,7 +17,7 @@ public class Main {
         cfg.width = 450;
         cfg.resizable = false;
         
-        boolean isPackTextures = true;
+        boolean isPackTextures = false;
         if (isPackTextures) {
             packTextures();
         }
@@ -30,12 +30,22 @@ public class Main {
     private static void packTextures() {
         Settings settings = new Settings();
         settings.pot = false;
+        settings.maxWidth = 1024;
+        settings.maxHeight = 1024;
         settings.filterMin = TextureFilter.Linear;
         settings.filterMag = TextureFilter.Linear;
         
-        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/platforms",
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/background",
+                "../hellhopper-android/assets/graphics/packed", "background");
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/platforms",
                 "../hellhopper-android/assets/graphics/packed", "platforms");
-        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/character",
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/character",
                 "../hellhopper-android/assets/graphics/packed", "character");
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/enemies",
+                "../hellhopper-android/assets/graphics/packed", "enemies");
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/items",
+                "../hellhopper-android/assets/graphics/packed", "items");
+        TexturePacker2.process(settings, "../hellhopper-android/assets/graphics/raw/gui",
+                "../hellhopper-android/assets/graphics/packed", "gui");
     }
 }

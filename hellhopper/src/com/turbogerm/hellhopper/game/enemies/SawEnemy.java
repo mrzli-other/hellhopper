@@ -15,7 +15,7 @@ public final class SawEnemy extends EnemyBase {
     private final Circle mCollisionCircle;
     
     public SawEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_SAW_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_SAW_IMAGE_NAME, startStep, assetManager);
         
         float x = mSprite.getX() + mSprite.getWidth() / 2.0f;
         float y = mSprite.getY() + mSprite.getHeight() / 2.0f;

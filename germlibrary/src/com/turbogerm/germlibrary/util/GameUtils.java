@@ -73,6 +73,10 @@ public final class GameUtils {
         sprite.setOrigin(sprite.getWidth() / 2.0f, sprite.getHeight() / 2.0f);
     }
     
+    public static void multiplySpriteSize(Sprite sprite, float multiplier) {
+        sprite.setSize(sprite.getWidth() * multiplier, sprite.getHeight() * multiplier);
+    }
+    
     /* String */
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.isEmpty();

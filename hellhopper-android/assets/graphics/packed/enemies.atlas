@@ -1,0 +1,47 @@
+
+enemies.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+saw
+  rotate: false
+  xy: 1, 179
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+knight
+  rotate: false
+  xy: 1, 81
+  size: 80, 96
+  orig: 80, 96
+  offset: 0, 0
+  index: -1
+imp
+  rotate: false
+  xy: 1, 1
+  size: 72, 78
+  orig: 72, 78
+  offset: 0, 0
+  index: -1
+loco
+  rotate: false
+  xy: 99, 227
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+eviltwin
+  rotate: false
+  xy: 99, 165
+  size: 40, 60
+  orig: 40, 60
+  offset: 0, 0
+  index: -1
+coolclerk
+  rotate: false
+  xy: 83, 103
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1

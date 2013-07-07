@@ -45,6 +45,10 @@ public abstract class GameBase implements ApplicationListener {
     public void render() {
         if (mScreen != null) {
             
+            // long javaHeap = Gdx.app.getJavaHeap();
+            // long nativeHeap = Gdx.app.getNativeHeap();
+            // Logger.debug("Java Heap: %d; Native Heap: %d", javaHeap, nativeHeap);
+            
             Screen screen = mScreen;
             
             float delta = Math.min(Gdx.graphics.getDeltaTime(), MAX_DELTA);

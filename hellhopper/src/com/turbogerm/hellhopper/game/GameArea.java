@@ -5,13 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.ColorPositionPair;
+import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.germlibrary.util.Pools;
 import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
 import com.turbogerm.hellhopper.HellHopper;
@@ -71,8 +73,7 @@ public final class GameArea {
     
     private boolean mIsGameOver;
     
-    private final Texture mBackgroundTexture;
-    private final Vector2 mBackgroundTextureSize;
+    private final Sprite mBackgroundSprite;
     
     private final EndBackgroundScene mEndBackgroundScene;
     
@@ -94,10 +95,9 @@ public final class GameArea {
         mVisibleEnemies = new Array<EnemyBase>(true, VISIBLE_ENEMIES_INITIAL_CAPACITY);
         mVisibleItems = new Array<ItemBase>(true, VISIBLE_ITEMS_INITIAL_CAPACITY);
         
-        mBackgroundTexture = mAssetManager.get(ResourceNames.BACKGROUND_TEXTURE);
-        mBackgroundTextureSize = new Vector2(
-                mBackgroundTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                mBackgroundTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
+        mBackgroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mBackgroundSprite, GameAreaUtils.PIXEL_TO_METER);
         
         mEndBackgroundScene = new EndBackgroundScene(assetManager);
         
@@ -150,7 +150,8 @@ public final class GameArea {
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
         mBatch.begin();
         
-        mBatch.draw(mBackgroundTexture, 0.0f, mVisibleAreaPosition, mBackgroundTextureSize.x, mBackgroundTextureSize.y);
+        mBackgroundSprite.setPosition(0.0f, mVisibleAreaPosition);
+        mBackgroundSprite.draw(mBatch);
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.render(mBatch);
         }

@@ -1,5 +1,6 @@
 -generic
 test
+testfall
 testenemies
 simpleflametransition
 testitems00

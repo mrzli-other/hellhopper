@@ -23,7 +23,7 @@ final class CoolClerkEnemy extends EnemyBase {
     private final Rectangle mCollisionRect;
     
     public CoolClerkEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_COOL_CLERK_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_COOL_CLERK_IMAGE_NAME, startStep, assetManager);
         
         Vector2 initialPosition = enemyData.getPosition(startStep);
         mSpeed = Float.parseFloat(enemyData.getProperty(EnemyData.SPEED_PROPERTY));

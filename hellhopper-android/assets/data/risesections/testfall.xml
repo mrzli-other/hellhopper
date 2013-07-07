@@ -1,0 +1,27 @@
+<risesection steprange="30" difficulty="0">
+  <platforms>
+  
+    <platform step="0" offset="18" type="normal">
+      <features>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.5" />
+            <property name="power" value="low" />
+          </properties>
+        </feature>
+      </features>
+    </platform>
+    
+    <platform step="3" offset="10" type="normal">
+      <features>
+        <feature type="jumpboost">
+          <properties>
+            <property name="position" value="0.5" />
+            <property name="power" value="medium" />
+          </properties>
+        </feature>
+      </features>
+    </platform>
+
+  </platforms>
+</risesection>

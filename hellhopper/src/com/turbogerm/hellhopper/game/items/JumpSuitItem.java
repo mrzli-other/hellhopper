@@ -13,7 +13,7 @@ final class JumpSuitItem extends ItemBase {
     private final Rectangle mCollisionRect;
     
     public JumpSuitItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_JUMP_SUIT_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_JUMP_SUIT_IMAGE_NAME, startStep, assetManager);
         
         mCollisionRect = new Rectangle();
         

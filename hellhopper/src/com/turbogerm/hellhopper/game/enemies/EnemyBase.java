@@ -1,29 +1,28 @@
 package com.turbogerm.hellhopper.game.enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.dataaccess.EnemyData;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
+import com.turbogerm.hellhopper.resources.ResourceNames;
 
 public abstract class EnemyBase {
     
     protected final Sprite mSprite;
     
-    public EnemyBase(EnemyData enemyData, String texturePath, int startStep, AssetManager assetManager) {
+    public EnemyBase(EnemyData enemyData, String imageName, int startStep, AssetManager assetManager) {
         
-        Texture texture = assetManager.get(texturePath);
         Vector2 initialPosition = enemyData.getPosition(startStep);
         
-        mSprite = new Sprite(texture);
-        mSprite.setBounds(
-                initialPosition.x, initialPosition.y,
-                texture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                texture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        TextureAtlas atlas = assetManager.get(ResourceNames.ENEMIES_ATLAS);
+        mSprite = atlas.createSprite(imageName);
+        mSprite.setPosition(initialPosition.x, initialPosition.y);
+        GameUtils.multiplySpriteSize(mSprite, GameAreaUtils.PIXEL_TO_METER);
         GameUtils.setSpriteOriginCenter(mSprite);
     }
     

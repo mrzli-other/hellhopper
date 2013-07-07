@@ -1,9 +1,9 @@
 package com.turbogerm.hellhopper.game.background;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.hellhopper.game.GameAreaUtils;
@@ -31,36 +31,23 @@ public final class EndBackgroundScene {
     
     public EndBackgroundScene(AssetManager assetManager) {
         
-        Texture skyTexture = assetManager.get(ResourceNames.BACKGROUND_END_SKY_TEXTURE);
-        mSkySprite = new Sprite(skyTexture);
-        mSkySprite.setSize(
-                skyTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                skyTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         
-        Texture sunTexture = assetManager.get(ResourceNames.BACKGROUND_END_SUN_TEXTURE);
-        mSunSprite = new Sprite(sunTexture);
-        mSunSprite.setSize(
-                sunTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                sunTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mSkySprite = atlas.createSprite(ResourceNames.BACKGROUND_END_SKY_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mSkySprite, GameAreaUtils.PIXEL_TO_METER);
+        
+        mSunSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_SUN_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mSunSprite, GameAreaUtils.PIXEL_TO_METER);
         GameUtils.setSpriteOriginCenter(mSunSprite);
         
-        Texture cloudsTexture = assetManager.get(ResourceNames.BACKGROUND_END_CLOUDS_TEXTURE);
-        mCloudsSprite = new Sprite(cloudsTexture);
-        mCloudsSprite.setSize(
-                cloudsTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                cloudsTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mCloudsSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_CLOUDS_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mCloudsSprite, GameAreaUtils.PIXEL_TO_METER);
         
-        Texture mountainsTexture = assetManager.get(ResourceNames.BACKGROUND_END_MOUNTAINS_TEXTURE);
-        mMountainsSprite = new Sprite(mountainsTexture);
-        mMountainsSprite.setSize(
-                mountainsTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                mountainsTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mMountainsSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_MOUNTAINS_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mMountainsSprite, GameAreaUtils.PIXEL_TO_METER);
         
-        Texture groundTexture = assetManager.get(ResourceNames.BACKGROUND_END_GROUND_TEXTURE);
-        mGroundSprite = new Sprite(groundTexture);
-        mGroundSprite.setSize(
-                groundTexture.getWidth() * GameAreaUtils.PIXEL_TO_METER,
-                groundTexture.getHeight() * GameAreaUtils.PIXEL_TO_METER);
+        mGroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_GROUND_IMAGE_NAME);
+        GameUtils.multiplySpriteSize(mGroundSprite, GameAreaUtils.PIXEL_TO_METER);
         
         mSheep = new Sheep[MAX_SHEEP];
         for (int i = 0; i < MAX_SHEEP; i++) {

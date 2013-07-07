@@ -71,8 +71,8 @@ public abstract class PlatformBase {
         
         mInitialPosition =  platformData.getPosition(startStep);
         
-        TextureAtlas platformsAtlas = assetManager.get(ResourceNames.PLATFORMS_ATLAS);
-        mSprite = platformsAtlas.createSprite(getImageName(platformData));
+        TextureAtlas atlas = assetManager.get(ResourceNames.PLATFORMS_ATLAS);
+        mSprite = atlas.createSprite(getImageName(platformData));
         mSprite.setBounds(mInitialPosition.x, mInitialPosition.y,
                 PlatformData.PLATFORM_WIDTH, PlatformData.PLATFORM_HEIGHT);
         mPlatformModifier = new PlatformModifier();

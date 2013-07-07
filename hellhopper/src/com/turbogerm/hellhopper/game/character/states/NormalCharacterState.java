@@ -103,17 +103,19 @@ final class NormalCharacterState extends CharacterStateBase {
         
         Vector2 position = updateData.characterPosition;
         Vector2 speed = updateData.characterSpeed;
+        float visibleAreaPosition = updateData.visibleAreaPosition;
         float horizontalSpeed = updateData.horizontalSpeed;
         CharacterEffects characterEffects = updateData.characterEffects;
         float delta = updateData.delta;
         
-        handleFall(position, speed, updateData.visibleAreaPosition, characterEffects);
+        handleFall(position, speed, visibleAreaPosition, characterEffects);
         
         if (!mIsDying) {
             if (!characterEffects.isFarting()) {
                 handleCollisionWithPlatform(
                         position,
                         speed,
+                        visibleAreaPosition,
                         updateData.platformToCharCollisionData,
                         updateData.activeRiseSections,
                         updateData.visiblePlatforms,
@@ -214,6 +216,7 @@ final class NormalCharacterState extends CharacterStateBase {
     private void handleCollisionWithPlatform(
             Vector2 position,
             Vector2 speed,
+            float visibleAreaPosition,
             PlatformToCharCollisionData platformToCharCollisionData,
             Array<RiseSection> activeRiseSections,
             Array<PlatformBase> visiblePlatforms,
@@ -228,9 +231,14 @@ final class NormalCharacterState extends CharacterStateBase {
             if (isCollisionWithPlatform(
                     visiblePlatforms, position, cpNext, intersection, mCharCollisionData)) {
                 position.set(intersection);
-                handleCollisionWithPlatform(position, speed, activeRiseSections, characterEffects);
+                
+                handleFall(position, speed, visibleAreaPosition, characterEffects);
+                if (!mIsDying) {
+                    handleCollisionWithPlatform(position, speed, activeRiseSections, characterEffects);
+                }
             } else {
                 position.set(cpNext);
+                handleFall(position, speed, visibleAreaPosition, characterEffects);
                 speed.y = Math.max(speed.y - GameCharacter.GRAVITY * delta, -GameCharacter.JUMP_SPEED);
             }
             
@@ -240,7 +248,11 @@ final class NormalCharacterState extends CharacterStateBase {
             position.y = platformToCharCollisionData.collisionPoint.y;
             mCharCollisionData.collisionPlatform = platformToCharCollisionData.collisionPlatform;
             mCharCollisionData.collisionPointX = platformToCharCollisionData.collisionPoint.x;
-            handleCollisionWithPlatform(position, speed, activeRiseSections, characterEffects);
+            
+            handleFall(position, speed, visibleAreaPosition, characterEffects);
+            if (!mIsDying) {
+                handleCollisionWithPlatform(position, speed, activeRiseSections, characterEffects);
+            }
         }
     }
     

@@ -27,7 +27,7 @@ final class EvilTwinEnemy extends EnemyBase {
     private final Rectangle mCollisionRect;
     
     public EvilTwinEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_EVIL_TWIN_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_EVIL_TWIN_IMAGE_NAME, startStep, assetManager);
         
         Vector2 initialPosition = enemyData.getPosition(startStep);
         float speed = Float.parseFloat(enemyData.getProperty(EnemyData.SPEED_PROPERTY));

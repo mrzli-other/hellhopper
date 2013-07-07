@@ -26,7 +26,7 @@ public final class SplashFade {
     private boolean mIsFadeOutStarted;
     
     public SplashFade(AssetManager assetManager) {
-        Texture blackTexture = assetManager.get(ResourceNames.GENERAL_BLACK_TEXTURE);
+        Texture blackTexture = assetManager.get(ResourceNames.GUI_GENERAL_BLACK_TEXTURE);
         mBlackSprite = new Sprite(blackTexture);
         mBlackSprite.setBounds(0.0f, 0.0f, HellHopper.VIEWPORT_WIDTH, HellHopper.VIEWPORT_HEIGHT);
     }

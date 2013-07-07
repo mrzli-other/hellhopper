@@ -31,7 +31,7 @@ final class ImpEnemy extends EnemyBase {
     private final Rectangle mCollisionRect;
     
     public ImpEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_IMP_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_IMP_IMAGE_NAME, startStep, assetManager);
         
         mInitialPosition = enemyData.getPosition(startStep);
         

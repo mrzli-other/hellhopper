@@ -14,7 +14,7 @@ final class ShieldItem extends ItemBase {
     private final Circle mCollisionCircle;
     
     public ShieldItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_SHIELD_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_SHIELD_IMAGE_NAME, startStep, assetManager);
         
         mCollisionCircle = new Circle();
         

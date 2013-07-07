@@ -41,7 +41,7 @@ public final class CharacterEyesGraphicsFart extends CharacterGraphicsBase {
         mOpenedSprite.setSize(OPENED_WIDTH, OPENED_HEIGHT);
         mOpenedSprite.setColor(DEFAULT_COLOR);
         
-        mClosedSprite = atlas.createSprite(ResourceNames.CHARACTER_EYES_FART_OPENED_IMAGE_NAME);
+        mClosedSprite = atlas.createSprite(ResourceNames.CHARACTER_EYES_FART_CLOSED_IMAGE_NAME);
         mClosedSprite.setSize(CLOSED_WIDTH, CLOSED_HEIGHT);
         mClosedSprite.setColor(DEFAULT_COLOR);
     }

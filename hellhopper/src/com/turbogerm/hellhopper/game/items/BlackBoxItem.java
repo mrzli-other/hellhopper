@@ -11,7 +11,7 @@ final class BlackBoxItem extends ItemBase {
     private final Rectangle mCollisionRect;
     
     public BlackBoxItem(ItemData itemData, int startStep, AssetManager assetManager) {
-        super(itemData, ResourceNames.ITEM_BLACK_BOX_TEXTURE, startStep, assetManager);
+        super(itemData, ResourceNames.ITEM_BLACK_BOX_IMAGE_NAME, startStep, assetManager);
         
         mCollisionRect = new Rectangle();
         

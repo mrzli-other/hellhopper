@@ -1,0 +1,64 @@
+
+background.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 1, 138
+  size: 450, 800
+  orig: 450, 800
+  offset: 0, 0
+  index: -1
+endclouds
+  rotate: false
+  xy: 453, 138
+  size: 450, 800
+  orig: 450, 800
+  offset: 0, 0
+  index: -1
+endmountains
+  rotate: false
+  xy: 1, 1
+  size: 450, 135
+  orig: 450, 135
+  offset: 0, 0
+  index: -1
+sheep
+  rotate: false
+  xy: 905, 898
+  size: 60, 40
+  orig: 60, 40
+  offset: 0, 0
+  index: -1
+
+background2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+endsky
+  rotate: false
+  xy: 1, 1
+  size: 450, 800
+  orig: 450, 800
+  offset: 0, 0
+  index: -1
+endground
+  rotate: false
+  xy: 453, 521
+  size: 450, 280
+  orig: 450, 280
+  offset: 0, 0
+  index: -1
+
+background3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+endsun
+  rotate: false
+  xy: 1, 1
+  size: 586, 591
+  orig: 586, 591
+  offset: 0, 0
+  index: -1

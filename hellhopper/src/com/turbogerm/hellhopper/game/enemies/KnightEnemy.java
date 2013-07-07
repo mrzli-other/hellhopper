@@ -28,7 +28,7 @@ final class KnightEnemy extends EnemyBase {
     private final Rectangle mCollisionRect;
     
     public KnightEnemy(EnemyData enemyData, int startStep, AssetManager assetManager) {
-        super(enemyData, ResourceNames.ENEMY_KNIGHT_TEXTURE, startStep, assetManager);
+        super(enemyData, ResourceNames.ENEMY_KNIGHT_IMAGE_NAME, startStep, assetManager);
         
         float range = GameArea.GAME_AREA_WIDTH - mSprite.getWidth();
         mRadius = range / 4.0f;

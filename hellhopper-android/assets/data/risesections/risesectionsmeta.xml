@@ -2,7 +2,7 @@
   <risesections>
   
     <!-- INITIAL -->
-    <risesection generatortype="basic" type="initial" name="initial0" minsteprange="40" maxsteprange="50" minstepdistance="1" maxstepdistance="1" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial0" minsteprange="30" maxsteprange="40" minstepdistance="1" maxstepdistance="1" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="1" />
         <property name="movingplatformweight" value="0" />
@@ -20,7 +20,7 @@
       </properties>
     </risesection>
     
-    <risesection generatortype="basic" type="initial" name="initial1" minsteprange="40" maxsteprange="50" minstepdistance="1" maxstepdistance="2" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial1" minsteprange="30" maxsteprange="40" minstepdistance="1" maxstepdistance="2" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="10" />
         <property name="movingplatformweight" value="2" />
@@ -38,7 +38,7 @@
       </properties>
     </risesection>
     
-    <risesection generatortype="basic" type="initial" name="initial2" minsteprange="40" maxsteprange="50" minstepdistance="2" maxstepdistance="3" difficulty="0">
+    <risesection generatortype="basic" type="initial" name="initial2" minsteprange="30" maxsteprange="40" minstepdistance="2" maxstepdistance="3" difficulty="0">
       <properties>
         <property name="normalplatformweight" value="10" />
         <property name="movingplatformweight" value="3" />

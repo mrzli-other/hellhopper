@@ -142,7 +142,7 @@ public final class PlayScreen extends ScreenBase {
         if (System.currentTimeMillis() - startTime > 100) {
             DebugData debugData = mGameArea.getDebugData();
             mDebugLabel.setText(debugData.toString());
-            //mDebugLabel.setText("");
+            mDebugLabel.setText("");
             startTime = System.currentTimeMillis();
         }
     }

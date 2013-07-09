@@ -12,11 +12,11 @@ Jump Boost sound - jesabat
 Coin sound - fins
   (freesound.org; id: 146723)
 Item sound - cameronmusic
-  (freesound.org; id: 138410
+  (freesound.org; id: 138410)
 Fart sound - smokenweewALT
-  (freesound.org; id: 177050
+  (freesound.org; id: 177050)
 Enemy sound - anwul
-  (freesound.org; id: 185366
+  (freesound.org; id: 185366)
 Saw sound - Benboncan
   (freesound.org; id: 60178)
 Fire sound - urupin

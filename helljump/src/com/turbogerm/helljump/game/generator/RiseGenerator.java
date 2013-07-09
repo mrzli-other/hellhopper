@@ -28,9 +28,10 @@ import com.turbogerm.helljump.resources.ResourceNames;
 public final class RiseGenerator {
     
     private static final int RISE_HEIGHT_STEPS = 5000;
-    private static final int RISE_TRESHOLD = RISE_HEIGHT_STEPS / 5;
-    private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD / 5;
-    private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_HEIGHT_STEPS - RISE_TRESHOLD) / 6;
+    private static final int RISE_TRESHOLD_4 = 800;
+    private static final int RISE_TRESHOLD_10 = 4000;
+    private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD_4 / 5;
+    private static final int RISE_HIGHER_DIFFICULTY_STEP = (RISE_TRESHOLD_10 - RISE_TRESHOLD_4) / 6;
     
     private static final float STANDARD_SECTION_WEIGHT = 1.0f;
     private static final float ENEMY_SECTION_WEIGHT = 1.0f;
@@ -155,6 +156,18 @@ public final class RiseGenerator {
 //            riseSectionsData.add(currRiseSection);
 //            stepsInRise += currRiseSection.getStepRange();
 //        }
+//        
+//        for (RiseSectionDataBase riseSectionData : SPECIAL_RISE_SECTIONS) {
+//            String name = riseSectionData.getName();
+//                
+//            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//            
+//            currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName(name));
+//            riseSectionsData.add(currRiseSection);
+//            stepsInRise += currRiseSection.getStepRange();
+//        }
         
         currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial0"));
         riseSectionsData.add(currRiseSection);
@@ -235,10 +248,12 @@ public final class RiseGenerator {
     private static MinMaxDifficulty getRiseSectionMinMaxDifficulty(int sectionType, int stepsInRise) {
         
         int difficulty;
-        if (stepsInRise <= RISE_TRESHOLD) {
+        if (stepsInRise <= RISE_TRESHOLD_4) {
             difficulty = MathUtils.clamp(stepsInRise / RISE_LOWER_DIFFICULTY_STEP, 1, 4);
+        } else if (stepsInRise <= RISE_TRESHOLD_10) {
+            difficulty = Math.min(5 + (stepsInRise - RISE_TRESHOLD_4) / RISE_HIGHER_DIFFICULTY_STEP, 10);
         } else {
-            difficulty = Math.min(5 + (stepsInRise - RISE_TRESHOLD) / RISE_HIGHER_DIFFICULTY_STEP, 10);
+            difficulty = 10;
         }
         
         int minDifficulty;

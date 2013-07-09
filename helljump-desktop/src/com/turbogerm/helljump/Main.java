@@ -11,7 +11,7 @@ import com.turbogerm.helljump.init.InitData;
 public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Hell Jump";
+        cfg.title = "Hell Hopper";
         cfg.useGL20 = true;
         cfg.height = 800;
         cfg.width = 450;

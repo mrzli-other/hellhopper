@@ -114,8 +114,8 @@ mainmenu/buttonstartup
 mainmenu/title
   rotate: false
   xy: 727, 72
-  size: 178, 51
-  orig: 178, 51
+  size: 204, 51
+  orig: 204, 51
   offset: 0, 0
   index: -1
 
@@ -201,13 +201,13 @@ repeat: none
 splash/title
   rotate: false
   xy: 1, 1
-  size: 315, 287
-  orig: 315, 287
+  size: 391, 272
+  orig: 391, 272
   offset: 0, 0
   index: -1
 splash/platform
   rotate: false
-  xy: 318, 188
+  xy: 394, 173
   size: 400, 100
   orig: 400, 100
   offset: 0, 0

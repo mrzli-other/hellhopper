@@ -28,7 +28,7 @@ public final class CreditsScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener(this));
         
-        mScreenBackground = new ScreenBackground(mAssetManager);
+        mScreenBackground = new ScreenBackground(mCameraData, mAssetManager);
         
         float offsetFromTop = addTitleLabel();
         addTextLabel(offsetFromTop);

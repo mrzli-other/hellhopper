@@ -35,7 +35,7 @@ public final class MainMenuScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mScreenBackground = new ScreenBackground(mAssetManager);
+        mScreenBackground = new ScreenBackground(mCameraData, mAssetManager);
         
         TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         

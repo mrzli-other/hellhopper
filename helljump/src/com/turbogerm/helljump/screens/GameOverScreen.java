@@ -32,7 +32,7 @@ public final class GameOverScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener(this));
         
-        mScreenBackground = new ScreenBackground(mAssetManager);
+        mScreenBackground = new ScreenBackground(mCameraData, mAssetManager);
         
         LabelStyle labelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         labelStyle.font = mGuiSkin.getFont("xxxl-font");

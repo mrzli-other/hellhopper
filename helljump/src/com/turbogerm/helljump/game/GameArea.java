@@ -1,23 +1,17 @@
 package com.turbogerm.helljump.game;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.turbogerm.germlibrary.util.ColorPositionPair;
-import com.turbogerm.germlibrary.util.GameUtils;
-import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
 import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.HellJump;
 import com.turbogerm.helljump.debug.DebugData;
 import com.turbogerm.helljump.game.background.EndBackgroundScene;
+import com.turbogerm.helljump.game.background.GameBackground;
 import com.turbogerm.helljump.game.character.GameCharacter;
 import com.turbogerm.helljump.game.generator.RiseGenerator;
-import com.turbogerm.helljump.resources.ResourceNames;
 
 public final class GameArea {
     
@@ -51,12 +45,9 @@ public final class GameArea {
     
     private boolean mIsGameOver;
     
-    private final Sprite mBackgroundSprite;
+    private final GameBackground mGameBackground;
     
     private final EndBackgroundScene mEndBackgroundScene;
-    
-    private final SpectrumColorInterpolator mSpectrumColorInterpolator;
-    private final Color mBackgroundColor;
     
     public GameArea(CameraData cameraData, AssetManager assetManager, BitmapFont itemFont) {
         
@@ -69,15 +60,10 @@ public final class GameArea {
         mCharacter = new GameCharacter(mAssetManager);
         mActiveAreaObjects = new GameActiveAreaObjects();
         
-        TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
-        mBackgroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
-        GameUtils.multiplySpriteSize(mBackgroundSprite, GameAreaUtils.PIXEL_TO_METER);
+        mGameBackground = new GameBackground(
+                GameAreaUtils.getBackgroundColorSpectrum(), true, cameraData, assetManager);
         
         mEndBackgroundScene = new EndBackgroundScene(assetManager);
-        
-        Array<ColorPositionPair> backgroundColorSpectrum = GameAreaUtils.getBackgroundColorSpectrum();
-        mSpectrumColorInterpolator = new SpectrumColorInterpolator(backgroundColorSpectrum);
-        mBackgroundColor = new Color();
         
         reset();
     }
@@ -94,8 +80,6 @@ public final class GameArea {
         mCharacter.reset(mRiseHeight);
         
         mEndBackgroundScene.reset(mRiseHeight);
-        
-        mBackgroundColor.set(Color.BLACK);
     }
     
     public void update(float delta) {
@@ -112,7 +96,7 @@ public final class GameArea {
         float effectiveCharPositionY = Math.min(mCharacter.getPosition().y, mRiseHeight);
         mRiseScore = Math.max(mRiseScore, (int) (effectiveCharPositionY * GameAreaUtils.METER_TO_PIXEL));
         
-        mBackgroundColor.set(mSpectrumColorInterpolator.getBackgroundColor(mVisibleAreaPosition / mRiseHeight));
+        mGameBackground.setSpectrumFraction(mVisibleAreaPosition / mRiseHeight);
         
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.update(delta);
@@ -126,8 +110,7 @@ public final class GameArea {
         mBatch.setProjectionMatrix(mCameraData.getGameAreaMatrix());
         mBatch.begin();
         
-        mBackgroundSprite.setPosition(0.0f, mVisibleAreaPosition);
-        mBackgroundSprite.draw(mBatch);
+        mGameBackground.render(mBatch, mVisibleAreaPosition);
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.render(mBatch);
         }
@@ -189,10 +172,6 @@ public final class GameArea {
     
     public int getLives() {
         return mCharacter.getLives();
-    }
-    
-    public Color getBackgroundColor() {
-        return mBackgroundColor;
     }
     
     public boolean isGameOver() {

@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.germlibrary.util.GameUtils;
-import com.turbogerm.helljump.HellJump;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.resources.ResourceNames;
 
 public final class SplashFade {
@@ -25,10 +26,13 @@ public final class SplashFade {
     
     private boolean mIsFadeOutStarted;
     
-    public SplashFade(AssetManager assetManager) {
+    public SplashFade(CameraData cameraData, AssetManager assetManager) {
+        
+        Rectangle viewport = cameraData.getViewport();
+        
         TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         mBlackSprite = atlas.createSprite(ResourceNames.GUI_GENERAL_BLACK_IMAGE_NAME);
-        mBlackSprite.setBounds(0.0f, 0.0f, HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT);
+        mBlackSprite.setBounds(viewport.x, viewport.y, viewport.width, viewport.height);
     }
     
     public void reset() {

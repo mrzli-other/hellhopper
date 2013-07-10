@@ -2,36 +2,23 @@ package com.turbogerm.helljump.screens.general;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.ColorPositionPair;
-import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
-import com.turbogerm.helljump.HellJump;
-import com.turbogerm.helljump.resources.ResourceNames;
+import com.turbogerm.helljump.CameraData;
+import com.turbogerm.helljump.game.background.GameBackground;
 
 public final class ScreenBackground {
     
     private static final float SPECTRUM_TRAVERSAL_HALF_PERIOD = 30.0f;
     private static final float SPECTRUM_TRAVERSAL_PERIOD = SPECTRUM_TRAVERSAL_HALF_PERIOD * 2.0f;
     
-    private final SpectrumColorInterpolator mSpectrumColorInterpolator;
-    
-    private final Sprite mBackgroundColorSprite;
-    private final Sprite mBackgroundSprite;
+    private final GameBackground mGameBackground;
     
     private float mInternalTime;
     
-    public ScreenBackground(AssetManager assetManager) {
-        mSpectrumColorInterpolator = new SpectrumColorInterpolator(getBackgroundColorSpectrum());
-        
-        TextureAtlas graphicsGuiAtlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
-        mBackgroundColorSprite = graphicsGuiAtlas.createSprite(ResourceNames.GUI_GENERAL_WHITE_IMAGE_NAME);
-        mBackgroundColorSprite.setBounds(0.0f, 0.0f, HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT);
-        
-        TextureAtlas backgroundAtlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
-        mBackgroundSprite = backgroundAtlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
+    public ScreenBackground(CameraData cameraData, AssetManager assetManager) {
+        mGameBackground = new GameBackground(getBackgroundColorSpectrum(), false, cameraData, assetManager);
     }
     
     public void reset() {
@@ -47,12 +34,11 @@ public final class ScreenBackground {
         } else {
             spectrumFraction = (SPECTRUM_TRAVERSAL_PERIOD - mInternalTime) / SPECTRUM_TRAVERSAL_HALF_PERIOD;
         }
-        mBackgroundColorSprite.setColor(mSpectrumColorInterpolator.getBackgroundColor(spectrumFraction));
+        mGameBackground.setSpectrumFraction(spectrumFraction);
     }
     
     public void render(SpriteBatch batch) {
-        mBackgroundColorSprite.draw(batch);
-        mBackgroundSprite.draw(batch);
+        mGameBackground.render(batch);
     }
     
     private static Array<ColorPositionPair> getBackgroundColorSpectrum() {

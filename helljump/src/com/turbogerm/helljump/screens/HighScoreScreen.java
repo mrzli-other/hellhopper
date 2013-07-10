@@ -39,7 +39,7 @@ public final class HighScoreScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener(this));
         
-        mScreenBackground = new ScreenBackground(mAssetManager);
+        mScreenBackground = new ScreenBackground(mCameraData, mAssetManager);
     }
     
     @Override

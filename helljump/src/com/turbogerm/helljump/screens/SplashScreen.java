@@ -31,7 +31,7 @@ public final class SplashScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mScreenBackground = new ScreenBackground(mAssetManager);
+        mScreenBackground = new ScreenBackground(mCameraData, mAssetManager);
         
         TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         mPlatformSprite = atlas.createSprite(ResourceNames.GUI_SPLASH_PLATFORM_IMAGE_NAME);
@@ -42,7 +42,7 @@ public final class SplashScreen extends ScreenBase {
         mTurboGermLogo = new TurboGermLogo(mAssetManager);
         mLibGdxLogo = new LibGdxLogo(mAssetManager);
         
-        mSplashFade = new SplashFade(mAssetManager);
+        mSplashFade = new SplashFade(mCameraData, mAssetManager);
     }
     
     @Override

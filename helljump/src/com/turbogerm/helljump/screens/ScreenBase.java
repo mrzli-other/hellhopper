@@ -22,9 +22,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.turbogerm.germlibrary.game.Screen;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.HellJump;
 import com.turbogerm.helljump.gamedata.GameData;
 import com.turbogerm.helljump.init.InitData;
@@ -38,6 +40,7 @@ public abstract class ScreenBase implements Screen {
     protected final AssetManager mAssetManager;
     protected final Skin mGuiSkin;
     protected final GameData mGameData;
+    protected final CameraData mCameraData;
     
     protected final SpriteBatch mBatch;
     protected final Stage mGuiStage;
@@ -51,12 +54,14 @@ public abstract class ScreenBase implements Screen {
         mAssetManager = mResources.getAssetManager();
         mGuiSkin = mResources.getGuiSkin();
         mGameData = mGame.getGameData();
+        mCameraData = new CameraData();
         
         mBatch = new SpriteBatch();
-        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
-                HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT);
+        mBatch.setProjectionMatrix(mCameraData.getGuiMatrix());
         
-        mGuiStage = new Stage(HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT, false);
+        Rectangle viewport = mCameraData.getViewport();
+        mGuiStage = new Stage(viewport.width, viewport.height, false);
+        mGuiStage.getCamera().translate(viewport.x, viewport.y, 0.0f);
     }
     
     protected String getName() {

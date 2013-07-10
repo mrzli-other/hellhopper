@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.ColorPositionPair;
 import com.turbogerm.germlibrary.util.GameUtils;
 import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.HellJump;
 import com.turbogerm.helljump.debug.DebugData;
 import com.turbogerm.helljump.game.background.EndBackgroundScene;
@@ -37,6 +38,7 @@ public final class GameArea {
     private final SpriteBatch mBatch;
     private final DebugData mDebugData;
     private final BitmapFont mItemFont;
+    private final CameraData mCameraData;
     
     private Rise mRise;
     private float mRiseHeight;
@@ -56,12 +58,13 @@ public final class GameArea {
     private final SpectrumColorInterpolator mSpectrumColorInterpolator;
     private final Color mBackgroundColor;
     
-    public GameArea(AssetManager assetManager, BitmapFont itemFont) {
+    public GameArea(CameraData cameraData, AssetManager assetManager, BitmapFont itemFont) {
         
         mAssetManager = assetManager;
         mBatch = new SpriteBatch(SPRITE_BATCH_SIZE);
         mDebugData = new DebugData();
         mItemFont = itemFont;
+        mCameraData = cameraData;
         
         mCharacter = new GameCharacter(mAssetManager);
         mActiveAreaObjects = new GameActiveAreaObjects();
@@ -114,11 +117,13 @@ public final class GameArea {
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.update(delta);
         }
+        
+        mCameraData.setGameAreaPosition(mVisibleAreaPosition);
     }
     
     public void render() {
         
-        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, mVisibleAreaPosition, GAME_AREA_WIDTH, GAME_AREA_HEIGHT);
+        mBatch.setProjectionMatrix(mCameraData.getGameAreaMatrix());
         mBatch.begin();
         
         mBackgroundSprite.setPosition(0.0f, mVisibleAreaPosition);
@@ -135,8 +140,7 @@ public final class GameArea {
         // TODO: for debugging, remove
         mDebugData.update(mBatch, getCurrentRiseSection(), mCharacter);
         
-        mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
-                HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT);
+        mBatch.setProjectionMatrix(mCameraData.getGuiMatrix());
         mBatch.begin();
         mActiveAreaObjects.renderText(mBatch, mVisibleAreaPosition, mItemFont);
         mBatch.end();

@@ -50,7 +50,7 @@ public final class PlayScreen extends ScreenBase {
         
         mGuiStage.addListener(getStageInputListener());
         
-        mGameArea = new GameArea(mAssetManager, mResources.getItemFont());
+        mGameArea = new GameArea(mCameraData, mAssetManager, mResources.getItemFont());
         
         LabelStyle scoreLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         scoreLabelStyle.font = mGuiSkin.getFont("xxxl-font");

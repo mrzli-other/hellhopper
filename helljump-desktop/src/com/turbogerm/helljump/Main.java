@@ -14,7 +14,7 @@ public class Main {
         cfg.title = "Hell Hopper";
         cfg.useGL20 = true;
         cfg.height = 800;
-        cfg.width = 450;
+        cfg.width = 600;
         cfg.resizable = false;
         
         boolean isPackTextures = false;

@@ -1,5 +1,4 @@
-- black box:
-  - random powerup or disability
+
        
 - implement a mechanic where you need to jump on specific platforms in specific order
   (which can be random) to generate a platform above to jump on and continue going up
@@ -16,11 +15,16 @@
   
 - maybe increase visible on jump and crumble platform fraction for their sections
 
+- make the game better for different aspect ratios
+  - http://blog.gemserk.com/2013/01/22/our-solution-to-handle-multiple-screen-sizes-in-android-part-one/
+
 - maybe:
   - use separate camera for gui and game
     - try making gui camera same as physical resolution
     - add class for selecting fonts - for example you want font that is 5% screen height,
       then take height, multiply by 0.05 and return font that is closest to that size
+  - black box:
+    - random powerup or disability
       
 
       

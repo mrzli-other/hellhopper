@@ -36,6 +36,9 @@ public class HellJump extends GameBase {
     private GameData mGameData;
     private InitData mInitData;
     
+    private float mScreenWidth;
+    private float mScreenHeight;
+    
     public HellJump(InitData initData) {
         mInitData = initData;
     }
@@ -46,6 +49,9 @@ public class HellJump extends GameBase {
         //mFpsLogger = new FPSLogger();
         Gdx.app.setLogLevel(Logger.DEBUG);
         Gdx.input.setCatchBackKey(true);
+        
+        mScreenWidth = Gdx.graphics.getWidth();
+        mScreenHeight = Gdx.graphics.getHeight();
         
         initializeResourcesAndGameData();
         initializeScreens();

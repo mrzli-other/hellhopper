@@ -1,8 +1,5 @@
 package com.turbogerm.helljump.game;
 
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,21 +7,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.turbogerm.germlibrary.util.ColorPositionPair;
 import com.turbogerm.germlibrary.util.GameUtils;
-import com.turbogerm.germlibrary.util.Pools;
 import com.turbogerm.germlibrary.util.SpectrumColorInterpolator;
 import com.turbogerm.helljump.HellJump;
-import com.turbogerm.helljump.dataaccess.PlatformData;
 import com.turbogerm.helljump.debug.DebugData;
 import com.turbogerm.helljump.game.background.EndBackgroundScene;
 import com.turbogerm.helljump.game.character.GameCharacter;
-import com.turbogerm.helljump.game.enemies.EnemyBase;
 import com.turbogerm.helljump.game.generator.RiseGenerator;
-import com.turbogerm.helljump.game.items.ItemBase;
-import com.turbogerm.helljump.game.platforms.PlatformBase;
 import com.turbogerm.helljump.resources.ResourceNames;
 
 public final class GameArea {
@@ -37,18 +28,8 @@ public final class GameArea {
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     private static final float VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE = 2.0f;
     
-    private static final float DEFAULT_HORIZONTAL_SPEED = 10.0f;
-    private static final float ACCELEROMETER_SPEED_MULTIPLIER = 3.75f;
-    
     private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END =
             500.0f * GameAreaUtils.PIXEL_TO_METER + GAME_AREA_HEIGHT;
-    
-    private static final int ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY = 5;
-    private static final int VISIBLE_PLATFORMS_INITIAL_CAPACITY = 50;
-    private static final int VISIBLE_ENEMIES_INITIAL_CAPACITY = 10;
-    private static final int VISIBLE_ITEMS_INITIAL_CAPACITY = 5;
-    
-    private static final float VISIBLE_PLATFORMS_AREA_PADDING = 2.0f;
     
     private static final int SPRITE_BATCH_SIZE = 100;
     
@@ -64,12 +45,7 @@ public final class GameArea {
     
     private float mVisibleAreaPosition;
     private final GameCharacter mCharacter;
-    private final PlatformToCharCollisionData mPlatformToCharCollisionData;
-    
-    private final Array<RiseSection> mActiveRiseSections;
-    private final Array<PlatformBase> mVisiblePlatforms;
-    private final Array<EnemyBase> mVisibleEnemies;
-    private final Array<ItemBase> mVisibleItems;
+    private final GameActiveAreaObjects mActiveAreaObjects;
     
     private boolean mIsGameOver;
     
@@ -88,12 +64,7 @@ public final class GameArea {
         mItemFont = itemFont;
         
         mCharacter = new GameCharacter(mAssetManager);
-        mPlatformToCharCollisionData = new PlatformToCharCollisionData();
-        
-        mActiveRiseSections = new Array<RiseSection>(true, ACTIVE_RISE_SECTIONS_INITIAL_CAPACITY);
-        mVisiblePlatforms = new Array<PlatformBase>(true, VISIBLE_PLATFORMS_INITIAL_CAPACITY);
-        mVisibleEnemies = new Array<EnemyBase>(true, VISIBLE_ENEMIES_INITIAL_CAPACITY);
-        mVisibleItems = new Array<ItemBase>(true, VISIBLE_ITEMS_INITIAL_CAPACITY);
+        mActiveAreaObjects = new GameActiveAreaObjects();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         mBackgroundSprite = atlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
@@ -131,7 +102,7 @@ public final class GameArea {
             return;
         }
         
-        float horizontalSpeed = getHorizontalSpeed();
+        float horizontalSpeed = GameInput.getHorizontalSpeed();
         
         updateGameArea(horizontalSpeed, delta);
         
@@ -156,18 +127,7 @@ public final class GameArea {
             mEndBackgroundScene.render(mBatch);
         }
         
-        for (PlatformBase platform : mVisiblePlatforms) {
-            platform.render(mBatch);
-        }
-        
-        for (EnemyBase enemy : mVisibleEnemies) {
-            enemy.render(mBatch);
-        }
-        
-        for (ItemBase item : mVisibleItems) {
-            item.render(mBatch);
-        }
-        
+        mActiveAreaObjects.render(mBatch);
         mCharacter.render(mBatch);
         
         mBatch.end();
@@ -178,82 +138,27 @@ public final class GameArea {
         mBatch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f,
                 HellJump.VIEWPORT_WIDTH, HellJump.VIEWPORT_HEIGHT);
         mBatch.begin();
-        for (ItemBase item : mVisibleItems) {
-            item.renderText(mBatch, mVisibleAreaPosition, mItemFont);
-        }
+        mActiveAreaObjects.renderText(mBatch, mVisibleAreaPosition, mItemFont);
         mBatch.end();
     }
     
     private void updateGameArea(float horizontalSpeed, float delta) {
         
-        updateActiveAndVisiblePlatforms();
-        
-        updatePlatforms(delta);
-        updateEnemies(delta);
-        updateItems(delta);
+        mActiveAreaObjects.update(mRise, mCharacter, mVisibleAreaPosition, delta);
         
         mCharacter.update(
                 horizontalSpeed,
-                mPlatformToCharCollisionData,
-                mActiveRiseSections,
-                mVisiblePlatforms,
-                mVisibleEnemies,
-                mVisibleItems,
+                mActiveAreaObjects.getPlatformToCharCollisionData(),
+                mActiveAreaObjects.getActiveRiseSections(),
+                mActiveAreaObjects.getVisiblePlatforms(),
+                mActiveAreaObjects.getVisibleEnemies(),
+                mActiveAreaObjects.getVisibleItems(),
                 mVisibleAreaPosition,
                 delta);
         
         mVisibleAreaPosition = MathUtils.clamp(
                 mCharacter.getPosition().y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION,
                 mVisibleAreaPosition, mRiseHeight - VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE);
-    }
-    
-    private float getHorizontalSpeed() {
-        if (Gdx.app.getType() == ApplicationType.Desktop) {
-            if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
-                return -DEFAULT_HORIZONTAL_SPEED;
-            } else if (Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
-                return DEFAULT_HORIZONTAL_SPEED;
-            } else {
-                return 0.0f;
-            }
-        } else if (Gdx.app.getType() == ApplicationType.Android) {
-            return -Gdx.input.getAccelerometerX() * ACCELEROMETER_SPEED_MULTIPLIER;
-        } else {
-            return 0.0f;
-        }
-    }
-    
-    private void updateActiveAndVisiblePlatforms() {
-        mActiveRiseSections.clear();
-        mVisiblePlatforms.clear();
-        mVisibleEnemies.clear();
-        mVisibleItems.clear();
-        
-        Array<RiseSection> allRiseSections = mRise.getRiseSections();
-        
-        for (RiseSection riseSection : allRiseSections) {
-            if (riseSection.getEndY() > mVisibleAreaPosition &&
-                    riseSection.getStartY() < mVisibleAreaPosition + GameArea.GAME_AREA_HEIGHT) {
-                mActiveRiseSections.add(riseSection);
-                
-                Array<PlatformBase> allPlatforms = riseSection.getPlatforms();
-                for (PlatformBase platform : allPlatforms) {
-                    if (platform.isActive(mVisibleAreaPosition, VISIBLE_PLATFORMS_AREA_PADDING)) {
-                        mVisiblePlatforms.add(platform);
-                    }
-                }
-                
-                Array<EnemyBase> allEnemies = riseSection.getEnemies();
-                for (EnemyBase enemy : allEnemies) {
-                    mVisibleEnemies.add(enemy);
-                }
-                
-                Array<ItemBase> allItems = riseSection.getItems();
-                for (ItemBase item : allItems) {
-                    mVisibleItems.add(item);
-                }
-            }
-        }
     }
     
     private boolean isEndBackgroundVisible() {
@@ -272,48 +177,6 @@ public final class GameArea {
         }
         
         return null;
-    }
-    
-    private void updatePlatforms(float delta) {
-        Vector2 c1 = Pools.obtainVector();
-        Vector2 c2 = Pools.obtainVector();
-        mPlatformToCharCollisionData.reset();
-        
-        Vector2 charPosition = mCharacter.getPosition();
-        
-        c1.set(charPosition.x + GameCharacter.COLLISION_WIDTH_OFFSET - PlatformData.PLATFORM_WIDTH, charPosition.y);
-        c2.set(charPosition.x + GameCharacter.COLLISION_LINE_LENGTH, charPosition.y);
-        
-        // only check for collision when character is going down
-        mPlatformToCharCollisionData.isEnabled = mCharacter.getSpeed().y < 0.0f;
-        
-        for (RiseSection riseSection : mActiveRiseSections) {
-            Array<PlatformBase> platforms = riseSection.getPlatforms();
-            for (PlatformBase platform : platforms) {
-                platform.update(delta, c1, c2, mPlatformToCharCollisionData);
-            }
-        }
-        
-        Pools.freeVector(c1);
-        Pools.freeVector(c2);
-    }
-    
-    private void updateEnemies(float delta) {
-        for (RiseSection riseSection : mActiveRiseSections) {
-            Array<EnemyBase> enemies = riseSection.getEnemies();
-            for (EnemyBase enemy : enemies) {
-                enemy.update(delta);
-            }
-        }
-    }
-    
-    private void updateItems(float delta) {
-        for (RiseSection riseSection : mActiveRiseSections) {
-            Array<ItemBase> items = riseSection.getItems();
-            for (ItemBase item : items) {
-                item.update(delta);
-            }
-        }
     }
     
     public int getScore() {

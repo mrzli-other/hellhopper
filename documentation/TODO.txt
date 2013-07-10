@@ -5,6 +5,16 @@
   (which can be random) to generate a platform above to jump on and continue going up
   - possibly have 4-5 platforms on the same step and then randomly turn the platform to green
     color so player knows on which to jump
+    
+- implement platforms where you need to jump on specific platform part to move it in certain direction
+
+- implement section with movable platform and an obstacle above with timed removal (or same thing with platform appearing)
+
+- implement spikes under platform
+  - should be drawn in three directions to indicate that any contact will kill character (contact from up is impossible because of platform)
+  - implement separate sections with normal, with reposition and with moving platforms with spikes underneath
+  
+- maybe increase visible on jump and crumble platform fraction for their sections
 
 - maybe:
   - use separate camera for gui and game

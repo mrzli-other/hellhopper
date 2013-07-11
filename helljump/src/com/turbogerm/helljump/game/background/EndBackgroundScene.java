@@ -85,7 +85,7 @@ public final class EndBackgroundScene {
         
         setWideSpritePosition(mSkySprite);
         mSunSprite.setPosition(SUN_OFFSET_X, mRiseHeight + SUN_OFFSET_Y);
-        mCloudsSprite.setPosition(0.0f, mRiseHeight);
+        setWideSpritePosition(mCloudsSprite);
         mMountainsSprite.setPosition(0.0f, mRiseHeight);
         mGroundSprite.setPosition(0.0f, mRiseHeight + GROUND_OFFSET_Y);
         

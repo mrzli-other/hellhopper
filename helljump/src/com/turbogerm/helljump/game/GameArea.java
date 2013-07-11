@@ -102,11 +102,11 @@ public final class GameArea {
             mEndBackgroundScene.update(delta);
         }
         
-        mCameraData.setGameAreaPosition(mVisibleAreaPosition);
     }
     
     public void render() {
         
+        mCameraData.setGameAreaPosition(mVisibleAreaPosition);
         mBatch.setProjectionMatrix(mCameraData.getGameAreaMatrix());
         mBatch.begin();
         

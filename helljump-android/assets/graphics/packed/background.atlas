@@ -29,18 +29,11 @@ background2.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-endground
-  rotate: false
-  xy: 1, 521
-  size: 450, 280
-  orig: 450, 280
-  offset: 0, 0
-  index: -1
 endclouds
   rotate: false
-  xy: 453, 1
-  size: 450, 800
-  orig: 450, 800
+  xy: 1, 1
+  size: 600, 800
+  orig: 600, 800
   offset: 0, 0
   index: -1
 
@@ -62,8 +55,15 @@ filter: Linear,Linear
 repeat: none
 endsun
   rotate: false
-  xy: 1, 1
+  xy: 1, 283
   size: 586, 591
   orig: 586, 591
+  offset: 0, 0
+  index: -1
+endground
+  rotate: false
+  xy: 1, 1
+  size: 450, 280
+  orig: 450, 280
   offset: 0, 0
   index: -1

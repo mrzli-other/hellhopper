@@ -56,6 +56,10 @@ public final class CustomImageButton {
         mButton.setStyle(mStyles.get(styleId));
     }
     
+    public void setPosition(float x, float y) {
+        mButton.setPosition(x, y);
+    }
+    
     private static Array<CustomImageButtonStyleData> createSingleStyleData(
             String upTexturePath, String downTexturePath) {
         

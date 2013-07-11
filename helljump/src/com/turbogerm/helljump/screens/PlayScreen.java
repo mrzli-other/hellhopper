@@ -28,7 +28,7 @@ public final class PlayScreen extends ScreenBase {
     private final GameArea mGameArea;
     
     private final Label mScoreLabel;
-    
+    private final Image mLivesImage;
     private final Label mLivesLabel;
     
     private CustomImageButton mPlayPauseButton;
@@ -50,51 +50,34 @@ public final class PlayScreen extends ScreenBase {
         LabelStyle scoreLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         scoreLabelStyle.font = mGuiSkin.getFont("xxxl-font");
         
-        final float scoreLabelWidth = 60.0f;
-        final float scoreLabelHeight = 42.0f;
-        final float scoreLabelX = HellJump.VIEWPORT_WIDTH - scoreLabelWidth;
-        final float scoreLabelY = HellJump.VIEWPORT_HEIGHT - scoreLabelHeight;
-        
         mScoreLabel = new Label("", mGuiSkin);
-        mScoreLabel.setBounds(scoreLabelX, scoreLabelY, scoreLabelWidth, scoreLabelHeight);
         mScoreLabel.setStyle(scoreLabelStyle);
         mScoreLabel.setAlignment(Align.right);
         mGuiStage.addActor(mScoreLabel);
         
-        final float livesImageX = 74.0f;
-        
         TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         TextureRegion livesRegion = atlas.findRegion(ResourceNames.GUI_PLAY_LIVES_IMAGE_NAME);
-        Image livesImage = new Image(new TextureRegionDrawable(livesRegion));
-        livesImage.setPosition(livesImageX, HellJump.VIEWPORT_HEIGHT - livesImage.getHeight() - 10.0f);
-        mGuiStage.addActor(livesImage);
+        mLivesImage = new Image(new TextureRegionDrawable(livesRegion));
+        mGuiStage.addActor(mLivesImage);
         
         LabelStyle livesLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         livesLabelStyle.font = mGuiSkin.getFont("xl-font");
         
-        final float livesLabelWidth = 40.0f;
-        final float livesLabelHeight = 42.0f;
-        final float livesLabelX = livesImageX + livesImage.getWidth() + 10.0f;
-        final float livesLabelY = HellJump.VIEWPORT_HEIGHT - scoreLabelHeight;
-        
         mLivesLabel = new Label("", mGuiSkin);
-        mLivesLabel.setBounds(livesLabelX, livesLabelY, livesLabelWidth, livesLabelHeight - 10.0f);
         mLivesLabel.setStyle(livesLabelStyle);
         mLivesLabel.setAlignment(Align.left);
         mGuiStage.addActor(mLivesLabel);
         
         createPlayPauseButton();
         
-        // TODO: remove, only for testing
         LabelStyle fpsLabelStyle = new LabelStyle(mGuiSkin.get(LabelStyle.class));
         fpsLabelStyle.font = mGuiSkin.getFont("medium-font");
         mDebugLabel = new Label("", mGuiSkin);
-        mDebugLabel.setBounds(0.0f, 0.0f, 20.0f, 72.0f);
         mDebugLabel.setStyle(fpsLabelStyle);
         mDebugLabel.setAlignment(Align.left);
         mGuiStage.addActor(mDebugLabel);
         
-        mRisePositionScroll = new RisePositionScroll(mAssetManager);
+        mRisePositionScroll = new RisePositionScroll(mCameraData, mAssetManager);
     }
     
     @Override
@@ -119,6 +102,8 @@ public final class PlayScreen extends ScreenBase {
     @Override
     public void renderImpl() {
         
+        setGuiPositions();
+        
         mScoreLabel.setText(String.valueOf(mGameArea.getScore()));
         mLivesLabel.setText("x" + String.valueOf(mGameArea.getLives()));
         
@@ -129,7 +114,6 @@ public final class PlayScreen extends ScreenBase {
         mRisePositionScroll.render(mBatch, mGameArea.getVisibleAreaPosition());
         mBatch.end();
         
-        // TODO: remove, only for testing
         if (System.currentTimeMillis() - startTime > 100) {
             DebugData debugData = mGameArea.getDebugData();
             mDebugLabel.setText(debugData.toString());
@@ -171,8 +155,6 @@ public final class PlayScreen extends ScreenBase {
     }
     
     private void createPlayPauseButton() {
-        final float pauseButtonSize = 64.0f;
-        final float pauseButtonY = HellJump.VIEWPORT_HEIGHT - pauseButtonSize;
         
         TextureAtlas atlas = mAssetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         
@@ -187,13 +169,38 @@ public final class PlayScreen extends ScreenBase {
                 ResourceNames.GUI_PLAY_PLAY_DOWN_IMAGE_NAME));
         
         mPlayPauseButton = new CustomImageButton(
-                0.0f, pauseButtonY,
+                0.0f, 0.0f,
                 atlas,
                 stylesData,
                 getPlayPauseAction(),
                 mAssetManager);
         
         mPlayPauseButton.addToStage(mGuiStage);
+    }
+    
+    private void setGuiPositions() {
+        
+        final float scoreLabelWidth = 60.0f;
+        final float scoreLabelHeight = 42.0f;
+        final float scoreLabelX = HellJump.VIEWPORT_WIDTH - mGuiCameraRect.x - scoreLabelWidth;
+        final float scoreLabelY = HellJump.VIEWPORT_HEIGHT - scoreLabelHeight;
+        mScoreLabel.setBounds(scoreLabelX, scoreLabelY, scoreLabelWidth, scoreLabelHeight);
+        
+        final float livesImageX = 74.0f + mGuiCameraRect.x;
+        mLivesImage.setPosition(livesImageX, HellJump.VIEWPORT_HEIGHT - mLivesImage.getHeight() - 10.0f);
+        
+        final float livesLabelWidth = 40.0f;
+        final float livesLabelHeight = 42.0f;
+        final float livesLabelX = livesImageX + mLivesImage.getWidth() + 10.0f;
+        final float livesLabelY = HellJump.VIEWPORT_HEIGHT - scoreLabelHeight;
+        mLivesLabel.setBounds(livesLabelX, livesLabelY, livesLabelWidth, livesLabelHeight - 10.0f);
+        
+        final float pauseButtonSize = 64.0f;
+        final float pauseButtonX = mGuiCameraRect.x;
+        final float pauseButtonY = HellJump.VIEWPORT_HEIGHT - pauseButtonSize;
+        mPlayPauseButton.setPosition(pauseButtonX, pauseButtonY);
+        
+        mDebugLabel.setBounds(0.0f, 0.0f, 20.0f, 72.0f);
     }
     
     private InputListener getStageInputListener() {

@@ -4,6 +4,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.HellJump;
 import com.turbogerm.helljump.resources.ResourceNames;
 
@@ -21,10 +23,14 @@ public final class RisePositionScroll {
     private final Sprite mPositionScrollBoxSprite;
     private final Sprite mPositionScrollEndLineSprite;
     
+    private final Rectangle mCameraRect;
+    
     private float mRiseHeight;
     private float mEffectivePositionScrollLineHeight;
     
-    public RisePositionScroll(AssetManager assetManager) {
+    public RisePositionScroll(CameraData cameraData, AssetManager assetManager) {
+        
+        mCameraRect = cameraData.getGuiCameraRect();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         
@@ -62,14 +68,22 @@ public final class RisePositionScroll {
     }
     
     public void render(SpriteBatch batch, float visibleAreaPosition) {
+        
+        float scrollLineX = HellJump.VIEWPORT_WIDTH - mCameraRect.x - POSITION_SCROLL_LINE_WIDTH - 5.0f;
+        mPositionScrollLineSprite.setX(scrollLineX);
+        mPositionScrollLineAboveSprite.setX(scrollLineX);
+        mPositionScrollBoxSprite.setX(scrollLineX);
+        mPositionScrollEndLineSprite.setX(scrollLineX);
+        
         mPositionScrollLineSprite.draw(batch);
         mPositionScrollLineAboveSprite.draw(batch);
         
         float positionScrollBoxY = POSITION_SCROLL_LINE_Y +
                 visibleAreaPosition / mRiseHeight * mEffectivePositionScrollLineHeight;
-        mPositionScrollBoxSprite.setPosition(mPositionScrollBoxSprite.getX(), positionScrollBoxY);
+        mPositionScrollBoxSprite.setY(positionScrollBoxY);
         mPositionScrollBoxSprite.draw(batch);
         
         mPositionScrollEndLineSprite.draw(batch);
     }
+    
 }

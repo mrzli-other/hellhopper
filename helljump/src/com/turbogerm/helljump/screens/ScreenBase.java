@@ -45,7 +45,9 @@ public abstract class ScreenBase implements Screen {
     protected final SpriteBatch mBatch;
     protected final Stage mGuiStage;
     
-    protected Color mClearColor;
+    protected final Color mClearColor;
+    
+    protected final Rectangle mGuiCameraRect;
     
     public ScreenBase(HellJump game) {
         mGame = game;
@@ -54,14 +56,16 @@ public abstract class ScreenBase implements Screen {
         mAssetManager = mResources.getAssetManager();
         mGuiSkin = mResources.getGuiSkin();
         mGameData = mGame.getGameData();
-        mCameraData = new CameraData();
+        mCameraData = mGame.getCameraData();
+        
+        mGuiCameraRect = mCameraData.getGuiCameraRect();
         
         mBatch = new SpriteBatch();
-        mBatch.setProjectionMatrix(mCameraData.getGuiMatrix());
         
-        Rectangle viewport = mCameraData.getViewport();
-        mGuiStage = new Stage(viewport.width, viewport.height, false);
-        mGuiStage.getCamera().translate(viewport.x, viewport.y, 0.0f);
+        mGuiStage = new Stage();
+        mGuiStage.setCamera(mCameraData.getGuiCamera());
+        
+        mClearColor = new Color(Color.BLACK);
     }
     
     protected String getName() {
@@ -94,6 +98,7 @@ public abstract class ScreenBase implements Screen {
         
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        mBatch.setProjectionMatrix(mCameraData.getGuiMatrix());
         renderImpl();
         
         mGuiStage.draw();

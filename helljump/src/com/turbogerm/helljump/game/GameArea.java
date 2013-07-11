@@ -63,7 +63,7 @@ public final class GameArea {
         mGameBackground = new GameBackground(
                 GameAreaUtils.getBackgroundColorSpectrum(), true, cameraData, assetManager);
         
-        mEndBackgroundScene = new EndBackgroundScene(assetManager);
+        mEndBackgroundScene = new EndBackgroundScene(cameraData, assetManager);
         
         reset();
     }

@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.turbogerm.germlibrary.util.GameUtils;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.game.GameAreaUtils;
 import com.turbogerm.helljump.resources.ResourceNames;
 
@@ -18,6 +20,12 @@ public final class EndBackgroundScene {
     private final int MIN_SHEEP = 2;
     private final int MAX_SHEEP = 4;
     
+    private final float SUN_ROTATION_SPEED = 5.0f;
+    
+    private final Rectangle mCameraRect;
+    
+    private float mRiseHeight;
+    
     private final Sprite mSkySprite;
     private final Sprite mSunSprite;
     private final Sprite mCloudsSprite;
@@ -27,9 +35,9 @@ public final class EndBackgroundScene {
     private final Sheep[] mSheep;
     private int mNumSheep;
     
-    private final float SUN_ROTATION_SPEED = 5.0f;
-    
-    public EndBackgroundScene(AssetManager assetManager) {
+    public EndBackgroundScene(CameraData cameraData, AssetManager assetManager) {
+        
+        mCameraRect = cameraData.getNonOffsetedGameCameraRect();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         
@@ -56,11 +64,7 @@ public final class EndBackgroundScene {
     }
     
     public void reset(float riseHeight) {
-        mSkySprite.setPosition(0.0f, riseHeight);
-        mSunSprite.setPosition(SUN_OFFSET_X, riseHeight + SUN_OFFSET_Y);
-        mCloudsSprite.setPosition(0.0f, riseHeight);
-        mMountainsSprite.setPosition(0.0f, riseHeight);
-        mGroundSprite.setPosition(0.0f, riseHeight + GROUND_OFFSET_Y);
+        mRiseHeight = riseHeight;
         
         for (int i = 0; i < MAX_SHEEP; i++) {
             mSheep[i].reset(riseHeight);
@@ -78,6 +82,13 @@ public final class EndBackgroundScene {
     }
     
     public void render(SpriteBatch batch) {
+        
+        setWideSpritePosition(mSkySprite);
+        mSunSprite.setPosition(SUN_OFFSET_X, mRiseHeight + SUN_OFFSET_Y);
+        mCloudsSprite.setPosition(0.0f, mRiseHeight);
+        mMountainsSprite.setPosition(0.0f, mRiseHeight);
+        mGroundSprite.setPosition(0.0f, mRiseHeight + GROUND_OFFSET_Y);
+        
         mSkySprite.draw(batch);
         mSunSprite.draw(batch);
         mCloudsSprite.draw(batch);
@@ -88,5 +99,13 @@ public final class EndBackgroundScene {
         }
         
         mGroundSprite.draw(batch);
+    }
+    
+    private void setWideSpritePosition(Sprite sprite) {
+        float spriteX = mCameraRect.x + (mCameraRect.width - sprite.getWidth()) / 2.0f;
+        float spriteY = mCameraRect.y +
+                (mCameraRect.height - sprite.getHeight()) / 2.0f + mRiseHeight;
+        
+        sprite.setPosition(spriteX, spriteY);
     }
 }

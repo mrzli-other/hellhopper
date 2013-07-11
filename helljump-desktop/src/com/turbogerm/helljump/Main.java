@@ -15,7 +15,7 @@ public class Main {
         cfg.useGL20 = true;
         cfg.height = 800;
         cfg.width = 600;
-        cfg.resizable = false;
+        cfg.resizable = true;
         
         boolean isPackTextures = false;
         if (isPackTextures) {

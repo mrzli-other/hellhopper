@@ -20,28 +20,24 @@ public final class GameBackground {
     private final Sprite mBackgroundColorSprite;
     private final Sprite mBackgroundSprite;
     
+    private final Rectangle mCameraRect;
+    
     public GameBackground(Array<ColorPositionPair> backgroundColorSpectrum, boolean isForGameArea,
             CameraData cameraData, AssetManager assetManager) {
         
         mSpectrumColorInterpolator = new SpectrumColorInterpolator(backgroundColorSpectrum);
         
-        Rectangle viewport = cameraData.getViewport();
-        
         TextureAtlas graphicsGuiAtlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         mBackgroundColorSprite = graphicsGuiAtlas.createSprite(ResourceNames.GUI_GENERAL_WHITE_IMAGE_NAME);
-        mBackgroundColorSprite.setBounds(viewport.x, viewport.y, viewport.width, viewport.height);
         
         TextureAtlas backgroundAtlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         mBackgroundSprite = backgroundAtlas.createSprite(ResourceNames.BACKGROUND_IMAGE_NAME);
         
         if (isForGameArea) {
-            GameUtils.multiplySpriteSize(mBackgroundColorSprite, GameAreaUtils.PIXEL_TO_METER);
             GameUtils.multiplySpriteSize(mBackgroundSprite, GameAreaUtils.PIXEL_TO_METER);
-            mBackgroundSprite.setPosition(
-                    viewport.x * GameAreaUtils.PIXEL_TO_METER,
-                    viewport.y * GameAreaUtils.PIXEL_TO_METER);
+            mCameraRect = cameraData.getNonOffsetedGameCameraRect();
         } else {
-            mBackgroundSprite.setPosition(viewport.x, viewport.y);
+            mCameraRect = cameraData.getGuiCameraRect();
         }
     }
     
@@ -50,13 +46,14 @@ public final class GameBackground {
     }
     
     public void render(SpriteBatch batch, float offsetY) {
-        mBackgroundColorSprite.setPosition(mBackgroundColorSprite.getX(), offsetY);
-        mBackgroundSprite.setPosition(mBackgroundSprite.getX(), offsetY);
+        mBackgroundColorSprite.setBounds(
+                mCameraRect.x, mCameraRect.y + offsetY, mCameraRect.width, mCameraRect.height);
         
-        render(batch);
-    }
-    
-    public void render(SpriteBatch batch) {
+        float backgroundSpriteX = mCameraRect.x + (mCameraRect.width - mBackgroundSprite.getWidth()) / 2.0f;
+        float backgroundSpriteY = mCameraRect.y +
+                (mCameraRect.height - mBackgroundSprite.getHeight()) / 2.0f + offsetY;
+        mBackgroundSprite.setPosition(backgroundSpriteX, backgroundSpriteY);
+        
         mBackgroundColorSprite.draw(batch);
         mBackgroundSprite.draw(batch);
     }

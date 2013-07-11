@@ -1,7 +1,6 @@
 package com.turbogerm.helljump.screens;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -43,8 +42,6 @@ public final class PlayScreen extends ScreenBase {
     
     public PlayScreen(HellJump game) {
         super(game);
-        
-        mClearColor = Color.BLACK;
         
         mGuiStage.addListener(getStageInputListener());
         

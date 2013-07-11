@@ -1,5 +1,3 @@
-
-       
 - implement a mechanic where you need to jump on specific platforms in specific order
   (which can be random) to generate a platform above to jump on and continue going up
   - possibly have 4-5 platforms on the same step and then randomly turn the platform to green
@@ -17,6 +15,12 @@
 
 - make the game better for different aspect ratios
   - http://blog.gemserk.com/2013/01/22/our-solution-to-handle-multiple-screen-sizes-in-android-part-one/
+  
+- implement infinite rise
+
+- implement google play score/achievements
+- implement google analytics
+- implement adds
 
 - maybe:
   - use separate camera for gui and game

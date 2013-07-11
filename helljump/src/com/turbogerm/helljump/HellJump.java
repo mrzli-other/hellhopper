@@ -35,6 +35,7 @@ public class HellJump extends GameBase {
     private Resources mResources;
     private GameData mGameData;
     private InitData mInitData;
+    private CameraData mCameraData;
     
     public HellJump(InitData initData) {
         mInitData = initData;
@@ -46,6 +47,8 @@ public class HellJump extends GameBase {
         //mFpsLogger = new FPSLogger();
         Gdx.app.setLogLevel(Logger.DEBUG);
         Gdx.input.setCatchBackKey(true);
+        
+        mCameraData = new CameraData(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         initializeResourcesAndGameData();
         initializeScreens();
@@ -63,6 +66,12 @@ public class HellJump extends GameBase {
         //mFpsLogger.log();
         
         super.render();
+    }
+    
+    @Override
+    public void resize(int width, int height) {
+        mCameraData.resize(width, height);
+        super.resize(width, height);
     }
     
     public Screen getScreen(String name) {
@@ -83,6 +92,10 @@ public class HellJump extends GameBase {
     
     public InitData getInitData() {
         return mInitData;
+    }
+    
+    public CameraData getCameraData() {
+        return mCameraData;
     }
     
     private void initializeResourcesAndGameData() {

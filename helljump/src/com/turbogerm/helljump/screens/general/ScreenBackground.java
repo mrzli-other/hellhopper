@@ -38,7 +38,7 @@ public final class ScreenBackground {
     }
     
     public void render(SpriteBatch batch) {
-        mGameBackground.render(batch);
+        mGameBackground.render(batch, 0.0f);
     }
     
     private static Array<ColorPositionPair> getBackgroundColorSpectrum() {

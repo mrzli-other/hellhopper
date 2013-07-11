@@ -21,6 +21,7 @@ public final class SplashFade {
     private static final float TOTAL_DURATION = FADE_OUT_START + FADE_OUT_DURATION;
     
     private final Sprite mBlackSprite;
+    private final Rectangle mCameraRect;
     
     private float mInternalTime;
     
@@ -28,11 +29,10 @@ public final class SplashFade {
     
     public SplashFade(CameraData cameraData, AssetManager assetManager) {
         
-        Rectangle viewport = cameraData.getViewport();
+        mCameraRect = cameraData.getGuiCameraRect();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.GRAPHICS_GUI_ATLAS);
         mBlackSprite = atlas.createSprite(ResourceNames.GUI_GENERAL_BLACK_IMAGE_NAME);
-        mBlackSprite.setBounds(viewport.x, viewport.y, viewport.width, viewport.height);
     }
     
     public void reset() {
@@ -57,6 +57,7 @@ public final class SplashFade {
     }
     
     public void render(SpriteBatch batch) {
+        mBlackSprite.setBounds(mCameraRect.x, mCameraRect.y, mCameraRect.width, mCameraRect.height);
         GameUtils.setSpriteAlpha(mBlackSprite, getAlpha());
         mBlackSprite.draw(batch);
     }

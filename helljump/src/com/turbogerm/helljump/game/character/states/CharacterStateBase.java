@@ -44,13 +44,19 @@ public abstract class CharacterStateBase {
             Vector2 position, Vector2 speed,
             float horizontalSpeed, float delta) {
         
+        updatePositionAndSpeed(position, speed, horizontalSpeed, 0.0f, GameArea.GAME_AREA_WIDTH, delta);
+    }
+    
+    protected static void updatePositionAndSpeed(
+            Vector2 position, Vector2 speed, float horizontalSpeed,
+            float minPositionX, float rangeX, float delta) {
+        
         position.x += speed.x * delta;
         position.y += speed.y * delta;
         speed.x = horizontalSpeed;
         speed.y = Math.max(speed.y - GameCharacter.GRAVITY * delta, -GameCharacter.JUMP_SPEED);
         
-        position.x = GameUtils.getPositiveModulus(
-                position.x + GameCharacter.CHARACTER_CENTER_X_OFFSET, GameArea.GAME_AREA_WIDTH) -
-                GameCharacter.CHARACTER_CENTER_X_OFFSET;
+        float leftGoThroughtOffsetX = minPositionX - GameCharacter.CHARACTER_CENTER_X_OFFSET;
+        position.x = GameUtils.getPositiveModulus(position.x - leftGoThroughtOffsetX, rangeX) + leftGoThroughtOffsetX;
     }
 }

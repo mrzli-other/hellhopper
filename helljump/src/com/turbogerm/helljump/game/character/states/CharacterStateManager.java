@@ -2,6 +2,7 @@ package com.turbogerm.helljump.game.character.states;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.turbogerm.helljump.CameraData;
 
 public final class CharacterStateManager {
     
@@ -18,10 +19,10 @@ public final class CharacterStateManager {
     
     private CharacterStateBase mCurrentState;
     
-    public CharacterStateManager(AssetManager assetManager) {
+    public CharacterStateManager(CameraData cameraData, AssetManager assetManager) {
         mCharacterStates = new ObjectMap<String, CharacterStateBase>(NUM_CHARACTER_STATES);
         mCharacterStates.put(NORMAL_CHARACTER_STATE, new NormalCharacterState(this, assetManager));
-        mCharacterStates.put(END_CHARACTER_STATE, new EndCharacterState(this, assetManager));
+        mCharacterStates.put(END_CHARACTER_STATE, new EndCharacterState(this, cameraData, assetManager));
         mCharacterStates.put(DYING_FALL_CHARACTER_STATE, new DyingFallCharacterState(this, assetManager));
         mCharacterStates.put(DYING_ENEMY_CHARACTER_STATE, new DyingEnemyCharacterState(this, assetManager));
         mCharacterStates.put(DYING_FIRE_CHARACTER_STATE, new DyingFireCharacterState(this, assetManager));

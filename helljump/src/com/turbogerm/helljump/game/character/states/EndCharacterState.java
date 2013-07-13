@@ -4,8 +4,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.game.character.GameCharacter;
 import com.turbogerm.helljump.game.character.graphics.CharacterBodyGraphics;
 import com.turbogerm.helljump.game.character.graphics.CharacterEyesGraphicsNormal;
@@ -21,10 +23,12 @@ final class EndCharacterState extends CharacterStateBase {
     private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     
-    private static final float CHARACTER_STOPPED_DURATION = 300.0f;
+    private static final float CHARACTER_STOPPED_DURATION = 3.0f;
     
     private static final float MIN_SHEEP_SOUND_INTERVAL = 0.5f;
     private static final float MAX_SHEEP_SOUND_INTERVAL = 3.0f;
+    
+    private final Rectangle mCameraRect;
     
     private final CharacterBodyGraphics mCharacterBodyGraphics;
     private final CharacterHeadGraphics mCharacterHeadGraphics;
@@ -40,8 +44,12 @@ final class EndCharacterState extends CharacterStateBase {
     private float mNextSheepSoundInteval;
     private float mElapsedSinceLastSheepSound;
     
-    public EndCharacterState(CharacterStateManager characterStateManager, AssetManager assetManager) {
+    public EndCharacterState(CharacterStateManager characterStateManager,
+            CameraData cameraData, AssetManager assetManager) {
+        
         super(characterStateManager);
+        
+        mCameraRect = cameraData.getNonOffsetedGameCameraRect();
         
         mCharacterBodyGraphics = new CharacterBodyGraphics(assetManager);
         mCharacterHeadGraphics = new CharacterHeadGraphics(assetManager);
@@ -98,7 +106,8 @@ final class EndCharacterState extends CharacterStateBase {
             }
             
             if (!mIsCharacterStopped) {
-                updatePositionAndSpeed(position, speed, updateData.horizontalSpeed, delta);
+                updatePositionAndSpeed(position, speed, updateData.horizontalSpeed,
+                        mCameraRect.x, mCameraRect.width, delta);
             }
         } else {
             mCharacterStoppedCountdown -= delta;

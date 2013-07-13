@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.game.GameArea;
 import com.turbogerm.helljump.game.PlatformToCharCollisionData;
 import com.turbogerm.helljump.game.RiseSection;
@@ -37,12 +38,12 @@ public final class GameCharacter {
     private final CharacterStateUpdateData mCharacterStateUpdateData;
     private final CharacterStateRenderData mCharacterStateRenderData;
     
-    public GameCharacter(AssetManager assetManager) {
+    public GameCharacter(CameraData cameraData, AssetManager assetManager) {
         
         mPosition = new Vector2();
         mSpeed = new Vector2();
         
-        mCharacterStateManager = new CharacterStateManager(assetManager);
+        mCharacterStateManager = new CharacterStateManager(cameraData, assetManager);
         mCharacterEffects = new CharacterEffects();
         
         mCharacterStateUpdateData = new CharacterStateUpdateData();

@@ -57,7 +57,7 @@ public final class GameArea {
         mItemFont = itemFont;
         mCameraData = cameraData;
         
-        mCharacter = new GameCharacter(mAssetManager);
+        mCharacter = new GameCharacter(mCameraData, mAssetManager);
         mActiveAreaObjects = new GameActiveAreaObjects();
         
         mGameBackground = new GameBackground(

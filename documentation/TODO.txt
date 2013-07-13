@@ -12,9 +12,6 @@
   - implement separate sections with normal, with reposition and with moving platforms with spikes underneath
   
 - maybe increase visible on jump and crumble platform fraction for their sections
-
-- make the game better for different aspect ratios
-  - http://blog.gemserk.com/2013/01/22/our-solution-to-handle-multiple-screen-sizes-in-android-part-one/
   
 - implement infinite rise
 

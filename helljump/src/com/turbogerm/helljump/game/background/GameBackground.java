@@ -1,6 +1,7 @@
 package com.turbogerm.helljump.game.background;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,6 +23,8 @@ public final class GameBackground {
     
     private final Rectangle mCameraRect;
     
+    private final Color mBackgroundColor;
+    
     public GameBackground(Array<ColorPositionPair> backgroundColorSpectrum, boolean isForGameArea,
             CameraData cameraData, AssetManager assetManager) {
         
@@ -39,10 +42,13 @@ public final class GameBackground {
         } else {
             mCameraRect = cameraData.getGuiCameraRect();
         }
+        
+        mBackgroundColor = new Color();
     }
     
     public void setSpectrumFraction(float spectrumFraction) {
-        mBackgroundColorSprite.setColor(mSpectrumColorInterpolator.getBackgroundColor(spectrumFraction));
+        mBackgroundColor.set(mSpectrumColorInterpolator.getBackgroundColor(spectrumFraction));
+        mBackgroundColorSprite.setColor(mBackgroundColor);
     }
     
     public void render(SpriteBatch batch, float offsetY) {
@@ -56,5 +62,9 @@ public final class GameBackground {
         
         mBackgroundColorSprite.draw(batch);
         mBackgroundSprite.draw(batch);
+    }
+    
+    public Color getBackgroundColor() {
+        return mBackgroundColor;
     }
 }

@@ -122,7 +122,7 @@ public final class GameArea {
         mActiveAreaObjects.render(mBatch);
         mCharacter.render(mBatch);
         
-        mGameForeground.render(mBatch, mVisibleAreaPosition);
+        mGameForeground.render(mBatch, mVisibleAreaPosition, mGameBackground.getBackgroundColor());
         mBatch.end();
         
         // TODO: for debugging, remove

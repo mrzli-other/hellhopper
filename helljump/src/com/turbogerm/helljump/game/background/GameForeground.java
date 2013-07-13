@@ -1,6 +1,7 @@
 package com.turbogerm.helljump.game.background;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,10 +23,6 @@ public final class GameForeground {
     private final SideSprites mLeftSideSprites;
     private final SideSprites mRightSideSprites;
     
-    private final float mSpriteHeight;
-    
-    private float mRiseHeight;
-    
     public GameForeground(CameraData cameraData, AssetManager assetManager) {
         
         mCameraRect = cameraData.getNonOffsetedGameCameraRect();
@@ -33,36 +30,35 @@ public final class GameForeground {
         TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         AtlasRegion spriteRegion = atlas.findRegion(ResourceNames.getBackgroundForegroundSideElementImageName(0));
         float spriteWidth = spriteRegion.getRegionWidth() * GameAreaUtils.PIXEL_TO_METER;
-        mSpriteHeight = spriteRegion.getRegionHeight() * GameAreaUtils.PIXEL_TO_METER;
+        float spriteHeight = spriteRegion.getRegionHeight() * GameAreaUtils.PIXEL_TO_METER;
         
-        int numDisplayedSpritesPerSide = MathUtils.ceil(GameArea.GAME_AREA_HEIGHT / mSpriteHeight) + 1;
+        int numDisplayedSpritesPerSide = MathUtils.ceil(GameArea.GAME_AREA_HEIGHT / spriteHeight) + 1;
         
         mLeftSideSprites = new SideSprites(atlas, numDisplayedSpritesPerSide,
-                spriteWidth, mSpriteHeight, true);
+                spriteWidth, spriteHeight, true);
         mRightSideSprites = new SideSprites(atlas, numDisplayedSpritesPerSide,
-                spriteWidth, mSpriteHeight, false);
+                spriteWidth, spriteHeight, false);
     }
     
     public void reset(float riseHeight) {
-        mRiseHeight = riseHeight;
-        
-        int numSprites = MathUtils.round(mRiseHeight / mSpriteHeight);
-        mLeftSideSprites.reset(numSprites);
-        mRightSideSprites.reset(numSprites);
+        mLeftSideSprites.reset(riseHeight);
+        mRightSideSprites.reset(riseHeight);
     }
     
-    public void render(SpriteBatch batch, float visibleAreaPosition) {
+    public void render(SpriteBatch batch, float visibleAreaPosition, Color backgroundColor) {
         
         if (mCameraRect.width <= GameArea.GAME_AREA_WIDTH) {
             return;
         }
         
-        int firstDisplayedSpriteIndex = Math.max((int) (visibleAreaPosition / mSpriteHeight), 0);
-        mLeftSideSprites.render(batch, firstDisplayedSpriteIndex);
-        mRightSideSprites.render(batch, firstDisplayedSpriteIndex);
+        mLeftSideSprites.render(batch, visibleAreaPosition, backgroundColor);
+        mRightSideSprites.render(batch, visibleAreaPosition, backgroundColor);
     }
     
     private static class SideSprites {
+        
+        private static final float FADE_OUT_RANGE = 30.0f;
+        
         private final Sprite[][] mSprites;
         private final int[] mNextAvailableIndexesForImage;
         
@@ -70,7 +66,12 @@ public final class GameForeground {
         
         private final int mNumDisplayedSprites;
         private final float mSpriteWidth;
-        private final float mSpriteHeight;;
+        private final float mSpriteHeight;
+        
+        private final Color mColor;
+        
+        private float mRiseHeight;
+        private float mFadeOutStart;
         
         public SideSprites(TextureAtlas atlas, int numDisplayedSprites,
                 float spriteWidth, float spriteHeight,
@@ -97,25 +98,41 @@ public final class GameForeground {
             }
             
             mNextAvailableIndexesForImage = new int[NUM_IMAGES];
+            
+            mColor = new Color();
         }
         
-        public void reset(int numSprites) {
+        public void reset(float riseHeight) {
+            mRiseHeight = riseHeight;
+            mFadeOutStart = mRiseHeight - FADE_OUT_RANGE;
+            
+            int numSprites = MathUtils.round(mRiseHeight / mSpriteHeight);
             mImageIndexes = GameUtils.getRandomIntegers(mSprites.length, numSprites);
         }
         
-        public void render(SpriteBatch batch, int firstDisplayedSpriteIndex) {
+        public void render(SpriteBatch batch, float visibleAreaPosition, Color backgroundColor) {
+            int firstDisplayedSpriteIndex = Math.max((int) (visibleAreaPosition / mSpriteHeight), 0);
             int lastDisplayedSpriteIndex = Math.min(
                     firstDisplayedSpriteIndex + mNumDisplayedSprites - 1, mImageIndexes.length - 1);
             
             float firstDisplayedSpriteY = firstDisplayedSpriteIndex * mSpriteHeight;
             resetNextAvailableIndexesForImage();
             
+            mColor.set(backgroundColor);
+            
             for (int i = firstDisplayedSpriteIndex; i <= lastDisplayedSpriteIndex; i++) {
                 int imageIndex = mImageIndexes[i];
                 Sprite sprite = mSprites[imageIndex][mNextAvailableIndexesForImage[imageIndex]];
                 mNextAvailableIndexesForImage[imageIndex]++;
                 
-                sprite.setY(firstDisplayedSpriteY + (i - firstDisplayedSpriteIndex) * mSpriteHeight);
+                float spriteY = firstDisplayedSpriteY + (i - firstDisplayedSpriteIndex) * mSpriteHeight;
+                if (spriteY >= mFadeOutStart) {
+                    float alpha = MathUtils.clamp(1.0f - (spriteY - mFadeOutStart) / FADE_OUT_RANGE, 0.0f, 1.0f);
+                    mColor.a = alpha;
+                }
+                
+                sprite.setY(spriteY);
+                sprite.setColor(mColor);
                 sprite.draw(batch);
             }
         }

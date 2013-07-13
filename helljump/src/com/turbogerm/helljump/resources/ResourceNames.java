@@ -126,6 +126,13 @@ public final class ResourceNames {
     public static final String BACKGROUND_END_GROUND_IMAGE_NAME = "endground";
     public static final String BACKGROUND_END_SHEEP_IMAGE_NAME = "sheep";
     
+    private static final String BACKGROUND_FOREGROUND_SIDE_ELEMENT_IMAGE_NAME_FORMAT = "foregroundsideelement%02d";
+    public static final int BACKGROUND_FOREGROUND_SIDE_ELEMENT_IMAGE_COUNT = 2;
+    
+    public static String getBackgroundForegroundSideElementImageName(int index) {
+        return String.format(ResourceNames.BACKGROUND_FOREGROUND_SIDE_ELEMENT_IMAGE_NAME_FORMAT, index);
+    }
+    
     // fonts
     private static final String GUI_DIR = "gui/";
     public static final String GUI_SKIN = GUI_DIR + "uiskin.json";

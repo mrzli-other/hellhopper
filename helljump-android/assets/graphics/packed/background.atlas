@@ -3,16 +3,30 @@ background.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-sheep
+foregroundsideelement00
   rotate: false
   xy: 1, 964
+  size: 75, 40
+  orig: 75, 40
+  offset: 0, 0
+  index: -1
+foregroundsideelement01
+  rotate: false
+  xy: 78, 964
+  size: 74, 40
+  orig: 74, 40
+  offset: 0, 0
+  index: -1
+sheep
+  rotate: false
+  xy: 154, 964
   size: 60, 40
   orig: 60, 40
   offset: 0, 0
   index: -1
 endmountains
   rotate: false
-  xy: 63, 868
+  xy: 216, 868
   size: 600, 136
   orig: 600, 136
   offset: 0, 0

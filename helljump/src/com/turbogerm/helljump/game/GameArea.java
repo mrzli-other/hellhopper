@@ -10,6 +10,7 @@ import com.turbogerm.helljump.HellJump;
 import com.turbogerm.helljump.debug.DebugData;
 import com.turbogerm.helljump.game.background.EndBackgroundScene;
 import com.turbogerm.helljump.game.background.GameBackground;
+import com.turbogerm.helljump.game.background.GameForeground;
 import com.turbogerm.helljump.game.character.GameCharacter;
 import com.turbogerm.helljump.game.generator.RiseGenerator;
 
@@ -23,8 +24,8 @@ public final class GameArea {
     private static final float CHARACTER_POSITION_AREA_FRACTION = 0.4f;
     private static final float VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE = 2.0f;
     
-    private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END =
-            500.0f * GameAreaUtils.PIXEL_TO_METER + GAME_AREA_HEIGHT;
+    private static final float END_BACKGROUND_APPEARANCE_DISTANCE_FROM_END = 10.0f + GAME_AREA_HEIGHT;
+    private static final float GAME_BACKGROUND_VANISHING_DISTANCE_FROM_END = 3.0f;
     
     private static final int SPRITE_BATCH_SIZE = 100;
     
@@ -46,8 +47,8 @@ public final class GameArea {
     private boolean mIsGameOver;
     
     private final GameBackground mGameBackground;
-    
     private final EndBackgroundScene mEndBackgroundScene;
+    private final GameForeground mGameForeground;
     
     public GameArea(CameraData cameraData, AssetManager assetManager, BitmapFont itemFont) {
         
@@ -61,9 +62,9 @@ public final class GameArea {
         mActiveAreaObjects = new GameActiveAreaObjects();
         
         mGameBackground = new GameBackground(
-                GameAreaUtils.getBackgroundColorSpectrum(), true, cameraData, assetManager);
-        
+                GameAreaUtils.getBackgroundColorSpectrum(), true, mCameraData, assetManager);
         mEndBackgroundScene = new EndBackgroundScene(cameraData, assetManager);
+        mGameForeground = new GameForeground(mCameraData, mAssetManager);
         
         reset();
     }
@@ -80,6 +81,7 @@ public final class GameArea {
         mCharacter.reset(mRiseHeight);
         
         mEndBackgroundScene.reset(mRiseHeight);
+        mGameForeground.reset(mRiseHeight);
     }
     
     public void update(float delta) {
@@ -110,7 +112,9 @@ public final class GameArea {
         mBatch.setProjectionMatrix(mCameraData.getGameAreaMatrix());
         mBatch.begin();
         
-        mGameBackground.render(mBatch, mVisibleAreaPosition);
+        if (isGameBackgroundVisible()) {
+            mGameBackground.render(mBatch, mVisibleAreaPosition);
+        }
         if (isEndBackgroundVisible()) {
             mEndBackgroundScene.render(mBatch);
         }
@@ -118,6 +122,7 @@ public final class GameArea {
         mActiveAreaObjects.render(mBatch);
         mCharacter.render(mBatch);
         
+        mGameForeground.render(mBatch, mVisibleAreaPosition);
         mBatch.end();
         
         // TODO: for debugging, remove
@@ -146,6 +151,10 @@ public final class GameArea {
         mVisibleAreaPosition = MathUtils.clamp(
                 mCharacter.getPosition().y - GAME_AREA_HEIGHT * CHARACTER_POSITION_AREA_FRACTION,
                 mVisibleAreaPosition, mRiseHeight - VISIBLE_AREA_MINIMUM_DISTANCE_TO_RISE);
+    }
+    
+    private boolean isGameBackgroundVisible() {
+        return mVisibleAreaPosition <= mRiseHeight - GAME_BACKGROUND_VANISHING_DISTANCE_FROM_END;
     }
     
     private boolean isEndBackgroundVisible() {

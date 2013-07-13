@@ -27,7 +27,7 @@ import com.turbogerm.helljump.resources.ResourceNames;
 
 public final class RiseGenerator {
     
-    private static final int RISE_HEIGHT_STEPS = 10;
+    private static final int RISE_HEIGHT_STEPS = 5000;
     private static final int RISE_TRESHOLD_4 = 800;
     private static final int RISE_TRESHOLD_10 = 4000;
     private static final int RISE_LOWER_DIFFICULTY_STEP = RISE_TRESHOLD_4 / 5;
@@ -173,13 +173,13 @@ public final class RiseGenerator {
         riseSectionsData.add(currRiseSection);
         stepsInRise += currRiseSection.getStepRange();
         
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
-//        
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial1"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
+        
+        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("initial2"));
+        riseSectionsData.add(currRiseSection);
+        stepsInRise += currRiseSection.getStepRange();
         
         boolean isTransitionSection = true;
         while (stepsInRise < RISE_HEIGHT_STEPS) {

@@ -18,6 +18,15 @@ public final class GameUtils {
         return ((value % mod) + mod) % mod;
     }
     
+    public static int[] getRandomIntegers(int range, int count) {
+        int[] values = new int[count];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = MathUtils.random(range - 1);
+        }
+        
+        return values;
+    }
+    
     public static Array<Integer> getRandomIndexes(int range, int numberOfIndexes, int offset) {
         return getRandomIndexes(range, numberOfIndexes, offset, null);
     }

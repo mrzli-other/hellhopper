@@ -21,7 +21,7 @@ final class EndCharacterState extends CharacterStateBase {
     private static final float END_RESTITUTION_MULTIPLIER = 1.0f / 1.5f;
     private static final float END_RESTITUTION_SPEED_DECREASE = 0.75f;
     
-    private static final float CHARACTER_STOPPED_DURATION = 3.0f;
+    private static final float CHARACTER_STOPPED_DURATION = 300.0f;
     
     private static final float MIN_SHEEP_SOUND_INTERVAL = 0.5f;
     private static final float MAX_SHEEP_SOUND_INTERVAL = 3.0f;

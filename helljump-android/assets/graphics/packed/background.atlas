@@ -3,25 +3,32 @@ background.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-background
+sheep
   rotate: false
-  xy: 1, 138
-  size: 600, 800
-  orig: 600, 800
+  xy: 1, 964
+  size: 60, 40
+  orig: 60, 40
   offset: 0, 0
   index: -1
 endmountains
   rotate: false
-  xy: 1, 1
-  size: 450, 135
-  orig: 450, 135
+  xy: 63, 868
+  size: 600, 136
+  orig: 600, 136
   offset: 0, 0
   index: -1
-sheep
+endground
   rotate: false
-  xy: 603, 898
-  size: 60, 40
-  orig: 60, 40
+  xy: 1, 594
+  size: 600, 272
+  orig: 600, 272
+  offset: 0, 0
+  index: -1
+endsun
+  rotate: false
+  xy: 1, 1
+  size: 586, 591
+  orig: 586, 591
   offset: 0, 0
   index: -1
 
@@ -29,7 +36,7 @@ background2.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-endclouds
+background
   rotate: false
   xy: 1, 1
   size: 600, 800
@@ -41,7 +48,7 @@ background3.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-endsky
+endclouds
   rotate: false
   xy: 1, 1
   size: 600, 800
@@ -53,17 +60,10 @@ background4.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-endsun
-  rotate: false
-  xy: 1, 283
-  size: 586, 591
-  orig: 586, 591
-  offset: 0, 0
-  index: -1
-endground
+endsky
   rotate: false
   xy: 1, 1
-  size: 450, 280
-  orig: 450, 280
+  size: 600, 800
+  orig: 600, 800
   offset: 0, 0
   index: -1

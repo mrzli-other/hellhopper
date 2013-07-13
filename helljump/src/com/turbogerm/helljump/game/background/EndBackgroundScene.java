@@ -59,7 +59,7 @@ public final class EndBackgroundScene {
         
         mSheep = new Sheep[MAX_SHEEP];
         for (int i = 0; i < MAX_SHEEP; i++) {
-            mSheep[i] = new Sheep(assetManager);
+            mSheep[i] = new Sheep(cameraData, assetManager);
         }
     }
     
@@ -83,11 +83,11 @@ public final class EndBackgroundScene {
     
     public void render(SpriteBatch batch) {
         
-        setWideSpritePosition(mSkySprite);
+        setWideSpritePosition(mSkySprite, 0.0f);
         mSunSprite.setPosition(SUN_OFFSET_X, mRiseHeight + SUN_OFFSET_Y);
-        setWideSpritePosition(mCloudsSprite);
-        mMountainsSprite.setPosition(0.0f, mRiseHeight);
-        mGroundSprite.setPosition(0.0f, mRiseHeight + GROUND_OFFSET_Y);
+        setWideSpritePosition(mCloudsSprite, 0.0f);
+        setWideSpritePosition(mMountainsSprite, 0.0f);
+        setWideSpritePosition(mGroundSprite, GROUND_OFFSET_Y);
         
         mSkySprite.draw(batch);
         mSunSprite.draw(batch);
@@ -101,10 +101,9 @@ public final class EndBackgroundScene {
         mGroundSprite.draw(batch);
     }
     
-    private void setWideSpritePosition(Sprite sprite) {
+    private void setWideSpritePosition(Sprite sprite, float offsetY) {
         float spriteX = mCameraRect.x + (mCameraRect.width - sprite.getWidth()) / 2.0f;
-        float spriteY = mCameraRect.y +
-                (mCameraRect.height - sprite.getHeight()) / 2.0f + mRiseHeight;
+        float spriteY = mRiseHeight + offsetY;
         
         sprite.setPosition(spriteX, spriteY);
     }

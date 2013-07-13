@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.turbogerm.germlibrary.util.GameUtils;
-import com.turbogerm.helljump.game.GameArea;
+import com.turbogerm.helljump.CameraData;
 import com.turbogerm.helljump.game.GameAreaUtils;
 import com.turbogerm.helljump.resources.ResourceNames;
 
@@ -23,13 +24,14 @@ final class Sheep {
     
     private static final float ROTATION_MULTIPLIER = 1.0f;
     
+    private final Rectangle mCameraRect;
+    
     private final Sprite mSprite;
     
     private final Vector2 mPosition;
     private final Vector2 mSize;
     private final Vector2 mSpeed;
     
-    private float mMaxPositionX;
     private float mJumpSpeed;
     private float mHorizontalSpeed;
     
@@ -38,7 +40,9 @@ final class Sheep {
     
     private float mRiseHeight;
     
-    public Sheep(AssetManager assetManager) {
+    public Sheep(CameraData cameraData, AssetManager assetManager) {
+        
+        mCameraRect = cameraData.getNonOffsetedGameCameraRect();
         
         TextureAtlas atlas = assetManager.get(ResourceNames.BACKGROUND_ATLAS);
         mSprite = atlas.createSprite(ResourceNames.BACKGROUND_END_SHEEP_IMAGE_NAME);
@@ -51,24 +55,19 @@ final class Sheep {
         mSprite.setSize(mSize.x, mSize.y);
         GameUtils.setSpriteOriginCenter(mSprite);
         
-        mMaxPositionX = GameArea.GAME_AREA_WIDTH - mSize.x;
-        
         mIsFlippedSprite = false;
     }
     
     public void reset(float riseHeight) {
         mRiseHeight = riseHeight;
         
-        mPosition.x = MathUtils.random(GameUtils.EPSILON, mMaxPositionX - GameUtils.EPSILON);
+        mPosition.x = MathUtils.random(getMinPosition() + GameUtils.EPSILON, getMaxPosition() - GameUtils.EPSILON);
         mPosition.y = mRiseHeight;
         
         mJumpSpeed = MathUtils.random(MIN_JUMP_SPEED, MAX_JUMP_SPEED);
         mHorizontalSpeed = MathUtils.random(MIN_HORIZONTAL_SPEED, MAX_HORIZONTAL_SPEED);
         
         mIsLeftDirection = MathUtils.randomBoolean();
-        if (isInitialFlipNeeded()) {
-            flipSprite();
-        }
         
         mSpeed.x = mIsLeftDirection ? -mHorizontalSpeed : mHorizontalSpeed;
         mSpeed.y = mJumpSpeed;
@@ -78,13 +77,18 @@ final class Sheep {
         mPosition.x += mSpeed.x * delta;
         mPosition.y += mSpeed.y * delta;
         
-        if (mPosition.x <= 0.0f) {
-            mPosition.x = GameUtils.EPSILON;
+        float minPositionX = getMinPosition();
+        float maxPositionX = getMaxPosition();
+        
+        if (mPosition.x <= minPositionX) {
+            mPosition.x = minPositionX + GameUtils.EPSILON;
             mIsLeftDirection = false;
-            flipSprite();
-        } else if (mPosition.x >= mMaxPositionX) {
-            mPosition.x = mMaxPositionX - GameUtils.EPSILON;
+        } else if (mPosition.x >= maxPositionX) {
+            mPosition.x = maxPositionX - GameUtils.EPSILON;
             mIsLeftDirection = true;
+        }
+        
+        if (isFlipNeeded()) {
             flipSprite();
         }
         
@@ -114,8 +118,16 @@ final class Sheep {
         mIsFlippedSprite = !mIsFlippedSprite;
     }
     
-    private boolean isInitialFlipNeeded() {
+    private boolean isFlipNeeded() {
         return !(mIsLeftDirection ^ mIsFlippedSprite);
+    }
+    
+    private float getMinPosition() {
+        return mCameraRect.x;
+    }
+    
+    private float getMaxPosition() {
+        return mCameraRect.width + mCameraRect.x - mSize.x;
     }
 }
  

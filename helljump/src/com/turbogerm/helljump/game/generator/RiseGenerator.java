@@ -122,26 +122,22 @@ public final class RiseGenerator {
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
 //        
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("flame2perstep"));
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("visibleonjumpnormal"));
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
 //        
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("transition03"));
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("visibleonjumpcrumble"));
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
 //        
-//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("flame3perstep"));
+//        currRiseSection = RiseSectionGenerator.generateRiseSection(RISE_SECTIONS_METADATA.getByName("crumble"));
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
         
 //        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("testitems00");
 //        riseSectionsData.add(currRiseSection);
 //        stepsInRise += currRiseSection.getStepRange();
-//        
-//        currRiseSection = PREBUILT_RISE_SECTIONS.getRiseSection("knight00normal");
-//        riseSectionsData.add(currRiseSection);
-//        stepsInRise += currRiseSection.getStepRange();
-        
+
 //        for (RiseSectionDataBase riseSectionData : ENEMY_RISE_SECTIONS) {
 //            String name = riseSectionData.getName();
 //            if (!name.startsWith("knight")) {

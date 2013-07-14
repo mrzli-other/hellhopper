@@ -624,25 +624,25 @@
     <!-- END JUMP BOOST -->
     
     <!-- VISIBLE ON JUMP -->
-    <risesection generatortype="visibleonjump" type="visibleonjump" name="visibleonjumpnormal" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="5">
+    <risesection generatortype="visibleonjump" type="visibleonjump" name="visibleonjumpnormal" minsteprange="60" maxsteprange="80" minstepdistance="5" maxstepdistance="5" difficulty="5">
       <properties>
         <property name="normalplatformweight" value="1" />
-        <property name="visibleonjumpplatformweight" value="5" />
+        <property name="visibleonjumpplatformweight" value="8" />
         <property name="crumble" value="false" />
       </properties>
     </risesection>
     
-    <risesection generatortype="visibleonjump" type="visibleonjump" name="visibleonjumpcrumble" minsteprange="50" maxsteprange="100" minstepdistance="3" maxstepdistance="5" difficulty="7">
+    <risesection generatortype="visibleonjump" type="visibleonjump" name="visibleonjumpcrumble" minsteprange="60" maxsteprange="80" minstepdistance="5" maxstepdistance="5" difficulty="6">
       <properties>
         <property name="normalplatformweight" value="1" />
-        <property name="visibleonjumpplatformweight" value="5" />
+        <property name="visibleonjumpplatformweight" value="8" />
         <property name="crumble" value="true" />
       </properties>
     </risesection>
     <!-- END VISIBLE ON JUMP -->
     
     <!-- CRUMBLE -->
-    <risesection generatortype="crumble" type="crumble" name="crumble" minsteprange="50" maxsteprange="100" minstepdistance="4" maxstepdistance="5" difficulty="6">
+    <risesection generatortype="crumble" type="crumble" name="crumble" minsteprange="60" maxsteprange="80" minstepdistance="5" maxstepdistance="5" difficulty="5">
       <properties>
         <property name="crumblefraction" value="0.8" />
         <property name="jumpboostfraction" value="0.15" />

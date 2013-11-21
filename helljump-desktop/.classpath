@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl.jar" sourcepath="libs/sources/gdx-backend-lwjgl-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
-	<classpathentry kind="lib" path="libs/gdx-freetype-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-tools.jar" sourcepath="libs/sources/gdx-tools-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/germlibrary"/>
 	<classpathentry kind="output" path="bin"/>

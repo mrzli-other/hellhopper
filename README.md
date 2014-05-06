@@ -11,11 +11,13 @@ You can also find some screenshots and links related to the game [here](http://g
 License
 -------
 
-All the code is licensed under [MIT licence](http://opensource.org/licenses/MIT). In other words, use it as you will, but if you distribute source code please give me credit (my name is 'Goran Mržljak' but you can use 'Goran Mrzljak' if strange letters are a problem). If it suits your needs, instead of my name, you can put one of these links somewhere in your project (I'd really appreciate that):
+All the code is licensed under [MIT licence](http://opensource.org/licenses/MIT). In other words, use it as you will, but if you distribute source code please give me credit (my name is 'Goran Mrï¿½ljak' but you can use 'Goran Mrzljak' if strange letters are a problem). If it suits your needs, instead of my name, you can put one of these links somewhere in your project (I'd really appreciate that):
 
   - [goranm.com](http://goranm.com)
   - [https://github.com/mrzli](https://github.com/mrzli)
   - [https://github.com/mrzli/hellhopper](https://github.com/mrzli/hellhopper)
+
+Giving credit is a request, not a requirement.
 
 All the graphics exept platform flame were also created by me. They are not too pretty, but if you still want to use it, you can do so under the same conditions as the code.
 
